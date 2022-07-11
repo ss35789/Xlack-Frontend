@@ -1,6 +1,8 @@
 
 import './App.css';
 import Header from './components/Header';
+import styled from 'styled-components';
+import Sidebar from './components/Sidebar';
 
 import {
   BrowserRouter as Router,
@@ -14,16 +16,26 @@ function App() {
   return (
     <div className="App">
       <Router>
-      <div>
+      <>
+      <Header/>
+      <Appbody>
+        <Sidebar/>
         <Routes>
-          <Route exact path="/" element={<Header/>}>
-            
+          <Route exact path="/" >
+            {/* Chat */}
           </Route>
         </Routes>
-      </div>
+      </Appbody>
+       
+      </>
     </Router>
     </div>
   );
 }
 
 export default App;
+
+const Appbody=styled.div`
+  display:flex;
+  height:100vh;
+`;
