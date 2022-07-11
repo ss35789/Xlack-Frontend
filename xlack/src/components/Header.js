@@ -92,6 +92,7 @@ const HeaderRight=styled.div`
 `;
 
 const HeaderAvatar=styled(Avatar)`
+    
     cursor:pointer;
     :hover{
         opacity : 0.8;
