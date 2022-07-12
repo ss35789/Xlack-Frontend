@@ -1,19 +1,22 @@
-import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
+import React,{useEffect, useRef} from "react";
+import styled from "styled-components";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
-import React from "react";
+import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 import { useSelector } from "react-redux";
 import { selectRoomId } from "../features/appSlice";
 import ChatInput from "./ChatInput";
 //추가
-import { useCollection } from "react-firebase-hooks/firestore";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import {db} from "../firebase";
 import Message from "./Message";
 
 function Chat(){
+    const chatRef = useRef(null);
     const roomId = useSelector(selectRoomId);
     const [roomDetails] = useDocument(
         roomId && db.collection("rooms").doc(roomId)
     )
-    const [roomMessages] = useCollection(
+    const [roomMessages, loading] = useCollection(
         roomId && 
         db
             .collection("rooms")
@@ -21,12 +24,19 @@ function Chat(){
             .collection("messages")
             .orderby("timestamp","asc")
     );
+    //채팅방에 들어갔을 때 맨 밑으로 이동
+    useEffect(()=>{
+        chatRef?.current?.scrollIntoView({
+            behavior:"smooth",
+        });
+    },[roomId,loading])
 
     console.log(roomDetails?.data());
     console.log(roomMessages);
 
     return(
         <ChatContainer>
+            {roomDetails && roomMessages && (
             <>
                 <Header>
                     <HeaderLeft>
@@ -55,13 +65,38 @@ function Chat(){
                             />
                         )
                     })}
+                    <ChatBottom ref={chatRef}/>
                 </ChatMessages>
-
+                
                 <ChatInput
+                    chatRef={chatRef}
                     Channelname={roomDetails?.data().name}
                     channelId={roomId}
                 />
             </>
+            )}
+            
         </ChatContainer>
-    )
+    );
 }
+
+export default Chat;
+
+const ChatBottom = styled.div`
+    padding-bottom: 200px;
+`;
+
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid lightgray;
+`;
+
+const ChatMessages = styled.div``;
+
+const HeaderLeft = styled.div`
+    display: flex;
+    align-items: center;
+
+`;

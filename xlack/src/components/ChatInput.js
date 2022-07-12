@@ -4,7 +4,7 @@ import {Button} from "material-ui/core";
 import {db} from "../firebase";
 import firebase from 'firebase';
 
-function ChatInput({channelName, channelId} ){
+function ChatInput({channelName, channelId, chatRef} ){
     const [input,setInput] = useState('');
     
     const sendMessage=(e)=>{
@@ -20,6 +20,11 @@ function ChatInput({channelName, channelId} ){
             user: 'Sonny Sangha',
             userImage:'https://pbs.twimg.com/profile_images/1339192504382590976/2WxMn8cm_400x400.jpg'
         });
+        //새로운 채팅입력시 맨 밑으로 이동
+        chatRef?.current?.scrollIntoView({
+            behavior:"smooth",
+        });
+
         setInput('');
     };
 
@@ -45,7 +50,7 @@ const ChatInputContainer = styled.div`
     > form{
         position: relative;
         display:flex;
-        justifiy-content: center;
+        justify-content: center;
     }
     > form > input{
         position: fixed;
