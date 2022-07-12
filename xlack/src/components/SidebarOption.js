@@ -1,13 +1,22 @@
 import React from'react';
 import styled from'styled-components';
-function SidebarOption({Icon,title,addChannelOption}){
+import {enterRoom} from'../features/appSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
+function SidebarOption({Icon,title,addChannelOption,id}){
+    const dispatch=useDispatch();
+    
     const addChannel=()=>{
+        
         const channelName=prompt('Please enter the channel name')
         // db에 name: channelName 방추가
     }
     const selectChannel=()=>{
-
+        if(id){
+            dispatch(enterRoom({
+                roomId:id
+            }))
+        }
     }
 
     return(
@@ -45,4 +54,7 @@ const SidebarOptionContainer=styled.div`
         padding: 15px;
     }
 `;
-const SidebarOptionChannel=styled.div``;
+const SidebarOptionChannel=styled.h3`
+    padding: 10px 0;
+    font-weight: 300;
+`;
