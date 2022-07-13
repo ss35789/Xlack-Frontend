@@ -22,7 +22,7 @@ function Header(){
                 <SearchIcon/>
                 <input placeholder='Search'></input>
             </HeaderSearch>
-
+            
             {/* {Header Right} */}
             <HeaderRight>
                 <HelpOutlineIcon/>
@@ -76,6 +76,11 @@ const HeaderLeft=styled.div`
     > .MuiSvgIcon-root{ /* AccessTimeIcon */
         margin-left: auto;
         margin-right: 30px;
+
+        :hover{
+            cursor:pointer;
+            opacity:0.6;
+        }
     }
 
 `;
@@ -88,6 +93,11 @@ const HeaderRight=styled.div`
     >.MuiSvgIcon-root{ /* HelpOutlineIcon */
         margin-left:auto;
         margin-right:20px;
+
+        :hover{
+            cursor:pointer;
+            opacity:0.6;
+        }
     }
 `;
 

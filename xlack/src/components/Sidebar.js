@@ -19,10 +19,10 @@ function Sidebar(){
         <SidebarContainer>
             <SidebarHeader>
                 <SidebarInfo>
-                    <h2>Hisafasds</h2>
+                    <h2>sfagasdf sslkdfj</h2>
                     <h3>
                         <FiberManualRecordIcon/>
-                        asd
+                        sdmfpsfjp
                     </h3>
                 </SidebarInfo>
                 <CreateIcon/>
@@ -70,6 +70,11 @@ const SidebarHeader=styled.div`
         font-size: 18px;
         background-color: white;
         border-radius: 999px;
+
+        :hover{
+            cursor:pointer;
+            opacity:0.6;
+        }
     }
 `;
 const SidebarInfo=styled.div`
@@ -96,5 +101,10 @@ const SidebarInfo=styled.div`
         margin-top:1px;
         margin-right:2px;
         color:green;
+
+        :hover{
+            cursor:pointer;
+            opacity:0.6;
+        }
     }
 `;
