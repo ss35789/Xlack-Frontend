@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import {Button} from "material-ui/core";
-import {db} from "../firebase";
+import {auth,db} from "../firebase";
 import firebase from 'firebase';
-
+import {useAuthState} from "react-firebase-hooks/auth";
 function ChatInput({channelName, channelId, chatRef} ){
     const [input,setInput] = useState('');
-    
+    const [user] = useAuthState(auth);
+
+
     const sendMessage=(e)=>{
         e.preventDefault();
         //console.log(channelId);메세지 출력이 안돼서 찍어봄 2:23:10 원인: 13줄 channelId=>!channelId}
@@ -17,11 +19,11 @@ function ChatInput({channelName, channelId, chatRef} ){
         db.collection('rooms').doc(channelId).collection('messages').add({
             message: input,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            user: 'Sonny Sangha',
-            userImage:'https://pbs.twimg.com/profile_images/1339192504382590976/2WxMn8cm_400x400.jpg'
+            user: user.displayName, 
+            userImage: user.photoURL
         });
         //새로운 채팅입력시 맨 밑으로 이동
-        chatRef?.current?.scrollIntoView({
+        chatRef.current.scrollIntoView({
             behavior:"smooth",
         });
 

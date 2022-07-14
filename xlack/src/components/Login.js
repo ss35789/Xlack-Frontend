@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Button} from "@marterial-ui/core";
+import {auth, provider} from "../firebase";
 
 function Login() {
-const signId = e =>{
+const signId = (e) =>{
     e.preventDefault();
-}    
+    auth.signInWithPopup(provider).catch((error)=>
+    alert(error.message));
+};
   return (
     <LoginContainer>
         <LoginInnerContainer>
@@ -16,10 +19,10 @@ const signId = e =>{
             <h1>Sign in to the PAPA Fam</h1>
             <p>papa.slack.com</p>
             
-            <Button type="submit" onClick={signId}>Sign in with Github</Button>
+            <Button onClick={signId}>Sign in with Github</Button>
         </LoginInnerContainer>
     </LoginContainer>
-  )
+  );
 }
 
 export default Login
@@ -40,5 +43,11 @@ const LoginInnerContainer = styled.div`
         object-fit: contain;
         height: 100px;
         margin-bottom: 40px;
+    }
+    > button{
+      margin-top:50px;
+      text-transform  :inherit !important ;
+      background-color: #0aBd48 !important;
+      color: white;
     }
 `;
