@@ -1,34 +1,34 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import {Button} from "material-ui/core";
-import {auth,db} from "../firebase";
-import firebase from 'firebase';
-import {useAuthState} from "react-firebase-hooks/auth";
+// import {Button} from "material-ui/core";
+// import {auth,db} from "../firebase";
+// import firebase from 'firebase';
+//import {useAuthState} from "react-firebase-hooks/auth";
 function ChatInput({channelName, channelId, chatRef} ){
     const [input,setInput] = useState('');
-    const [user] = useAuthState(auth);
+    // const [user] = useAuthState(auth);
 
 
-    const sendMessage=(e)=>{
-        e.preventDefault();
-        //console.log(channelId);메세지 출력이 안돼서 찍어봄 2:23:10 원인: 13줄 channelId=>!channelId}
-        if(!channelId){
-            return false;
-        }
+    // const sendMessage=(e)=>{
+    //     e.preventDefault();
+    //     //console.log(channelId);메세지 출력이 안돼서 찍어봄 2:23:10 원인: 13줄 channelId=>!channelId}
+    //     if(!channelId){
+    //         return false;
+    //     }
         
-        db.collection('rooms').doc(channelId).collection('messages').add({
-            message: input,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            user: user.displayName, 
-            userImage: user.photoURL
-        });
-        //새로운 채팅입력시 맨 밑으로 이동
-        chatRef.current.scrollIntoView({
-            behavior:"smooth",
-        });
+    //     // db.collection('rooms').doc(channelId).collection('messages').add({
+    //     //     message: input,
+    //     //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //     //     user: user.displayName, 
+    //     //     userImage: user.photoURL
+    //     // });
+    //     //새로운 채팅입력시 맨 밑으로 이동
+    //     chatRef.current.scrollIntoView({
+    //         behavior:"smooth",
+    //     });
 
-        setInput('');
-    };
+    //     setInput('');
+    // };
 
     return (
     <ChatInputContainer>
@@ -37,9 +37,9 @@ function ChatInput({channelName, channelId, chatRef} ){
             onChange={e=>setInput(e.target.value)}
             placeholder={`Message #${channelName}`}
             />
-            <Button hidden type='submit' onClick={sendMessage}>
+            {/* <Button hidden type='submit' onClick={sendMessage}>
                 SEND
-            </Button>
+            </Button> */}
         </form>
     </ChatInputContainer>
     );

@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Button} from "@marterial-ui/core";
-import {auth, provider} from "../firebase";
+//import {Button} from "@marterial-ui/core";
+
 
 function Login() {
-const signId = (e) =>{
-    e.preventDefault();
-    auth.signInWithPopup(provider).catch((error)=>
-    alert(error.message));
-};
+// const signId = (e) =>{
+//     e.preventDefault();
+//     auth.signInWithPopup(provider).catch((error)=>
+//     alert(error.message);
+// };
   return (
     <LoginContainer>
         <LoginInnerContainer>
@@ -19,7 +19,7 @@ const signId = (e) =>{
             <h1>Sign in to the PAPA Fam</h1>
             <p>papa.slack.com</p>
             
-            <Button onClick={signId}>Sign in with Github</Button>
+            {/* //<Button onClick={signId}>Sign in with Github</Button> */}
         </LoginInnerContainer>
     </LoginContainer>
   );
