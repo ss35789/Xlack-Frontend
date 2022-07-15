@@ -1,3 +1,6 @@
+
+import React from "react";
+import axios from 'axios';
 function Addchannel({Icon,title,id}){
 
     const addChannel=()=>{
@@ -6,10 +9,11 @@ function Addchannel({Icon,title,id}){
         
         // if(channelName){
         //     // db에 name: channelName 방추가
+        //     axios.defaults.withCredentials = true;
         //     axios.post('https://xlack.kreimben.com/api/channel/?channel_name={channelName}',{
     
         //     })
-        //     .then(res=>{})
+        //     .then(res=>{console.log(res)})
         //     .catch(console.log('e'))
         // }
     }
