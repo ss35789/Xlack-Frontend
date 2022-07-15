@@ -4,8 +4,8 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useSelector } from 'react-redux';
 import { selectRoomId } from '../features/appSlice';
-import ChatInput from '../components/ChatInput';
-function Chat(){
+
+function Chatcontext(){
     const roomId=useSelector(selectRoomId);
 
     return(
@@ -42,7 +42,7 @@ function Chat(){
     )
 }
 
-export default Chat
+export default Chatcontext
 
 const ChatMessages=styled.div``;
 const Header=styled.div`

@@ -1,0 +1,19 @@
+.addchannel{
+    display : flex;
+    font-size: 12px;
+    padding :10px;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.addchannel:hover{
+    opacity: 0.9;
+    background-color:#340e36;
+}
+.addchannel>h3{
+    font-weight:500;
+}
+.addchannel>h3 >span{
+    padding: 15px;
+}

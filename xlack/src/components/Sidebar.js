@@ -13,8 +13,18 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import Addchannel from './Addchannel';
+
 
 function Sidebar(){
+
+    // const channelId=useSelector(state => {
+    //     return state.app.roomId
+    // })
+    
+
     return(
         <SidebarContainer>
             <SidebarHeader>
@@ -39,9 +49,14 @@ function Sidebar(){
             <hr />
             <SidebarOption Icon={ExpandMoreIcon} title='Channels'/>
             <hr />
-            <SidebarOption Icon={AddIcon} addChannelOption title='Add Channel'/>
+            <Addchannel Icon={AddIcon} title='Add Channel'/>
            
             {/* db 안의 <SidebarOption ... /> 표시 */}
+            {/* {axios.get('https://xlack.kreimben.com/api/channel/get')
+            .then(res=>{
+                
+            })} */}
+            
             
         </SidebarContainer>
     )

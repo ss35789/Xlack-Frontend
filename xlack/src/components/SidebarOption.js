@@ -2,15 +2,11 @@ import React from'react';
 import styled from'styled-components';
 import {enterRoom} from'../features/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
-function SidebarOption({Icon,title,addChannelOption,id}){
+function SidebarOption({Icon,title,id}){
     const dispatch=useDispatch();
-    
-    const addChannel=()=>{
-        
-        const channelName=prompt('Please enter the channel name')
-        // db에 name: channelName 방추가
-    }
+
     const selectChannel=()=>{
         if(id){
             dispatch(enterRoom({
@@ -21,7 +17,7 @@ function SidebarOption({Icon,title,addChannelOption,id}){
 
     return(
         <SidebarOptionContainer
-            onClick={addChannelOption ? addChannel : selectChannel}
+            onClick={selectChannel}
         >
             {Icon && <Icon fontSize='small' style={{padding : 10}}></Icon>}
             {Icon ? (<h3>{title}</h3>) : 
