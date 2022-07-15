@@ -13,6 +13,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
+<<<<<<< HEAD
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
@@ -24,6 +25,15 @@ function Sidebar(){
     //     return state.app.roomId
     // })
     
+=======
+import {useCollection} from "react-firebase-hooks/firestore";
+import {auth, db} from "../firebase";
+import {useAuthState} from "react-firebase-hooks/auth";
+
+function Sidebar(){
+    const [Channels] = useCollection(db.collection("rooms"));
+    const [user] = useAuthState(auth);
+>>>>>>> 이정한
 
     return(
         <SidebarContainer>
@@ -49,6 +59,7 @@ function Sidebar(){
             <hr />
             <SidebarOption Icon={ExpandMoreIcon} title='Channels'/>
             <hr />
+<<<<<<< HEAD
             <Addchannel Icon={AddIcon} title='Add Channel'/>
            
             {/* db 안의 <SidebarOption ... /> 표시 */}
@@ -57,6 +68,11 @@ function Sidebar(){
                 
             })} */}
             
+=======
+            <SidebarOption Icon={AddIcon} addChannelOption title='Add Channel'/>
+           
+            {/* db 안의 <SidebarOption ... /> 표시 */}
+>>>>>>> 이정한
             
         </SidebarContainer>
     )
@@ -75,17 +91,25 @@ const SidebarHeader=styled.div`
     display:flex;
     border-bottom: 1px solid #49274b;
     padding: 13px;
+<<<<<<< HEAD
 
     justify-content: space-between;
     align-items:center;
 
+=======
+    justify-content: space-between;
+    align-items:center;
+>>>>>>> 이정한
     > .MuiSvgIcon-root{
         padding: 8px;
         color: #49274b;
         font-size: 18px;
         background-color: white;
         border-radius: 999px;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 이정한
         :hover{
             cursor:pointer;
             opacity:0.6;
@@ -96,27 +120,40 @@ const SidebarInfo=styled.div`
     
     flex:1; 
     //???
+<<<<<<< HEAD
 
+=======
+>>>>>>> 이정한
     >h2{
         font-size:15px;
         font-weight:900;
         margin-bottom:5px;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 이정한
     >h3{
         display:flex;
         font-size:13px;
         font-weight:400;
         align-items:center;
+<<<<<<< HEAD
 
     }
 
+=======
+    }
+>>>>>>> 이정한
     >h3 > .MuiSvgIcon-root{
         font-size:13px;
         margin-top:1px;
         margin-right:2px;
         color:green;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 이정한
         :hover{
             cursor:pointer;
             opacity:0.6;
