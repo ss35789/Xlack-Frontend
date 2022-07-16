@@ -111,7 +111,7 @@ const SidebarInfo=styled.div`
         font-size:13px;
         font-weight:400;
         align-items:center;
-
+    }
     >h3 > .MuiSvgIcon-root{
         font-size:13px;
         margin-top:1px;
