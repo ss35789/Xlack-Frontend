@@ -43,7 +43,7 @@ function App() {
           <>
             <Header/>
               <AppBody>
-              <Sidebar></Sidebar>
+              <Sidebar/>
                 <Routes>
                   <Route path="/" exact >
                     {/* <Chat></Chat>> */}

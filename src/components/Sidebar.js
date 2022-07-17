@@ -112,6 +112,10 @@ const SidebarInfo=styled.div`
         font-weight:400;
         align-items:center;
     }
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
     >h3 > .MuiSvgIcon-root{
         font-size:13px;
         margin-top:1px;
