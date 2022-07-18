@@ -1,7 +1,12 @@
 
 import React from "react";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { createRoom } from "../features/AddChannelSlice";
+
+
 function Addchannel({Icon,title,id}){
+    const dispatch=useDispatch()
 
     const addChannel=()=>{
         
@@ -11,6 +16,7 @@ function Addchannel({Icon,title,id}){
         if(channelName){
             // db에 name: channelName 방추가
             console.log(channelName)
+            dispatch(createRoom(channelName))
             const _url='https://xlack.kreimben.com/api/channel/?channel_name='
 
             //dispatch(createRoom({title:{channelName}}))

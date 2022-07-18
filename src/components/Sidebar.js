@@ -24,7 +24,7 @@ function Sidebar(){
     // const channelId=useSelector(state => {
     //     return state.app.roomId
     // })
-    
+    const AddChannel=useSelector(state=>state.AddChannel.title)
 
 
     return(
@@ -54,11 +54,11 @@ function Sidebar(){
 
             <Addchannel Icon={AddIcon} title='Add Channel'/>
            
+            {AddChannel.map(title=>{
+                return <SidebarOption title={title} />
+            })
+            }
             
-            {/* state의 title[]들을 불러와 채널추가 
-            state.title.map((i)=>{
-                <SiderOption title={i}> ?????????????
-            }) */}
 
             
         </SidebarContainer>

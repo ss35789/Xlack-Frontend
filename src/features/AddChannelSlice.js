@@ -3,11 +3,11 @@ import {createSlice} from '@reduxjs/toolkit';
 export const AddChannelSlice=createSlice({
     name :'AddChannel',
     initialState:{
-        title:[],
+        title:['test'],
     },
     reducers:{
         createRoom: (state,action)=>{
-            return[...state.title,action.payload.title]
+           state.title.push(action.payload)
         },
         
     },
@@ -15,6 +15,5 @@ export const AddChannelSlice=createSlice({
 
 export const {createRoom} = AddChannelSlice.actions;
 
-export const selectRoomId= state =>state.app.roomId;
 
 export default AddChannelSlice.reducer;
