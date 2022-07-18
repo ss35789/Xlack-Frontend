@@ -4,7 +4,13 @@ import styled from "styled-components";
 // import {auth,db} from "../firebase";
 // import firebase from 'firebase';
 //import {useAuthState} from "react-firebase-hooks/auth";
-function ChatInput({channelName, channelId, chatRef} ){
+export interface ChatInfo{
+    channelName:string;
+    channelId:number;
+    chatRef:any;
+}
+
+function ChatInput({channelName, channelId, chatRef}:ChatInfo ){
     const [input,setInput] = useState('');
     // const [user] = useAuthState(auth);
 

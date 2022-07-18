@@ -17,14 +17,18 @@ import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
-
+import { RootState } from '../app/store';
 
 function Sidebar(){
 
     // const channelId=useSelector(state => {
     //     return state.app.roomId
     // })
+<<<<<<< Updated upstream:src/components/Sidebar.js
     
+=======
+    const AddChannel=useSelector((state:RootState)=>state.AddChannel.title)
+>>>>>>> Stashed changes:src/components/Sidebar.tsx
 
 
     return(
@@ -112,6 +116,10 @@ const SidebarInfo=styled.div`
         font-weight:400;
         align-items:center;
     }
+<<<<<<< Updated upstream:src/components/Sidebar.js
+=======
+
+>>>>>>> Stashed changes:src/components/Sidebar.tsx
     >h3 > .MuiSvgIcon-root{
         font-size:13px;
         margin-top:1px;

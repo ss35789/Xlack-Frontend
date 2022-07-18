@@ -10,7 +10,7 @@ import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
 import Login from './components/Login';
-import Spinner from "react-spinkit";
+// import Spinner from "react-spinkit";
 
 function App() {
   // const [user,loading] = useAuthState(auth);
@@ -45,7 +45,7 @@ function App() {
               <AppBody>
               <Sidebar></Sidebar>
                 <Routes>
-                  <Route path="/" exact >
+                  <Route path="/" >
                     {/* <Chat></Chat>> */}
                     
                   </Route>

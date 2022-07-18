@@ -1,11 +1,26 @@
 
 import React from "react";
 import axios from 'axios';
+<<<<<<< Updated upstream:src/components/Addchannel.js
 function Addchannel({Icon,title,id}){
 
     const addChannel=()=>{
         
         const channelName=prompt('Please enter the channel name')
+=======
+import { useDispatch } from "react-redux";
+import { createRoom } from "../features/AddChannelSlice";
+import { SidebarInfo } from "./SidebarOption";
+import { AppDispatch } from "../app/store";
+
+
+function Addchannel({Icon,title,id}:SidebarInfo){
+    const dispatch : AppDispatch=useDispatch()
+
+    const addChannel=()=>{
+        
+        const channelName : string=JSON.stringify(prompt('Please enter the channel name'))
+>>>>>>> Stashed changes:src/components/Addchannel.tsx
         
         if(channelName){
             // db에 name: channelName 방추가

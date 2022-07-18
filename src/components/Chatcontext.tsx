@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useSelector } from 'react-redux';
-import { selectRoomId } from '../features/appSlice';
+import {RootState} from '../app/store';
 
 function Chatcontext(){
-    const roomId=useSelector(selectRoomId);
+    const roomId=useSelector<RootState>(state=> state.app.roomId);
 
     return(
         <ChatContainer>

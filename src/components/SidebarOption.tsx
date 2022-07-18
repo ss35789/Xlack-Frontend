@@ -4,14 +4,17 @@ import {enterRoom} from'../features/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-function SidebarOption({Icon,title,id}){
+export interface SidebarInfo{
+    Icon?: any;
+    title: string;
+    id?: number;
+}
+function SidebarOption({Icon,title,id}:SidebarInfo){
     const dispatch=useDispatch();
 
     const selectChannel=()=>{
         if(id){
-            dispatch(enterRoom({
-                roomId:id
-            }))
+            dispatch(enterRoom(id))
         }
     }
 
