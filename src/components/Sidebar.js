@@ -54,12 +54,11 @@ function Sidebar(){
 
             <Addchannel Icon={AddIcon} title='Add Channel'/>
            
-            {/* db 안의 <SidebarOption ... /> 표시 */}
-            {/* {axios.get('https://xlack.kreimben.com/api/channel/get')
-            .then(res=>{
-                
-            })} */}
             
+            {/* state의 title[]들을 불러와 채널추가 
+            state.title.map((i)=>{
+                <SiderOption title={i}> ?????????????
+            }) */}
 
             
         </SidebarContainer>

@@ -12,6 +12,8 @@ function Addchannel({Icon,title,id}){
             // db에 name: channelName 방추가
             console.log(channelName)
             const _url='https://xlack.kreimben.com/api/channel/?channel_name='
+
+            //dispatch(createRoom({title:{channelName}}))
             axios.post(_url+channelName,
             {
                 title:{channelName}
