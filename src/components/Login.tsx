@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
-
-function Message({message, timestamp, user, userImage}) {
+export interface MessageRec{
+  message:string;
+  timestamp:any;
+  user:string;
+  userImage:string;
+}
+function Message({message, timestamp, user, userImage}:MessageRec) {
   return (
     <MessageContainer>
       <img src={userImage} alt=""/>

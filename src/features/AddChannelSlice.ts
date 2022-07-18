@@ -1,12 +1,15 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
+
+
 
 export const AddChannelSlice=createSlice({
     name :'AddChannel',
-    initialState:{
+    initialState: {
         title:['test'],
     },
     reducers:{
-        createRoom: (state,action)=>{
+        createRoom: (state,action: PayloadAction<string>)=>{
            state.title.push(action.payload)
         },
         
