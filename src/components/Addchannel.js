@@ -5,20 +5,20 @@ function Addchannel({Icon,title,id}){
 
     const addChannel=()=>{
         
-        const channelName=prompt('Please enter the channel name')
-        const c_name=JSON.stringify(channelName)
+        const channelName=JSON.stringify(prompt('Please enter the channel name'))
+        
 
         if(channelName){
             // db에 name: channelName 방추가
-            console.log(c_name)
+            console.log(channelName)
             const _url='https://xlack.kreimben.com/api/channel/?channel_name='
-            axios.post(_url+c_name,
+            axios.post(_url+channelName,
             {
-                title:{c_name}
+                title:{channelName}
             }
             ) 
             .then(res=>{console.log(res)})
-            .catch(console.log('e'))
+            .catch(e=>{console.log(e)})
         }
     }
 
