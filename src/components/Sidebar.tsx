@@ -58,6 +58,8 @@ function Sidebar(){
                 return <SidebarOption title={title} />
             })
             }
+            {/* 현재리덕스로 저장해서 불러옴, 서버에서 불러와야됨 */}
+            
             
 
             
