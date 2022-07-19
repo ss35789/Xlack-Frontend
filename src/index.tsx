@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import {store} from './app/store';
 import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 
 const rootNode = document.getElementById('root');
 if (!rootNode) throw new Error('Failed to find the root element');
@@ -19,5 +21,5 @@ ReactDom.createRoot(rootNode).render(
     
   
 );
-
+serviceWorkerRegistration.register();
 reportWebVitals();
