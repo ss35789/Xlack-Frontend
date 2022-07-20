@@ -1,45 +1,31 @@
-import React from 'react';
+import {React} from 'react';
 import styled from "styled-components";
-export interface MessageRec{
-  message:string;
-  timestamp:any;
-  user:string;
-  userImage:string;
+import {Button} from '@material-ui/core'
+import axios from 'axios';
+
+function Login(){
+  const onClick=async()=>{
+    const headers={
+      'accept': 'application/json',
+    }
+    try{
+      axios.get(
+        'https://xlack.kreimben.com/api/authentication/github_login',{headers})
+      .then((response)=>{
+        console.log(response.data.result);
+      })
+    }
+    catch(e){
+      console.log(e);
+    }
+  };
+
+  return <LoginContainer>
+    <Button onClick={onClick}>sign in with github</Button>
+  </LoginContainer>
 }
-function Message({message, timestamp, user, userImage}:MessageRec) {
-  return (
-    <MessageContainer>
-      <img src={userImage} alt=""/>
-      <MessageInfo>
-        <h4>
-          {user}{<span>{new Date(timestamp?.toDate()).toUTCString()}</span>}
-        </h4>
-        <p>{message}</p>
-      </MessageInfo>
-    </MessageContainer>
-  );
-}
+export default Login;
 
-export default Message
+const LoginContainer = styled.div`
 
-const MessageContainer = styled.div`
-  display:flex;
-  align-items:center;
-  padding: 20px;
-  > img{
-    height: 50px;
-    border-radius: 8px;
-  }
-`;
-
-
-
-const MessageInfo = styled.div`
-  padding-left: 10px;
-  > h4> span{
-    color: gray;
-    font-weight: 300;
-    margin-left: 4px;
-    font-size: 10px;
-  }
 `;
