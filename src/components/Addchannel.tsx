@@ -17,11 +17,12 @@ function Addchannel({Icon,title,id}:SidebarInfo){
         if(channelName){
             // db에 name: channelName 방추가
             dispatch(createRoom(channelName))
-            axios.post('https://xlack.kreimben.com/api/channel/?channel_name={channelName}',{
-    
+            axios.post('https://xlack.kreimben.com/api/channel/?channel_name={channelName}',
+            {
+                channel_name : {channelName}
             })
             .then(res=>{console.log(res)})
-            .catch(e=>{console.log('e')})
+            .catch(err=>{console.log(err)})
         }
     }
 
