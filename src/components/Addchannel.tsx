@@ -10,7 +10,7 @@ import { AppDispatch } from "../app/store";
 function Addchannel({Icon,title,id}:SidebarInfo){
     const dispatch : AppDispatch=useDispatch()
 
-    const addChannel=async ()=>{
+    const addChannel=async()=>{
         
         try{
             const channelName : string|null=prompt('Please enter the channel name')
