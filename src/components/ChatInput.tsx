@@ -1,14 +1,11 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import {ChatInfo} from './types';
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
 // import firebase from 'firebase';
 //import {useAuthState} from "react-firebase-hooks/auth";
-export interface ChatInfo{
-    channelName:string;
-    channelId:number;
-    chatRef:any;
-}
+
 
 function ChatInput({channelName, channelId, chatRef}:ChatInfo ){
     const [input,setInput] = useState('');

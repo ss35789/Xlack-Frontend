@@ -25,10 +25,11 @@ function Sidebar(){
     //     return state.app.roomId
     // })
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
-    const [ChannelList,setChannelList]=useState(AddChannel);
-    // axios.get('https://xlack.kreimben.com/api/channel/all')
+    // const [ChannelList,setChannelList]=useState([]);
+    // const list=axios.get('https://xlack.kreimben.com/api/channel/all')
     // .then(res=>console.log(res))
     // .catch(err=>console.log(err));
+    
     return(
         <SidebarContainer>
             <SidebarHeader>
