@@ -10,20 +10,20 @@ import { AppDispatch } from "../app/store";
 function Addchannel({Icon,title,id}:SidebarInfo){
     const dispatch : AppDispatch=useDispatch()
 
-    const addChannel=()=>{
+    const addChannel=async ()=>{
         
-        const channelName : string=JSON.stringify(prompt('Please enter the channel name'))
+        try{
+            const channelName : string|null=prompt('Please enter the channel name')
         
-        if(channelName){
-            // db에 name: channelName 방추가
-            dispatch(createRoom(channelName))
-            axios.post('https://xlack.kreimben.com/api/channel/?channel_name={channelName}',
-            {
-                channel_name : {channelName}
-            })
-            .then(res=>{console.log(res)})
-            .catch(err=>{console.log(err)})
-        }
+            if(channelName){
+                // db에 name: channelName 방추가
+                dispatch(createRoom(channelName))
+                await axios.post(`https://xlack.kreimben.com/api/channel/?channel_name=${channelName}`,{
+                    channel_name:{channelName}
+                })
+                
+            }
+        }catch(err){console.log(err)}
     }
 
     return(
