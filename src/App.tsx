@@ -14,7 +14,7 @@ import Login from './components/Login';
 
 function App() {
   // const [user,loading] = useAuthState(auth);
-
+  
   
     // return (
     //   <AppLoading>
@@ -36,10 +36,11 @@ function App() {
 
   return (
     <div className="App">
+      <>
+      <Login/>
       <Router>
-        {/* {!user ? (
-          <Login />
-        ) : ( */}
+
+          
           <>
             <Header/>
               <AppBody>
@@ -56,6 +57,7 @@ function App() {
         
         
       </Router>
+      </>
 
     </div>
   );
