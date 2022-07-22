@@ -13,7 +13,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
-
+import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
@@ -24,9 +24,12 @@ function Sidebar(){
     // const channelId=useSelector(state => {
     //     return state.app.roomId
     // })
-    const AddChannel=useSelector((state:RootState)=>state.AddChannel.title)
-
-
+    const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
+    // const [ChannelList,setChannelList]=useState([]);
+    // const list=axios.get('https://xlack.kreimben.com/api/channel/all')
+    // .then(res=>console.log(res))
+    // .catch(err=>console.log(err));
+    
     return(
         <SidebarContainer>
             <SidebarHeader>
