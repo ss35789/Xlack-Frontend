@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat";
-
+import axios from 'axios';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
@@ -32,6 +32,12 @@ function App() {
     //     </AppLoadingContents>
     //   </AppLoading>
     // )
+
+    test('test',()=>{
+      expect(axios.post(`https://xlack.kreimben.com/api/channel/?channel_name=123`,{
+          channel_name:"Asd"
+  })).toEqual({channel_name:"Sadf"})
+  })
   
 
   return (
