@@ -1,4 +1,4 @@
-import React from'react';
+import React, { useCallback } from'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CreateIcon from '@mui/icons-material/Create';
@@ -24,12 +24,15 @@ function Sidebar(){
     // const channelId=useSelector(state => {
     //     return state.app.roomId
     // })
+    const [showChannels,setshowChannels]=useState(false);
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
     // const [ChannelList,setChannelList]=useState([]);
     // const list=axios.get('https://xlack.kreimben.com/api/channel/all')
     // .then(res=>console.log(res))
     // .catch(err=>console.log(err));
-    
+    const onClickshowChannels=useCallback(()=>{
+        setshowChannels((prev)=>!prev);
+    },[]);
     return(
         <SidebarContainer>
             <SidebarHeader>
@@ -52,16 +55,16 @@ function Sidebar(){
             <SidebarOption Icon={FileCopyIcon} title='File browser'/> 
             <SidebarOption Icon={ExpandLessIcon} title='Show less'/> 
             <hr />
-            <SidebarOption Icon={ExpandMoreIcon} title='Channels'/>
+            <span onClick={onClickshowChannels}><SidebarOption Icon={ExpandMoreIcon} title='Channels'/></span>
             <hr />
+            {showChannels&&
+                <Addchannel Icon={AddIcon} title='Add Channel'/> }
 
-            <Addchannel Icon={AddIcon} title='Add Channel'/>
-        
-            {AddChannel.map(title=>{
+            {showChannels&&AddChannel.map(title=>{
                 return <SidebarOption title={title} />
-            })
-            }
-            {/* 현재리덕스로 저장해서 불러옴, 서버에서 불러와야됨 */}
+            })}
+                {/* 현재리덕스로 저장해서 불러옴, 서버에서 불러와야됨 */}
+            
             
             
 
