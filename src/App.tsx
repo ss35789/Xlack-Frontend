@@ -2,14 +2,13 @@ import React from 'react';
 import './App.css';
 
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat";
 import axios from 'axios';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
 import Login from './components/Login';
+import Workspace from './pages/Workspace';
 // import Spinner from "react-spinkit";
 
 function App() {
@@ -42,9 +41,9 @@ function App() {
           <Login />
         ) : ( */}
           <>
-            <Header/>
+            
               <AppBody>
-              <Sidebar></Sidebar>
+              <Workspace/>
                 <Routes>
                   <Route path="/" >
                     {/* <Chat></Chat>> */}
