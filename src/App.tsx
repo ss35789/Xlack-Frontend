@@ -33,12 +33,7 @@ function App() {
     //   </AppLoading>
     // )
 
-    test('test',()=>{
-      expect(axios.post(`https://xlack.kreimben.com/api/channel/?channel_name=123`,{
-          channel_name:"Asd"
-  })).toEqual({channel_name:"Sadf"})
-  })
-  
+   
 
   return (
     <div className="App">
