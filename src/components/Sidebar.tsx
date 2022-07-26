@@ -54,8 +54,8 @@ function Sidebar(){
 
             <Addchannel Icon={AddIcon} title='Add Channel'/>
         
-            {AddChannel.map(title=>{
-                return <SidebarOption title={title} />
+            {AddChannel.map((title,index)=>{
+                return <SidebarOption title={title} key={index} />
             })
             }
             

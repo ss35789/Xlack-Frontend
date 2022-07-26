@@ -37,10 +37,8 @@ function App() {
   return (
     <div className="App">
       <>
-      <Login/>
       <Router>
-
-          
+          <Login/>
           <>
             <Header/>
               <AppBody>
@@ -51,10 +49,9 @@ function App() {
                     
                   </Route>
                 </Routes>
-              </AppBody>
-            
+              </AppBody>    
           </>
-        
+        )
         
       </Router>
       </>
