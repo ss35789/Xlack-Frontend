@@ -1,4 +1,4 @@
-import React, { useCallback } from'react';
+import React from'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CreateIcon from '@mui/icons-material/Create';
@@ -13,7 +13,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from 'react';
+
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
@@ -24,15 +24,9 @@ function Sidebar(){
     // const channelId=useSelector(state => {
     //     return state.app.roomId
     // })
-    const [showChannels,setshowChannels]=useState(false);
-    const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
-    // const [ChannelList,setChannelList]=useState([]);
-    // const list=axios.get('https://xlack.kreimben.com/api/channel/all')
-    // .then(res=>console.log(res))
-    // .catch(err=>console.log(err));
-    const onClickshowChannels=useCallback(()=>{
-        setshowChannels((prev)=>!prev);
-    },[]);
+    const AddChannel=useSelector((state:RootState)=>state.AddChannel.title)
+
+
     return(
         <SidebarContainer>
             <SidebarHeader>
@@ -55,17 +49,15 @@ function Sidebar(){
             <SidebarOption Icon={FileCopyIcon} title='File browser'/> 
             <SidebarOption Icon={ExpandLessIcon} title='Show less'/> 
             <hr />
-            <span onClick={onClickshowChannels}><SidebarOption Icon={ExpandMoreIcon} title='Channels'/></span>
+            <SidebarOption Icon={ExpandMoreIcon} title='Channels'/>
             <hr />
-            {showChannels&&
-                <Addchannel Icon={AddIcon} title='Add Channel'/> }
 
-            {showChannels&&AddChannel.map(title=>{
-                return <SidebarOption title={title} />
-            })}
-                {/* 현재리덕스로 저장해서 불러옴, 서버에서 불러와야됨 */}
-            
-            
+            <Addchannel Icon={AddIcon} title='Add Channel'/>
+        
+            {AddChannel.map((title,index)=>{
+                return <SidebarOption title={title} key={index} />
+            })
+            }
             
 
             

@@ -1,4 +1,4 @@
-import Reacdt from'react';
+import React from'react';
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -68,8 +68,8 @@ const HeaderLeft=styled.div`
 const HeaderRight=styled.div`
     >p{
         display: flex;
-        align-itmes: center;
         font-size: 14px;
+        align-items:center;
     }
 
     >p > .MuiSvgIcon-root{

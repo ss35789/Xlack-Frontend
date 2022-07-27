@@ -13,7 +13,7 @@ import Workspace from './pages/Workspace';
 
 function App() {
   // const [user,loading] = useAuthState(auth);
-
+  
   
     // return (
     //   <AppLoading>
@@ -36,10 +36,9 @@ function App() {
 
   return (
     <div className="App">
+      <>
       <Router>
-        {/* {!user ? (
-          <Login />
-        ) : ( */}
+          <Login/>
           <>
             
               <AppBody>
@@ -50,12 +49,12 @@ function App() {
                     
                   </Route>
                 </Routes>
-              </AppBody>
-            
+              </AppBody>    
           </>
-        
+        )
         
       </Router>
+      </>
 
     </div>
   );
