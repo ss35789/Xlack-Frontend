@@ -1,40 +1,48 @@
 import React from 'react';
 import styled from "styled-components";
-import {MessageRec} from './types';
-function Message({message, timestamp, user, userImage}:MessageRec) {
-  return (
-    <MessageContainer>
-      <img src={userImage} alt=""/>
-      <MessageInfo>
-        <h4>
-          {user}{<span>{new Date(timestamp?.toDate()).toUTCString()}</span>}
-        </h4>
-        <p>{message}</p>
-      </MessageInfo>
-    </MessageContainer>
-  );
+import {getAccessTokenWithCode, login} from '../features/login';
+import LoginGithub from 'react-login-github';
+import { setCookie } from '../features/cookie';
+
+function Login() {
+
+    const onSuccess = (response: any) => {
+        let user_info;
+        getAccessTokenWithCode(response['code'])
+            .then((res) => {
+                user_info = res;
+                login(user_info)
+                    .then((res) => {
+                        /*
+                        res안에 토큰 정보가 담겨 있음.
+                         */
+                        console.log(`res: ${JSON.stringify(res)}`)
+                        const tmp = JSON.stringify(res);
+                        const resData = JSON.parse(tmp)
+                        AsscessToken(resData);
+
+                    })
+            })
+    };
+    const onFailure = (response: any) => console.error(response);
+
+    return (
+        <LoginGithub
+            clientId='9ac10cd868488ad0185b'
+            scope='read:user'
+            buttonText='Login to GitHub'
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+        />
+    )
 }
-
-export default Message
-
-const MessageContainer = styled.div`
-  display:flex;
-  align-items:center;
-  padding: 20px;
-  > img{
-    height: 50px;
-    border-radius: 8px;
-  }
-`;
-
-
-
-const MessageInfo = styled.div`
-  padding-left: 10px;
-  > h4> span{
-    color: gray;
-    font-weight: 300;
-    margin-left: 4px;
-    font-size: 10px;
-  }
+export function AsscessToken(resData: any){
+    const access_token = resData.access_token;
+    //access_token 존재시 쿠키에 넣어줌
+    if (access_token){
+        setCookie('access_token',access_token,{})
+    }
+}
+export default Login;
+const LoginContainer = styled.div`
 `;

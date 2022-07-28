@@ -1,20 +1,19 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Chat from "./components/Chat";
-import axios from 'axios';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
 import Login from './components/Login';
 import Workspace from './pages/Workspace';
+
 // import Spinner from "react-spinkit";
 
 function App() {
-  // const [user,loading] = useAuthState(auth);
+    // const [user,loading] = useAuthState(auth);
 
-  
+
     // return (
     //   <AppLoading>
     //     <AppLoadingContents>
@@ -32,37 +31,34 @@ function App() {
     //   </AppLoading>
     // )
 
-   
 
-  return (
-    <div className="App">
-      <Router>
-        {/* {!user ? (
-          <Login />
-        ) : ( */}
-          <>
-            
-              <AppBody>
-              <Workspace/>
-                <Routes>
-                  <Route path="/" >
-                    {/* <Chat></Chat>> */}
-                    
-                  </Route>
-                </Routes>
-              </AppBody>
-            
-          </>
-        
-        
-      </Router>
+    return (
+        <div className="App">
+            <>
+                <Router>
+                    <Login/>
+                    <>
 
-    </div>
-  );
+                        <AppBody>
+                            <Workspace/>
+                            <Routes>
+                                <Route path="/">
+                                    {/* <Chat></Chat>> */}
+
+                                </Route>
+                            </Routes>
+                        </AppBody>
+                    </>
+                    )
+
+                </Router>
+            </>
+
+        </div>
+    );
 }
 
 export default App;
-
 
 
 const AppLoading = styled.div`
