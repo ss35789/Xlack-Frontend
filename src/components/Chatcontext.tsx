@@ -68,7 +68,7 @@ const HeaderLeft=styled.div`
 const HeaderRight=styled.div`
     >p{
         display: flex;
-        align-itmes: center;
+        align-items: center;
         font-size: 14px;
     }
 

@@ -12,12 +12,12 @@ function ChatInput({channelName, channelId, chatRef}:ChatInfo ){
     // const [user] = useAuthState(auth);
 
 
-    // const sendMessage=(e)=>{
-    //     e.preventDefault();
-    //     //console.log(channelId);메세지 출력이 안돼서 찍어봄 2:23:10 원인: 13줄 channelId=>!channelId}
-    //     if(!channelId){
-    //         return false;
-    //     }
+    const sendMessage=(event: { preventDefault: () => void; })=>{
+        event.preventDefault();
+        //console.log(channelId);메세지 출력이 안돼서 찍어봄 2:23:10 원인: 13줄 channelId=>!channelId}
+        if(!channelId){
+            return false;
+        }
         
     //     // db.collection('rooms').doc(channelId).collection('messages').add({
     //     //     message: input,
@@ -31,7 +31,7 @@ function ChatInput({channelName, channelId, chatRef}:ChatInfo ){
     //     });
 
     //     setInput('');
-    // };
+    };
 
     return (
     <ChatInputContainer>
@@ -40,9 +40,9 @@ function ChatInput({channelName, channelId, chatRef}:ChatInfo ){
             onChange={e=>setInput(e.target.value)}
             placeholder={`Message #${channelName}`}
             />
-            {/* <Button hidden type='submit' onClick={sendMessage}>
+            <button hidden type='submit' onClick={sendMessage}>
                 SEND
-            </Button> */}
+            </button>
         </form>
     </ChatInputContainer>
     );

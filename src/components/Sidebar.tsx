@@ -86,17 +86,14 @@ const SidebarHeader=styled.div`
     display:flex;
     border-bottom: 1px solid #49274b;
     padding: 13px;
-
     justify-content: space-between;
     align-items:center;
-
     > .MuiSvgIcon-root{
         padding: 8px;
         color: #49274b;
         font-size: 18px;
         background-color: white;
         border-radius: 999px;
-
         :hover{
             cursor:pointer;
             opacity:0.6;
@@ -112,7 +109,6 @@ const SidebarInfo=styled.div`
         font-weight:900;
         margin-bottom:5px;
     }
-
     >h3{
         display:flex;
         font-size:13px;
@@ -124,7 +120,6 @@ const SidebarInfo=styled.div`
         margin-top:1px;
         margin-right:2px;
         color:green;
-
         :hover{
             cursor:pointer;
             opacity:0.6;
