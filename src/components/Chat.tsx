@@ -104,17 +104,14 @@ const ChatMessages = styled.div``;
 const HeaderLeft = styled.div`
     display: flex;
     align-items: center;
-
 `;
 const HeaderRight=styled.div`
     flex:0.3;
     display:flex;
     align-items:flex-end;
-
     >.MuiSvgIcon-root{ /* HelpOutlineIcon */
         margin-left:auto;
         margin-right:20px;
-
         :hover{
             cursor:pointer;
             opacity:0.6;

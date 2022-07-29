@@ -39,8 +39,10 @@ function Login() {
 export function AsscessToken(resData: any){
     const access_token = resData.access_token;
     //access_token 존재시 쿠키에 넣어줌
+    const refresh_token = resData.refresh_token;
     if (access_token){
         setCookie('access_token',access_token,{})
+        setCookie('refresh_token',refresh_token,{})
     }
 }
 export default Login;
