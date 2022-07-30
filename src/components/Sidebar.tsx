@@ -25,9 +25,10 @@ function Sidebar(){
     const [showChannels,setshowChannels]=useState(false);
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
-    let completed =false;
+    
 
     async function showChannelList(){
+        let completed =false;
         try{
             const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
             {
