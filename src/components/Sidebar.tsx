@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
 import { RootState } from '../app/store';
 import {at,rt} from '../features/cookie';
+import Channel from './Channel';
 function Sidebar(){
 
     
@@ -27,8 +28,7 @@ function Sidebar(){
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
     
 
-    async function showChannelList(){
-        let completed =false;
+    const showChannelList= async ()=>{
         try{
             const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
             {
@@ -43,11 +43,15 @@ function Sidebar(){
             setChannelList(res.data);
         }catch(err){console.log(err)};
        
-        return ()=>{
-            completed=true;
-        }
+        
     }
-    useEffect(()=>{showChannelList();},[AddChannel])
+    useEffect(()=>{showChannelList()},[AddChannel])
+
+    const connectChat=()=>{
+
+        console.log("connect!")
+    
+    }
 
     const onClickshowChannels=useCallback(()=>{
         setshowChannels((prev)=>!prev);
@@ -84,7 +88,7 @@ function Sidebar(){
             })} */}
                
             {showChannels&&ChannelList.map(title=>{
-                return <SidebarOption title={title} />
+                return <span onClick={connectChat}><Channel title={title} /></span>
             })}
             
 
