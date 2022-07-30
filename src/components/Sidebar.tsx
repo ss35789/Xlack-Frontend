@@ -25,29 +25,28 @@ function Sidebar(){
     const [showChannels,setshowChannels]=useState(false);
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
+    let completed =false;
 
-    useEffect(()=>{
-        let completed =false;
-
-        async function showChannelList(){
-            try{
-                const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
-                {
-                    headers:{
-                        //토큰
-                        'access-token': at,
-                        'refresh-token': rt
-                    }
-                    
-                })
-                setChannelList(res.data);
-            }catch(err){console.log(err)};
-           
-            return ()=>{
-                completed=true;
-            }
+    async function showChannelList(){
+        try{
+            const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
+            {
+                headers:{
+                    //토큰
+                    'access-token': at,
+                    'refresh-token': rt
+                }
+                
+            })
+            console.log('su');
+            setChannelList(res.data);
+        }catch(err){console.log(err)};
+       
+        return ()=>{
+            completed=true;
         }
-    },[AddChannel])
+    }
+    useEffect(()=>{showChannelList();},[AddChannel])
 
     const onClickshowChannels=useCallback(()=>{
         setshowChannels((prev)=>!prev);
