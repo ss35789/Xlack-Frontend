@@ -4,14 +4,13 @@ import { useDispatch } from "react-redux";
 import { createRoom } from "../features/AddChannelSlice";
 import { SidebarInfo } from "./SidebarOption";
 import { AppDispatch } from "../app/store";
-import { setCookie, getCookie } from '../features/cookie';
+import { at,rt } from '../features/cookie';
 
 function Addchannel({Icon,title,id}:SidebarInfo){
     const dispatch : AppDispatch=useDispatch()
     
     const addChannel=async()=>{
-        const at=getCookie('access_token');
-        const rt=getCookie('refresh_token');
+        
         console.log(at);
         console.log(rt);
         try{

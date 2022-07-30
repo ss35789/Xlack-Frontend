@@ -1,4 +1,4 @@
-import React, { useCallback } from'react';
+import React, { useCallback,useEffect } from'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CreateIcon from '@mui/icons-material/Create';
@@ -18,18 +18,37 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
 import { RootState } from '../app/store';
-
+import {at,rt} from '../features/cookie';
 function Sidebar(){
 
-    // const channelId=useSelector(state => {
-    //     return state.app.roomId
-    // })
+    
     const [showChannels,setshowChannels]=useState(false);
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
-    // const [ChannelList,setChannelList]=useState([]);
-    // const list=axios.get('https://xlack.kreimben.com/api/channel/all')
-    // .then(res=>console.log(res))
-    // .catch(err=>console.log(err));
+    const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
+
+    useEffect(()=>{
+        let completed =false;
+
+        async function showChannelList(){
+            try{
+                const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
+                {
+                    headers:{
+                        //토큰
+                        'access-token': at,
+                        'refresh-token': rt
+                    }
+                    
+                })
+                setChannelList(res.data);
+            }catch(err){console.log(err)};
+           
+            return ()=>{
+                completed=true;
+            }
+        }
+    },[AddChannel])
+
     const onClickshowChannels=useCallback(()=>{
         setshowChannels((prev)=>!prev);
     },[]);
@@ -60,12 +79,13 @@ function Sidebar(){
             {showChannels&&
                 <Addchannel Icon={AddIcon} title='Add Channel'/> }
 
-            {showChannels&&AddChannel.map(title=>{
+            {/* {showChannels&&AddChannel.map(title=>{
+                return <SidebarOption title={title} />
+            })} */}
+               
+            {showChannels&&ChannelList.map(title=>{
                 return <SidebarOption title={title} />
             })}
-                {/* 현재리덕스로 저장해서 불러옴, 서버에서 불러와야됨 */}
-            
-            
             
 
             
