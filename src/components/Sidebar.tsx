@@ -15,17 +15,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Addchannel from './Addchannel';
 import { RootState } from '../app/store';
 import {at,rt} from '../features/cookie';
 import Channel from './Channel';
 import ProfileMenu from './ProfileMenu';
 import ChannelMenu from './ChannelMenu';
+
 function Sidebar(){
 
-    let x;
-    let y;
+    const [x,setx]=useState(0);
+    const [y,sety]=useState(0);
     
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
@@ -60,7 +61,6 @@ function Sidebar(){
     }
     const onClickshowChannelMenu=useCallback(()=>{
         setshowChannelMenu((prev)=>!prev);
-        
     },[]);
     const onClickshowProfileMenu=useCallback(()=>{
         setshowProfileMenu((prev)=>!prev);
@@ -103,13 +103,12 @@ function Sidebar(){
                 <Addchannel Icon={AddIcon} title='Add Channel'/> }
             
             {showChannels&&AddChannel.map(title=>{
-                return <span onClick={connectChat} onContextMenu={(e)=>{
+                return <span className='channel' onClick={connectChat} onContextMenu={(e)=>{
                     e.preventDefault();
-                    console.log("채널 메뉴열기!");
-                    x=e.clientX;
-                    y=e.clientY;
-                    console.log(`${x}와 ${y}`);
-                    onClickshowChannelMenu();
+                    setx(e.clientX);
+                    sety(e.clientY);
+                    showChannelMenu&&onClickshowChannelMenu();//새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                    onClickshowChannelMenu();    
                 }}><SidebarOption title={title} /></span>
             })}
 

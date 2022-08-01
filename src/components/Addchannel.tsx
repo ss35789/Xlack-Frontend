@@ -7,7 +7,7 @@ import { AppDispatch } from "../app/store";
 import { at,rt } from '../features/cookie';
 
 function Addchannel({Icon,title,id}:SidebarInfo){
-    const dispatch : AppDispatch=useDispatch()
+    const dispatch =useDispatch()
     
     const addChannel=async()=>{
         console.log(at);
