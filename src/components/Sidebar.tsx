@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect } from'react';
+import React, { useCallback,useEffect,useRef} from'react';
 import styled from 'styled-components';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CreateIcon from '@mui/icons-material/Create';
@@ -21,14 +21,17 @@ import { RootState } from '../app/store';
 import {at,rt} from '../features/cookie';
 import Channel from './Channel';
 import ProfileMenu from './ProfileMenu';
+import ChannelMenu from './ChannelMenu';
 function Sidebar(){
 
+    let x;
+    let y;
     
-    const [showChannels,setshowChannels]=useState(false);
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
     const [showProfileMenu,setshowProfileMenu] = useState(false);
-
+    const [showChannelMenu,setshowChannelMenu] =useState(false);
+    const [showChannels,setshowChannels]=useState(false);
     const showChannelList= async ()=>{
         try{
             const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
@@ -46,6 +49,8 @@ function Sidebar(){
        
         
     }
+   
+
     useEffect(()=>{showChannelList()},[AddChannel])
 
     const connectChat=()=>{
@@ -53,6 +58,10 @@ function Sidebar(){
         console.log("connect!")
     
     }
+    const onClickshowChannelMenu=useCallback(()=>{
+        setshowChannelMenu((prev)=>!prev);
+        
+    },[]);
     const onClickshowProfileMenu=useCallback(()=>{
         setshowProfileMenu((prev)=>!prev);
     },[]);
@@ -61,9 +70,9 @@ function Sidebar(){
     },[]);
     return(
         <SidebarContainer>
-            <SidebarHeader>
+            <SidebarHeader onClick={onClickshowProfileMenu}>
                 <SidebarInfo>
-                    <div onClick={onClickshowProfileMenu}>
+                    <div >
                         <h2>sfagasdf sslkdfj</h2>
                         <h3>
                             <FiberManualRecordIcon/>
@@ -92,14 +101,29 @@ function Sidebar(){
             <hr />
             {showChannels&&
                 <Addchannel Icon={AddIcon} title='Add Channel'/> }
-
-            {/* {showChannels&&AddChannel.map(title=>{
-                return <SidebarOption title={title} />
-            })} */}
-               
-            {showChannels&&ChannelList.map(title=>{
-                return <span onClick={connectChat}><Channel title={title} /></span>
+            
+            {showChannels&&AddChannel.map(title=>{
+                return <span onClick={connectChat} onContextMenu={(e)=>{
+                    e.preventDefault();
+                    console.log("채널 메뉴열기!");
+                    x=e.clientX;
+                    y=e.clientY;
+                    console.log(`${x}와 ${y}`);
+                    onClickshowChannelMenu();
+                }}><SidebarOption title={title} /></span>
             })}
+
+            
+            {showChannelMenu&&<div style={{position:"absolute",top:y,left:x}}>
+                        <ChannelMenu></ChannelMenu>
+                </div>} 
+            {/* {showChannels&&ChannelList.map(title=>{
+                return <span onClick={connectChat} onContextMenu={(e)=>{
+                    e.preventDefault();
+                    console.log("채널 메뉴열기!");
+                    <ChannelMenu></ChannelMenu>
+                }}><Channel title={title} /></span>
+            })} */}
             
 
             
@@ -109,6 +133,7 @@ function Sidebar(){
 export default Sidebar;
 
 const SidebarContainer=styled.div`
+    
     background-color: var(--slack-color);
     color:white;
     flex:0.3;
@@ -132,6 +157,10 @@ const SidebarHeader=styled.div`
             cursor:pointer;
             opacity:0.6;
         }
+    }
+    :hover{
+        cursor:pointer;
+        opacity:0.6;
     }
 `;
 const SidebarInfo=styled.div`
