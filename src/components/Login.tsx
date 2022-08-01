@@ -41,8 +41,12 @@ export function AsscessToken(resData: any){
     //access_token 존재시 쿠키에 넣어줌
     const refresh_token = resData.refresh_token;
     if (access_token){
-        setCookie('access_token',access_token,{})
-        setCookie('refresh_token',refresh_token,{})
+        setCookie('access_token',access_token,{
+            httpOnly:true
+        })
+        setCookie('refresh_token',refresh_token,{
+            httpOnly:true
+        })
     }
 }
 export default Login;
