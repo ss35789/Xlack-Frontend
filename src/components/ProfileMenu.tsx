@@ -2,14 +2,17 @@ import React from 'react'
 import styled from 'styled-components';
 import { removeCookie } from '../features/cookie';
 function ProfileMenu() {
-
+const logoutFC=()=>{
+    removeCookie();
+    window.alert("로그아웃 되었습니다.")
+}
 
   return (
     <Menu>
         <span>ProfileMenu</span>
         <ul>
             
-            <li onClick={removeCookie}>Logout</li>
+            <li onClick={logoutFC}>Logout</li>
         </ul>
         
     </Menu>
