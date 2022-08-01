@@ -33,6 +33,7 @@ function Sidebar(){
     const [showProfileMenu,setshowProfileMenu] = useState(false);
     const [showChannelMenu,setshowChannelMenu] =useState(false);
     const [showChannels,setshowChannels]=useState(false);
+    const channelMenuRef = useRef<HTMLDivElement>(null);
     const showChannelList= async ()=>{
         try{
             const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
@@ -53,6 +54,17 @@ function Sidebar(){
    
 
     useEffect(()=>{showChannelList()},[AddChannel])
+    useEffect(() => {// channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
+        function handleClickOutside(e: MouseEvent): void {
+            if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
+                setshowChannelMenu(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [channelMenuRef]);
 
     const connectChat=()=>{
 
@@ -103,7 +115,7 @@ function Sidebar(){
                 <Addchannel Icon={AddIcon} title='Add Channel'/> }
             
             {showChannels&&AddChannel.map(title=>{
-                return <span className='channel' onClick={connectChat} onContextMenu={(e)=>{
+                return <span ref={channelMenuRef} onClick={connectChat} onContextMenu={(e)=>{
                     e.preventDefault();
                     setx(e.clientX);
                     sety(e.clientY);
