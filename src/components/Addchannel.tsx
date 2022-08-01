@@ -10,7 +10,8 @@ function Addchannel({Icon,title,id}:SidebarInfo){
     const dispatch : AppDispatch=useDispatch()
     
     const addChannel=async()=>{
-    
+        console.log(at);
+        console.log(rt);
         try{
             const channelName : string|null=prompt('Please enter the channel name')
             

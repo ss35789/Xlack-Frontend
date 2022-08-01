@@ -20,13 +20,14 @@ import Addchannel from './Addchannel';
 import { RootState } from '../app/store';
 import {at,rt} from '../features/cookie';
 import Channel from './Channel';
+import ProfileMenu from './ProfileMenu';
 function Sidebar(){
 
     
     const [showChannels,setshowChannels]=useState(false);
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
-    
+    const [showProfileMenu,setshowProfileMenu] = useState(false);
 
     const showChannelList= async ()=>{
         try{
@@ -52,7 +53,9 @@ function Sidebar(){
         console.log("connect!")
     
     }
-
+    const onClickshowProfileMenu=useCallback(()=>{
+        setshowProfileMenu((prev)=>!prev);
+    },[]);
     const onClickshowChannels=useCallback(()=>{
         setshowChannels((prev)=>!prev);
     },[]);
@@ -60,23 +63,30 @@ function Sidebar(){
         <SidebarContainer>
             <SidebarHeader>
                 <SidebarInfo>
-                    <h2>sfagasdf sslkdfj</h2>
-                    <h3>
-                        <FiberManualRecordIcon/>
-                        sdmfpsfjp
-                    </h3>
+                    <div onClick={onClickshowProfileMenu}>
+                        <h2>sfagasdf sslkdfj</h2>
+                        <h3>
+                            <FiberManualRecordIcon/>
+                            sdmfpsfjp
+                            
+                        </h3>
+                    </div>
+                    
+                    
                 </SidebarInfo>
                 <CreateIcon/>
+                
             </SidebarHeader>
+            {showProfileMenu&&<ProfileMenu></ProfileMenu>}
 
-            <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 
+            {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 
             <SidebarOption Icon={InboxIcon} title='Mention & reactions'/> 
             <SidebarOption Icon={DraftsIcon} title='Saved items'/> 
             <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/> 
             <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/> 
             <SidebarOption Icon={AppsIcon} title='Apps'/> 
             <SidebarOption Icon={FileCopyIcon} title='File browser'/> 
-            <SidebarOption Icon={ExpandLessIcon} title='Show less'/> 
+            <SidebarOption Icon={ExpandLessIcon} title='Show less'/>  */}
             <hr />
             <span onClick={onClickshowChannels}><SidebarOption Icon={ExpandMoreIcon} title='Channels'/></span>
             <hr />
@@ -128,18 +138,19 @@ const SidebarInfo=styled.div`
     
     flex:1; 
     //???
-    >h2{
+    >div>h2{
         font-size:15px;
         font-weight:900;
         margin-bottom:5px;
     }
-    >h3{
+    >div>h3{
         display:flex;
         font-size:13px;
         font-weight:400;
         align-items:center;
+        
     }
-    >h3 > .MuiSvgIcon-root{
+    >div>h3 > .MuiSvgIcon-root{
         font-size:13px;
         margin-top:1px;
         margin-right:2px;
