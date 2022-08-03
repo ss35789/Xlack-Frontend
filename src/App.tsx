@@ -7,6 +7,7 @@ import styled from 'styled-components';
 // import {auth} from "./firebase";
 import Login from './components/Login';
 import Workspace from './pages/Workspace';
+import { getCookie } from './features/cookie';
 
 // import Spinner from "react-spinkit";
 
@@ -36,7 +37,9 @@ function App() {
         <div className="App">
             <>
                 <Router>
-                    <Login/>
+                    {!getCookie('refresh_token')?(
+                        <Login/>
+                    ):( 
                     <>
 
                         <AppBody>
@@ -49,7 +52,7 @@ function App() {
                             </Routes>
                         </AppBody>
                     </>
-                    
+                    )}
 
                 </Router>
             </>
