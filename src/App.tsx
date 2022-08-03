@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
-import Login from './components/Login';
+import Login from './pages/Login';
 import Workspace from './pages/Workspace';
 import { getCookie } from './features/cookie';
 
@@ -40,6 +40,7 @@ function App() {
                     {!getCookie('refresh_token')?(
                         <Login/>
                     ):( 
+                    //<Logout/>
                     <>
 
                         <AppBody>

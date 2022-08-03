@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import {store} from './app/store';
 import App from './App';
-import Login from './components/Login';
+import Login from './pages/Login';
 
 
 ReactDom.render(
