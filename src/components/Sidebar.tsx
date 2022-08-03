@@ -62,9 +62,9 @@ function Sidebar(){
                 setshowChannelMenu(false)
             }
         }
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('click', handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside);
         };
     }, [channelMenuRef]);
 
@@ -121,7 +121,7 @@ function Sidebar(){
                 return <span ref={channelMenuRef} 
                 onClick={(e)=>{
                     e.preventDefault();
-                    
+                    connectChat(2);
                 }} 
                 onContextMenu={(e)=>{
                     e.preventDefault();
@@ -132,7 +132,7 @@ function Sidebar(){
                 }}><SidebarOption title={title} /></span>
             })}
 
-            {showChannels&&ChannelList.map((title,channel_id)=>{
+            {/* {showChannels&&ChannelList.map((title,channel_id)=>{
                 return <span 
                 onClick={(e)=>{
                     e.preventDefault();
@@ -150,11 +150,11 @@ function Sidebar(){
                     onClickshowChannelMenu(); 
                     
                 }}><Channel title={title} /></span>
-            })}
+            })} */}
 
 
             {showChannelMenu&&<div style={{position:"absolute",top:y,left:x}}>
-                        <ChannelMenu></ChannelMenu>
+                        <ChannelMenu/>
                 </div>} 
 
             
