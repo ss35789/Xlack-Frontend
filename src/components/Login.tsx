@@ -10,9 +10,10 @@ function Login() {
         let user_info;
         getAccessTokenWithCode(response['code'])
             .then((res) => {
+                //console.log(res);
                 user_info = res;
-                login(user_info)
-                    .then((res) => {
+                login(user_info)    //login은 성공
+                    .then((res) => { //res 권한이 없어서? 못불러옴 -> 토큰 못불러옴
                         /*
                         res안에 토큰 정보가 담겨 있음.
                          */
