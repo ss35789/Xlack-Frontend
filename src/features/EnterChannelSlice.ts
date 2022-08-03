@@ -7,8 +7,8 @@ interface enterRoomState{
 const initialState:enterRoomState={
     roomId:0,
 }
-export const appSlice=createSlice({
-    name :'app',
+export const EnterRoomSlice=createSlice({
+    name :'enterRoom',
     initialState,
     reducers:{
         enterRoom: (state,action: PayloadAction<number>)=>{
@@ -18,7 +18,7 @@ export const appSlice=createSlice({
     },
 });
 
-export const {enterRoom} = appSlice.actions;
+export const {enterRoom} = EnterRoomSlice.actions;
 export const selectRoomId : number= 3;
 
-export default appSlice.reducer;
+export default EnterRoomSlice.reducer;

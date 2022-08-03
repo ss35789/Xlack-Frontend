@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import {RootState} from '../app/store';
 
 function Chatcontext(){
-    const roomId=useSelector<RootState>(state=> state.app.roomId);
+    
 
     return(
         <ChatContainer>

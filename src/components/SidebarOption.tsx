@@ -1,6 +1,6 @@
 import React from'react';
 import styled from'styled-components';
-import {enterRoom} from'../features/appSlice';
+import {enterRoom} from'../features/EnterChannelSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 

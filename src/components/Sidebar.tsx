@@ -22,13 +22,15 @@ import {at,rt} from '../features/cookie';
 import Channel from './Channel';
 import ProfileMenu from './ProfileMenu';
 import ChannelMenu from './ChannelMenu';
+import { enterRoom } from '../features/EnterChannelSlice';
 
 function Sidebar(){
 
     const [x,setx]=useState(0);
     const [y,sety]=useState(0);
-    
+    const dispatch=useDispatch();
     const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
+    const enterRoomId=useSelector((state:RootState)=>state.enterRoom.roomId);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
     const [showProfileMenu,setshowProfileMenu] = useState(false);
     const [showChannelMenu,setshowChannelMenu] =useState(false);
@@ -66,9 +68,10 @@ function Sidebar(){
         };
     }, [channelMenuRef]);
 
-    const connectChat=()=>{
+    const connectChat=(enterRoomId : number)=>{
 
-        console.log("connect!")
+        console.log(`connect! ${enterRoomId}`)
+
     
     }
     const onClickshowChannelMenu=useCallback(()=>{
@@ -114,8 +117,13 @@ function Sidebar(){
             {showChannels&&
                 <Addchannel Icon={AddIcon} title='Add Channel'/> }
             
-            {showChannels&&AddChannel.map(title=>{
-                return <span ref={channelMenuRef} onClick={connectChat} onContextMenu={(e)=>{
+            {showChannels&&AddChannel.map((title)=>{//테스트용
+                return <span ref={channelMenuRef} 
+                onClick={(e)=>{
+                    e.preventDefault();
+                    
+                }} 
+                onContextMenu={(e)=>{
                     e.preventDefault();
                     setx(e.clientX);
                     sety(e.clientY);
@@ -124,18 +132,30 @@ function Sidebar(){
                 }}><SidebarOption title={title} /></span>
             })}
 
-            
+            {showChannels&&ChannelList.map((title,channel_id)=>{
+                return <span 
+                onClick={(e)=>{
+                    e.preventDefault();
+                    dispatch(enterRoom(channel_id));//enterRoomId 를 channel id로 변경
+                    connectChat(enterRoomId);
+
+                }} 
+                onContextMenu={(e)=>{
+                    e.preventDefault();
+                    dispatch(enterRoom(channel_id));
+                    console.log("채널 메뉴열기!");
+                    setx(e.clientX);
+                    sety(e.clientY);
+                    showChannelMenu&&onClickshowChannelMenu();//새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                    onClickshowChannelMenu(); 
+                    
+                }}><Channel title={title} /></span>
+            })}
+
+
             {showChannelMenu&&<div style={{position:"absolute",top:y,left:x}}>
                         <ChannelMenu></ChannelMenu>
                 </div>} 
-            {/* {showChannels&&ChannelList.map(title=>{
-                return <span onClick={connectChat} onContextMenu={(e)=>{
-                    e.preventDefault();
-                    console.log("채널 메뉴열기!");
-                    <ChannelMenu></ChannelMenu>
-                }}><Channel title={title} /></span>
-            })} */}
-            
 
             
         </SidebarContainer>

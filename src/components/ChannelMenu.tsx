@@ -1,8 +1,14 @@
+import { useSelector } from 'react-redux';
 import React from 'react'
 import styled from 'styled-components';
+import { RootState } from '../app/store';
+import { enterRoom } from '../features/EnterChannelSlice';
 
 
 function ChannelMenu() {
+  const enterRoomId=useSelector((state:RootState)=>state.enterRoom.roomId);
+  
+
   return (
     <Menu>
         

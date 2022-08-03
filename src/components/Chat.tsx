@@ -3,7 +3,7 @@ import styled from "styled-components";
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 import { useSelector } from "react-redux";
-import { selectRoomId } from "../features/appSlice";
+import { selectRoomId } from "../features/EnterChannelSlice";
 import ChatInput from "./ChatInput";
 //추가
 // import { useCollection, useDocument } from "react-firebase-hooks/firestore";

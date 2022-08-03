@@ -1,4 +1,4 @@
-export interface Channel{
+export interface ChannelType{
     channel_name?:string 
     
     // title: Channel Name
