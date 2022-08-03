@@ -1,9 +1,8 @@
 import React from "react";
 import axios from 'axios';
 import { useDispatch } from "react-redux";
-import { createRoom } from "../features/AddChannelSlice";
+import { createRoom } from "../features/UpdateChannelSlice";
 import { SidebarInfo } from "./SidebarOption";
-import { AppDispatch } from "../app/store";
 import { at,rt } from '../features/cookie';
 
 function Addchannel({Icon,title,id}:SidebarInfo){

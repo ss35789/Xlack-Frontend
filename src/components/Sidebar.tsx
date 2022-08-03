@@ -29,7 +29,7 @@ function Sidebar(){
     const [x,setx]=useState(0);
     const [y,sety]=useState(0);
     const dispatch=useDispatch();
-    const AddChannel=useSelector((state:RootState)=>state.AddChannel.title);
+    const UpdateChannel=useSelector((state:RootState)=>state.UpdateChannel.title);
     const enterRoomId=useSelector((state:RootState)=>state.enterRoom.roomId);
     const [ChannelList,setChannelList]=useState([]);// 기존에 가입되어있던 채널들 정보
     const [showProfileMenu,setshowProfileMenu] = useState(false);
@@ -55,7 +55,7 @@ function Sidebar(){
     }
    
 
-    useEffect(()=>{showChannelList()},[AddChannel])
+    useEffect(()=>{showChannelList()},[UpdateChannel])
     useEffect(() => {// channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
         function handleClickOutside(e: MouseEvent): void {
             if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
@@ -117,7 +117,7 @@ function Sidebar(){
             {showChannels&&
                 <Addchannel Icon={AddIcon} title='Add Channel'/> }
             
-            {showChannels&&AddChannel.map((title)=>{//테스트용
+            {showChannels&&UpdateChannel.map((title)=>{//테스트용
                 return <span ref={channelMenuRef} 
                 onClick={(e)=>{
                     e.preventDefault();

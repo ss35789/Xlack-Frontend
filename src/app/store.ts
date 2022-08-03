@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import EnterRoomReducer from '../features/EnterChannelSlice';
-import AddChannelReducer from '../features/AddChannelSlice';
+import UpdateChannelReducer from '../features/UpdateChannelSlice';
 
 export const store = configureStore({
   reducer: {
     enterRoom: EnterRoomReducer,
-    AddChannel: AddChannelReducer
+    UpdateChannel: UpdateChannelReducer
   },
 });
 export type RootState=ReturnType<typeof store.getState>;
