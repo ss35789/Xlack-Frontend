@@ -5,16 +5,16 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import SearchIcon from '@mui/icons-material/Search';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
-function Header(){
-    return(
+function Header() {
+    return (
         <HeaderContainer>
-            
+
             {/* Header Left */}
             <HeaderLeft>
                 <HeaderAvatar
                     //TODO: Add onclick
                 />
-                <AccessTimeIcon />
+                <AccessTimeIcon/>
             </HeaderLeft>
 
             {/* Header Search */}
@@ -22,7 +22,7 @@ function Header(){
                 <SearchIcon/>
                 <input placeholder='Search'></input>
             </HeaderSearch>
-            
+
             {/* {Header Right} */}
             <HeaderRight>
                 <HelpOutlineIcon/>
@@ -31,9 +31,10 @@ function Header(){
 
     )
 }
+
 export default Header
 
-const HeaderSearch =styled.div`
+const HeaderSearch = styled.div`
     flex: 0.4;
     opacity: 1;
     border-radius:6px;
@@ -56,7 +57,7 @@ const HeaderSearch =styled.div`
     }
 `;
 
-const HeaderContainer=styled.div`
+const HeaderContainer = styled.div`
    display:flex;
    position : fixed;
    width: 100%;
@@ -67,7 +68,7 @@ const HeaderContainer=styled.div`
    color:white;
 `;
 
-const HeaderLeft=styled.div`
+const HeaderLeft = styled.div`
     flex:0.3;
     display:flex;
     align-items:center;
@@ -85,7 +86,7 @@ const HeaderLeft=styled.div`
 
 `;
 
-const HeaderRight=styled.div`
+const HeaderRight = styled.div`
     flex:0.3;
     display:flex;
     align-items:flex-end;
@@ -101,7 +102,7 @@ const HeaderRight=styled.div`
     }
 `;
 
-const HeaderAvatar=styled(Avatar)`
+const HeaderAvatar = styled(Avatar)`
     
     cursor:pointer;
     :hover{

@@ -1,16 +1,12 @@
-import React,{useEffect, useRef} from "react";
+import React from "react";
 import styled from "styled-components";
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
-import { useSelector } from "react-redux";
-import { selectRoomId } from "../features/EnterChannelSlice";
-import ChatInput from "./ChatInput";
 //추가
 // import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 // import {db} from "../firebase";
-import Message from "./Message";
 
-function Chat(){
+function Chat() {
     // const chatRef = useRef(null);
     // const roomId = useSelector(selectRoomId);
     // const [roomDetails] = useDocument(
@@ -34,7 +30,7 @@ function Chat(){
     // console.log(roomDetails?.data());
     // console.log(roomMessages);
 
-    return(
+    return (
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}
             <>
@@ -67,15 +63,15 @@ function Chat(){
                     })} */}
                     {/* //<ChatBottom ref={chatRef}/> */}
                 </ChatMessages>
-                
+
                 {/* <ChatInput
                     // chatRef={chatRef}
                     // // Channelname={roomDetails?.data().name}
                     // channelId={roomId}
                 /> */}
             </>
-            
-            
+
+
         </ChatContainer>
     );
 }
@@ -85,7 +81,7 @@ export default Chat;
 const ChatBottom = styled.div`
     padding-bottom: 200px;
 `;
-const ChatContainer=styled.div`
+const ChatContainer = styled.div`
     flex:0.7;
     flex-grow:1;
     overflow-y : scroll;
@@ -105,7 +101,7 @@ const HeaderLeft = styled.div`
     display: flex;
     align-items: center;
 `;
-const HeaderRight=styled.div`
+const HeaderRight = styled.div`
     flex:0.3;
     display:flex;
     align-items:flex-end;

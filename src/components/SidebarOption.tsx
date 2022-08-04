@@ -1,29 +1,29 @@
-import React from'react';
-import styled from'styled-components';
-import {enterRoom} from'../features/EnterChannelSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import React from 'react';
+import styled from 'styled-components';
+import {enterRoom} from '../features/EnterChannelSlice';
+import {useDispatch} from 'react-redux';
 
-export interface SidebarInfo{
+export interface SidebarInfo {
     Icon?: any;
     title: string;
     id?: number;
 }
-function SidebarOption({Icon,title,id}:SidebarInfo){
-    const dispatch=useDispatch();
 
-    const selectChannel=()=>{
-        if(id){
+function SidebarOption({Icon, title, id}: SidebarInfo) {
+    const dispatch = useDispatch();
+
+    const selectChannel = () => {
+        if (id) {
             dispatch(enterRoom(id))
         }
     }
 
-    return(
+    return (
         <SidebarOptionContainer
             onClick={selectChannel}
         >
-            {Icon && <Icon fontSize='small' style={{padding : 10}}></Icon>}
-            {Icon ? (<h3>{title}</h3>) : 
+            {Icon && <Icon fontSize='small' style={{padding: 10}}></Icon>}
+            {Icon ? (<h3>{title}</h3>) :
                 <SidebarOptionChannel>
                     <span>#</span>{title}
                 </SidebarOptionChannel>
@@ -31,9 +31,10 @@ function SidebarOption({Icon,title,id}:SidebarInfo){
         </SidebarOptionContainer>
     )
 }
+
 export default SidebarOption;
 
-const SidebarOptionContainer=styled.div`
+const SidebarOptionContainer = styled.div`
     display : flex;
     font-size: 12px;
     padding :10px;
@@ -51,7 +52,7 @@ const SidebarOptionContainer=styled.div`
         padding: 15px;
     }
 `;
-const SidebarOptionChannel=styled.h3`
+const SidebarOptionChannel = styled.h3`
     padding: 10px 0;
     font-weight: 300;
 `;

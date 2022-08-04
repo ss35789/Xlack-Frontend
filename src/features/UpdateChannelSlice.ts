@@ -1,22 +1,20 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 
-
-
-export const UpdateChannelSlice=createSlice({
-    name :'UpdateChannel',
+export const UpdateChannelSlice = createSlice({
+    name: 'UpdateChannel',
     initialState: {
-        title:['test'],
+        title: ['test'],
     },
-    reducers:{
-        createRoom: (state,action: PayloadAction<string>)=>{
-           state.title.push(action.payload)
+    reducers: {
+        createRoom: (state, action: PayloadAction<string>) => {
+            state.title.push(action.payload)
         },
-        UpdateRoom:(state)=>{
+        UpdateRoom: (state) => {
             state.title.push('asdf')
             state.title.pop()
         }
-        
+
     },
 });
 
