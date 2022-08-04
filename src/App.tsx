@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
 import Login from './components/Login';
-import Workspace from './pages/Workspace';
+import Main from './pages/Mainpage';
 
 // import Spinner from "react-spinkit";
 
@@ -40,7 +40,7 @@ function App() {
                     <>
 
                         <AppBody>
-                            <Workspace/>
+                            <Main/>
                             <Routes>
                                 <Route path="/">
                                     {/* <Chat></Chat>> */}
@@ -49,7 +49,7 @@ function App() {
                             </Routes>
                         </AppBody>
                     </>
-                    )
+
 
                 </Router>
             </>

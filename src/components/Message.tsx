@@ -2,18 +2,18 @@ import React from 'react';
 import styled from "styled-components";
 import {MessageRec} from './types';
 
-function Message({message, timestamp, user, userImage}:MessageRec) {
-  return (
-    <MessageContainer>
-      <img src={userImage} alt=""/>
-      <MessageInfo>
-        <h4>
-          {user}{<span>{new Date(timestamp?.toDate()).toUTCString()}</span>}
-        </h4>
-        <p>{message}</p>
-      </MessageInfo>
-    </MessageContainer>
-  );
+function Message({message, timestamp, user, userImage}: MessageRec) {
+    return (
+        <MessageContainer>
+            <img src={userImage} alt=""/>
+            <MessageInfo>
+                <h4>
+                    {user}{<span>{new Date(timestamp?.toDate()).toUTCString()}</span>}
+                </h4>
+                <p>{message}</p>
+            </MessageInfo>
+        </MessageContainer>
+    );
 }
 
 export default Message
@@ -27,7 +27,6 @@ const MessageContainer = styled.div`
     border-radius: 8px;
   }
 `;
-
 
 
 const MessageInfo = styled.div`

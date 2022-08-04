@@ -1,39 +1,36 @@
-import React from'react';
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { useSelector } from 'react-redux';
-import {RootState} from '../app/store';
 
-function Chatcontext(){
-    const roomId=useSelector<RootState>(state=> state.app.roomId);
+function Chatcontext() {
 
-    return(
+
+    return (
         <ChatContainer>
             <>
-            <Header>
-                <HeaderLeft>
-                    <h4>
-                        <strong>#Room-name</strong>
-                        <StarBorderOutlinedIcon/>
-                    </h4>
-                    
-                </HeaderLeft>
+                <Header>
+                    <HeaderLeft>
+                        <h4>
+                            <strong>#Room-name</strong>
+                            <StarBorderOutlinedIcon/>
+                        </h4>
 
-                <HeaderRight>
-                    <p>
-                        <InfoOutlinedIcon/> Details
-                    </p>
-                </HeaderRight>
-            </Header>
+                    </HeaderLeft>
 
-            <ChatMessages>
-                
-                {/* List out the message */}
-                
-            </ChatMessages>
+                    <HeaderRight>
+                        <p>
+                            <InfoOutlinedIcon/> Details
+                        </p>
+                    </HeaderRight>
+                </Header>
 
-            {/* <ChatInput 
+                <ChatMessages>
+
+                    {/* List out the message */}
+
+                </ChatMessages>
+
+                {/* <ChatInput
                 // ChannelName
                 channelId={roomId}
             /> */}
@@ -44,14 +41,14 @@ function Chatcontext(){
 
 export default Chatcontext
 
-const ChatMessages=styled.div``;
-const Header=styled.div`
+const ChatMessages = styled.div``;
+const Header = styled.div`
     display:flex;
     justify-content:space-between;
     padding: 20px;
     border-bottom: 1px solid lightgray;
 `;
-const HeaderLeft=styled.div`
+const HeaderLeft = styled.div`
     display: flex;
 
     >h4{
@@ -65,11 +62,11 @@ const HeaderLeft=styled.div`
         font-size: 18px;
     }
 `;
-const HeaderRight=styled.div`
+const HeaderRight = styled.div`
     >p{
         display: flex;
+        align-items: center;
         font-size: 14px;
-        align-items:center;
     }
 
     >p > .MuiSvgIcon-root{
@@ -77,7 +74,7 @@ const HeaderRight=styled.div`
         font-size: 16px;
     }
 `;
-const ChatContainer=styled.div`
+const ChatContainer = styled.div`
     flex:0.7;
     flex-grow:1;
     overflow-y : scroll;
