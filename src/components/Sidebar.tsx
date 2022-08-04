@@ -36,9 +36,11 @@ function Sidebar(){
     const [showChannelMenu,setshowChannelMenu] =useState(false);
     const [showChannels,setshowChannels]=useState(false);
     const channelMenuRef = useRef<HTMLDivElement>(null);
-    const showChannelList= async ()=>{
-        try{
-            const res=await axios.get(`https://xlack.kreimben.com/api/channel/all`,
+    const showChannelList = async () => {
+        console.log(`access token: ${at}`)
+        console.log(`refresh token: ${rt}`)
+
+        const res = await axios.get(`https://xlack.kreimben.com/api/channel/all`,
             {
                 headers:{
                     //토큰
