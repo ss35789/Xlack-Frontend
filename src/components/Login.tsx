@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import {getAccessTokenWithCode, login} from '../features/login';
 import LoginGithub from 'react-login-github';
-import { setCookie } from '../features/cookie';
+import {setCookie} from '../features/cookie';
 
 function Login() {
 
@@ -12,16 +12,14 @@ function Login() {
             .then((res) => {
                 //console.log(res);
                 user_info = res;
-                login(user_info)    //login은 성공
-                    .then((res) => { //res 권한이 없어서? 못불러옴 -> 토큰 못불러옴
-                        /*
-                        res안에 토큰 정보가 담겨 있음.
-                         */
+                login(user_info)
+                    .then((res) => {
                         console.log(`res: ${JSON.stringify(res)}`)
-                        const tmp = JSON.stringify(res);
-                        const resData = JSON.parse(tmp)
-                        AsscessToken(resData);
-
+                        /*
+                        Axios는 then혹은 await으로 객체를 받으면 자동으로 json parsing 이 되기 때문에
+                        resData로 따로 parsing 해줄 이유가 없습니다.
+                         */
+                        AsscessToken(res);
                     })
             })
     };
