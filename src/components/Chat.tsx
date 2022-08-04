@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 //추가
@@ -13,7 +13,7 @@ function Chat() {
     //     roomId && db.collection("rooms").doc(roomId)
     // )
     // const [roomMessages, loading] = useCollection(
-    //     roomId && 
+    //     roomId &&
     //     db
     //         .collection("rooms")
     //         .doc(roomId)
@@ -36,19 +36,20 @@ function Chat() {
             <>
                 <Header>
                     <HeaderLeft>
-                        <h4> {/*2:29:35 #ROOM-name -> #{} */}
+                        <h4>
+                            {' '}
+                            {/*2:29:35 #ROOM-name -> #{} */}
                             {/* <strong>#{roomDetails?.data().name}</strong> */}
                         </h4>
                         {/* <StarBorderOutlinedIcon/> */}
                     </HeaderLeft>
                     <HeaderRight>
-                        <p>
-                            {/* <InfoOutlinedIcon/> Details */}
-                        </p>
+                        <p>{/* <InfoOutlinedIcon/> Details */}</p>
                     </HeaderRight>
                 </Header>
                 {/*2:30:19*/}
-                <ChatMessages><h1>CharMessage</h1>
+                <ChatMessages>
+                    <h1>CharMessage</h1>
                     {/* {roomMessages?.docs.map(doc=>{
                         const{message,timestamp,user,userImage} = doc.data();
                         return(
@@ -70,8 +71,6 @@ function Chat() {
                     // channelId={roomId}
                 /> */}
             </>
-
-
         </ChatContainer>
     );
 }
@@ -82,9 +81,9 @@ const ChatBottom = styled.div`
     padding-bottom: 200px;
 `;
 const ChatContainer = styled.div`
-    flex:0.7;
-    flex-grow:1;
-    overflow-y : scroll;
+    flex: 0.7;
+    flex-grow: 1;
+    overflow-y: scroll;
     margin-top: 60px;
 `;
 
@@ -102,15 +101,16 @@ const HeaderLeft = styled.div`
     align-items: center;
 `;
 const HeaderRight = styled.div`
-    flex:0.3;
-    display:flex;
-    align-items:flex-end;
-    >.MuiSvgIcon-root{ /* HelpOutlineIcon */
-        margin-left:auto;
-        margin-right:20px;
-        :hover{
-            cursor:pointer;
-            opacity:0.6;
+    flex: 0.3;
+    display: flex;
+    align-items: flex-end;
+    > .MuiSvgIcon-root {
+        /* HelpOutlineIcon */
+        margin-left: auto;
+        margin-right: 20px;
+        :hover {
+            cursor: pointer;
+            opacity: 0.6;
         }
     }
 `;

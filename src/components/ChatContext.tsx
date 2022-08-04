@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-function Chatcontext() {
-
-
+function ChatContext() {
     return (
         <ChatContainer>
             <>
@@ -12,23 +10,18 @@ function Chatcontext() {
                     <HeaderLeft>
                         <h4>
                             <strong>#Room-name</strong>
-                            <StarBorderOutlinedIcon/>
+                            <StarBorderOutlinedIcon />
                         </h4>
-
                     </HeaderLeft>
 
                     <HeaderRight>
                         <p>
-                            <InfoOutlinedIcon/> Details
+                            <InfoOutlinedIcon /> Details
                         </p>
                     </HeaderRight>
                 </Header>
 
-                <ChatMessages>
-
-                    {/* List out the message */}
-
-                </ChatMessages>
+                <ChatMessages>{/* List out the message */}</ChatMessages>
 
                 {/* <ChatInput
                 // ChannelName
@@ -36,47 +29,47 @@ function Chatcontext() {
             /> */}
             </>
         </ChatContainer>
-    )
+    );
 }
 
-export default Chatcontext
+export default ChatContext;
 
 const ChatMessages = styled.div``;
 const Header = styled.div`
-    display:flex;
-    justify-content:space-between;
+    display: flex;
+    justify-content: space-between;
     padding: 20px;
     border-bottom: 1px solid lightgray;
 `;
 const HeaderLeft = styled.div`
     display: flex;
 
-    >h4{
-        display:flex;
-        text-transform:lowercase;
+    > h4 {
+        display: flex;
+        text-transform: lowercase;
         margin-right: 10px;
     }
 
-    >h4 > .MuiSvgIcon-root{
+    > h4 > .MuiSvgIcon-root {
         margin-left: 20px;
         font-size: 18px;
     }
 `;
 const HeaderRight = styled.div`
-    >p{
+    > p {
         display: flex;
         align-items: center;
         font-size: 14px;
     }
 
-    >p > .MuiSvgIcon-root{
+    > p > .MuiSvgIcon-root {
         margin-right: 5px !important;
         font-size: 16px;
     }
 `;
 const ChatContainer = styled.div`
-    flex:0.7;
-    flex-grow:1;
-    overflow-y : scroll;
+    flex: 0.7;
+    flex-grow: 1;
+    overflow-y: scroll;
     margin-top: 60px;
 `;

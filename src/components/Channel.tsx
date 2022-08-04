@@ -1,18 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 export interface ChannelInfo {
     Icon?: any;
     title: string;
     id?: number;
-
 }
 
 function Channel({title}: ChannelInfo) {
-    return (
-        <>
-            {title}
-        </>
-    )
+    return <>{title}</>;
 }
 
-export default Channel
+export default Channel;

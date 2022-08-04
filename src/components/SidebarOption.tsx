@@ -14,41 +14,42 @@ function SidebarOption({Icon, title, id}: SidebarInfo) {
 
     const selectChannel = () => {
         if (id) {
-            dispatch(enterRoom(id))
+            dispatch(enterRoom(id));
         }
-    }
+    };
 
     return (
-        <SidebarOptionContainer
-            onClick={selectChannel}
-        >
-            {Icon && <Icon fontSize='small' style={{padding: 10}}></Icon>}
-            {Icon ? (<h3>{title}</h3>) :
+        <SidebarOptionContainer onClick={selectChannel}>
+            {Icon && <Icon fontSize="small" style={{padding: 10}}></Icon>}
+            {Icon ? (
+                <h3>{title}</h3>
+            ) : (
                 <SidebarOptionChannel>
-                    <span>#</span>{title}
+                    <span>#</span>
+                    {title}
                 </SidebarOptionChannel>
-            }
+            )}
         </SidebarOptionContainer>
-    )
+    );
 }
 
 export default SidebarOption;
 
 const SidebarOptionContainer = styled.div`
-    display : flex;
+    display: flex;
     font-size: 12px;
-    padding :10px;
+    padding: 10px;
     align-items: center;
     cursor: pointer;
-    :hover{
+    :hover {
         opacity: 0.9;
-        background-color:#340e36;
+        background-color: #340e36;
     }
-   
-    >h3{
-        font-weight:500;
+
+    > h3 {
+        font-weight: 500;
     }
-    >h3 >span{
+    > h3 > span {
         padding: 15px;
     }
 `;
