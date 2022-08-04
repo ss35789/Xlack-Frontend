@@ -32,7 +32,11 @@ async function login(user_info: any): Promise<JSON> {
     }
 }
 async function getAccessTokenWithCode(code: string): Promise<JSON> {
-    const res = await axios.get(`https://xlack.kreimben.com/api/authentication/redirect/github?code=${code}`);
+    const res = await axios.get(`https://xlack.kreimben.com/api/authentication/redirect/github?code=${code}`, {
+        validateStatus(status) {
+            return status < 500;
+        }
+    });
     return res.data.github_info;
 }
 

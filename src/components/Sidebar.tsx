@@ -44,6 +44,9 @@ function Sidebar(){
                     //토큰
                     'access-token': at,
                     'refresh-token': rt
+                },
+                validateStatus(status) {
+                    return status < 500;
                 }
                 
             })
