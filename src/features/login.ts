@@ -31,6 +31,7 @@ async function login(user_info: any): Promise<JSON> {
         return res.data;
     }
 }
+
 async function getAccessTokenWithCode(code: string): Promise<JSON> {
     const res = await axios.get(`https://xlack.kreimben.com/api/authentication/redirect/github?code=${code}`, {
         validateStatus(status) {
@@ -49,8 +50,8 @@ async function checkUser(github_id: number): Promise<boolean> {
     return res.data.success;
 }
 
-export function replacer(key: string,value: any){
-    if(key==="success" || key==="message")
+export function replacer(key: string, value: any) {
+    if (key === "success" || key === "message")
         return undefined;
     else
         return value;
