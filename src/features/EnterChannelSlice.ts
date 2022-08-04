@@ -6,7 +6,7 @@ interface enterRoomState {
 
 const initialState: enterRoomState = {
     roomId: 0,
-}
+};
 export const EnterRoomSlice = createSlice({
     name: 'enterRoom',
     initialState,
@@ -14,7 +14,6 @@ export const EnterRoomSlice = createSlice({
         enterRoom: (state, action: PayloadAction<number>) => {
             state.roomId = action.payload;
         },
-
     },
 });
 

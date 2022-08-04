@@ -1,15 +1,14 @@
-import React from 'react'
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+import React from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 function Mainpage() {
     return (
         <>
-            <Header/>
-            <Sidebar/>
+            <Header />
+            <Sidebar />
         </>
-
-    )
+    );
 }
 
-export default Mainpage
+export default Mainpage;

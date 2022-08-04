@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
@@ -12,7 +12,6 @@ import Main from './pages/Mainpage';
 
 function App() {
     // const [user,loading] = useAuthState(auth);
-
 
     // return (
     //   <AppLoading>
@@ -31,58 +30,49 @@ function App() {
     //   </AppLoading>
     // )
 
-
     return (
         <div className="App">
             <>
                 <Router>
-                    <Login/>
+                    <Login />
                     <>
-
                         <AppBody>
-                            <Main/>
+                            <Main />
                             <Routes>
-                                <Route path="/">
-                                    {/* <Chat></Chat>> */}
-
-                                </Route>
+                                <Route path="/">{/* <Chat></Chat>> */}</Route>
                             </Routes>
                         </AppBody>
                     </>
-
-
                 </Router>
             </>
-
         </div>
     );
 }
 
 export default App;
 
-
 const AppLoading = styled.div`
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  width: 100%;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100%;
 `;
 
 const AppLoadingContents = styled.div`
-  text-align: center;
-  padding-bottom: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  >img{
-    height: 100px;
-    padding: 20px;
-    margin-bottom: 40px;
-  }
+    text-align: center;
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    > img {
+        height: 100px;
+        padding: 20px;
+        margin-bottom: 40px;
+    }
 `;
 
 const AppBody = styled.div`
-  display: flex;
-  height: 100vh;
+    display: flex;
+    height: 100vh;
 `;
