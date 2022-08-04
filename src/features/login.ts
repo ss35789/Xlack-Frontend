@@ -21,7 +21,7 @@ async function login(user_info: any): Promise<JSON> {
             "email": user_info['email'],
             "name": user_info['name'],
             "thumbnail_url": user_info['avatar_url'],
-            "authorization": 'guest',
+            "authorization": 'member',
             "github_id": user_info['id']
         }, {
             validateStatus: function (status) {
