@@ -14,14 +14,14 @@ import {enterRoom} from '../features/EnterChannelSlice';
 import ProfileMenu from './ProfileMenu';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
-
+import {ChannelType} from './types';
 function Sidebar() {
     const [x, setx] = useState(0);
     const [y, sety] = useState(0);
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
     const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
-    const [ChannelList, setChannelList] = useState([
+    const [ChannelList, setChannelList] = useState<ChannelType[]>([
         {
             channel_name: 'test',
             uuid: 'sdfx',
