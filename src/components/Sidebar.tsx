@@ -10,8 +10,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import AddChannel from './AddChannel';
 import {RootState} from '../app/store';
 import {at, rt} from '../features/cookie';
+import {enterRoom} from '../features/EnterChannelSlice';
 import ProfileMenu from './ProfileMenu';
 import ChannelMenu from './ChannelMenu';
+import Channel from './Channel';
+import {ChannelType} from './types';
 
 function Sidebar() {
     const [x, setx] = useState(0);
@@ -19,11 +22,19 @@ function Sidebar() {
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
     const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
-    const [ChannelList, setChannelList] = useState([]); // 기존에 가입되어있던 채널들 정보
+    const [ChannelList, setChannelList] = useState([
+        {
+            channel_name: 'test',
+            uuid: 'sdfx',
+            channel_id: 156,
+            created_at: 'created_adsfflasdmfpm',
+        },
+    ]); // 기존에 가입되어있던 채널들 정보
     const [showProfileMenu, setshowProfileMenu] = useState(false);
     const [showChannelMenu, setshowChannelMenu] = useState(false);
     const [showChannels, setshowChannels] = useState(false);
     const channelMenuRef = useRef<HTMLDivElement>(null);
+
     const showChannelList = async () => {
         console.log(`access token: ${at}`);
         console.log(`refresh token: ${rt}`);
@@ -38,7 +49,7 @@ function Sidebar() {
                 return status < 500;
             },
         });
-        console.log('su');
+        console.log('showChannelList');
         setChannelList(res.data);
     };
 
@@ -102,7 +113,7 @@ function Sidebar() {
             <hr />
             {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
 
-            {showChannels &&
+            {/* {showChannels &&
                 UpdateChannel.map(title => {
                     //테스트용
                     return (
@@ -123,28 +134,32 @@ function Sidebar() {
                             <SidebarOption title={title} />
                         </span>
                     );
+                })} */}
+
+            {showChannels &&
+                Array.from(ChannelList).map(channel => {
+                    return (
+                        <span
+                            ref={channelMenuRef}
+                            onClick={e => {
+                                e.preventDefault();
+                                dispatch(enterRoom(channel.channel_id)); //enterRoomId 를 channel id로 변경
+                                connectChat(enterRoomId);
+                            }}
+                            onContextMenu={e => {
+                                e.preventDefault();
+                                dispatch(enterRoom(channel.channel_id));
+                                console.log('채널 메뉴열기!');
+                                setx(e.clientX);
+                                sety(e.clientY);
+                                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                                onClickshowChannelMenu();
+                            }}
+                        >
+                            <Channel channel_name={channel.channel_name} uuid={channel.uuid} channel_id={channel.channel_id} created_at={channel.created_at} />
+                        </span>
+                    );
                 })}
-
-            {/* {showChannels&&ChannelList.map((title,channel_id)=>{
-                return <span 
-                onClick={(e)=>{
-                    e.preventDefault();
-                    dispatch(enterRoom(channel_id));//enterRoomId 를 channel id로 변경
-                    connectChat(enterRoomId);
-
-                }} 
-                onContextMenu={(e)=>{
-                    e.preventDefault();
-                    dispatch(enterRoom(channel_id));
-                    console.log("채널 메뉴열기!");
-                    setx(e.clientX);
-                    sety(e.clientY);
-                    showChannelMenu&&onClickshowChannelMenu();//새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                    onClickshowChannelMenu(); 
-                    
-                }}><Channel title={title} /></span>
-            })} */}
-
             {showChannelMenu && (
                 <div style={{position: 'absolute', top: y, left: x}}>
                     <ChannelMenu />

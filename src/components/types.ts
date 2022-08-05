@@ -1,5 +1,5 @@
 export interface ChannelType {
-    channel_name?: string;
+    channel_name: string;
 
     // title: Channel Name
 
@@ -11,6 +11,9 @@ export interface ChannelType {
     created_at: string;
     // title: Created At
 }
+// export interface UserType{
+
+// }
 
 export interface ChatInfo {
     channelName: string;

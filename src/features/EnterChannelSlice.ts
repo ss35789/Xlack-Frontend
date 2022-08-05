@@ -19,5 +19,4 @@ export const EnterRoomSlice = createSlice({
 
 export const {enterRoom} = EnterRoomSlice.actions;
 
-
 export default EnterRoomSlice.reducer;
