@@ -16,7 +16,7 @@ function SidebarOption({Icon, title, id}: SidebarInfo) {
         if (id) {
             dispatch(enterRoom(id));
         }
-        console.log(`id : ${id}`);
+        // console.log(`id : ${id}`);
     };
 
     return (

@@ -14,7 +14,6 @@ import {enterRoom} from '../features/EnterChannelSlice';
 import ProfileMenu from './ProfileMenu';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
-import {ChannelType} from './types';
 
 function Sidebar() {
     const [x, setx] = useState(0);
@@ -25,6 +24,12 @@ function Sidebar() {
     const [ChannelList, setChannelList] = useState([
         {
             channel_name: 'test',
+            uuid: 'sdfx',
+            channel_id: 156,
+            created_at: 'created_adsfflasdmfpm',
+        },
+        {
+            channel_name: 'test2',
             uuid: 'sdfx',
             channel_id: 156,
             created_at: 'created_adsfflasdmfpm',
@@ -54,6 +59,7 @@ function Sidebar() {
     };
 
     useEffect(() => {
+        //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나옴
         showChannelList();
     }, [UpdateChannel]);
     useEffect(() => {
