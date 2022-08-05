@@ -58,10 +58,10 @@ function Sidebar() {
         setChannelList(res.data);
     };
 
-    useEffect(() => {
-        //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나옴
-        showChannelList();
-    }, [UpdateChannel]);
+    // useEffect(() => {
+    //     //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나옴
+    //     showChannelList();
+    // }, [UpdateChannel]);
     useEffect(() => {
         // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
         function handleClickOutside(e: MouseEvent): void {

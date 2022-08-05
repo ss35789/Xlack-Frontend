@@ -9,6 +9,22 @@ import {at, rt} from '../features/cookie';
 function ChannelMenu() {
     const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId); // 현재 우리가 클릭한 채널id
     const dispatch = useDispatch();
+
+    const editChannelName = async () => {
+        try {
+            const newChannelName: string | null = prompt('Please enter the channel name');
+
+            await axios.patch(`https://xlack.kreimben.com/api/channel/${enterRoomId}?new_channel_name=${newChannelName}`, {
+                //쿠키 생성
+                headers: {
+                    'access-token': at,
+                    'refresh-token': rt,
+                },
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const inviteChannel = () => {
         console.log('invite test');
         // try{
@@ -50,7 +66,7 @@ function ChannelMenu() {
     return (
         <Menu>
             <h3 onClick={inviteChannel}>초대하기</h3>
-
+            <h3 onClick={editChannelName}>채널이름 바꾸기</h3>
             <h3 onClick={exitChannel}>나가기</h3>
         </Menu>
     );
