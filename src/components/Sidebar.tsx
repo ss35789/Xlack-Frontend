@@ -35,7 +35,7 @@ function Sidebar() {
             created_at: 'created_adsfflasdmfpm',
         },
     ]); // 기존에 가입되어있던 채널들 정보
-    const [showProfileMenu, setshowProfileMenu] = useState(false);
+    // const [showProfileMenu, setshowProfileMenu] = useState(false);
     const [showChannelMenu, setshowChannelMenu] = useState(false);
     const [showChannels, setshowChannels] = useState(false);
     const channelMenuRef = useRef<HTMLDivElement>(null);
@@ -82,15 +82,15 @@ function Sidebar() {
     const onClickshowChannelMenu = useCallback(() => {
         setshowChannelMenu(prev => !prev);
     }, []);
-    const onClickshowProfileMenu = useCallback(() => {
-        setshowProfileMenu(prev => !prev);
-    }, []);
+    // const onClickshowProfileMenu = useCallback(() => {
+    //     setshowProfileMenu(prev => !prev);
+    // }, []);
     const onClickshowChannels = useCallback(() => {
         setshowChannels(prev => !prev);
     }, []);
     return (
         <SidebarContainer>
-            <SidebarHeader onClick={onClickshowProfileMenu}>
+            <SidebarHeader>
                 <SidebarInfo>
                     <div>
                         <h2>sfagasdf sslkdfj</h2>
@@ -102,7 +102,6 @@ function Sidebar() {
                 </SidebarInfo>
                 <CreateIcon />
             </SidebarHeader>
-            {showProfileMenu && <ProfileMenu></ProfileMenu>}
 
             {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 
             <SidebarOption Icon={InboxIcon} title='Mention & reactions'/> 
@@ -201,10 +200,6 @@ const SidebarHeader = styled.div`
             cursor: pointer;
             opacity: 0.6;
         }
-    }
-    :hover {
-        cursor: pointer;
-        opacity: 0.6;
     }
 `;
 const SidebarInfo = styled.div`
