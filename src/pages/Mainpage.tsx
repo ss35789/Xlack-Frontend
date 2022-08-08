@@ -6,6 +6,8 @@ import UserList from '../components/UserList';
 function Mainpage() {
     return (
         <>
+            <Header />
+            <Sidebar />
             <UserList />
         </>
     );

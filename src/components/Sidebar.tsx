@@ -59,7 +59,7 @@ function Sidebar() {
     };
 
     // useEffect(() => {
-    //     //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나옴
+    //     //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
     //     showChannelList();
     // }, [UpdateChannel]);
     useEffect(() => {
