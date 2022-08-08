@@ -5,6 +5,7 @@ import {RootState} from '../app/store';
 import {UpdateRoom} from '../features/UpdateChannelSlice';
 import axios from 'axios';
 import {at, rt} from '../features/cookie';
+import {backUrl} from '../features/cookie';
 
 function ChannelMenu() {
     const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId); // 현재 우리가 클릭한 채널id
@@ -14,7 +15,7 @@ function ChannelMenu() {
         try {
             const newChannelName: string | null = prompt('Please enter the channel name');
 
-            await axios.patch(`https://xlack.kreimben.com/api/channel/${enterRoomId}?new_channel_name=${newChannelName}`, {
+            await axios.patch(`${backUrl}/api/channel/${enterRoomId}?new_channel_name=${newChannelName}`, {
                 //쿠키 생성
                 headers: {
                     'access-token': at,
@@ -49,7 +50,7 @@ function ChannelMenu() {
         console.log('exit test');
 
         try {
-            await axios.delete(`https://xlack.kreimben.com/api/channel/${enterRoomId}`, {
+            await axios.delete(`${backUrl}/api/channel/${enterRoomId}`, {
                 //쿠키 생성
                 headers: {
                     'access-token': at,

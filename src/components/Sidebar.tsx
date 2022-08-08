@@ -11,10 +11,11 @@ import AddChannel from './AddChannel';
 import {RootState} from '../app/store';
 import {at, rt} from '../features/cookie';
 import {enterRoom} from '../features/EnterChannelSlice';
-import ProfileMenu from './ProfileMenu';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
 import {ChannelType} from './types';
+import {backUrl} from '../features/cookie';
+
 function Sidebar() {
     const [x, setx] = useState(0);
     const [y, sety] = useState(0);
@@ -44,7 +45,7 @@ function Sidebar() {
         console.log(`access token: ${at}`);
         console.log(`refresh token: ${rt}`);
 
-        const res = await axios.get(`https://xlack.kreimben.com/api/channel/all`, {
+        const res = await axios.get(`${backUrl}/api/channel/all`, {
             headers: {
                 //토큰
                 'access-token': at,

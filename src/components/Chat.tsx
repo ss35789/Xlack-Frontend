@@ -12,14 +12,6 @@ function Chat() {
     // const [roomDetails] = useDocument(
     //     roomId && db.collection("rooms").doc(roomId)
     // )
-    // const [roomMessages, loading] = useCollection(
-    //     roomId &&
-    //     db
-    //         .collection("rooms")
-    //         .doc(roomId)
-    //         .collection("messages")
-    //         .orderby("timestamp","asc")
-    // );
     //채팅방에 들어갔을 때 맨 밑으로 이동
     // useEffect(()=>{
     //     chatRef?.current?.scrollIntoView({
@@ -49,7 +41,7 @@ function Chat() {
                 </Header>
                 {/*2:30:19*/}
                 <ChatMessages>
-                    <h1>CharMessage</h1>
+                    <h1>ChatMessage</h1>
                     {/* {roomMessages?.docs.map(doc=>{
                         const{message,timestamp,user,userImage} = doc.data();
                         return(

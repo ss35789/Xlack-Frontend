@@ -4,6 +4,7 @@ import axios from 'axios';
 import {at, rt} from '../features/cookie';
 import User from './User';
 import {UserInformationTypes} from './types';
+import {backUrl} from '../features/cookie';
 function UserList() {
     const [userList, setUserList] = useState<UserInformationTypes[]>([
         {
@@ -20,7 +21,7 @@ function UserList() {
     const getAllUser = async () => {
         try {
             const UsersData = await axios.get(
-                `https://xlack.kreimben.com/api/user/all`,
+                `${backUrl}/api/user/all`,
 
                 {
                     headers: {
