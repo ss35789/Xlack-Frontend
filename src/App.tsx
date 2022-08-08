@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Login from './pages/Login';
 import Workspace from './pages/Workspace';
 import { getCookie } from './features/cookie';
+import Logout from './components/Logout';
 
 // import Spinner from "react-spinkit";
 
@@ -40,14 +41,16 @@ function App() {
                     {!getCookie('refresh_token')?(
                         <Login/>
                     ):( 
-                    //<Logout/>
                     <>
-
+                    <Logout/>
                         <AppBody>
                             <Workspace/>
                             <Routes>
                                 <Route path="/">
-                                    {/* <Chat></Chat>> */}
+                                    {
+                                        /* <Chat></Chat>> */
+                                        
+                                    }
 
                                 </Route>
                             </Routes>

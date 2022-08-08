@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from "styled-components";
 import {getAccessTokenWithCode, login} from '../features/login';
 import LoginGithub from 'react-login-github';
 import { setCookie } from '../features/cookie';
 
 function Login() {
-
     const onSuccess = (response: any) => {
         let user_info;
         getAccessTokenWithCode(response['code'])
@@ -23,7 +22,9 @@ function Login() {
 
                     })
             })
+    
     };
+    
     const onFailure = (response: any) => console.error(response);
 
     return (

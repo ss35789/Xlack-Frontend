@@ -4,11 +4,15 @@ import { removeCookie } from '../features/cookie';
 
 
 function Logout() {
-      
+    const logoutFC=()=>{
+        removeCookie();
+        window.location.reload();
+    }
     return (
         
-    <Button onClick={removeCookie}>Logout</Button>
-        
+    <Button onClick={logoutFC}>Logout</Button>
+    
     );
+
 }
 export default Logout;

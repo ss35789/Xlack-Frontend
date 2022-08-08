@@ -9,5 +9,7 @@ export const getCookie = (name:string)=>{
     return cookies.get(name)
 }
 export const removeCookie=()=>{
-    cookies.remove('cookies');
+    cookies.remove('access_token');
+    cookies.remove('refresh_token');
+
 }
