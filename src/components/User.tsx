@@ -1,12 +1,19 @@
 import React from 'react';
 import {UserInformationTypes} from './types';
+import styled from 'styled-components';
 
 function User({email, name, thumbnail_url, authorization}: UserInformationTypes) {
     return (
-        <h3 style={{color: 'red'}}>
+        <UserContainer>
             name: {name},email: {email}
-        </h3>
+        </UserContainer>
     );
 }
 
 export default User;
+
+const UserContainer = styled.div`
+    color: purple;
+    display: flex;
+    border-bottom: 1px solid #49274b;
+`;

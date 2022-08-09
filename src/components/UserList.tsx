@@ -17,6 +17,16 @@ function UserList() {
             authorization: 'adasf',
             //title: Authorization
         },
+        {
+            email: 'Jssdfsdfl',
+
+            name: 'Jkaslf',
+            // title: Name
+            thumbnail_url: 'asdafs',
+            //title: Thumbnail Url
+            authorization: 'adasf',
+            //title: Authorization
+        },
     ]);
     const getAllUser = async () => {
         try {
@@ -39,17 +49,19 @@ function UserList() {
         getAllUser();
     }, []);
     return (
-        <UserContainer>
+        <UserListContainer>
             {userList.map(user => {
                 return <User email={user.email} name={user.name} thumbnail_url={user.thumbnail_url} authorization={user.authorization}></User>;
             })}
-        </UserContainer>
+        </UserListContainer>
     );
 }
 
 export default UserList;
 
-const UserContainer = styled.div`
+const UserListContainer = styled.div`
+    padding: 5px;
+    margin-top: 60px;
     position: 'absolute';
     top: 200;
     left: 200;

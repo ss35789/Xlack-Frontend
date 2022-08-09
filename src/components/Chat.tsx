@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
+import UserList from './UserList';
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 //추가
@@ -29,7 +30,6 @@ function Chat() {
                 <ChatMessages>
                     <h1>ChatMessage</h1>
                 </ChatMessages>
-
                 <ChatInput />
             </>
         </ChatContainer>
