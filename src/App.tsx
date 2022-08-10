@@ -1,16 +1,18 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Navigate, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
-import Login from './components/Login';
+
+import Login from './pages/Login';
+import Logout from './components/Logout';
 import Mainpage from './pages/Mainpage';
 
 // import Spinner from "react-spinkit";
 
-function App() {
+const App = () => {
     // const [user,loading] = useAuthState(auth);
 
     // return (
@@ -32,6 +34,7 @@ function App() {
 
     return (
         <div className="App">
+
             <>
                 <Router>
                     <Login />
@@ -39,15 +42,17 @@ function App() {
                         <AppBody>
                             <Mainpage />
                             <Routes>
-                                <Route path="/">{/* <Chat></Chat>> */}</Route>
+                                <Route path="/" element={<Mainpage />} />
+                                <Route path="/login" element={<Login />} />
                             </Routes>
                         </AppBody>
                     </>
                 </Router>
             </>
+
         </div>
     );
-}
+};
 
 export default App;
 

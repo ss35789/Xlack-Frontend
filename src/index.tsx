@@ -5,11 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import {store} from './app/store';
 import App from './App';
+import Login from './pages/Login';
+import {BrowserRouter} from 'react-router-dom';
 
 ReactDom.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App />
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root'),
