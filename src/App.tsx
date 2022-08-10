@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
 import Login from './components/Login';
-import Main from './pages/Mainpage';
+import Mainpage from './pages/Mainpage';
 
 // import Spinner from "react-spinkit";
 
@@ -37,7 +37,7 @@ function App() {
                     <Login />
                     <>
                         <AppBody>
-                            <Main />
+                            <Mainpage />
                             <Routes>
                                 <Route path="/">{/* <Chat></Chat>> */}</Route>
                             </Routes>
