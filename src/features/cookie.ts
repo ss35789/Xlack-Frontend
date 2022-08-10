@@ -8,9 +8,11 @@ export const setCookie = (name: string, value: string, option?: any) => {
 const getCookie = (name: string) => {
     return cookies.get(name);
 };
-export const removeCookie = () => {
-    cookies.remove('cookies');
-};
+export const removeCookie=()=>{
+    cookies.remove('access_token');
+    cookies.remove('refresh_token');
+
+}
 
 export const at = getCookie('access_token');
 export const rt = getCookie('refresh_token');
