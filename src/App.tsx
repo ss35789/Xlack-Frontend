@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Link, Navigate, Route, Routes} from "react-router-dom";
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
@@ -9,10 +9,11 @@ import Login from './pages/Login';
 import Workspace from './pages/Workspace';
 import { getCookie } from './features/cookie';
 import Logout from './components/Logout';
+import Main from './pages/main';
 
 // import Spinner from "react-spinkit";
 
-function App() {
+const App=()=> {
     // const [user,loading] = useAuthState(auth);
 
 
@@ -36,31 +37,10 @@ function App() {
 
     return (
         <div className="App">
-            <>
-                <Router>
-                    {!getCookie('refresh_token')?(
-                        <Login/>
-                    ):( 
-                    <>
-                    <Logout/>
-                        <AppBody>
-                            <Workspace/>
-                            <Routes>
-                                <Route path="/">
-                                    {
-                                        /* <Chat></Chat>> */
-                                        
-                                    }
-
-                                </Route>
-                            </Routes>
-                        </AppBody>
-                    </>
-                    )}
-
-                </Router>
-            </>
-
+                <Routes>
+                    <Route path='/' element={<Main/>}/>
+                    <Route path="/login" element={<Login/>}/>                
+                </Routes>
         </div>
     );
 }

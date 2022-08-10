@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {getAccessTokenWithCode, login} from '../features/login';
 import LoginGithub from 'react-login-github';
 import { setCookie } from '../features/cookie';
+import { Navigate } from 'react-router-dom';
 
 function Login() {
     const onSuccess = (response: any) => {
@@ -28,22 +29,24 @@ function Login() {
     const onFailure = (response: any) => console.error(response);
 
     return (
-        <LoginContainer>
-            <LoginImageContainer>
-                <img 
-                    src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    alt=""
-                />
-            </LoginImageContainer>
-            <LoginGithub
-                clientId='9ac10cd868488ad0185b'
-                scope='read:user'
-                buttonText='Login to GitHub'
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                >
-            </LoginGithub>
-        </LoginContainer>
+        <>
+            <LoginContainer>
+                <LoginImageContainer>
+                    <img 
+                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                        alt=""
+                    />
+                </LoginImageContainer>
+                <LoginGithub
+                    clientId='9ac10cd868488ad0185b'
+                    scope='read:user'
+                    buttonText='Login to GitHub'
+                    onSuccess={onSuccess}
+                    onFailure={onFailure}
+                    >
+                </LoginGithub>
+            </LoginContainer>
+        </>
     )
 }
 export function AsscessToken(resData: any){
@@ -51,15 +54,18 @@ export function AsscessToken(resData: any){
     //access_token 존재시 쿠키에 넣어줌
     const refresh_token = resData.refresh_token;
     if (access_token){
+        window.location.href="http://localhost:3000";
         setCookie('access_token',access_token,{
             httpOnly:true
         })
         setCookie('refresh_token',refresh_token,{
             httpOnly:true
         })
+
     }
 }
 export default Login;
+
 const LoginContainer = styled.div`
     background-color: #f8f8f8;
     height: 100vh;

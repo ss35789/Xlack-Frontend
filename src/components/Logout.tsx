@@ -6,7 +6,8 @@ import { removeCookie } from '../features/cookie';
 function Logout() {
     const logoutFC=()=>{
         removeCookie();
-        window.location.reload();
+        window.location.href="http://localhost:3000/login";
+
     }
     return (
         
