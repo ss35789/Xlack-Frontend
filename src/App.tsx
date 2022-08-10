@@ -1,19 +1,18 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Link, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Link, Navigate, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
+
 import Login from './pages/Login';
-import Workspace from './pages/Workspace';
-import { getCookie } from './features/cookie';
 import Logout from './components/Logout';
-import Main from './pages/main';
+import Mainpage from './pages/Mainpage';
 
 // import Spinner from "react-spinkit";
 
-const App=()=> {
+const App = () => {
     // const [user,loading] = useAuthState(auth);
 
     // return (
@@ -35,13 +34,25 @@ const App=()=> {
 
     return (
         <div className="App">
-                <Routes>
-                    <Route path='/' element={<Main/>}/>
-                    <Route path="/login" element={<Login/>}/>                
-                </Routes>
+
+            <>
+                <Router>
+                    <Login />
+                    <>
+                        <AppBody>
+                            <Mainpage />
+                            <Routes>
+                                <Route path="/" element={<Mainpage />} />
+                                <Route path="/login" element={<Login />} />
+                            </Routes>
+                        </AppBody>
+                    </>
+                </Router>
+            </>
+
         </div>
     );
-}
+};
 
 export default App;
 

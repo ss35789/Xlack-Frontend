@@ -1,17 +1,16 @@
-import React from 'react'
-import Header from "../components/Header";
+import React from 'react';
+import Header from '../components/Header';
 import Logout from '../components/Logout';
-import Sidebar from "../components/Sidebar";
+import Sidebar from '../components/Sidebar';
 
 function Main() {
-  return (
-    <>
-      <Logout/>
-      <Header/>
-      <Sidebar/>
-    </>
-    
-  )
+    return (
+        <>
+            <Logout />
+            <Header />
+            <Sidebar />
+        </>
+    );
 }
 
-export default Main
+export default Main;
