@@ -33,16 +33,10 @@ function App() {
     return (
         <div className="App">
             <>
-                <Login />
-                <>
-                    <AppBody>
-                        <Routes>
-                            <Route path="/" element={<Mainpage />}>
-                                {/* <Chat></Chat>> */}
-                            </Route>
-                        </Routes>
-                    </AppBody>
-                </>
+                <Routes>
+                    <Route path="/" element={<Mainpage />} />
+                    <Route path="/login" element={<Login />} />
+                </Routes>
             </>
         </div>
     );

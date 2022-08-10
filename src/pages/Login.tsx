@@ -15,9 +15,7 @@ function Login() {
                         res안에 토큰 정보가 담겨 있음.
                          */
                 console.log(`res: ${JSON.stringify(res)}`);
-                const tmp = JSON.stringify(res);
-                const resData = JSON.parse(tmp);
-                AsscessToken(resData);
+                AsscessToken(res);
             });
         });
     };
