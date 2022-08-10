@@ -1,7 +1,7 @@
 import {Cookies} from 'react-cookie';
 
 const cookies = new Cookies();
-
+export const backUrl = 'https://xlack.kreimben.com';
 export const setCookie = (name: string, value: string, option?: any) => {
     return cookies.set(name, value, {});
 };

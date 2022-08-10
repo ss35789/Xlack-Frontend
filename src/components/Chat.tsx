@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import ChatInput from './ChatInput';
+import UserList from './UserList';
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 //추가
@@ -7,29 +9,6 @@ import styled from 'styled-components';
 // import {db} from "../firebase";
 
 function Chat() {
-    // const chatRef = useRef(null);
-    // const roomId = useSelector(selectRoomId);
-    // const [roomDetails] = useDocument(
-    //     roomId && db.collection("rooms").doc(roomId)
-    // )
-    // const [roomMessages, loading] = useCollection(
-    //     roomId &&
-    //     db
-    //         .collection("rooms")
-    //         .doc(roomId)
-    //         .collection("messages")
-    //         .orderby("timestamp","asc")
-    // );
-    //채팅방에 들어갔을 때 맨 밑으로 이동
-    // useEffect(()=>{
-    //     chatRef?.current?.scrollIntoView({
-    //         behavior:"smooth",
-    //     });
-    // },[roomId,loading])
-
-    // console.log(roomDetails?.data());
-    // console.log(roomMessages);
-
     return (
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}
@@ -49,27 +28,9 @@ function Chat() {
                 </Header>
                 {/*2:30:19*/}
                 <ChatMessages>
-                    <h1>CharMessage</h1>
-                    {/* {roomMessages?.docs.map(doc=>{
-                        const{message,timestamp,user,userImage} = doc.data();
-                        return(
-                            <Message
-                                key={doc.id}
-                                message={message}
-                                timestamp={timestamp}
-                                user={user}
-                                userImage={userImage}
-                            />
-                        )
-                    })} */}
-                    {/* //<ChatBottom ref={chatRef}/> */}
+                    <h1>ChatMessage</h1>
                 </ChatMessages>
-
-                {/* <ChatInput
-                    // chatRef={chatRef}
-                    // // Channelname={roomDetails?.data().name}
-                    // channelId={roomId}
-                /> */}
+                <ChatInput />
             </>
         </ChatContainer>
     );
