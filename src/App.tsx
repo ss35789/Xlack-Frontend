@@ -37,9 +37,10 @@ function App() {
                     <Login />
                     <>
                         <AppBody>
-                            <Mainpage />
                             <Routes>
-                                <Route path="/">{/* <Chat></Chat>> */}</Route>
+                                <Route path="/" element={<Mainpage />}>
+                                    {/* <Chat></Chat>> */}
+                                </Route>
                             </Routes>
                         </AppBody>
                     </>
