@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Link, Navigate, Route, Routes} from 'react-rout
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
+
 import Login from './pages/Login';
 import Logout from './components/Logout';
 import Mainpage from './pages/Mainpage';
@@ -33,10 +34,22 @@ const App = () => {
 
     return (
         <div className="App">
-            <Routes>
-                <Route path="/" element={<Mainpage />} />
-                <Route path="/login" element={<Login />} />
-            </Routes>
+
+            <>
+                <Router>
+                    <Login />
+                    <>
+                        <AppBody>
+                            <Mainpage />
+                            <Routes>
+                                <Route path="/" element={<Mainpage />} />
+                                <Route path="/login" element={<Login />} />
+                            </Routes>
+                        </AppBody>
+                    </>
+                </Router>
+            </>
+
         </div>
     );
 };
