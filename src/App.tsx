@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
-import Login from './components/Login';
+import Login from './pages/Login';
 import Mainpage from './pages/Mainpage';
 
 // import Spinner from "react-spinkit";
@@ -63,9 +63,4 @@ const AppLoadingContents = styled.div`
         padding: 20px;
         margin-bottom: 40px;
     }
-`;
-
-const AppBody = styled.div`
-    display: flex;
-    height: 100vh;
 `;
