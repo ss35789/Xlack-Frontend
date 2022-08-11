@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
 import Login from './pages/Login';
 import Mainpage from './pages/Mainpage';
+import {rt} from './features/cookie';
 
 // import Spinner from "react-spinkit";
 
@@ -33,10 +34,15 @@ function App() {
     return (
         <div className="App">
             <>
-                <Routes>
-                    <Route path="/" element={<Mainpage />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
+                <Router>
+                    {!rt ? (
+                        <Login />
+                    ) : (
+                        <Routes>
+                            <Route path="/main" element={<Mainpage />} />
+                        </Routes>
+                    )}
+                </Router>
             </>
         </div>
     );

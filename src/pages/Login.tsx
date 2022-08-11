@@ -38,13 +38,13 @@ export function AsscessToken(resData: any) {
     //access_token 존재시 쿠키에 넣어줌
     const refresh_token = resData.refresh_token;
     if (access_token) {
-        window.location.href = 'http://localhost:3000';
         setCookie('access_token', access_token, {
             httpOnly: true,
         });
         setCookie('refresh_token', refresh_token, {
             httpOnly: true,
         });
+        window.location.href = 'http://localhost:3000/main';
     }
 }
 export default Login;
