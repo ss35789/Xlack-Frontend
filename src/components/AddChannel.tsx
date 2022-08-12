@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {createRoom} from '../features/UpdateChannelSlice';
 import {SidebarInfo} from './SidebarOption';
 import {at, rt} from '../features/cookie';
-
+import {backUrl} from '../features/cookie';
 function AddChannel({Icon, title, id}: SidebarInfo) {
     const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ function AddChannel({Icon, title, id}: SidebarInfo) {
                 // db에 name: channelName 방추가
                 dispatch(createRoom(channelName));
                 await axios.post(
-                    `https://xlack.kreimben.com/api/channel/`,
+                    `${backUrl}/api/channel/`,
                     {
                         channel_name: channelName,
                     },

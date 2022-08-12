@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
-import Login from './components/Login';
-import Main from './pages/Mainpage';
+import Login from './pages/Login';
+import Mainpage from './pages/Mainpage';
+import {rt} from './features/cookie';
 
 // import Spinner from "react-spinkit";
 
@@ -34,15 +35,13 @@ function App() {
         <div className="App">
             <>
                 <Router>
-                    <Login />
-                    <>
-                        <AppBody>
-                            <Main />
-                            <Routes>
-                                <Route path="/">{/* <Chat></Chat>> */}</Route>
-                            </Routes>
-                        </AppBody>
-                    </>
+                    {!rt ? (
+                        <Login />
+                    ) : (
+                        <Routes>
+                            <Route path="/main" element={<Mainpage />} />
+                        </Routes>
+                    )}
                 </Router>
             </>
         </div>
@@ -70,9 +69,4 @@ const AppLoadingContents = styled.div`
         padding: 20px;
         margin-bottom: 40px;
     }
-`;
-
-const AppBody = styled.div`
-    display: flex;
-    height: 100vh;
 `;

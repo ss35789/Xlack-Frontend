@@ -18,6 +18,5 @@ export const EnterRoomSlice = createSlice({
 });
 
 export const {enterRoom} = EnterRoomSlice.actions;
-export const selectRoomId: number = 3;
 
 export default EnterRoomSlice.reducer;

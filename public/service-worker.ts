@@ -15,7 +15,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
 registerRoute(
     // Return false to exempt requests from being fulfilled by index.html.
-    ({request, url}: { request: Request; url: URL }) => {
+    ({request, url}: {request: Request; url: URL}) => {
         // If this isn't a navigation, skip.
         if (request.mode !== 'navigate') {
             return false;
@@ -35,7 +35,7 @@ registerRoute(
         // Return true to signal that we want to use the handler.
         return true;
     },
-    createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')
+    createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html'),
 );
 
 // An example runtime caching route for requests that aren't handled by the
@@ -46,14 +46,11 @@ registerRoute(
     // Customize this strategy as needed, e.g., by changing to CacheFirst.
     new StaleWhileRevalidate({
         cacheName: 'images',
-        plugins: [
-
-            new ExpirationPlugin({maxEntries: 50}),
-        ],
-    })
+        plugins: [new ExpirationPlugin({maxEntries: 50})],
+    }),
 );
 
-self.addEventListener('message', (event) => {
+self.addEventListener('message', event => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
     }

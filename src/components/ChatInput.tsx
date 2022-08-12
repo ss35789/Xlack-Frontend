@@ -1,40 +1,35 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
-import {ChatInfo} from './types';
+import {backUrl} from '../features/cookie';
+import {io} from 'socket.io-client';
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
 // import firebase from 'firebase';
 //import {useAuthState} from "react-firebase-hooks/auth";
 
-function ChatInput({channelName, channelId, chatRef}: ChatInfo) {
-    const [input, setInput] = useState('');
+function ChatInput() {
+    // const socket = io(`${backUrl}`, {
+    //     //path: '/socket.io',
+    //     transports: ['websocket'],
+    // });
+    const [msg, setmsg] = useState('');
     // const [user] = useAuthState(auth);
-
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
-        //console.log(channelId);메세지 출력이 안돼서 찍어봄 2:23:10 원인: 13줄 channelId=>!channelId}
-        if (!channelId) {
-            return false;
+        if (inputRef.current) {
+            inputRef.current.value = '';
         }
-
-        //     // db.collection('rooms').doc(channelId).collection('messages').add({
-        //     //     message: input,
-        //     //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        //     //     user: user.displayName,
-        //     //     userImage: user.photoURL
-        //     // });
-        //     //새로운 채팅입력시 맨 밑으로 이동
-        //     chatRef.current.scrollIntoView({
-        //         behavior:"smooth",
-        //     });
-
-        //     setInput('');
+        setmsg('');
+        // socket.emit('send-message', msg);
+        //현재 우리가 들어와있는 채널에만 채팅을 보내야함
+        //-> emit 특정 채널이벤트 설정?, 채널마다 room 설정?
     };
 
     return (
         <ChatInputContainer>
             <form>
-                <input ref={input} onChange={e => setInput(e.target.value)} placeholder={`Message #${channelName}`} />
+                <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`} />
                 <button hidden type="submit" onClick={sendMessage}>
                     SEND
                 </button>
@@ -55,7 +50,7 @@ const ChatInputContainer = styled.div`
     > form > input {
         position: fixed;
         bottom: 30px;
-        width: 60%;
+        width: 40%;
         border: 1px solid gray;
         border-radius: 3px;
         padding: 20px;
