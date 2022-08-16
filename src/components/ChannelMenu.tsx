@@ -15,7 +15,7 @@ function ChannelMenu() {
         try {
             const newChannelName: string | null = prompt('Please enter the channel name');
 
-            await axios.patch(`${backUrl}/api/channel/${enterRoomId}?new_channel_name=${newChannelName}`, {
+            await axios.patch(`${backUrl}channel/${enterRoomId}?new_channel_name=${newChannelName}`, {
                 //쿠키 생성
                 headers: {
                     'access-token': at,
@@ -50,7 +50,7 @@ function ChannelMenu() {
         console.log('exit test');
 
         try {
-            await axios.delete(`${backUrl}/api/channel/${enterRoomId}`, {
+            await axios.delete(`${backUrl}channel/${enterRoomId}`, {
                 //쿠키 생성
                 headers: {
                     'access-token': at,

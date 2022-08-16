@@ -6,7 +6,7 @@ async function login(user_info: any): Promise<JSON> {
     if (check) {
         // Already has account.
         const github_id = user_info['id'];
-        const res = await axios.post(`${backUrl}/api/authentication/issue_tokens?github_id=${github_id}`, null, {
+        const res = await axios.post(`${backUrl}authentication/issue_tokens?github_id=${github_id}`, null, {
             validateStatus: function (status) {
                 return status < 500;
             },
@@ -15,7 +15,7 @@ async function login(user_info: any): Promise<JSON> {
     } else {
         // Not yet registered.
         const res = await axios.post(
-            `${backUrl}/api/user/`,
+            `${backUrl}user/`,
             {
                 email: user_info['email'],
                 name: user_info['name'],
@@ -34,7 +34,7 @@ async function login(user_info: any): Promise<JSON> {
 }
 
 async function getAccessTokenWithCode(code: string): Promise<JSON> {
-    const res = await axios.get(`${backUrl}/api/authentication/redirect/github?code=${code}`, {
+    const res = await axios.get(`${backUrl}authentication/redirect/github?code=${code}`, {
         validateStatus(status) {
             return status < 500;
         },
@@ -43,7 +43,7 @@ async function getAccessTokenWithCode(code: string): Promise<JSON> {
 }
 
 async function checkUser(github_id: number): Promise<boolean> {
-    const res = await axios.get(`${backUrl}/api/authentication/user_check?github_id=${github_id}`, {
+    const res = await axios.get(`${backUrl}authentication/user_check?github_id=${github_id}`, {
         validateStatus: function (status) {
             return status < 500;
         },

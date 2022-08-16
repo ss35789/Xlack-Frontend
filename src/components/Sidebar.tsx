@@ -45,7 +45,7 @@ function Sidebar() {
         console.log(`access token: ${at}`);
         console.log(`refresh token: ${rt}`);
 
-        const res = await axios.get(`${backUrl}/api/channel/all`, {
+        const res = await axios.get(`${backUrl}channel/all`, {
             headers: {
                 //토큰
                 'access-token': at,

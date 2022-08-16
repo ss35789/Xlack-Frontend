@@ -31,7 +31,7 @@ function UserList() {
     const getAllUser = async () => {
         try {
             const UsersData = await axios.get(
-                `${backUrl}/api/user/all`,
+                `${backUrl}user/all`,
 
                 {
                     headers: {

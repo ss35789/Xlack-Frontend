@@ -18,7 +18,7 @@ function AddChannel({Icon, title, id}: SidebarInfo) {
                 // db에 name: channelName 방추가
                 dispatch(createRoom(channelName));
                 await axios.post(
-                    `${backUrl}/api/channel/`,
+                    `${backUrl}channel/`,
                     {
                         channel_name: channelName,
                     },
