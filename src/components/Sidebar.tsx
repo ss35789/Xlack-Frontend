@@ -25,15 +25,7 @@ function Sidebar() {
     const [ChannelList, setChannelList] = useState<ChannelType[]>([
         {
             channel_name: 'test',
-            uuid: 'sdfx',
             channel_id: 156,
-            created_at: 'created_adsfflasdmfpm',
-        },
-        {
-            channel_name: 'test2',
-            uuid: 'sdfx',
-            channel_id: 156,
-            created_at: 'created_adsfflasdmfpm',
         },
     ]); // 기존에 가입되어있던 채널들 정보
     // const [showProfileMenu, setshowProfileMenu] = useState(false);
@@ -45,12 +37,7 @@ function Sidebar() {
         console.log(`access token: ${at}`);
         console.log(`refresh token: ${rt}`);
 
-        const res = await axios.get(`${backUrl}channel/all`, {
-            headers: {
-                //토큰
-                'access-token': at,
-                'refresh-token': rt,
-            },
+        const res = await axios.get(`${backUrl}channel`, {
             validateStatus(status) {
                 return status < 500;
             },
@@ -162,7 +149,7 @@ function Sidebar() {
                                 onClickshowChannelMenu();
                             }}
                         >
-                            <Channel channel_name={channel.channel_name} uuid={channel.uuid} channel_id={channel.channel_id} created_at={channel.created_at} />
+                            <Channel channel_name={channel.channel_name} channel_id={channel.channel_id} />
                         </span>
                     );
                 })}

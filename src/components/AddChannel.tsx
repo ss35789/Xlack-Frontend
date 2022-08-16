@@ -17,19 +17,9 @@ function AddChannel({Icon, title, id}: SidebarInfo) {
             if (channelName) {
                 // db에 name: channelName 방추가
                 dispatch(createRoom(channelName));
-                await axios.post(
-                    `${backUrl}channel/`,
-                    {
-                        channel_name: channelName,
-                    },
-                    {
-                        //쿠키 생성
-                        headers: {
-                            'access-token': at,
-                            'refresh-token': rt,
-                        },
-                    },
-                );
+                await axios.post(`${backUrl}channel/`, {
+                    name: channelName,
+                });
                 //                console.log();
             }
         } catch (err) {

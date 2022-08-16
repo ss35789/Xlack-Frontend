@@ -2,7 +2,7 @@ import React from 'react';
 import {ChannelType} from './types';
 import styled from 'styled-components';
 
-function Channel({channel_name, uuid, channel_id, created_at}: ChannelType) {
+function Channel({channel_name, channel_id}: ChannelType) {
     const ThisChannelId = channel_id;
     const ThisChannelTitle = channel_name;
     return (

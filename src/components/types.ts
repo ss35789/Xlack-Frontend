@@ -3,13 +3,8 @@ export interface ChannelType {
 
     // title: Channel Name
 
-    uuid: string;
-    // title: Uuid
     channel_id: number;
     // title: Channel Id
-
-    created_at: string;
-    // title: Created At
 }
 // export interface UserType{
 

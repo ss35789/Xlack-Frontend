@@ -2,13 +2,14 @@ import React, {useRef, useState} from 'react';
 import styled from 'styled-components';
 import {backUrl} from '../features/cookie';
 import {io} from 'socket.io-client';
+import {WsUrl} from '../features/cookie';
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
 // import firebase from 'firebase';
 //import {useAuthState} from "react-firebase-hooks/auth";
 
 function ChatInput() {
-    // const socket = io(`${backUrl}`, {
+    // const socket = io(`${WsUrl}<channel_id>`, {
     //     //path: '/socket.io',
     //     transports: ['websocket'],
     // });
