@@ -1,8 +1,26 @@
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {backUrl, WsUrl} from '../features/cookie';
+import {io} from 'socket.io-client';
+import {RootState} from '../app/store';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {useState} from 'react';
 
 function ChatContext() {
+    const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
+    const [getChatData, setgetChatData] = useState();
+    async () => {
+        try {
+            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`);
+
+            setgetChatData(res.data);
+        } catch (err) {
+            window.alert('오류');
+        }
+    };
+
     return (
         <ChatContainer>
             <>

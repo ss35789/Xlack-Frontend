@@ -34,22 +34,25 @@ function Sidebar() {
     const channelMenuRef = useRef<HTMLDivElement>(null);
 
     const showChannelList = async () => {
-        console.log(`access token: ${at}`);
-        console.log(`refresh token: ${rt}`);
-
-        const res = await axios.get(`${backUrl}channel`, {
-            validateStatus(status) {
-                return status < 500;
-            },
-        });
-        console.log('showChannelList');
-        setChannelList(res.data);
+        try {
+            console.log(`access token: ${at}`);
+            console.log(`refresh token: ${rt}`);
+            const res = await axios.get(`${backUrl}channel`, {
+                validateStatus(status) {
+                    return status < 500;
+                },
+            });
+            console.log('showChannelList');
+            setChannelList(res.data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    // useEffect(() => {
-    //     //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-    //     showChannelList();
-    // }, [UpdateChannel]);
+    useEffect(() => {
+        //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
+        showChannelList();
+    }, [UpdateChannel]);
     useEffect(() => {
         // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
         function handleClickOutside(e: MouseEvent): void {
@@ -138,6 +141,7 @@ function Sidebar() {
                                 e.preventDefault();
                                 dispatch(enterRoom(channel.channel_id)); //enterRoomId 를 channel id로 변경
                                 connectChat(enterRoomId);
+                                //console.log(enterRoomId);
                             }}
                             onContextMenu={e => {
                                 e.preventDefault();

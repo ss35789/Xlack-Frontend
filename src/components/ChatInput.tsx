@@ -1,30 +1,39 @@
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import styled from 'styled-components';
 import {backUrl} from '../features/cookie';
 import {io} from 'socket.io-client';
 import {WsUrl} from '../features/cookie';
+import {useSelector} from 'react-redux';
+import {RootState} from '../app/store';
+
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
 // import firebase from 'firebase';
 //import {useAuthState} from "react-firebase-hooks/auth";
 
 function ChatInput() {
-    // const socket = io(`${WsUrl}<channel_id>`, {
-    //     //path: '/socket.io',
-    //     transports: ['websocket'],
-    // });
+    const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const [msg, setmsg] = useState('');
     // const [user] = useAuthState(auth);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
-        if (inputRef.current) {
-            inputRef.current.value = '';
-        }
-        setmsg('');
+        const socket = io(`${WsUrl}${UsingChannelId}`, {
+            //path: '/socket.io',
+            transports: ['websocket'],
+        });
+
+        socket.emit('message', msg);
         // socket.emit('send-message', msg);
         //현재 우리가 들어와있는 채널에만 채팅을 보내야함
         //-> emit 특정 채널이벤트 설정?, 채널마다 room 설정?
+
+        if (inputRef.current) {
+            // enter 치면 chatbox 공백으로 초기화 됨
+            inputRef.current.value = '';
+            setmsg('');
+        }
+        if (socket.connected) socket.disconnect();
     };
 
     return (
