@@ -6,40 +6,10 @@ import User from './User';
 import {UserInformationTypes} from './types';
 import {backUrl} from '../features/cookie';
 function UserList() {
-    const [userList, setUserList] = useState<UserInformationTypes[]>([
-        {
-            email: 'Js email',
-
-            name: 'Jame',
-            // title: Name
-            thumbnail_url: 'asdafs',
-            //title: Thumbnail Url
-            authorization: 'adasf',
-            //title: Authorization
-        },
-        {
-            email: 'Jssdfsdfl',
-
-            name: 'Jkaslf',
-            // title: Name
-            thumbnail_url: 'asdafs',
-            //title: Thumbnail Url
-            authorization: 'adasf',
-            //title: Authorization
-        },
-    ]);
+    const [userList, setUserList] = useState<UserInformationTypes[]>([]);
     const getAllUser = async () => {
         try {
-            const UsersData = await axios.get(
-                `${backUrl}user/all`,
-
-                {
-                    headers: {
-                        'access-token': at,
-                        'refresh-token': rt,
-                    },
-                },
-            );
+            const UsersData = await axios.get(`${backUrl}profile/`);
             setUserList(UsersData.data);
         } catch (err) {
             console.log(err);
@@ -51,7 +21,9 @@ function UserList() {
     return (
         <UserListContainer>
             {userList.map(user => {
-                return <User email={user.email} name={user.name} thumbnail_url={user.thumbnail_url} authorization={user.authorization}></User>;
+                return (
+                    <User id={user.id} user={user.user} github_id={user.github_id} bio={user.bio} thumbnail_url={user.thumbnail_url} created_at={user.created_at} updated_at={user.updated_at}></User>
+                );
             })}
         </UserListContainer>
     );

@@ -1,7 +1,7 @@
 import {Cookies} from 'react-cookie';
 
 const cookies = new Cookies();
-export const backUrl = 'https://api.xlack.kreimben.com/docs/';
+export const backUrl = 'https://xlack-backend.herokuapp.com/';
 export const WsUrl = 'ws://xlack.kreimben.com/ws/chat/';
 export const setCookie = (name: string, value: string, option?: any) => {
     return cookies.set(name, value, {});

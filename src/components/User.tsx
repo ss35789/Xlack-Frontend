@@ -2,10 +2,10 @@ import React from 'react';
 import {UserInformationTypes} from './types';
 import styled from 'styled-components';
 
-function User({email, name, thumbnail_url, authorization}: UserInformationTypes) {
+function User({id, user, github_id, bio, thumbnail_url, created_at, updated_at}: UserInformationTypes) {
     return (
         <UserContainer>
-            name: {name},email: {email}
+            user: {user},github_id: {github_id}
         </UserContainer>
     );
 }

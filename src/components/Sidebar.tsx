@@ -9,8 +9,8 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import AddChannel from './AddChannel';
 import {RootState} from '../app/store';
-import {at, rt} from '../features/cookie';
-import {enterRoom} from '../features/EnterChannelSlice';
+import {at, rt, WsUrl} from '../features/cookie';
+import {enterRoom, WebSocketUrl} from '../features/EnterChannelSlice';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
 import {ChannelType} from './types';
@@ -21,7 +21,7 @@ function Sidebar() {
     const [y, sety] = useState(0);
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
-    const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
+    const enterRoomId: number = useSelector((state: RootState) => state.enterRoom.roomId);
     const [ChannelList, setChannelList] = useState<ChannelType[]>([
         {
             channel_name: 'test',
@@ -37,7 +37,7 @@ function Sidebar() {
         try {
             console.log(`access token: ${at}`);
             console.log(`refresh token: ${rt}`);
-            const res = await axios.get(`${backUrl}channel`, {
+            const res = await axios.get(`${backUrl}channel/`, {
                 validateStatus(status) {
                     return status < 500;
                 },
@@ -48,7 +48,10 @@ function Sidebar() {
             console.log(err);
         }
     };
-
+    useEffect(() => {
+        // 현재 주시중인 채널id 가 바뀌면 웹소켓도 그에 맞게 바뀜
+        dispatch(WebSocketUrl(`${WsUrl}${enterRoomId}`));
+    }, [enterRoomId]);
     useEffect(() => {
         //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
         showChannelList();

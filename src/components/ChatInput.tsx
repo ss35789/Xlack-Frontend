@@ -1,9 +1,6 @@
-import React, {useCallback, useRef, useState} from 'react';
-import styled from 'styled-components';
-import {backUrl} from '../features/cookie';
-import {io} from 'socket.io-client';
-import {WsUrl} from '../features/cookie';
+import React, {useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
+import styled from 'styled-components';
 import {RootState} from '../app/store';
 
 // import {Button} from "material-ui/core";
@@ -12,28 +9,29 @@ import {RootState} from '../app/store';
 //import {useAuthState} from "react-firebase-hooks/auth";
 
 function ChatInput() {
-    const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const [msg, setmsg] = useState('');
     // const [user] = useAuthState(auth);
+    const socketPath = useSelector((state: RootState) => state.enterRoom.socketPath);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
-        const socket = io(`${WsUrl}${UsingChannelId}`, {
-            //path: '/socket.io',
-            transports: ['websocket'],
-        });
-
-        socket.emit('message', msg);
-        // socket.emit('send-message', msg);
-        //현재 우리가 들어와있는 채널에만 채팅을 보내야함
-        //-> emit 특정 채널이벤트 설정?, 채널마다 room 설정?
+        if (socketPath) {
+            const chatSocket = new WebSocket(socketPath);
+            chatSocket.onopen = () => {
+                chatSocket.send(
+                    JSON.stringify({
+                        //user_id: ,
+                        message: msg,
+                    }),
+                );
+            };
+        }
 
         if (inputRef.current) {
             // enter 치면 chatbox 공백으로 초기화 됨
             inputRef.current.value = '';
             setmsg('');
         }
-        if (socket.connected) socket.disconnect();
     };
 
     return (
