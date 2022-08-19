@@ -9,7 +9,30 @@ export interface ChannelType {
 // export interface UserType{
 
 // }
-export interface UserInformationTypes {
+
+export interface UserDetailsType {
+    pk: number;
+    // title: ID
+    // readOnly: true
+    username: string;
+    // title: Username
+    // pattern: ^[\w.@+-]+$
+    // maxLength: 150
+    // minLength: 1
+    // Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+
+    email: string;
+    // title: Email address
+    // readOnly: true
+    // minLength: 1
+    first_name: string;
+    // title: First name
+    // maxLength: 150
+    last_name: string;
+    // title: Last name
+    // maxLength: 150
+}
+export interface UserProfileType {
     id: number;
     // title: ID
     // readOnly: true
