@@ -13,7 +13,7 @@ export interface getChat {
     count: number;
     next: string;
     previous: string;
-    result: ChatType[];
+    results: ChatType[];
 }
 export interface ChatType {
     id: string;

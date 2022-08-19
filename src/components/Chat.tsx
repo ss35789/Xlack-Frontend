@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
-import {backUrl, WsUrl} from '../features/cookie';
-import {io} from 'socket.io-client';
+import {backUrl} from '../features/cookie';
 import {RootState} from '../app/store';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {useState} from 'react';
 import ChatContext from './ChatContext';
-import {ChatType, getChat} from './types';
+import {getChat} from './types';
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 //추가
@@ -47,10 +46,9 @@ function Chat() {
                 {/*2:30:19*/}
                 <ChatMessages>
                     <h1>ChatMessage</h1>
-                    {/* {getChatData &&
-                        getChatData.Chat.map(chat=> {
-                            <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
-                        })} */}
+                    {getChatData?.results.map(chat => {
+                        <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
+                    })}
                 </ChatMessages>
                 <ChatInput />
             </>
