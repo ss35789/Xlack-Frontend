@@ -7,20 +7,9 @@ import {RootState} from '../app/store';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {useState} from 'react';
+import {ChatType} from './types';
 
-function ChatContext() {
-    const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
-    const [getChatData, setgetChatData] = useState();
-    async () => {
-        try {
-            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`);
-
-            setgetChatData(res.data);
-        } catch (err) {
-            window.alert('오류');
-        }
-    };
-
+function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
     return (
         <ChatContainer>
             <>

@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
-import UserList from './UserList';
+import {backUrl, WsUrl} from '../features/cookie';
+import {io} from 'socket.io-client';
+import {RootState} from '../app/store';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {useState} from 'react';
+import ChatContext from './ChatContext';
+import {ChatType, getChat} from './types';
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 //추가
@@ -9,6 +16,17 @@ import UserList from './UserList';
 // import {db} from "../firebase";
 
 function Chat() {
+    const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
+    const [getChatData, setgetChatData] = useState<getChat>();
+    async () => {
+        try {
+            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`);
+
+            setgetChatData(res.data);
+        } catch (err) {
+            window.alert('오류');
+        }
+    };
     return (
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}
@@ -29,7 +47,10 @@ function Chat() {
                 {/*2:30:19*/}
                 <ChatMessages>
                     <h1>ChatMessage</h1>
-                    {/* {ChatContext} */}
+                    {/* {getChatData &&
+                        getChatData.Chat.map(chat=> {
+                            <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
+                        })} */}
                 </ChatMessages>
                 <ChatInput />
             </>

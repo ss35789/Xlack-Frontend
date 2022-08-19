@@ -9,7 +9,29 @@ export interface ChannelType {
 // export interface UserType{
 
 // }
-
+export interface getChat {
+    count: number;
+    next: string;
+    previous: string;
+    result: ChatType[];
+}
+export interface ChatType {
+    id: string;
+    // title: Id
+    // readOnly: true
+    channel: number;
+    // title: Channel
+    // readOnly: true
+    chatter: number;
+    // title: Chatter
+    // readOnly: true
+    message: string;
+    // title: Message
+    // minLength: 1
+    created_at: string;
+    // title: Created at
+    // readOnly: true
+}
 export interface UserDetailsType {
     pk: number;
     // title: ID
