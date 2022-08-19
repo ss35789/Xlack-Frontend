@@ -10,6 +10,10 @@ import {MyUserDetails} from '../features/cookie';
 
 function ChatInput() {
     const [msg, setmsg] = useState('');
+    const [MyUserPk, setMyUserPk] = useState<number>();
+    if (MyUserDetails) {
+        setMyUserPk(MyUserDetails.pk);
+    }
     // const [user] = useAuthState(auth);
     const socketPath = useSelector((state: RootState) => state.enterRoom.socketPath);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -20,7 +24,7 @@ function ChatInput() {
             chatSocket.onopen = () => {
                 chatSocket.send(
                     JSON.stringify({
-                        //user_id: ,
+                        user_id: MyUserPk,
                         message: msg,
                     }),
                 );
