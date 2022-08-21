@@ -26,6 +26,7 @@ function Chat() {
             window.alert('오류');
         }
     };
+
     return (
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}

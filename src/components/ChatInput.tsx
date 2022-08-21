@@ -1,8 +1,10 @@
+import axios from 'axios';
 import React, {useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../app/store';
-import {MyUserDetails} from '../features/cookie';
+import {backUrl} from '../features/cookie';
+import {UserDetailsType} from './types';
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
 // import firebase from 'firebase';
@@ -11,18 +13,29 @@ import {MyUserDetails} from '../features/cookie';
 function ChatInput() {
     const [msg, setmsg] = useState('');
     const [MyUserPk, setMyUserPk] = useState<number>();
+    const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
+
     if (MyUserDetails) {
         setMyUserPk(MyUserDetails.pk);
     }
     // const [user] = useAuthState(auth);
-    const socketPath = useSelector((state: RootState) => state.enterRoom.socketPath);
+    const socket = useSelector((state: RootState) => state.enterRoom.socket);
     const inputRef = useRef<HTMLInputElement | null>(null);
+
+    async () => {
+        try {
+            const getdata = await axios.get(`${backUrl}accounts/user`);
+            setMyUserDetails(getdata.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
-        if (socketPath) {
-            const chatSocket = new WebSocket(socketPath);
-            chatSocket.onopen = () => {
-                chatSocket.send(
+        if (socket) {
+            socket.onopen = () => {
+                socket.send(
                     JSON.stringify({
                         user_id: MyUserPk,
                         message: msg,
