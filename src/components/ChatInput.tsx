@@ -15,9 +15,6 @@ function ChatInput() {
     const [MyUserPk, setMyUserPk] = useState<number>();
     const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
     const [socket, setsocket] = useState<WebSocket>();
-    if (MyUserDetails) {
-        setMyUserPk(MyUserDetails.pk);
-    }
     // const [user] = useAuthState(auth);
     const enterChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -26,6 +23,9 @@ function ChatInput() {
         try {
             const getdata = await axios.get(`${backUrl}accounts/user/`);
             setMyUserDetails(getdata.data);
+            if (MyUserDetails) {
+                setMyUserPk(MyUserDetails.pk);
+            }
         } catch (err) {
             console.log(err);
         }
@@ -43,23 +43,22 @@ function ChatInput() {
         event.preventDefault();
         if (socket) {
             console.log(socket);
+
+            socket.send(
+                JSON.stringify({
+                    user_id: 2,
+                    //user_id: MyUserPk, test로 2 함
+                    message: msg,
+                }),
+            );
             console.log(msg);
-            socket.onopen = () => {
-                socket.send(
-                    JSON.stringify({
-                        user_id: MyUserPk,
-                        message: msg,
-                    }),
-                );
-            };
+
             socket.onmessage = message => {
                 // 클라이언트로부터 메시지 수신 시
                 console.log(message);
-                console.log('서버와 웹소켓 연결 성공!');
             };
             socket.onerror = event => {
                 console.log(event);
-                console.log('서버와 웹소켓 연결 성공!');
             };
         }
 

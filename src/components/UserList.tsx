@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import {at, rt} from '../features/cookie';
+import {at, rt, backUrl} from '../features/cookie';
 import User from './User';
 import {UserDetailsType} from './types';
-import {backUrl} from '../features/cookie';
 function UserList() {
     const [userList, setUserList] = useState<UserDetailsType[]>([]);
     const getAllUser = async () => {
