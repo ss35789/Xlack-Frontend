@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import AddChannel from './AddChannel';
 import {RootState} from '../app/store';
 import {at, rt, WsUrl} from '../features/cookie';
-import {enterRoom, setWebSocket} from '../features/EnterChannelSlice';
+import {enterRoom} from '../features/EnterChannelSlice';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
 import {ChannelType} from './types';
@@ -48,10 +48,7 @@ function Sidebar() {
             console.log(err);
         }
     };
-    useEffect(() => {
-        // 현재 주시중인 채널id 가 바뀌면 웹소켓도 그에 맞게 바뀜
-        dispatch(setWebSocket(`${WsUrl}${enterRoomId}`));
-    }, [enterRoomId]);
+
     useEffect(() => {
         //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
         showChannelList();

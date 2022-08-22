@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../app/store';
@@ -14,12 +14,12 @@ function ChatInput() {
     const [msg, setmsg] = useState('');
     const [MyUserPk, setMyUserPk] = useState<number>();
     const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
-
+    const [socket, setsocket] = useState<WebSocket>();
     if (MyUserDetails) {
         setMyUserPk(MyUserDetails.pk);
     }
     // const [user] = useAuthState(auth);
-    const socket = useSelector((state: RootState) => state.enterRoom.socket);
+    const socketPath = useSelector((state: RootState) => state.enterRoom.socketPath);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     async () => {
@@ -30,6 +30,15 @@ function ChatInput() {
             console.log(err);
         }
     };
+    useEffect(() => {
+        if (socket) {
+            socket.close();
+        }
+        //이전의 소켓 닫기
+        if (socketPath) {
+            setsocket(new WebSocket(socketPath));
+        }
+    }, [socketPath]);
 
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
@@ -41,6 +50,9 @@ function ChatInput() {
                         message: msg,
                     }),
                 );
+            };
+            socket.onerror = event => {
+                console.log(event);
             };
         }
 
