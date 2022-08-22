@@ -43,6 +43,7 @@ function ChatInput() {
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
         if (socket) {
+            console.log(socket);
             socket.onopen = () => {
                 socket.send(
                     JSON.stringify({
@@ -50,6 +51,11 @@ function ChatInput() {
                         message: msg,
                     }),
                 );
+                console.log('서버와 웹소켓 연결 성공!');
+            };
+            socket.onmessage = message => {
+                // 클라이언트로부터 메시지 수신 시
+                console.log(message);
             };
             socket.onerror = event => {
                 console.log(event);

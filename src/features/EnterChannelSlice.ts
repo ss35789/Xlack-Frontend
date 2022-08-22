@@ -7,6 +7,7 @@ interface enterRoomState {
 
 const initialState: enterRoomState = {
     roomId: 13,
+    socketPath: `ws://xlack.kreimben.com/ws/chat/13`,
 };
 export const EnterRoomSlice = createSlice({
     name: 'enterRoom',
