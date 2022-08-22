@@ -9,7 +9,7 @@ function UserList() {
     const [userList, setUserList] = useState<UserDetailsType[]>([]);
     const getAllUser = async () => {
         try {
-            const UsersData = await axios.get(`${backUrl}user/`);
+            const UsersData = await axios.get(`${backUrl}accounts/user/`);
             setUserList(UsersData.data);
         } catch (err) {
             console.log(err);
