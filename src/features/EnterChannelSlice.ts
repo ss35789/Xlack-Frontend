@@ -2,12 +2,10 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface enterRoomState {
     roomId: number;
-    socketPath?: URL | string;
 }
 
 const initialState: enterRoomState = {
-    roomId: 13,
-    socketPath: `ws://xlack.kreimben.com/ws/chat/13`,
+    roomId: 14,
 };
 export const EnterRoomSlice = createSlice({
     name: 'enterRoom',

@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../app/store';
-import {backUrl} from '../features/cookie';
+import {backUrl, WsUrl} from '../features/cookie';
 import {UserDetailsType} from './types';
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
@@ -19,12 +19,12 @@ function ChatInput() {
         setMyUserPk(MyUserDetails.pk);
     }
     // const [user] = useAuthState(auth);
-    const socketPath = useSelector((state: RootState) => state.enterRoom.socketPath);
+    const enterChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     async () => {
         try {
-            const getdata = await axios.get(`${backUrl}accounts/user`);
+            const getdata = await axios.get(`${backUrl}accounts/user/`);
             setMyUserDetails(getdata.data);
         } catch (err) {
             console.log(err);
@@ -35,15 +35,15 @@ function ChatInput() {
             socket.close();
         }
         //이전의 소켓 닫기
-        if (socketPath) {
-            setsocket(new WebSocket(socketPath));
-        }
-    }, [socketPath]);
+
+        setsocket(new WebSocket(`${WsUrl}${enterChannelId}/`));
+    }, [enterChannelId]);
 
     const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
         if (socket) {
             console.log(socket);
+            console.log(msg);
             socket.onopen = () => {
                 socket.send(
                     JSON.stringify({
@@ -51,14 +51,15 @@ function ChatInput() {
                         message: msg,
                     }),
                 );
-                console.log('서버와 웹소켓 연결 성공!');
             };
             socket.onmessage = message => {
                 // 클라이언트로부터 메시지 수신 시
                 console.log(message);
+                console.log('서버와 웹소켓 연결 성공!');
             };
             socket.onerror = event => {
                 console.log(event);
+                console.log('서버와 웹소켓 연결 성공!');
             };
         }
 
