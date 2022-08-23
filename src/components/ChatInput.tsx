@@ -21,7 +21,7 @@ function ChatInput() {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const dispatch = useDispatch();
 
-    async () => {
+    const getMyUserData = async () => {
         try {
             const getdata = await axios.get(`${backUrl}accounts/user/`);
             setMyUserDetails(getdata.data);
@@ -32,6 +32,10 @@ function ChatInput() {
             console.log(err);
         }
     };
+    useEffect(() => {
+        getMyUserData();
+        //처음 한 번만 나의 데이터를 불러옴
+    }, []);
     useEffect(() => {
         if (socket) {
             socket.close();
