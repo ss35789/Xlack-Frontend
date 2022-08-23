@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../app/store';
 import {backUrl, WsUrl} from '../features/cookie';
+import {UpdateChat} from '../features/UpdateChatContextSlice';
 import {UserDetailsType} from './types';
 // import {Button} from "material-ui/core";
 // import {auth,db} from "../firebase";
@@ -18,6 +19,7 @@ function ChatInput() {
     // const [user] = useAuthState(auth);
     const enterChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const dispatch = useDispatch();
 
     async () => {
         try {
@@ -56,6 +58,7 @@ function ChatInput() {
             socket.onmessage = message => {
                 // 클라이언트로부터 메시지 수신 시
                 console.log(message);
+                dispatch(UpdateChat());
             };
             socket.onerror = event => {
                 console.log(event);

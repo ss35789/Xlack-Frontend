@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
 import {backUrl} from '../features/cookie';
@@ -16,8 +16,9 @@ import {getChat} from './types';
 
 function Chat() {
     const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
+    const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
     const [getChatData, setgetChatData] = useState<getChat>();
-    async () => {
+    const getChatContext = async () => {
         try {
             const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`);
 
@@ -26,7 +27,10 @@ function Chat() {
             window.alert('오류');
         }
     };
-
+    useEffect(() => {
+        getChatContext();
+    }, [receiveMessage]);
+    //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
     return (
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}
