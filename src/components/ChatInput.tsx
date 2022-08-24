@@ -6,17 +6,12 @@ import {RootState} from '../app/store';
 import {backUrl, WsUrl} from '../features/cookie';
 import {UpdateChat} from '../features/UpdateChatContextSlice';
 import {UserDetailsType} from './types';
-// import {Button} from "material-ui/core";
-// import {auth,db} from "../firebase";
-// import firebase from 'firebase';
-//import {useAuthState} from "react-firebase-hooks/auth";
 
 function ChatInput() {
     const [msg, setmsg] = useState('');
     const [MyUserPk, setMyUserPk] = useState<number>();
     const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
     const [socket, setsocket] = useState<WebSocket>();
-    // const [user] = useAuthState(auth);
     const enterChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const dispatch = useDispatch();
