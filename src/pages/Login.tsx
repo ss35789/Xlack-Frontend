@@ -1,22 +1,17 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import {getAccessTokenWithCode, login} from '../features/login';
+import {LoginDjango} from '../features/login';
 import LoginGithub from 'react-login-github';
 import {setCookie} from '../features/cookie';
 import {Navigate} from 'react-router-dom';
+import AccessTime from '@mui/icons-material/AccessTime';
 
 function Login() {
     const onSuccess = (response: any) => {
-        let user_info;
-        getAccessTokenWithCode(response['code']).then(res => {
-            user_info = res;
-            login(user_info).then(res => {
-                /*
-                        res안에 토큰 정보가 담겨 있음.
-                         */
-                console.log(`res: ${JSON.stringify(res)}`);
-                AsscessToken(res);
-            });
+        let token_info;
+        LoginDjango(response['code']).then(res => {
+            token_info = res;
+            AsscessToken(token_info);
         });
     };
 
@@ -28,7 +23,9 @@ function Login() {
                 <LoginImageContainer>
                     <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" />
                 </LoginImageContainer>
-                <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" buttonText="Login to GitHub" onSuccess={onSuccess} onFailure={onFailure}></LoginGithub>
+                <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess}>
+                    Login
+                </LoginGithub>
             </LoginContainer>
         </>
     );
