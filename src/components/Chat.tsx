@@ -24,7 +24,7 @@ function Chat() {
 
             setgetChatData(res.data);
         } catch (err) {
-            window.alert('오류');
+            window.alert('오류로 인해 chat을 불러올 수 없습니다');
         }
     };
     useEffect(() => {
