@@ -1,7 +1,30 @@
+import axios from 'axios';
 import {Cookies} from 'react-cookie';
+import {useLocation} from 'react-router-dom';
+
+async function updateRt() {
+    const check = await getCookie('access_token');
+
+    if (check) {
+        //already has accessToken.
+        //code=74bbb79c0c3ac4820035
+        const res = await axios.post(
+            `${backUrl}/accounts/token/refresh/`,
+            {
+                refresh: check,
+            },
+            {
+                validateStatus: function (status: number) {
+                    return status < 500;
+                },
+            },
+        );
+        return res.data;
+    }
+}
 
 const cookies = new Cookies();
-export const backUrl = 'https://xlack.kreimben.com';
+export const backUrl = 'https://api.xlack.kreimben.com';
 export const setCookie = (name: string, value: string, option?: any) => {
     return cookies.set(name, value, {});
 };
@@ -14,3 +37,4 @@ export const removeCookie = () => {
 };
 export const at = getCookie('access_token');
 export const rt = getCookie('refresh_token');
+//export const searchParams = useLocation().search;
