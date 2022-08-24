@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {backUrl, WsUrl} from '../features/cookie';
+import {RootState} from '../app/store';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {useState} from 'react';
+import {ChatType} from './types';
 
-function ChatContext() {
+function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
     return (
         <ChatContainer>
             <>
@@ -12,12 +18,16 @@ function ChatContext() {
                             <strong>#Room-name</strong>
                             <StarBorderOutlinedIcon />
                         </h4>
+                        {channel}
                     </HeaderLeft>
-
+                    {id}
+                    {chatter}
+                    {message}
                     <HeaderRight>
                         <p>
                             <InfoOutlinedIcon /> Details
                         </p>
+                        {created_at}
                     </HeaderRight>
                 </Header>
 

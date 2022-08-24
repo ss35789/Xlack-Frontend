@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
-import UserList from './UserList';
+import {backUrl} from '../features/cookie';
+import {RootState} from '../app/store';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {useState} from 'react';
+import ChatContext from './ChatContext';
+import {getChat} from './types';
 // import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 // import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
 //추가
@@ -9,6 +15,22 @@ import UserList from './UserList';
 // import {db} from "../firebase";
 
 function Chat() {
+    const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
+    const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
+    const [getChatData, setgetChatData] = useState<getChat>();
+    const getChatContext = async () => {
+        try {
+            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`);
+
+            setgetChatData(res.data);
+        } catch (err) {
+            window.alert('오류');
+        }
+    };
+    useEffect(() => {
+        getChatContext();
+    }, [receiveMessage]);
+    //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
     return (
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}
@@ -29,6 +51,9 @@ function Chat() {
                 {/*2:30:19*/}
                 <ChatMessages>
                     <h1>ChatMessage</h1>
+                    {getChatData?.results.map(chat => {
+                        <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
+                    })}
                 </ChatMessages>
                 <ChatInput />
             </>

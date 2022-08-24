@@ -1,11 +1,11 @@
 import React from 'react';
-import {UserInformationTypes} from './types';
+import {UserDetailsType} from './types';
 import styled from 'styled-components';
 
-function User({email, name, thumbnail_url, authorization}: UserInformationTypes) {
+function User({pk, username, email, first_name, last_name}: UserDetailsType) {
     return (
         <UserContainer>
-            name: {name},email: {email}
+            user: {username},email: {email}
         </UserContainer>
     );
 }

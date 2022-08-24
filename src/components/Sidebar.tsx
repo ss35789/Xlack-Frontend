@@ -9,7 +9,7 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import AddChannel from './AddChannel';
 import {RootState} from '../app/store';
-import {at, rt} from '../features/cookie';
+import {at, rt, WsUrl} from '../features/cookie';
 import {enterRoom} from '../features/EnterChannelSlice';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
@@ -21,19 +21,11 @@ function Sidebar() {
     const [y, sety] = useState(0);
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
-    const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
+    const enterRoomId: number = useSelector((state: RootState) => state.enterRoom.roomId);
     const [ChannelList, setChannelList] = useState<ChannelType[]>([
         {
             channel_name: 'test',
-            uuid: 'sdfx',
             channel_id: 156,
-            created_at: 'created_adsfflasdmfpm',
-        },
-        {
-            channel_name: 'test2',
-            uuid: 'sdfx',
-            channel_id: 156,
-            created_at: 'created_adsfflasdmfpm',
         },
     ]); // 기존에 가입되어있던 채널들 정보
     // const [showProfileMenu, setshowProfileMenu] = useState(false);
@@ -42,27 +34,25 @@ function Sidebar() {
     const channelMenuRef = useRef<HTMLDivElement>(null);
 
     const showChannelList = async () => {
-        console.log(`access token: ${at}`);
-        console.log(`refresh token: ${rt}`);
-
-        const res = await axios.get(`${backUrl}/api/channel/all`, {
-            headers: {
-                //토큰
-                'access-token': at,
-                'refresh-token': rt,
-            },
-            validateStatus(status) {
-                return status < 500;
-            },
-        });
-        console.log('showChannelList');
-        setChannelList(res.data);
+        try {
+            console.log(`access token: ${at}`);
+            console.log(`refresh token: ${rt}`);
+            const res = await axios.get(`${backUrl}channel/`, {
+                validateStatus(status) {
+                    return status < 500;
+                },
+            });
+            console.log('showChannelList');
+            setChannelList(res.data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    // useEffect(() => {
-    //     //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-    //     showChannelList();
-    // }, [UpdateChannel]);
+    useEffect(() => {
+        //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
+        showChannelList();
+    }, [UpdateChannel]);
     useEffect(() => {
         // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
         function handleClickOutside(e: MouseEvent): void {
@@ -151,6 +141,7 @@ function Sidebar() {
                                 e.preventDefault();
                                 dispatch(enterRoom(channel.channel_id)); //enterRoomId 를 channel id로 변경
                                 connectChat(enterRoomId);
+                                //console.log(enterRoomId);
                             }}
                             onContextMenu={e => {
                                 e.preventDefault();
@@ -162,7 +153,7 @@ function Sidebar() {
                                 onClickshowChannelMenu();
                             }}
                         >
-                            <Channel channel_name={channel.channel_name} uuid={channel.uuid} channel_id={channel.channel_id} created_at={channel.created_at} />
+                            <Channel channel_name={channel.channel_name} channel_id={channel.channel_id} />
                         </span>
                     );
                 })}

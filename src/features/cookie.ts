@@ -1,5 +1,7 @@
 import axios from 'axios';
+import {useState} from 'react';
 import {Cookies} from 'react-cookie';
+import {UserDetailsType} from '../components/types';
 import {useLocation} from 'react-router-dom';
 
 async function updateRt() {
@@ -24,7 +26,9 @@ async function updateRt() {
 }
 
 const cookies = new Cookies();
-export const backUrl = 'https://api.xlack.kreimben.com';
+
+export const backUrl = 'https://xlack-backend.herokuapp.com/';
+export const WsUrl = 'ws://xlack-backend.herokuapp.com/ws/chat/';
 export const setCookie = (name: string, value: string, option?: any) => {
     return cookies.set(name, value, {});
 };

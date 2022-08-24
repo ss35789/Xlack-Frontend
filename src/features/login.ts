@@ -11,7 +11,7 @@ import {backUrl} from './cookie';
 // }
 
 export async function LoginDjango(code: string): Promise<JSON> {
-    const url = `https://xlack-backend.herokuapp.com/token/github/`;
+    const url = `${backUrl}token/github/`;
     const config = {
         headers: {
             accept: 'application/json',
@@ -29,12 +29,21 @@ export async function LoginDjango(code: string): Promise<JSON> {
 }
 
 async function getAccessTokenWithCode(code: string): Promise<JSON> {
-    const res = await axios.get(`${backUrl}/api/authentication/redirect/github?code=${code}`, {
+    const res = await axios.get(`${backUrl}authentication/redirect/github?code=${code}`, {
         validateStatus(status) {
             return status < 500;
         },
     });
     return res.data.github_info;
+}
+
+async function checkUser(github_id: number): Promise<boolean> {
+    const res = await axios.get(`${backUrl}authentication/user_check?github_id=${github_id}`, {
+        validateStatus: function (status) {
+            return status < 500;
+        },
+    });
+    return res.data.success;
 }
 
 export function replacer(key: string, value: any) {

@@ -1,45 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import {at, rt} from '../features/cookie';
+import {at, rt, backUrl} from '../features/cookie';
 import User from './User';
-import {UserInformationTypes} from './types';
-import {backUrl} from '../features/cookie';
+import {UserDetailsType} from './types';
 function UserList() {
-    const [userList, setUserList] = useState<UserInformationTypes[]>([
-        {
-            email: 'Js email',
-
-            name: 'Jame',
-            // title: Name
-            thumbnail_url: 'asdafs',
-            //title: Thumbnail Url
-            authorization: 'adasf',
-            //title: Authorization
-        },
-        {
-            email: 'Jssdfsdfl',
-
-            name: 'Jkaslf',
-            // title: Name
-            thumbnail_url: 'asdafs',
-            //title: Thumbnail Url
-            authorization: 'adasf',
-            //title: Authorization
-        },
-    ]);
+    const [userList, setUserList] = useState<UserDetailsType[]>([]);
     const getAllUser = async () => {
         try {
-            const UsersData = await axios.get(
-                `${backUrl}/api/user/all`,
-
-                {
-                    headers: {
-                        'access-token': at,
-                        'refresh-token': rt,
-                    },
-                },
-            );
+            const UsersData = await axios.get(`${backUrl}accounts/user/`);
             setUserList(UsersData.data);
         } catch (err) {
             console.log(err);
@@ -51,7 +20,7 @@ function UserList() {
     return (
         <UserListContainer>
             {userList.map(user => {
-                return <User email={user.email} name={user.name} thumbnail_url={user.thumbnail_url} authorization={user.authorization}></User>;
+                return <User pk={user.pk} username={user.username} email={user.email} first_name={user.first_name} last_name={user.last_name}></User>;
             })}
         </UserListContainer>
     );
