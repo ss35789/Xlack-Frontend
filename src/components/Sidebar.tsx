@@ -35,8 +35,6 @@ function Sidebar() {
 
     const showChannelList = async () => {
         try {
-            console.log(`access token: ${at}`);
-            console.log(`refresh token: ${rt}`);
             const res = await axios.get(`${backUrl}channel/`, {
                 validateStatus(status) {
                     return status < 500;
