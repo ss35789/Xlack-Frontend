@@ -1,9 +1,9 @@
 export interface ChannelType {
-    channel_name: string;
+    name: string;
 
     // title: Channel Name
 
-    channel_id: number;
+    id: number;
     // title: Channel Id
 }
 // export interface UserType{

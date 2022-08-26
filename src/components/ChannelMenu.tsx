@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import {RootState} from '../app/store';
 import {UpdateRoom} from '../features/UpdateChannelSlice';
 import axios from 'axios';
-import {at, rt} from '../features/cookie';
 import {backUrl} from '../features/cookie';
 
 function ChannelMenu() {
@@ -75,6 +74,7 @@ const Menu = styled.div`
     > h3 {
         border-bottom: 1px solid #49274b;
     }
+
     > h3:hover {
         cursor: pointer;
         opacity: 0.6;

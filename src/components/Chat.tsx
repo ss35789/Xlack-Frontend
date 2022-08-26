@@ -1,18 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
-import {backUrl} from '../features/cookie';
+import {at, backUrl} from '../features/cookie';
 import {RootState} from '../app/store';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
-import {useState} from 'react';
 import ChatContext from './ChatContext';
 import {getChat} from './types';
-// import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
-// import InfoOutlinedIcon from "@materal-ui/icons/InfoOutlined";
-//추가
-// import { useCollection, useDocument } from "react-firebase-hooks/firestore";
-// import {db} from "../firebase";
 
 function Chat() {
     const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
@@ -20,8 +14,11 @@ function Chat() {
     const [getChatData, setgetChatData] = useState<getChat>();
     const getChatContext = async () => {
         try {
-            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`);
-
+            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
+                },
+            });
             setgetChatData(res.data);
         } catch (err) {
             window.alert('오류로 인해 chat을 불러올 수 없습니다');
@@ -90,10 +87,12 @@ const HeaderRight = styled.div`
     flex: 0.3;
     display: flex;
     align-items: flex-end;
+
     > .MuiSvgIcon-root {
         /* HelpOutlineIcon */
         margin-left: auto;
         margin-right: 20px;
+
         :hover {
             cursor: pointer;
             opacity: 0.6;

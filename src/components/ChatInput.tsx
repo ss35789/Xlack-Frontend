@@ -59,7 +59,7 @@ function ChatInput() {
                 console.log(message);
                 dispatch(UpdateChat());
             };
-            socket.onerror = event => {
+            socket.onerror = () => {
                 console.log(event);
             };
         }
@@ -87,11 +87,13 @@ export default ChatInput;
 
 const ChatInputContainer = styled.div`
     border-radius: 20px;
+
     > form {
         position: relative;
         display: flex;
         justify-content: center;
     }
+
     > form > input {
         position: fixed;
         bottom: 30px;
@@ -101,6 +103,7 @@ const ChatInputContainer = styled.div`
         padding: 20px;
         outline: none;
     }
+
     > form > button {
         display: none !important;
     }

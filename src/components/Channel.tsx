@@ -2,9 +2,8 @@ import React from 'react';
 import {ChannelType} from './types';
 import styled from 'styled-components';
 
-function Channel({channel_name, channel_id}: ChannelType) {
-    const ThisChannelId = channel_id;
-    const ThisChannelTitle = channel_name;
+function Channel({name, id}: ChannelType) {
+    const ThisChannelTitle = name;
     return (
         <ChannelContainer>
             <OptionChannel># {ThisChannelTitle}</OptionChannel>
@@ -20,6 +19,7 @@ const ChannelContainer = styled.div`
     padding: 10px;
     align-items: center;
     cursor: pointer;
+
     :hover {
         opacity: 0.9;
         background-color: #340e36;
@@ -28,6 +28,7 @@ const ChannelContainer = styled.div`
     > h3 {
         font-weight: 500;
     }
+
     > h3 > span {
         padding: 15px;
     }

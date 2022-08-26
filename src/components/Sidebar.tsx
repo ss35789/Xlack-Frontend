@@ -22,12 +22,7 @@ function Sidebar() {
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
     const enterRoomId: number = useSelector((state: RootState) => state.enterRoom.roomId);
-    const [ChannelList, setChannelList] = useState<ChannelType[]>([
-        {
-            channel_name: 'test',
-            channel_id: 156,
-        },
-    ]); // 기존에 가입되어있던 채널들 정보
+    const [ChannelList, setChannelList] = useState<ChannelType[]>([]); // 기존에 가입되어있던 채널들 정보
     // const [showProfileMenu, setshowProfileMenu] = useState(false);
     const [showChannelMenu, setshowChannelMenu] = useState(false);
     const [showChannels, setshowChannels] = useState(false);
@@ -36,11 +31,11 @@ function Sidebar() {
     const showChannelList = async () => {
         try {
             const res = await axios.get(`${backUrl}channel/`, {
-                validateStatus(status) {
-                    return status < 500;
+                headers: {
+                    Authorization: `Bearer ${at}`,
                 },
             });
-            console.log('showChannelList');
+            console.log(res.data);
             setChannelList(res.data);
         } catch (err) {
             console.log(err);
@@ -107,29 +102,6 @@ function Sidebar() {
             <hr />
             {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
 
-            {/* {showChannels &&
-                UpdateChannel.map(title => {
-                    //테스트용
-                    return (
-                        <span
-                            ref={channelMenuRef}
-                            onClick={e => {
-                                e.preventDefault();
-                                connectChat(2);
-                            }}
-                            onContextMenu={e => {
-                                e.preventDefault();
-                                setx(e.clientX);
-                                sety(e.clientY);
-                                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                                onClickshowChannelMenu();
-                            }}
-                        >
-                            <SidebarOption title={title} />
-                        </span>
-                    );
-                })} */}
-
             {showChannels &&
                 Array.from(ChannelList).map(channel => {
                     return (
@@ -137,13 +109,13 @@ function Sidebar() {
                             ref={channelMenuRef}
                             onClick={e => {
                                 e.preventDefault();
-                                dispatch(enterRoom(channel.channel_id)); //enterRoomId 를 channel id로 변경
+                                dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
                                 connectChat(enterRoomId);
                                 //console.log(enterRoomId);
                             }}
                             onContextMenu={e => {
                                 e.preventDefault();
-                                dispatch(enterRoom(channel.channel_id));
+                                dispatch(enterRoom(channel.id));
                                 console.log('채널 메뉴열기!');
                                 setx(e.clientX);
                                 sety(e.clientY);
@@ -151,7 +123,7 @@ function Sidebar() {
                                 onClickshowChannelMenu();
                             }}
                         >
-                            <Channel channel_name={channel.channel_name} channel_id={channel.channel_id} />
+                            <Channel name={channel.name} id={channel.id} />
                         </span>
                     );
                 })}

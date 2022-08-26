@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import {BrowserRouter, BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import styled from 'styled-components';
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
@@ -40,6 +40,7 @@ function App() {
                     ) : (
                         <Routes>
                             <Route path="/main" element={<Mainpage />} />
+                            <Route path="/" element={<Navigate replace to="/main" />} />
                         </Routes>
                     )}
                 </Router>
