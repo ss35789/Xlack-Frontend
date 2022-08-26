@@ -11,6 +11,8 @@ import {getChat} from './types';
 function Chat() {
     const UsingChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
     const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
+    const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
+
     const [getChatData, setgetChatData] = useState<getChat>();
     const getChatContext = async () => {
         try {
@@ -20,13 +22,14 @@ function Chat() {
                 },
             });
             setgetChatData(res.data);
+            console.log(getChatData);
         } catch (err) {
             window.alert('오류로 인해 chat을 불러올 수 없습니다');
         }
     };
     useEffect(() => {
         getChatContext();
-    }, [receiveMessage]);
+    }, [receiveMessage, enterRoomId]);
     //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
     return (
         <ChatContainer>
@@ -48,9 +51,10 @@ function Chat() {
                 {/*2:30:19*/}
                 <ChatMessages>
                     <h1>ChatMessage</h1>
-                    {getChatData?.results.map(chat => {
-                        <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
-                    })}
+                    {getChatData &&
+                        getChatData.results.map(chat => {
+                            <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
+                        })}
                 </ChatMessages>
                 <ChatInput />
             </>

@@ -66,9 +66,7 @@ function Sidebar() {
     const onClickshowChannelMenu = useCallback(() => {
         setshowChannelMenu(prev => !prev);
     }, []);
-    // const onClickshowProfileMenu = useCallback(() => {
-    //     setshowProfileMenu(prev => !prev);
-    // }, []);
+
     const onClickshowChannels = useCallback(() => {
         setshowChannels(prev => !prev);
     }, []);
@@ -110,8 +108,8 @@ function Sidebar() {
                             onClick={e => {
                                 e.preventDefault();
                                 dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
-                                connectChat(enterRoomId);
-                                //console.log(enterRoomId);
+                                //connectChat(enterRoomId);
+                                console.log(enterRoomId);
                             }}
                             onContextMenu={e => {
                                 e.preventDefault();
