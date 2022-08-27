@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {RootState} from '../app/store';
 import {UpdateRoom} from '../features/UpdateChannelSlice';
 import axios from 'axios';
-import {backUrl} from '../features/cookie';
+import {at, backUrl} from '../features/cookie';
 
 function ChannelMenu() {
     const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId); // 현재 우리가 클릭한 채널id
@@ -46,7 +46,11 @@ function ChannelMenu() {
         console.log('exit test');
 
         try {
-            await axios.delete(`${backUrl}channel/${enterRoomId}`);
+            await axios.delete(`${backUrl}channel/${enterRoomId}/`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
+                },
+            });
         } catch (err) {
             console.log(err);
         }

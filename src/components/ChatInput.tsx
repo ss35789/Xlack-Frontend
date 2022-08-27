@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../app/store';
-import {backUrl, WsUrl} from '../features/cookie';
+import {at, backUrl, WsUrl} from '../features/cookie';
 import {UpdateChat} from '../features/UpdateChatContextSlice';
 import {UserDetailsType} from './types';
 
@@ -18,7 +18,11 @@ function ChatInput() {
 
     const getMyUserData = async () => {
         try {
-            const getdata = await axios.get(`${backUrl}accounts/user/`);
+            const getdata = await axios.get(`${backUrl}accounts/user/`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
+                },
+            });
             setMyUserDetails(getdata.data);
             if (MyUserDetails) {
                 setMyUserPk(MyUserDetails.pk);
