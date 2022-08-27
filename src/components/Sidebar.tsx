@@ -27,6 +27,24 @@ function Sidebar() {
     const [showChannelMenu, setshowChannelMenu] = useState(false);
     const [showChannels, setshowChannels] = useState(false);
     const channelMenuRef = useRef<HTMLDivElement>(null);
+    // const editProfile = async () => {
+    //     try {
+    //         const res = await axios.patch(`${backUrl}accounts/user/`,
+    //         {
+    //             username : `${userName}`,
+    //             first_name: `${firstName}`.
+    //             last_name: `${lastName}`
+    //         },
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${at}`
+    //             }
+    //         });
+
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
 
     const showChannelList = async () => {
         try {
@@ -75,7 +93,9 @@ function Sidebar() {
                         <User></User>
                     </div>
                 </SidebarInfo>
-                <CreateIcon />
+                {/* <span onClick={editProfile}>
+                    <CreateIcon />
+                </span> */}
             </SidebarHeader>
 
             {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 

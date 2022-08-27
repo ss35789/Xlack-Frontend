@@ -56,7 +56,7 @@ function Chat() {
                     {getChatData &&
                         getChatData.results.map(chat => {
                             <span>
-                                dfdsf
+                                이거 왜 안나옴
                                 <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
                             </span>;
                         })}
