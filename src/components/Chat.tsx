@@ -30,7 +30,8 @@ function Chat() {
         getChatContext(enterRoomId);
     }, [receiveMessage, enterRoomId]);
     useEffect(() => {
-        console.log(getChatData);
+        console.log(`getChatData: ${JSON.stringify(getChatData)}`);
+        console.log(`data: ${typeof getChatData}`);
     }, [getChatData]);
     //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
     return (
@@ -54,11 +55,12 @@ function Chat() {
                 <ChatMessages>
                     <h1>ChatMessage</h1>
                     {getChatData &&
-                        getChatData.results.map(chat => {
-                            <span>
-                                이거 왜 안나옴
-                                <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
-                            </span>;
+                        getChatData['results'].map(chat => {
+                            return (
+                                <span>
+                                    <ChatContext key={chat['id']} id={chat['id']} channel={chat['channel']} chatter={chat['chatter']} message={chat['message']} created_at={chat['created_at']} />;
+                                </span>
+                            );
                         })}
                 </ChatMessages>
                 <ChatInput />
