@@ -15,7 +15,7 @@ function Chat() {
     const [getChatData, setgetChatData] = useState<getChat>();
     const getChatContext = async (UsingChannelId: number) => {
         try {
-            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=10&offset=0`, {
+            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=100&offset=0`, {
                 headers: {
                     Authorization: `Bearer ${at}`,
                 },
@@ -55,10 +55,11 @@ function Chat() {
                     <h1>ChatMessage</h1>
                     {getChatData &&
                         getChatData.results.map(chat => {
-                            <span>
-                                이거 왜 안나옴
-                                <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
-                            </span>;
+                            return (
+                                <span>
+                                    <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
+                                </span>
+                            );
                         })}
                 </ChatMessages>
                 <ChatInput />

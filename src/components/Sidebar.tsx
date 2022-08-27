@@ -114,7 +114,7 @@ function Sidebar() {
             {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
 
             {showChannels &&
-                Array.from(ChannelList).map(channel => {
+                ChannelList.map(channel => {
                     return (
                         <span
                             ref={channelMenuRef}

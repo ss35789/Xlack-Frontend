@@ -10,20 +10,13 @@ function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
                 <Header>
                     <HeaderLeft>
                         <h4>
-                            <strong>#Room-name</strong>
+                            <strong>{channel}</strong>
                             <StarBorderOutlinedIcon />
                         </h4>
-                        {channel}
                     </HeaderLeft>
-                    {id}
                     {chatter}
-                    {message}
-                    <HeaderRight>
-                        <p>
-                            <InfoOutlinedIcon /> Details
-                        </p>
-                        {created_at}
-                    </HeaderRight>
+                    <h2>{message}</h2>
+                    <HeaderRight>{created_at}</HeaderRight>
                 </Header>
 
                 <ChatMessages>{/* List out the message */}</ChatMessages>
