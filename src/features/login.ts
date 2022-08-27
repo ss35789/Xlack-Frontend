@@ -1,8 +1,4 @@
 import axios from 'axios';
-import qs from 'query-string';
-import {useSearchParams, useLocation} from 'react-router-dom';
-import {Url} from 'url';
-import {AsscessToken} from '../pages/Login';
 import {backUrl} from './cookie';
 
 export async function LoginDjango(code: string): Promise<JSON> {
@@ -11,7 +7,8 @@ export async function LoginDjango(code: string): Promise<JSON> {
         headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            'X-CSRFToken': 'NJfuIPmycNBlby6TW4r5xirFqq23915KBfU0h4jekTz8JDmpcPRD2z6MaIOCHYGL',
+            // TODO: Add real CSRF Token.
+            // 'X-CSRFToken': 'NJfuIPmycNBlby6TW4r5xirFqq23915KBfU0h4jekTz8JDmpcPRD2z6MaIOCHYGL',
         },
     };
     const data = {
