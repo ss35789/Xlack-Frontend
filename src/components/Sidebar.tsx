@@ -15,13 +15,13 @@ import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
 import {ChannelType} from './types';
 import {backUrl} from '../features/cookie';
+import User from './User';
 
 function Sidebar() {
     const [x, setx] = useState(0);
     const [y, sety] = useState(0);
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
-    const enterRoomId: number = useSelector((state: RootState) => state.enterRoom.roomId);
     const [ChannelList, setChannelList] = useState<ChannelType[]>([]); // 기존에 가입되어있던 채널들 정보
     // const [showProfileMenu, setshowProfileMenu] = useState(false);
     const [showChannelMenu, setshowChannelMenu] = useState(false);
@@ -60,9 +60,6 @@ function Sidebar() {
         };
     }, [channelMenuRef]);
 
-    const connectChat = (enterRoomId: number) => {
-        console.log(`connect! ${enterRoomId}`);
-    };
     const onClickshowChannelMenu = useCallback(() => {
         setshowChannelMenu(prev => !prev);
     }, []);
@@ -75,11 +72,7 @@ function Sidebar() {
             <SidebarHeader>
                 <SidebarInfo>
                     <div>
-                        <h2>sfagasdf sslkdfj</h2>
-                        <h3>
-                            <FiberManualRecordIcon />
-                            sdmfpsfjp
-                        </h3>
+                        <User></User>
                     </div>
                 </SidebarInfo>
                 <CreateIcon />

@@ -9,12 +9,6 @@ export interface ChannelType {
 // export interface UserType{
 
 // }
-export interface getChat {
-    count: number;
-    next: string;
-    previous: string;
-    results: ChatType[];
-}
 export interface ChatType {
     id: string;
     // title: Id
@@ -32,6 +26,13 @@ export interface ChatType {
     // title: Created at
     // readOnly: true
 }
+export interface getChat {
+    count: number;
+    next: string;
+    previous: string;
+    results: ChatType[];
+}
+
 export interface UserDetailsType {
     pk: number;
     // title: ID
