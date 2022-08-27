@@ -6,7 +6,9 @@ function Channel({name, id}: ChannelType) {
     const ThisChannelTitle = name;
     return (
         <ChannelContainer>
-            <OptionChannel># {ThisChannelTitle}</OptionChannel>
+            <OptionChannel>
+                # {ThisChannelTitle}__ {id}
+            </OptionChannel>
         </ChannelContainer>
     );
 }

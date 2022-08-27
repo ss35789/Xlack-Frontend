@@ -29,6 +29,7 @@ function Chat() {
     };
     useEffect(() => {
         getChatContext();
+        console.log(enterRoomId);
     }, [receiveMessage, enterRoomId]);
     //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
     return (

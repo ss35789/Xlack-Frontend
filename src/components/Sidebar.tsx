@@ -109,11 +109,11 @@ function Sidebar() {
                                 e.preventDefault();
                                 dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
                                 //connectChat(enterRoomId);
-                                console.log(enterRoomId);
                             }}
                             onContextMenu={e => {
                                 e.preventDefault();
                                 dispatch(enterRoom(channel.id));
+
                                 console.log('채널 메뉴열기!');
                                 setx(e.clientX);
                                 sety(e.clientY);
