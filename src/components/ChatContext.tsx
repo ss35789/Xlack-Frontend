@@ -13,18 +13,16 @@ function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
                             <strong>{channel}</strong>
                             <StarBorderOutlinedIcon />
                         </h4>
+                        {chatter}
                     </HeaderLeft>
-                    {chatter}
-                    <h2>{message}</h2>
+                    <br></br>
+
                     <HeaderRight>{created_at}</HeaderRight>
                 </Header>
 
-                <ChatMessages>{/* List out the message */}</ChatMessages>
-
-                {/* <ChatInput
-                // ChannelName
-                channelId={roomId}
-            /> */}
+                <ChatMessages>
+                    <h2>{message}</h2>
+                </ChatMessages>
             </>
         </ChatContainer>
     );
@@ -36,7 +34,7 @@ const ChatMessages = styled.div``;
 const Header = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid lightgray;
 `;
 const HeaderLeft = styled.div`
@@ -66,8 +64,10 @@ const HeaderRight = styled.div`
     }
 `;
 const ChatContainer = styled.div`
+    background-color: #f5d682;
+    border: 1px solid black;
+    border-radius: 3px;
     flex: 0.7;
     flex-grow: 1;
-    overflow-y: scroll;
     margin-top: 60px;
 `;

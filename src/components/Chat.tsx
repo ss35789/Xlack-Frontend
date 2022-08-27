@@ -37,27 +37,13 @@ function Chat() {
         <ChatContainer>
             {/* {roomDetails && roomMessages && ( */}
             <>
-                <Header>
-                    <HeaderLeft>
-                        <h4>
-                            {' '}
-                            {/*2:29:35 #ROOM-name -> #{} */}
-                            {/* <strong>#{roomDetails?.data().name}</strong> */}
-                        </h4>
-                        {/* <StarBorderOutlinedIcon/> */}
-                    </HeaderLeft>
-                    <HeaderRight>
-                        <p>{/* <InfoOutlinedIcon/> Details */}</p>
-                    </HeaderRight>
-                </Header>
-                {/*2:30:19*/}
                 <ChatMessages>
                     <h1>ChatMessage</h1>
                     {getChatData &&
                         getChatData.results.map(chat => {
                             return (
                                 <span>
-                                    <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>;
+                                    <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
                                 </span>
                             );
                         })}
@@ -70,14 +56,12 @@ function Chat() {
 
 export default Chat;
 
-const ChatBottom = styled.div`
-    padding-bottom: 200px;
-`;
 const ChatContainer = styled.div`
     flex: 0.7;
     flex-grow: 1;
     overflow-y: scroll;
     margin-top: 60px;
+    margin-bottom: 130px;
 `;
 
 const Header = styled.div`

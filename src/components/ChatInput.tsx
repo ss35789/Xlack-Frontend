@@ -24,6 +24,7 @@ function ChatInput() {
                 },
             });
             setMyUserDetails(getdata.data);
+            console.log(getdata.data);
             if (MyUserDetails) {
                 setMyUserPk(MyUserDetails.pk);
             }
