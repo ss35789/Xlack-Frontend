@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {at, backUrl} from '../features/cookie';
-import User from './User';
 import {UserDetailsType} from './types';
+import UserProfile from './UsersProfile';
 
 function UserList() {
     const [userList, setUserList] = useState<UserDetailsType[]>([]);
     const getAllUser = async (at: string) => {
         try {
-            const UsersData = await axios.get(`${backUrl}accounts/user/`, {
+            const UsersData = await axios.get(`${backUrl}profile/`, {
                 headers: {
                     Authorization: `Bearer ${at}`,
                 },
@@ -24,9 +24,9 @@ function UserList() {
     }, []);
     return (
         <UserListContainer>
-            {/* {userList.map(user => {
-                return <User pk={user.pk} username={user.username} email={user.email} first_name={user.first_name} last_name={user.last_name}></User>;
-            })} */}
+            {userList.map(user => {
+                return <UserProfile userProfile={user}></UserProfile>;
+            })}
         </UserListContainer>
     );
 }

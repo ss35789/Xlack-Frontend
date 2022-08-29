@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import CreateIcon from '@mui/icons-material/Create';
 import SidebarOption from './SidebarOption';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
@@ -15,7 +13,7 @@ import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
 import {ChannelType} from './types';
 import {backUrl} from '../features/cookie';
-import User from './User';
+import User from './MyProfile';
 
 function Sidebar() {
     const [x, setx] = useState(0);
