@@ -9,7 +9,6 @@ import {UserDetailsType} from './types';
 
 function ChatInput() {
     const [msg, setmsg] = useState('');
-    const [MyUserPk, setMyUserPk] = useState<number>();
     const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
     const [socket, setsocket] = useState<WebSocket>();
     const enterChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
@@ -25,9 +24,6 @@ function ChatInput() {
             });
             setMyUserDetails(getdata.data);
             console.log(getdata.data);
-            if (MyUserDetails) {
-                setMyUserPk(MyUserDetails.pk);
-            }
         } catch (err) {
             console.log(err);
         }
@@ -49,14 +45,15 @@ function ChatInput() {
         event.preventDefault();
         if (socket) {
             console.log(socket);
+            if (MyUserDetails) {
+                socket.send(
+                    JSON.stringify({
+                        user_id: MyUserDetails.pk,
+                        message: msg,
+                    }),
+                );
+            }
 
-            socket.send(
-                JSON.stringify({
-                    user_id: 2,
-                    //user_id: MyUserPk, test로 2 함
-                    message: msg,
-                }),
-            );
             console.log(msg);
 
             socket.onmessage = message => {
