@@ -22,7 +22,7 @@ function Chat() {
             });
             setgetChatData(res.data);
         } catch (err) {
-            window.alert('오류로 인해 chat을 불러올 수 없습니다');
+            window.alert('선택된 채널이 올바르지 않습니다.');
         }
     };
     useEffect(() => {

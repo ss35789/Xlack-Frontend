@@ -32,7 +32,16 @@ export interface getChat {
     previous: string;
     results: ChatType[];
 }
-
+export interface ProfileType {
+    user: {
+        username: string;
+        email: string;
+        first_name: string;
+        last_name: string;
+    };
+    bio: string;
+    thumbnail_url: string;
+}
 export interface UserDetailsType {
     pk: number;
     // title: ID

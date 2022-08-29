@@ -1,9 +1,29 @@
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import {ChatType} from './types';
+import {ChatType, ProfileType} from './types';
+import {at, backUrl} from '../features/cookie';
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 
 function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
+    const [chatterName, setchatterName] = useState<ProfileType>();
+    const getChatterName = async () => {
+        try {
+            const res = await axios.get(`${backUrl}profile/${chatter}/`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
+                },
+            });
+            setchatterName(res.data);
+            console.log(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    useEffect(() => {
+        getChatterName();
+    }, []);
     return (
         <ChatContainer>
             <>
@@ -13,7 +33,8 @@ function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
                             <strong>{channel}</strong>
                             <StarBorderOutlinedIcon />
                         </h4>
-                        {chatter}
+                        {chatterName && chatterName.user.first_name}
+                        {chatterName && chatterName.user.last_name}
                     </HeaderLeft>
                     <br></br>
 
