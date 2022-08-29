@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {at, backUrl} from '../features/cookie';
-import {UserDetailsType} from './types';
+import {ProfileType, UserDetailsType} from './types';
 import UserProfile from './UsersProfile';
 
 function UserList() {
-    const [userList, setUserList] = useState<UserDetailsType[]>([]);
+    const [userList, setUserList] = useState<ProfileType[]>([]);
     const getAllUser = async (at: string) => {
         try {
             const UsersData = await axios.get(`${backUrl}profile/`, {

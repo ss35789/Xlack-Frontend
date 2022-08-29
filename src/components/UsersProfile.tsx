@@ -1,8 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {ProfileType, UserDetailsType} from './types';
+import {ProfileType} from './types';
 import styled from 'styled-components';
-import axios from 'axios';
-import {at, backUrl} from '../features/cookie';
 
 function UserProfile(userProfile: ProfileType) {
     return (
