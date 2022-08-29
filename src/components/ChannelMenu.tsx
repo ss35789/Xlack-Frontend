@@ -14,10 +14,18 @@ function ChannelMenu() {
         try {
             const newChannelName: string | null = prompt('Please enter the channel name');
 
-            await axios.put(`${backUrl}channel/${enterRoomId}/`, {
-                //쿠키 생성
-                name: newChannelName,
-            });
+            await axios.put(
+                `${backUrl}channel/${enterRoomId}/`,
+                {
+                    name: newChannelName,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${at}`,
+                    },
+                },
+            );
+            dispatch(UpdateRoom());
         } catch (err) {
             console.log(err);
         }
