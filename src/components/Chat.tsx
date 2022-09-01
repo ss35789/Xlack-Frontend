@@ -40,13 +40,14 @@ function Chat() {
                 <ChatMessages>
                     <h1>ChatMessage</h1>
                     {getChatData &&
-                        getChatData.results.map(chat => {
-                            return (
+                        getChatData.results
+                            .slice(0)
+                            .reverse()
+                            .map(chat => (
                                 <span>
                                     <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
                                 </span>
-                            );
-                        })}
+                            ))}
                 </ChatMessages>
                 <ChatInput />
             </>
