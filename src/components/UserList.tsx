@@ -25,7 +25,7 @@ function UserList() {
     return (
         <UserListContainer>
             {userList.map(user => {
-                return <UserProfile userProfile={user}></UserProfile>;
+                return <UserProfile user={user.user} bio={user.bio} thumbnail_url={user.thumbnail_url}></UserProfile>;
             })}
         </UserListContainer>
     );
@@ -34,6 +34,7 @@ function UserList() {
 export default UserList;
 
 const UserListContainer = styled.div`
+    background-color: black;
     padding: 5px;
     margin-top: 60px;
     position: 'absolute';

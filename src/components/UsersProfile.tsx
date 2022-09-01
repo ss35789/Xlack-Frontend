@@ -1,11 +1,11 @@
 import {ProfileType} from './types';
 import styled from 'styled-components';
 
-function UserProfile(userProfile: ProfileType) {
+function UserProfile({user, bio, thumbnail_url}: ProfileType) {
     return (
         <UserContainer>
-            {userProfile.user.first_name} {userProfile.user.last_name} <br></br>
-            {userProfile.user.email}
+            {user.first_name} {user.last_name} <br></br>
+            {user.email}
         </UserContainer>
     );
 }
