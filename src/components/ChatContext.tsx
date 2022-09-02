@@ -1,32 +1,48 @@
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import {ChatType, ProfileType} from './types';
+import {at, backUrl} from '../features/cookie';
+import axios from 'axios';
+import {useEffect, useState} from 'react';
 
-function ChatContext() {
+function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
+    const [chatterName, setchatterName] = useState<ProfileType>();
+    const getChatterName = async () => {
+        try {
+            const res = await axios.get(`${backUrl}profile/${chatter}/`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
+                },
+            });
+            setchatterName(res.data);
+            console.log(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    useEffect(() => {
+        getChatterName();
+    }, []);
     return (
         <ChatContainer>
             <>
                 <Header>
                     <HeaderLeft>
                         <h4>
-                            <strong>#Room-name</strong>
+                            <strong>{channel}</strong>
                             <StarBorderOutlinedIcon />
                         </h4>
+                        {chatterName && chatterName.user.first_name}_{chatterName && chatterName.user.last_name}
                     </HeaderLeft>
+                    <br></br>
 
-                    <HeaderRight>
-                        <p>
-                            <InfoOutlinedIcon /> Details
-                        </p>
-                    </HeaderRight>
+                    <HeaderRight>{created_at}</HeaderRight>
                 </Header>
 
-                <ChatMessages>{/* List out the message */}</ChatMessages>
-
-                {/* <ChatInput
-                // ChannelName
-                channelId={roomId}
-            /> */}
+                <ChatMessages>
+                    <h2>{message}</h2>
+                </ChatMessages>
             </>
         </ChatContainer>
     );
@@ -38,7 +54,7 @@ const ChatMessages = styled.div``;
 const Header = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid lightgray;
 `;
 const HeaderLeft = styled.div`
@@ -68,8 +84,10 @@ const HeaderRight = styled.div`
     }
 `;
 const ChatContainer = styled.div`
+    background-color: #f5d682;
+    border: 1px solid black;
+    border-radius: 3px;
     flex: 0.7;
     flex-grow: 1;
-    overflow-y: scroll;
     margin-top: 60px;
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {createRoom} from '../features/UpdateChannelSlice';
+import {UpdateRoom} from '../features/UpdateChannelSlice';
 import {SidebarInfo} from './SidebarOption';
 import {at, rt} from '../features/cookie';
 import {backUrl} from '../features/cookie';
@@ -16,21 +16,19 @@ function AddChannel({Icon, title, id}: SidebarInfo) {
 
             if (channelName) {
                 // db에 name: channelName 방추가
-                dispatch(createRoom(channelName));
                 await axios.post(
-                    `${backUrl}/api/channel/`,
+                    `${backUrl}channel/`,
                     {
-                        channel_name: channelName,
+                        name: channelName,
                     },
                     {
-                        //쿠키 생성
                         headers: {
-                            'access-token': at,
-                            'refresh-token': rt,
+                            Authorization: `Bearer ${at}`,
                         },
                     },
                 );
                 //                console.log();
+                dispatch(UpdateRoom());
             }
         } catch (err) {
             window.alert('권한이 없습니다');

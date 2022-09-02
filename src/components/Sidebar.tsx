@@ -1,7 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import CreateIcon from '@mui/icons-material/Create';
 import SidebarOption from './SidebarOption';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,60 +7,61 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import AddChannel from './AddChannel';
 import {RootState} from '../app/store';
-import {at, rt} from '../features/cookie';
+import {at, rt, WsUrl} from '../features/cookie';
 import {enterRoom} from '../features/EnterChannelSlice';
 import ChannelMenu from './ChannelMenu';
 import Channel from './Channel';
 import {ChannelType} from './types';
 import {backUrl} from '../features/cookie';
+import User from './MyProfile';
 
 function Sidebar() {
     const [x, setx] = useState(0);
     const [y, sety] = useState(0);
     const dispatch = useDispatch();
     const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
-    const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
-    const [ChannelList, setChannelList] = useState<ChannelType[]>([
-        {
-            channel_name: 'test',
-            uuid: 'sdfx',
-            channel_id: 156,
-            created_at: 'created_adsfflasdmfpm',
-        },
-        {
-            channel_name: 'test2',
-            uuid: 'sdfx',
-            channel_id: 156,
-            created_at: 'created_adsfflasdmfpm',
-        },
-    ]); // 기존에 가입되어있던 채널들 정보
+    const [ChannelList, setChannelList] = useState<ChannelType[]>([]); // 기존에 가입되어있던 채널들 정보
     // const [showProfileMenu, setshowProfileMenu] = useState(false);
     const [showChannelMenu, setshowChannelMenu] = useState(false);
     const [showChannels, setshowChannels] = useState(false);
     const channelMenuRef = useRef<HTMLDivElement>(null);
+    // const editProfile = async () => {
+    //     try {
+    //         const res = await axios.patch(`${backUrl}accounts/user/`,
+    //         {
+    //             username : `${userName}`,
+    //             first_name: `${firstName}`.
+    //             last_name: `${lastName}`
+    //         },
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${at}`
+    //             }
+    //         });
+
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
 
     const showChannelList = async () => {
-        console.log(`access token: ${at}`);
-        console.log(`refresh token: ${rt}`);
-
-        const res = await axios.get(`${backUrl}/api/channel/all`, {
-            headers: {
-                //토큰
-                'access-token': at,
-                'refresh-token': rt,
-            },
-            validateStatus(status) {
-                return status < 500;
-            },
-        });
-        console.log('showChannelList');
-        setChannelList(res.data);
+        try {
+            const res = await axios.get(`${backUrl}channel/`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
+                },
+            });
+            console.log(res.data);
+            setChannelList(res.data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
-    // useEffect(() => {
-    //     //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-    //     showChannelList();
-    // }, [UpdateChannel]);
+    useEffect(() => {
+        //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
+        showChannelList();
+    }, [UpdateChannel]);
     useEffect(() => {
         // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
         function handleClickOutside(e: MouseEvent): void {
@@ -77,15 +76,10 @@ function Sidebar() {
         };
     }, [channelMenuRef]);
 
-    const connectChat = (enterRoomId: number) => {
-        console.log(`connect! ${enterRoomId}`);
-    };
     const onClickshowChannelMenu = useCallback(() => {
         setshowChannelMenu(prev => !prev);
     }, []);
-    // const onClickshowProfileMenu = useCallback(() => {
-    //     setshowProfileMenu(prev => !prev);
-    // }, []);
+
     const onClickshowChannels = useCallback(() => {
         setshowChannels(prev => !prev);
     }, []);
@@ -94,14 +88,12 @@ function Sidebar() {
             <SidebarHeader>
                 <SidebarInfo>
                     <div>
-                        <h2>sfagasdf sslkdfj</h2>
-                        <h3>
-                            <FiberManualRecordIcon />
-                            sdmfpsfjp
-                        </h3>
+                        <User></User>
                     </div>
                 </SidebarInfo>
-                <CreateIcon />
+                {/* <span onClick={editProfile}>
+                    <CreateIcon />
+                </span> */}
             </SidebarHeader>
 
             {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 
@@ -119,42 +111,20 @@ function Sidebar() {
             <hr />
             {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
 
-            {/* {showChannels &&
-                UpdateChannel.map(title => {
-                    //테스트용
-                    return (
-                        <span
-                            ref={channelMenuRef}
-                            onClick={e => {
-                                e.preventDefault();
-                                connectChat(2);
-                            }}
-                            onContextMenu={e => {
-                                e.preventDefault();
-                                setx(e.clientX);
-                                sety(e.clientY);
-                                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                                onClickshowChannelMenu();
-                            }}
-                        >
-                            <SidebarOption title={title} />
-                        </span>
-                    );
-                })} */}
-
             {showChannels &&
-                Array.from(ChannelList).map(channel => {
+                ChannelList.map(channel => {
                     return (
                         <span
                             ref={channelMenuRef}
                             onClick={e => {
                                 e.preventDefault();
-                                dispatch(enterRoom(channel.channel_id)); //enterRoomId 를 channel id로 변경
-                                connectChat(enterRoomId);
+                                dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
+                                //connectChat(enterRoomId);
                             }}
                             onContextMenu={e => {
                                 e.preventDefault();
-                                dispatch(enterRoom(channel.channel_id));
+                                dispatch(enterRoom(channel.id));
+
                                 console.log('채널 메뉴열기!');
                                 setx(e.clientX);
                                 sety(e.clientY);
@@ -162,7 +132,7 @@ function Sidebar() {
                                 onClickshowChannelMenu();
                             }}
                         >
-                            <Channel channel_name={channel.channel_name} uuid={channel.uuid} channel_id={channel.channel_id} created_at={channel.created_at} />
+                            <Channel name={channel.name} id={channel.id} />
                         </span>
                     );
                 })}

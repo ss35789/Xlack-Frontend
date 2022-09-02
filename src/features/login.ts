@@ -1,54 +1,23 @@
 import axios from 'axios';
 import {backUrl} from './cookie';
-async function login(user_info: any): Promise<JSON> {
-    const check = await checkUser(user_info['id']);
 
-    if (check) {
-        // Already has account.
-        const github_id = user_info['id'];
-        const res = await axios.post(`${backUrl}/api/authentication/issue_tokens?github_id=${github_id}`, null, {
-            validateStatus: function (status) {
-                return status < 500;
-            },
-        });
-        return res.data;
-    } else {
-        // Not yet registered.
-        const res = await axios.post(
-            `${backUrl}/api/user/`,
-            {
-                email: user_info['email'],
-                name: user_info['name'],
-                thumbnail_url: user_info['avatar_url'],
-                authorization: 'member',
-                github_id: user_info['id'],
-            },
-            {
-                validateStatus: function (status) {
-                    return status < 500;
-                },
-            },
-        );
-        return res.data;
-    }
-}
-
-async function getAccessTokenWithCode(code: string): Promise<JSON> {
-    const res = await axios.get(`${backUrl}/api/authentication/redirect/github?code=${code}`, {
-        validateStatus(status) {
-            return status < 500;
+export async function LoginDjango(code: string): Promise<JSON> {
+    const url = `${backUrl}token/github/`;
+    const config = {
+        headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+            // TODO: Add real CSRF Token.
+            // 'X-CSRFToken': 'NJfuIPmycNBlby6TW4r5xirFqq23915KBfU0h4jekTz8JDmpcPRD2z6MaIOCHYGL',
         },
-    });
-    return res.data.github_info;
-}
-
-async function checkUser(github_id: number): Promise<boolean> {
-    const res = await axios.get(`${backUrl}/api/authentication/user_check?github_id=${github_id}`, {
-        validateStatus: function (status) {
-            return status < 500;
-        },
-    });
-    return res.data.success;
+    };
+    const data = {
+        access_token: '',
+        code: `${code}`,
+        id_token: '',
+    };
+    const res = await axios.post(url, data, config);
+    return res.data;
 }
 
 export function replacer(key: string, value: any) {
@@ -56,4 +25,4 @@ export function replacer(key: string, value: any) {
     else return value;
 }
 
-export {getAccessTokenWithCode, login};
+//export {login};

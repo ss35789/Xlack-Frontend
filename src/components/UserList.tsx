@@ -1,57 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import {at, rt} from '../features/cookie';
-import User from './User';
-import {UserInformationTypes} from './types';
-import {backUrl} from '../features/cookie';
+import {at, backUrl} from '../features/cookie';
+import {ProfileType, UserDetailsType} from './types';
+import UserProfile from './UsersProfile';
+
 function UserList() {
-    const [userList, setUserList] = useState<UserInformationTypes[]>([
-        {
-            email: 'Js email',
-
-            name: 'Jame',
-            // title: Name
-            thumbnail_url: 'asdafs',
-            //title: Thumbnail Url
-            authorization: 'adasf',
-            //title: Authorization
-        },
-        {
-            email: 'Jssdfsdfl',
-
-            name: 'Jkaslf',
-            // title: Name
-            thumbnail_url: 'asdafs',
-            //title: Thumbnail Url
-            authorization: 'adasf',
-            //title: Authorization
-        },
-    ]);
-    const getAllUser = async () => {
+    const [userList, setUserList] = useState<ProfileType[]>([]);
+    const getAllUser = async (at: string) => {
         try {
-            const UsersData = await axios.get(
-                `${backUrl}/api/user/all`,
-
-                {
-                    headers: {
-                        'access-token': at,
-                        'refresh-token': rt,
-                    },
+            const UsersData = await axios.get(`${backUrl}profile/`, {
+                headers: {
+                    Authorization: `Bearer ${at}`,
                 },
-            );
+            });
             setUserList(UsersData.data);
         } catch (err) {
             console.log(err);
         }
     };
     useEffect(() => {
-        getAllUser();
+        getAllUser(at);
     }, []);
     return (
         <UserListContainer>
             {userList.map(user => {
-                return <User email={user.email} name={user.name} thumbnail_url={user.thumbnail_url} authorization={user.authorization}></User>;
+                return <UserProfile user={user.user} bio={user.bio} thumbnail_url={user.thumbnail_url}></UserProfile>;
             })}
         </UserListContainer>
     );
@@ -60,6 +34,7 @@ function UserList() {
 export default UserList;
 
 const UserListContainer = styled.div`
+    background-color: black;
     padding: 5px;
     margin-top: 60px;
     position: 'absolute';

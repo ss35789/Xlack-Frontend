@@ -5,7 +5,7 @@ interface enterRoomState {
 }
 
 const initialState: enterRoomState = {
-    roomId: 0,
+    roomId: -1,
 };
 export const EnterRoomSlice = createSlice({
     name: 'enterRoom',
@@ -18,5 +18,4 @@ export const EnterRoomSlice = createSlice({
 });
 
 export const {enterRoom} = EnterRoomSlice.actions;
-
 export default EnterRoomSlice.reducer;
