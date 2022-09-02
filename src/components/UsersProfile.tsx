@@ -1,14 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {ProfileType, UserDetailsType} from './types';
+import {ProfileType} from './types';
 import styled from 'styled-components';
-import axios from 'axios';
-import {at, backUrl} from '../features/cookie';
 
-function UserProfile(userProfile: ProfileType) {
+function UserProfile({user, bio, thumbnail_url}: ProfileType) {
     return (
         <UserContainer>
-            {userProfile.user.first_name} {userProfile.user.last_name} <br></br>
-            {userProfile.user.email}
+            {user.first_name} {user.last_name} <br></br>
+            {user.email}
         </UserContainer>
     );
 }
