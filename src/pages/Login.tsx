@@ -5,13 +5,13 @@ import LoginGithub from 'react-login-github';
 import {setCookie} from '../features/cookie';
 import {Navigate} from 'react-router-dom';
 import AccessTime from '@mui/icons-material/AccessTime';
-
 function Login() {
     const onSuccess = (response: any) => {
         let token_info;
         LoginDjango(response['code']).then(res => {
             token_info = res;
-            AsscessToken(token_info);
+            AccessToken(token_info, Date.now() + 3600000);
+            //console.log(token_info);
         });
     };
 
@@ -30,15 +30,19 @@ function Login() {
         </>
     );
 }
-export function AsscessToken(resData: any) {
+export function AccessToken(resData: any, exp: any) {
     const access_token = resData.access_token;
     //access_token 존재시 쿠키에 넣어줌
     const refresh_token = resData.refresh_token;
+    const exptime = exp;
+    //    const expire
     if (access_token) {
         setCookie('access_token', access_token, {
             httpOnly: true,
         });
+        setCookie('exp', exptime);
         setCookie('refresh_token', refresh_token, {
+            expires: new Date(),
             httpOnly: true,
         });
         window.location.href = 'http://localhost:3000/main';

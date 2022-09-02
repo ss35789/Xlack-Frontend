@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {RootState} from '../app/store';
-import {at, backUrl, WsUrl} from '../features/cookie';
+import {at, AtVerify, backUrl, removeCookie, UpdateToken, WsUrl} from '../features/cookie';
 import {UpdateChat} from '../features/UpdateChatContextSlice';
 import {UserDetailsType} from './types';
 
@@ -16,16 +16,24 @@ function ChatInput() {
     const dispatch = useDispatch();
 
     const getMyUserData = async () => {
-        try {
-            const getdata = await axios.get(`${backUrl}accounts/user/`, {
-                headers: {
-                    Authorization: `Bearer ${at}`,
-                },
-            });
-            setMyUserDetails(getdata.data);
-            console.log(getdata.data);
-        } catch (err) {
-            console.log(err);
+        if ((await AtVerify()) == 200) {
+            try {
+                const getdata = await axios.get(`${backUrl}accounts/user/`, {
+                    headers: {
+                        Authorization: `Bearer ${at}`,
+                    },
+                });
+                setMyUserDetails(getdata.data);
+                console.log(getdata.data);
+                //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
+                UpdateToken();
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            //행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
+            removeCookie();
+            // TODO document why this block is empty
         }
     };
     useEffect(() => {

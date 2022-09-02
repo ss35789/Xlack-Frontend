@@ -24,9 +24,9 @@ function UserList() {
     }, []);
     return (
         <UserListContainer>
-            {userList.map(user => {
+            {/* {userList.map(user => {
                 return <UserProfile userProfile={user}></UserProfile>;
-            })}
+            })} */}
         </UserListContainer>
     );
 }

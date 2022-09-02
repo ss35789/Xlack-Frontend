@@ -3,26 +3,42 @@ import {useState} from 'react';
 import {Cookies} from 'react-cookie';
 import {UserDetailsType} from '../components/types';
 import {useLocation} from 'react-router-dom';
+import {AccessToken} from '../pages/Login';
 
-async function updateRt() {
-    const check = await getCookie('access_token');
-
+export async function UpdateToken() {
+    const check = rt;
     if (check) {
+        let token_info;
         //already has accessToken.
-        //code=74bbb79c0c3ac4820035
-        const res = await axios.post(
-            `${backUrl}/accounts/token/refresh/`,
-            {
-                refresh: check,
-            },
-            {
-                validateStatus: function (status: number) {
-                    return status < 500;
+        const res = await axios
+            .post(
+                `${backUrl}accounts/token/refresh/`,
+                {
+                    refresh: check,
                 },
-            },
-        );
-        return res.data;
+                {
+                    validateStatus: function (status: number) {
+                        return status < 500;
+                    },
+                },
+            )
+            .then(res => {
+                token_info = res;
+                AccessToken(token_info, null);
+            });
     }
+}
+export async function AtVerify() {
+    const check = await axios.post(
+        `${backUrl}accounts/token/verify/`,
+        {token: at},
+        {
+            validateStatus: function (status: number) {
+                return status < 500;
+            },
+        },
+    );
+    return check.status;
 }
 
 const cookies = new Cookies();
@@ -41,4 +57,5 @@ export const removeCookie = () => {
 };
 export const at = getCookie('access_token');
 export const rt = getCookie('refresh_token');
+export const exp = getCookie('exp');
 //export const searchParams = useLocation().search;
