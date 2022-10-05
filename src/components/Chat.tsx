@@ -41,7 +41,7 @@ function Chat() {
             {/* {roomDetails && roomMessages && ( */}
             <>
                 <ChatMessages ref={messagesRef}>
-                    <h1>ChatMessage</h1>
+                    <h4>{enterRoomId}</h4>
                     {getChatData &&
                         getChatData.results
                             .slice(0)
