@@ -24,9 +24,10 @@ function Login() {
                     <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" />
                 </LoginImageContainer>
                 <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
-                    <p id="loginbutton">Continue with GitHub</p>
+                    <LoginButton id="loginbutton">Sign in to Xlack</LoginButton>
                 </LoginGithub>
             </LoginContainer>
+            we'll take you to website
         </>
     );
 }
@@ -51,7 +52,7 @@ export function AccessToken(resData: any, exp: any) {
 export default Login;
 
 const LoginContainer = styled.div`
-    background-color: #f8f8f8;
+    background-color: #3f0f40;
     height: 100vh;
     display: grid;
     place-items: center;
@@ -64,7 +65,7 @@ const LoginContainer = styled.div`
 const LoginImageContainer = styled.div`
     padding: 100px;
     text-align: center;
-    background-color: white;
+    background-color: #3f0f40;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     > img {
@@ -73,4 +74,13 @@ const LoginImageContainer = styled.div`
     }
     margin-top: -500px;
     margin-bottom: -700px;
+`;
+
+const LoginButton = styled.p`
+    width: 300px;
+    height: 50px;
+    background-color: #457359;
+    font-size: 20px;
+    font-weight: bolder;
+    color: white;
 `;
