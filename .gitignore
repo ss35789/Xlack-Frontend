@@ -12,7 +12,7 @@ node_modules/
 /.pnp
 package-lock.json
 yarn.lock
-.pb
+**/.pb
 .pnp.js
 coverage/
 build/
