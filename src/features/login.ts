@@ -13,7 +13,7 @@ export async function LoginDjango(code: string): Promise<JSON> {
     };
     const data = {
         access_token: '',
-        code: `${code}`,
+        code: code,
         id_token: '',
     };
     const res = await axios.post(url, data, config);
