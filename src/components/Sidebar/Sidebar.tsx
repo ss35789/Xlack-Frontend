@@ -4,13 +4,13 @@ import SidebarOption from './SidebarOption';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
 import {useDispatch, useSelector} from 'react-redux';
-import AddChannel from './AddChannel';
-import {RootState} from '../app/store';
-import {enterRoom} from '../features/EnterChannelSlice';
-import ChannelMenu from './ChannelMenu';
-import Channel from './Channel';
-import {ChannelType} from './types';
-import User from './MyProfile';
+import AddChannel from '../Channel/AddChannel';
+import {RootState} from '../../app/store';
+import {enterRoom} from '../../variable/EnterChannelSlice';
+import ChannelMenu from '../Channel/ChannelMenu';
+import Channel from '../Channel/Channel';
+import {ChannelType} from '../types';
+import User from '../Profile/MyProfile';
 
 function Sidebar() {
     const [x, setx] = useState(0);
@@ -78,13 +78,13 @@ function Sidebar() {
                 </span> */}
             </SidebarHeader>
 
-            {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 
-            <SidebarOption Icon={InboxIcon} title='Mention & reactions'/> 
-            <SidebarOption Icon={DraftsIcon} title='Saved items'/> 
-            <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/> 
-            <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/> 
-            <SidebarOption Icon={AppsIcon} title='Apps'/> 
-            <SidebarOption Icon={FileCopyIcon} title='File browser'/> 
+            {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/>
+            <SidebarOption Icon={InboxIcon} title='Mention & reactions'/>
+            <SidebarOption Icon={DraftsIcon} title='Saved items'/>
+            <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/>
+            <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/>
+            <SidebarOption Icon={AppsIcon} title='Apps'/>
+            <SidebarOption Icon={FileCopyIcon} title='File browser'/>
             <SidebarOption Icon={ExpandLessIcon} title='Show less'/>  */}
             <hr />
             <span onClick={onClickshowChannels}>

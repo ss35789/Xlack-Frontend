@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import {LoginDjango} from '../features/login';
+import {LoginDjango} from '../variable/login';
 import LoginGithub from 'react-login-github';
-import {setCookie} from '../features/cookie';
+import {setCookie} from '../variable/cookie';
 import {Navigate} from 'react-router-dom';
 import AccessTime from '@mui/icons-material/AccessTime';
 function Login() {

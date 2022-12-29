@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {RootState} from '../app/store';
-import {at, AtVerify, backUrl, removeCookie, UpdateToken} from '../features/cookie';
-import {UpdateChat} from '../features/UpdateChatContextSlice';
-import {UserDetailsType} from './types';
+import {RootState} from '../../app/store';
+import {at, AtVerify, backUrl, removeCookie, UpdateToken} from '../../variable/cookie';
+import {UpdateChat} from '../../variable/UpdateChatContextSlice';
+import {UserDetailsType} from '../types';
 
 function ChatInput() {
     const [msg, setmsg] = useState('');

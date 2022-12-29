@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import {ChatType, ProfileType} from './types';
-import {at, backUrl} from '../features/cookie';
+import {ChatType, ProfileType} from '../types';
+import {at, backUrl} from '../../variable/cookie';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 

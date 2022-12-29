@@ -1,4 +1,4 @@
-import {ProfileType} from './types';
+import {ProfileType} from '../types';
 import styled from 'styled-components';
 
 function UserProfile({user, bio, thumbnail_url}: ProfileType) {
