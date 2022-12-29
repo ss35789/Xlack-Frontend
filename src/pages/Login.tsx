@@ -23,7 +23,7 @@ function Login() {
                 <LoginImageContainer>
                     <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" />
                 </LoginImageContainer>
-                <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess}>
+                <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
                     <p id="loginbutton">Continue with GitHub</p>
                 </LoginGithub>
             </LoginContainer>
