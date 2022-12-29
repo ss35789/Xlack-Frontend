@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {enterRoom} from '../features/EnterChannelSlice';
+import {enterRoom} from '../../variable/EnterChannelSlice';
 import {useDispatch} from 'react-redux';
 
 export interface SidebarInfo {

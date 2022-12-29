@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import {useDispatch} from 'react-redux';
-import {UpdateRoom} from '../features/UpdateChannelSlice';
-import {SidebarInfo} from './SidebarOption';
-import {at, rt} from '../features/cookie';
-import {backUrl} from '../features/cookie';
+import {UpdateRoom} from '../../variable/UpdateChannelSlice';
+import {SidebarInfo} from '../Sidebar/SidebarOption';
+import {at, rt, backUrl} from '../../variable/cookie';
+
 function AddChannel({Icon, title, id}: SidebarInfo) {
     const dispatch = useDispatch();
 

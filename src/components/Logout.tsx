@@ -1,7 +1,7 @@
 import {Button} from '@material-ui/core';
 import axios from 'axios';
 import React from 'react';
-import {backUrl, removeCookie} from '../features/cookie';
+import {backUrl, removeCookie} from '../variable/cookie';
 
 function Logout() {
     const logoutFC = () => {

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 // import {auth} from "./firebase";
 import Login from './pages/Login';
 import Mainpage from './pages/Mainpage';
-import {rt} from './features/cookie';
+import {rt} from './variable/cookie';
 
 // import Spinner from "react-spinkit";
 

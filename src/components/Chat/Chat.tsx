@@ -1,36 +1,22 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import ChatInput from './ChatInput';
-import {at, backUrl} from '../features/cookie';
-import {RootState} from '../app/store';
+import {RootState} from '../../app/store';
 import {useSelector} from 'react-redux';
-import axios from 'axios';
 import ChatContext from './ChatContext';
-import {getChat} from './types';
+import {getChat} from '../types';
 
 function Chat() {
     const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
     const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
     const messagesRef = useRef<any>();
     const [getChatData, setgetChatData] = useState<getChat>();
-    const getChatContext = async (UsingChannelId: number) => {
-        try {
-            const res = await axios.get(`${backUrl}chat/${UsingChannelId}/?limit=100&offset=0`, {
-                headers: {
-                    Authorization: `Bearer ${at}`,
-                },
-            });
-            setgetChatData(res.data);
-        } catch (err) {
-            window.alert('선택된 채널이 올바르지 않습니다.');
-        }
-    };
+
     const scrollToBottom = () => {
         messagesRef.current.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
     };
     useEffect(() => {
         console.log(enterRoomId);
-        getChatContext(enterRoomId);
     }, [receiveMessage, enterRoomId]);
     useEffect(() => {
         scrollToBottom();

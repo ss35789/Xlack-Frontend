@@ -3,17 +3,14 @@ import styled from 'styled-components';
 import SidebarOption from './SidebarOption';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
-import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import AddChannel from './AddChannel';
-import {RootState} from '../app/store';
-import {at, rt, WsUrl} from '../features/cookie';
-import {enterRoom} from '../features/EnterChannelSlice';
-import ChannelMenu from './ChannelMenu';
-import Channel from './Channel';
-import {ChannelType} from './types';
-import {backUrl} from '../features/cookie';
-import User from './MyProfile';
+import AddChannel from '../Channel/AddChannel';
+import {RootState} from '../../app/store';
+import {enterRoom} from '../../variable/EnterChannelSlice';
+import ChannelMenu from '../Channel/ChannelMenu';
+import Channel from '../Channel/Channel';
+import {ChannelType} from '../types';
+import User from '../Profile/MyProfile';
 
 function Sidebar() {
     const [x, setx] = useState(0);
@@ -44,23 +41,8 @@ function Sidebar() {
     //     }
     // };
 
-    const showChannelList = async () => {
-        try {
-            const res = await axios.get(`${backUrl}channel/`, {
-                headers: {
-                    Authorization: `Bearer ${at}`,
-                },
-            });
-            console.log(res.data);
-            setChannelList(res.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
     useEffect(() => {
         //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-        showChannelList();
     }, [UpdateChannel]);
     useEffect(() => {
         // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
@@ -96,13 +78,13 @@ function Sidebar() {
                 </span> */}
             </SidebarHeader>
 
-            {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/> 
-            <SidebarOption Icon={InboxIcon} title='Mention & reactions'/> 
-            <SidebarOption Icon={DraftsIcon} title='Saved items'/> 
-            <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/> 
-            <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/> 
-            <SidebarOption Icon={AppsIcon} title='Apps'/> 
-            <SidebarOption Icon={FileCopyIcon} title='File browser'/> 
+            {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/>
+            <SidebarOption Icon={InboxIcon} title='Mention & reactions'/>
+            <SidebarOption Icon={DraftsIcon} title='Saved items'/>
+            <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/>
+            <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/>
+            <SidebarOption Icon={AppsIcon} title='Apps'/>
+            <SidebarOption Icon={FileCopyIcon} title='File browser'/>
             <SidebarOption Icon={ExpandLessIcon} title='Show less'/>  */}
             <hr />
             <span onClick={onClickshowChannels}>
@@ -161,12 +143,14 @@ const SidebarHeader = styled.div`
     padding: 13px;
     justify-content: space-between;
     align-items: center;
+
     > .MuiSvgIcon-root {
         padding: 8px;
         color: #49274b;
         font-size: 18px;
         background-color: white;
         border-radius: 999px;
+
         :hover {
             cursor: pointer;
             opacity: 0.6;
@@ -181,17 +165,20 @@ const SidebarInfo = styled.div`
         font-weight: 900;
         margin-bottom: 5px;
     }
+
     > div > h3 {
         display: flex;
         font-size: 13px;
         font-weight: 400;
         align-items: center;
     }
+
     > div > h3 > .MuiSvgIcon-root {
         font-size: 13px;
         margin-top: 1px;
         margin-right: 2px;
         color: green;
+
         :hover {
             cursor: pointer;
             opacity: 0.6;
