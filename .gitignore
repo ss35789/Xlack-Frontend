@@ -12,9 +12,7 @@ node_modules/
 /.pnp
 package-lock.json
 yarn.lock
-.idea/
-.vscode/
-node_modules/
+.pb
 .pnp.js
 coverage/
 build/

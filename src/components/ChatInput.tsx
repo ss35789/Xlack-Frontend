@@ -49,7 +49,7 @@ function ChatInput() {
         setsocket(new WebSocket(`${WsUrl}${enterChannelId}/`));
     }, [enterChannelId]);
 
-    const sendMessage = (event: { preventDefault: () => void }) => {
+    const sendMessage = (event: {preventDefault: () => void}) => {
         event.preventDefault();
         if (socket) {
             console.log(socket);
@@ -84,7 +84,7 @@ function ChatInput() {
     return (
         <ChatInputContainer>
             <form>
-                <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`}/>
+                <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`} />
                 <button hidden type="submit" onClick={sendMessage}>
                     SEND
                 </button>
@@ -96,25 +96,25 @@ function ChatInput() {
 export default ChatInput;
 
 const ChatInputContainer = styled.div`
-  border-radius: 20px;
+    border-radius: 20px;
 
-  > form {
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
+    > form {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
 
-  > form > input {
-    position: fixed;
-    bottom: 30px;
-    width: 40%;
-    border: 1px solid gray;
-    border-radius: 3px;
-    padding: 20px;
-    outline: none;
-  }
+    > form > input {
+        position: fixed;
+        bottom: 30px;
+        width: 40%;
+        border: 1px solid gray;
+        border-radius: 3px;
+        padding: 20px;
+        outline: none;
+    }
 
-  > form > button {
-    display: none !important;
-  }
+    > form > button {
+        display: none !important;
+    }
 `;
