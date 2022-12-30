@@ -9,7 +9,7 @@ import {bounceInRight} from 'react-animations';
 import {Navigate} from 'react-router-dom';
 import AccessTime from '@mui/icons-material/AccessTime';
 function Login() {
-  const onSuccess = (response: any) => {
+  const onSuccess = (response: never) => {
     let token_info;
     LoginDjango(response['code']).then(res => {
       token_info = res;
