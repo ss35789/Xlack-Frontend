@@ -4,7 +4,7 @@ import xlackLogo from "../image/xlack.png";
 import preview from "../image/preview.png";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { bounceInRight } from "react-animations";
+import { bounceInRight, fadeIn } from "react-animations";
 
 function FistPage() {
   return (
@@ -43,6 +43,7 @@ function FistPage() {
 export default FistPage;
 
 const rightShift = keyframes`${bounceInRight}`;
+const fade = keyframes`${fadeIn}`;
 
 const LoginContainer = styled.div`
   background-color: #3f0f40;
@@ -58,7 +59,7 @@ const PreviewImageContainer = styled.div`
   margin-top: 10%;
   position: absolute;
   display: inline-block;
-  animation: 0.8s ${rightShift};
+  animation: 3s ${fade};
 `;
 
 const Titlemessage = styled.div`
