@@ -55,7 +55,7 @@ export function AccessToken(resData: any, exp: any) {
 }
 export default Login;
 
-const bounceAnimation = keyframes`${bounceInRight}`;
+const rightShift = keyframes`${bounceInRight}`;
 const LoginContainer = styled.div`
   background-color: #3f0f40;
   height: 100vh;
@@ -72,7 +72,7 @@ const LoginContainer = styled.div`
     color: white;
     border: none;
     border-radius: 5px;
-    animation: 1s ${bounceAnimation};
+    animation: 1s ${rightShift};
   }
 `;
 
@@ -95,5 +95,5 @@ const LoginMessage = styled.div`
   font-size: 20px;
   position: relative;
   margin-top: 10px;
-  animation: 1s ${bounceAnimation};
+  animation: 1s ${rightShift};
 `;
