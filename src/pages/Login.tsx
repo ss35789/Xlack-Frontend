@@ -1,8 +1,11 @@
 import React, {useEffect} from 'react';
-import styled from 'styled-components';
 import {LoginDjango} from '../variable/login';
 import LoginGithub from 'react-login-github';
 import {setCookie} from '../variable/cookie';
+import styled, {keyframes} from 'styled-components';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import {bounceInRight} from 'react-animations';
 import {Navigate} from 'react-router-dom';
 import AccessTime from '@mui/icons-material/AccessTime';
 function Login() {
@@ -18,17 +21,18 @@ function Login() {
   const onFailure = (response: any) => console.error(response);
 
   return (
-    <>
-      <LoginContainer>
-        <LoginImageContainer>
-          <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" />
-        </LoginImageContainer>
-        <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
-          <LoginButton id="loginbutton">Sign in to Xlack</LoginButton>
-        </LoginGithub>
-        <LoginMessage>We'll take you to the github login page, and bring you back here.</LoginMessage>
-      </LoginContainer>
-    </>
+    <LoginContainer>
+      <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
+        Sign In to Xlack
+      </LoginGithub>
+      <LoginMessage>We'll take you to the github login page, and bring you back here.</LoginMessage>
+      <LoginMessage>
+        Is your team new to Xlack?&nbsp;
+        <a href={'http://localhost:3000/Workspace'} style={{color: 'white', fontSize: '20px'}}>
+          Create a new Workspace
+        </a>
+      </LoginMessage>
+    </LoginContainer>
   );
 }
 export function AccessToken(resData: any, exp: any) {
@@ -51,11 +55,25 @@ export function AccessToken(resData: any, exp: any) {
 }
 export default Login;
 
+const bounceAnimation = keyframes`${bounceInRight}`;
 const LoginContainer = styled.div`
   background-color: #3f0f40;
   height: 100vh;
   display: grid;
   place-items: center;
+  > button {
+    margin-top: 300px;
+    align-self: center;
+    width: 500px;
+    height: 60px;
+    background-color: #457359;
+    font-size: 30px;
+    font-weight: bolder;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    animation: 1s ${bounceAnimation};
+  }
 `;
 
 const LoginImageContainer = styled.div`
@@ -72,19 +90,10 @@ const LoginImageContainer = styled.div`
   margin-bottom: -700px;
 `;
 
-const LoginButton = styled.div`
-  width: 300px;
-  height: 50px;
-  background-color: #457359;
-  font-size: 20px;
-  font-weight: bolder;
-  font-family: Consolas, serif;
-  color: white;
-  line-height: 50px;
-`;
-
 const LoginMessage = styled.div`
   color: white;
   font-size: 20px;
-  font-family: Consolas, serif;
+  position: relative;
+  margin-top: 10px;
+  animation: 1s ${bounceAnimation};
 `;
