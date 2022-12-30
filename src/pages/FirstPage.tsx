@@ -5,6 +5,7 @@ import preview from '../image/preview.png';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {bounceInRight} from 'react-animations';
+
 function FistPage() {
   return (
     <>
@@ -31,6 +32,9 @@ function FistPage() {
             </a>
           </Submessage>
         </Contents>
+        <PreviewImageContainer>
+          <img src={preview} alt="preview" />
+        </PreviewImageContainer>
       </LoginContainer>
     </>
   );
@@ -60,29 +64,24 @@ const PreviewImageContainer = styled.div`
 const Titlemessage = styled.div`
   color: white;
   font-size: 60px;
-  position: relative;
   margin-top: 10px;
   font-weight: bold;
-  margin-right: 50%;
-  animation: 1s ${rightShift};
 `;
 
 const Submessage = styled.div`
   color: white;
   font-size: 20px;
-  position: relative;
   margin-top: 10px;
-  animation: 1s ${rightShift};
 `;
 
 const Contents = styled.div`
-  background-color: black;
-  width: 1000px;
+  width: 500px;
   height: 400px;
-  margin-right: 40%;
-  margin-top: 10px;
+  margin-top: 10%;
+  margin-left: 10%;
+  animation: 1s ${rightShift};
   > button {
-    margin-top: 300px;
+    margin-top: 100px;
     align-self: center;
     width: 500px;
     height: 60px;
@@ -92,6 +91,5 @@ const Contents = styled.div`
     color: white;
     border: none;
     border-radius: 5px;
-    animation: 1s ${rightShift};
   }
 `;
