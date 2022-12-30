@@ -8,7 +8,9 @@ function FistPage() {
     <>
       <LoginContainer>
         <Contents>
-          <img src="../image/slackLogo.png" alt={'slackLogo'}></img>
+          <ImageContainer>
+            <img src={xlackLogo} alt="slackLogo" />
+          </ImageContainer>
           <Titlemessage>
             Xlack brings the <br /> team together <br /> wherever you are
           </Titlemessage>
