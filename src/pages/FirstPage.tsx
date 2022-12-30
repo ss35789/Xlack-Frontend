@@ -1,10 +1,10 @@
-import React from 'react';
-import styled, {keyframes} from 'styled-components';
-import xlackLogo from '../image/xlack.png';
-import preview from '../image/preview.png';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import xlackLogo from "../image/xlack.png";
+import preview from "../image/preview.png";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {bounceInRight} from 'react-animations';
+import { bounceInRight } from "react-animations";
 
 function FistPage() {
   return (
@@ -18,16 +18,16 @@ function FistPage() {
             Slack brings the <br /> team together <br /> wherever you are
           </Titlemessage>
           <button
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
-              window.location.href = '/login';
+              window.location.href = "/login";
             }}
           >
             Go to Login
           </button>
           <Submessage>
             Is your team new to Xlack?&nbsp;
-            <a href={'/workspace'} style={{color: 'white', fontSize: '20px'}}>
+            <a href={"/workspace"} style={{ color: "white", fontSize: "20px" }}>
               Create a new Workspace
             </a>
           </Submessage>
@@ -58,7 +58,7 @@ const PreviewImageContainer = styled.div`
   margin-top: 10%;
   position: absolute;
   display: inline-block;
-  animation: 1s ${rightShift};
+  animation: 0.8s ${rightShift};
 `;
 
 const Titlemessage = styled.div`
@@ -66,12 +66,14 @@ const Titlemessage = styled.div`
   font-size: 60px;
   margin-top: 10px;
   font-weight: bold;
+  animation: 0.7s ${rightShift};
 `;
 
 const Submessage = styled.div`
   color: white;
   font-size: 20px;
   margin-top: 10px;
+  animation: 0.75s ${rightShift};
 `;
 
 const Contents = styled.div`
@@ -79,7 +81,6 @@ const Contents = styled.div`
   height: 400px;
   margin-top: 10%;
   margin-left: 10%;
-  animation: 1s ${rightShift};
   > button {
     margin-top: 100px;
     align-self: center;
@@ -91,5 +92,6 @@ const Contents = styled.div`
     color: white;
     border: none;
     border-radius: 5px;
+    animation: 1s ${rightShift};
   }
 `;
