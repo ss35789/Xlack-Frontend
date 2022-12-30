@@ -1,5 +1,7 @@
 import React from 'react';
 import styled, {keyframes} from 'styled-components';
+import xlackLogo from '../image/xlack.png';
+import preview from '../image/preview.png';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {bounceInRight} from 'react-animations';
@@ -44,20 +46,15 @@ const LoginContainer = styled.div`
   display: grid;
 `;
 
-const LoginImageContainer = styled.div`
-  padding: 100px;
-  text-align: center;
-  background-color: #3f0f40;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-
-  > img {
-    object-fit: contain;
-    height: 100px;
-  }
-
-  margin-top: -500px;
-  margin-bottom: -700px;
+const ImageContainer = styled.div`
+  animation: 1s ${rightShift};
+`;
+const PreviewImageContainer = styled.div`
+  margin-left: 50%;
+  margin-top: 10%;
+  position: absolute;
+  display: inline-block;
+  animation: 1s ${rightShift};
 `;
 
 const Titlemessage = styled.div`
