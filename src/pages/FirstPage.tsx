@@ -15,7 +15,7 @@ function FistPage() {
             <img src={xlackLogo} alt="slackLogo" />
           </ImageContainer>
           <Titlemessage>
-            Xlack brings the <br /> team together <br /> wherever you are
+            Slack brings the <br /> team together <br /> wherever you are
           </Titlemessage>
           <button
             onClick={e => {
