@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import {Avatar} from '@material-ui/core';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SearchIcon from '@mui/icons-material/Search';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import React from "react";
+import styled from "styled-components";
+import { Avatar } from "@material-ui/core";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import SearchIcon from "@mui/icons-material/Search";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 function Header() {
   return (

@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
-import {LoginDjango} from '../variable/login';
-import LoginGithub from 'react-login-github';
-import {setCookie} from '../variable/cookie';
-import styled, {keyframes} from 'styled-components';
+import React, { useEffect } from "react";
+import { LoginDjango } from "../variable/login";
+import LoginGithub from "react-login-github";
+import { setCookie } from "../variable/cookie";
+import styled, { keyframes } from "styled-components";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {bounceInRight} from 'react-animations';
-import {Navigate} from 'react-router-dom';
-import AccessTime from '@mui/icons-material/AccessTime';
+import { bounceInRight } from "react-animations";
+import { Navigate } from "react-router-dom";
+import AccessTime from "@mui/icons-material/AccessTime";
 function Login() {
   const onSuccess = (response: any) => {
     let token_info;
-    LoginDjango(response['code']).then(res => {
+    LoginDjango(response["code"]).then((res) => {
       token_info = res;
       AccessToken(token_info, Date.now() + 3600000);
       //console.log(token_info);
@@ -22,13 +22,23 @@ function Login() {
 
   return (
     <LoginContainer>
-      <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
-        Sign In to Xlack
+      <LoginGithub
+        clientId="9ac10cd868488ad0185b"
+        scope="read:user"
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+      >
+        Sign In to Slack
       </LoginGithub>
-      <LoginMessage>We'll take you to the Github login page, and bring you back here.</LoginMessage>
       <LoginMessage>
-        Is your team new to Xlack?&nbsp;
-        <a href={'http://localhost:3000/Workspace'} style={{color: 'white', fontSize: '20px'}}>
+        We'll take you to the Github login page, and bring you back here.
+      </LoginMessage>
+      <LoginMessage>
+        Is your team new to Slack?&nbsp;
+        <a
+          href={"http://localhost:3000/Workspace"}
+          style={{ color: "white", fontSize: "20px" }}
+        >
           Create a new Workspace
         </a>
       </LoginMessage>
@@ -42,15 +52,15 @@ export function AccessToken(resData: any, exp: any) {
   const exptime = exp;
   //    const expire
   if (access_token) {
-    setCookie('access_token', access_token, {
+    setCookie("access_token", access_token, {
       httpOnly: true,
     });
-    setCookie('exp', exptime);
-    setCookie('refresh_token', refresh_token, {
+    setCookie("exp", exptime);
+    setCookie("refresh_token", refresh_token, {
       expires: new Date(),
       httpOnly: true,
     });
-    window.location.href = 'http://localhost:3000/main';
+    window.location.href = "http://localhost:3000/main";
   }
 }
 export default Login;
