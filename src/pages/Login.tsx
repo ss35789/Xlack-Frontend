@@ -25,7 +25,7 @@ function Login() {
       <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
         Sign In to Xlack
       </LoginGithub>
-      <LoginMessage>We'll take you to the github login page, and bring you back here.</LoginMessage>
+      <LoginMessage>We'll take you to the Github login page, and bring you back here.</LoginMessage>
       <LoginMessage>
         Is your team new to Xlack?&nbsp;
         <a href={'http://localhost:3000/Workspace'} style={{color: 'white', fontSize: '20px'}}>
