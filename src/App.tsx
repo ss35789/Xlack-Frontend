@@ -1,14 +1,19 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
-import styled from 'styled-components';
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+import styled from "styled-components";
 // import {useAuthState} from "react-firebase-hooks/auth";
 // import {auth} from "./firebase";
-import Login from './pages/Login';
-import Mainpage from './pages/Mainpage';
-import {rt} from './variable/cookie';
-import FirstPage from './pages/FirstPage';
+import Login from "./pages/Login";
+import Mainpage from "./pages/Mainpage";
+import { rt } from "./variable/cookie";
+import FirstPage from "./pages/FirstPage";
 
 // import Spinner from "react-spinkit";
 
