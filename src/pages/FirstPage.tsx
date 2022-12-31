@@ -5,8 +5,10 @@ import preview from "../image/preview.png";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { bounceInRight, fadeIn } from "react-animations";
+import { Link, useNavigate } from "react-router-dom";
 
 function FistPage() {
+  const navigate = useNavigate();
   return (
     <>
       <LoginContainer>
@@ -18,18 +20,20 @@ function FistPage() {
             Slack brings the <br /> team together <br /> wherever you are
           </Titlemessage>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = "/login";
+            onClick={() => {
+              navigate("/login");
             }}
           >
             Go to Login
           </button>
           <Submessage>
             Is your team new to Xlack?&nbsp;
-            <a href={"/workspace"} style={{ color: "white", fontSize: "20px" }}>
+            <Link
+              to={"/workspace"}
+              style={{ color: "white", fontSize: "20px" }}
+            >
               Create a new Workspace
-            </a>
+            </Link>
           </Submessage>
         </Contents>
         <PreviewImageContainer>
