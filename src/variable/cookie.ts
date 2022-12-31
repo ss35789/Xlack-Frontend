@@ -1,8 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
 import { Cookies } from "react-cookie";
-import { UserDetailsType } from "../components/types";
-import { useLocation } from "react-router-dom";
 import { AccessToken } from "../pages/Login";
 
 export async function UpdateToken() {
@@ -10,6 +7,7 @@ export async function UpdateToken() {
   if (check) {
     let token_info;
     //already has accessToken.
+
     const res = await axios
       .post(
         `${backUrl}accounts/token/refresh/`,
@@ -28,6 +26,7 @@ export async function UpdateToken() {
       });
   }
 }
+
 export async function AtVerify() {
   const check = await axios.post(
     `${backUrl}accounts/token/verify/`,
