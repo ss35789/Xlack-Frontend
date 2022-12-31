@@ -20,9 +20,9 @@ export async function UpdateToken() {
           validateStatus: function (status: number) {
             return status < 500;
           },
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         token_info = res;
         AccessToken(token_info, null);
       });
@@ -31,12 +31,12 @@ export async function UpdateToken() {
 export async function AtVerify() {
   const check = await axios.post(
     `${backUrl}accounts/token/verify/`,
-    {token: at},
+    { token: at },
     {
       validateStatus: function (status: number) {
         return status < 500;
       },
-    },
+    }
   );
   return check.status;
 }
@@ -52,8 +52,8 @@ const getCookie = (name: string) => {
   return cookies.get(name);
 };
 export const removeCookie = () => {
-  cookies.remove('access_token');
-  cookies.remove('refresh_token');
+  cookies.remove("access_token");
+  cookies.remove("refresh_token");
 };
 export const at = getCookie("access_token");
 export const rt = getCookie("refresh_token");
