@@ -14,6 +14,7 @@ import styled from "styled-components";
 import Login from "./pages/Login";
 import Mainpage from "./pages/Mainpage";
 import { rt } from "./variable/cookie";
+import FirstPage from "./pages/FirstPage";
 
 // import Spinner from "react-spinkit";
 
@@ -41,8 +42,13 @@ function App() {
     <div className="App">
       <>
         <Router>
+          <Routes>
+            <Route path="/" element={<FirstPage />} />
+          </Routes>
           {!rt ? (
-            <Login />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+            </Routes>
           ) : (
             <Routes>
               <Route path="/main" element={<Mainpage />} />

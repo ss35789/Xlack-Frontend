@@ -12,10 +12,7 @@ function ChannelMenu() {
 
   const editChannelName = async () => {
     try {
-      const newChannelName: string | null = prompt(
-        "Please enter the channel name"
-      );
-
+      const newChannelName: string | null = prompt('Please enter the channel name');
       await axios.put(
         `${backUrl}channel/${enterRoomId}/`,
         {
@@ -25,7 +22,7 @@ function ChannelMenu() {
           headers: {
             Authorization: `Bearer ${at}`,
           },
-        }
+        },
       );
       dispatch(UpdateRoom());
     } catch (err) {
@@ -33,7 +30,7 @@ function ChannelMenu() {
     }
   };
   const inviteChannel = () => {
-    console.log("invite test");
+    console.log('invite test');
     // try{
     //   const inviteUserId : string|null=prompt('Please enter the UserId');
     //   await axios.patch(`https://xlack.kreimben.com/api/channel/${inviteUserId}`,
@@ -53,7 +50,7 @@ function ChannelMenu() {
   const exitChannel = async () => {
     // 내 토큰으로 접근 되는 채널중 채널id 값의 채널 삭제
 
-    console.log("exit test");
+    console.log('exit test');
 
     try {
       await axios.delete(`${backUrl}channel/${enterRoomId}/`, {

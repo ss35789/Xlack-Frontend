@@ -9,7 +9,7 @@ export interface SidebarInfo {
   id?: number;
 }
 
-function SidebarOption({ Icon, title, id }: SidebarInfo) {
+function SidebarOption({Icon, title, id}: SidebarInfo) {
   const dispatch = useDispatch();
 
   const selectChannel = () => {
@@ -21,7 +21,7 @@ function SidebarOption({ Icon, title, id }: SidebarInfo) {
 
   return (
     <SidebarOptionContainer onClick={selectChannel}>
-      {Icon && <Icon fontSize="small" style={{ padding: 10 }}></Icon>}
+      {Icon && <Icon fontSize="small" style={{padding: 10}}></Icon>}
       {Icon ? (
         <h3>{title}</h3>
       ) : (
