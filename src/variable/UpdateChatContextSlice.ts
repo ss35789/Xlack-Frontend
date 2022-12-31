@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const UpdateChatContext = createSlice({
   name: 'UpdateChannel',
@@ -12,6 +12,6 @@ export const UpdateChatContext = createSlice({
   },
 });
 
-export const {UpdateChat} = UpdateChatContext.actions;
+export const { UpdateChat } = UpdateChatContext.actions;
 
 export default UpdateChatContext.reducer;

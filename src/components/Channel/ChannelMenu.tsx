@@ -1,10 +1,10 @@
-import {useDispatch, useSelector} from 'react-redux';
-import React from 'react';
-import styled from 'styled-components';
-import {RootState} from '../../app/store';
-import {UpdateRoom} from '../../variable/UpdateChannelSlice';
-import axios from 'axios';
-import {at, backUrl} from '../../variable/cookie';
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import styled from "styled-components";
+import { RootState } from "../../app/store";
+import { UpdateRoom } from "../../variable/UpdateChannelSlice";
+import axios from "axios";
+import { at, backUrl } from "../../variable/cookie";
 
 function ChannelMenu() {
   const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId); // 현재 우리가 클릭한 채널id
@@ -13,7 +13,6 @@ function ChannelMenu() {
   const editChannelName = async () => {
     try {
       const newChannelName: string | null = prompt('Please enter the channel name');
-
       await axios.put(
         `${backUrl}channel/${enterRoomId}/`,
         {

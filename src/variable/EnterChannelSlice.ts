@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface enterRoomState {
   roomId: number;
@@ -17,5 +17,5 @@ export const EnterRoomSlice = createSlice({
   },
 });
 
-export const {enterRoom} = EnterRoomSlice.actions;
+export const { enterRoom } = EnterRoomSlice.actions;
 export default EnterRoomSlice.reducer;

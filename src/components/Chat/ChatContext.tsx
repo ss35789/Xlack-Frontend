@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import {ChatType, ProfileType} from '../types';
-import {at, backUrl} from '../../variable/cookie';
-import axios from 'axios';
-import {useEffect, useState} from 'react';
+import styled from "styled-components";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { ChatType, ProfileType } from "../types";
+import { at, backUrl } from "../../variable/cookie";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
   const [chatterName, setchatterName] = useState<ProfileType>();

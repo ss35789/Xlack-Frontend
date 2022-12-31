@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
-import styled from 'styled-components';
-import ChatInput from './ChatInput';
-import {RootState} from '../../app/store';
-import {useSelector} from 'react-redux';
-import ChatContext from './ChatContext';
-import {getChat} from '../types';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import ChatInput from "./ChatInput";
+import { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
+import ChatContext from "./ChatContext";
+import { getChat } from "../types";
 
 function Chat() {
   const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);

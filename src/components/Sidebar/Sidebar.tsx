@@ -1,16 +1,16 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import styled from 'styled-components';
-import SidebarOption from './SidebarOption';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AddIcon from '@mui/icons-material/Add';
-import {useDispatch, useSelector} from 'react-redux';
-import AddChannel from '../Channel/AddChannel';
-import {RootState} from '../../app/store';
-import {enterRoom} from '../../variable/EnterChannelSlice';
-import ChannelMenu from '../Channel/ChannelMenu';
-import Channel from '../Channel/Channel';
-import {ChannelType} from '../types';
-import User from '../Profile/MyProfile';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import SidebarOption from "./SidebarOption";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
+import { useDispatch, useSelector } from "react-redux";
+import AddChannel from "../Channel/AddChannel";
+import { RootState } from "../../app/store";
+import { enterRoom } from "../../variable/EnterChannelSlice";
+import ChannelMenu from "../Channel/ChannelMenu";
+import Channel from "../Channel/Channel";
+import { ChannelType } from "../types";
+import User from "../Profile/MyProfile";
 
 function Sidebar() {
   const [x, setx] = useState(0);
@@ -51,7 +51,6 @@ function Sidebar() {
         setshowChannelMenu(false);
       }
     }
-
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);

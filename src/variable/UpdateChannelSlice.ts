@@ -1,6 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const UpdateChannelSlice = createSlice({
+title.push("asdf");
   name: 'UpdateChannel',
   initialState: {
     title: ['test'],
@@ -13,6 +14,6 @@ export const UpdateChannelSlice = createSlice({
   },
 });
 
-export const {UpdateRoom} = UpdateChannelSlice.actions;
+export const { UpdateRoom } = UpdateChannelSlice.actions;
 
 export default UpdateChannelSlice.reducer;

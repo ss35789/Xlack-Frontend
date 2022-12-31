@@ -1,6 +1,6 @@
-import React from 'react';
-import {ChannelType} from '../types';
-import styled from 'styled-components';
+import React from "react";
+import { ChannelType } from "../types";
+import styled from "styled-components";
 
 function Channel({name, id}: ChannelType) {
   return (

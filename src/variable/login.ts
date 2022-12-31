@@ -1,5 +1,5 @@
-import axios from 'axios';
-import {backUrl} from './cookie';
+import axios from "axios";
+import { backUrl } from "./cookie";
 
 export async function LoginDjango(code: string): Promise<JSON> {
   const url = `${backUrl}token/github/`;

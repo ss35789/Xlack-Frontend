@@ -1,9 +1,9 @@
-import axios from 'axios';
-import {useState} from 'react';
-import {Cookies} from 'react-cookie';
-import {UserDetailsType} from '../components/types';
-import {useLocation} from 'react-router-dom';
-import {AccessToken} from '../pages/Login';
+import axios from "axios";
+import { useState } from "react";
+import { Cookies } from "react-cookie";
+import { UserDetailsType } from "../components/types";
+import { useLocation } from "react-router-dom";
+import { AccessToken } from "../pages/Login";
 
 export async function UpdateToken() {
   const check = rt;
@@ -43,8 +43,8 @@ export async function AtVerify() {
 
 const cookies = new Cookies();
 
-export const backUrl = 'https://api.xlack.kreimben.com/';
-export const WsUrl = 'ws://xlack-backend.herokuapp.com/ws/chat/';
+export const backUrl = "https://api.xlack.kreimben.com/";
+export const WsUrl = "ws://xlack-backend.herokuapp.com/ws/chat/";
 export const setCookie = (name: string, value: string, option?: any) => {
   return cookies.set(name, value, {});
 };
@@ -55,7 +55,7 @@ export const removeCookie = () => {
   cookies.remove('access_token');
   cookies.remove('refresh_token');
 };
-export const at = getCookie('access_token');
-export const rt = getCookie('refresh_token');
-export const exp = getCookie('exp');
+export const at = getCookie("access_token");
+export const rt = getCookie("refresh_token");
+export const exp = getCookie("exp");
 //export const searchParams = useLocation().search;

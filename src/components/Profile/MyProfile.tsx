@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {UserDetailsType} from '../types';
-import styled from 'styled-components';
-import axios from 'axios';
-import {at, backUrl} from '../../variable/cookie';
+import React, { useEffect, useState } from "react";
+import { UserDetailsType } from "../types";
+import styled from "styled-components";
+import axios from "axios";
+import { at, backUrl } from "../../variable/cookie";
 
 function User() {
   const [user, setUser] = useState<UserDetailsType>();
