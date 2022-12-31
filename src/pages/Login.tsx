@@ -6,8 +6,6 @@ import styled, { keyframes } from "styled-components";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { bounceInRight } from "react-animations";
-import { Navigate } from "react-router-dom";
-import AccessTime from "@mui/icons-material/AccessTime";
 function Login() {
   const onSuccess = (response: never) => {
     let token_info;
