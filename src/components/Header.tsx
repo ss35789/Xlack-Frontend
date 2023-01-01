@@ -24,6 +24,7 @@ function Header() {
 
       {/* {Header Right} */}
       <HeaderRight>
+        <button>status</button>
         <HelpOutlineIcon />
       </HeaderRight>
     </HeaderContainer>
