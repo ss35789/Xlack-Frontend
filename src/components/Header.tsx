@@ -5,22 +5,8 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Status from "./Status";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
+
 function Header() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickToOpen = () => {
-    setOpen(true);
-  };
-
-  const handleToClose = () => {
-    setOpen(false);
-  };
   return (
     <HeaderContainer>
       {/* Header Left */}
