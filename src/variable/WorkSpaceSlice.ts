@@ -18,20 +18,32 @@ export const WorkSpaceSlice = createSlice({
   name: "getMyWorkSpace",
   initialState,
   reducers: {
-    enterWorkSpace: (state, action: PayloadAction<string>) => {
-      const m = action.payload.split("-");
-      const c: string[] = [];
-      m.forEach((ele) => {
-        if (ele !== m[0]) c.push(ele);
-      });
-
-      state.hashed.push({ Workspace_value: m[0], channels_value: c });
+    enterWorkSpace: (state, action: PayloadAction<[string, string[]]>) => {
+      const m = action.payload;
+      state.hashed.push({ Workspace_value: m[0], channels_value: m[1] });
     },
     exitWorkSpace: (state, action: PayloadAction<string>) => {
-      const m = action.payload.split("-");
+      const m = action.payload;
+      state.hashed.forEach((ele, i) => {
+        if (m === ele.Workspace_value) {
+          state.hashed.splice(i, 1);
+        }
+      });
+    },
+    exitChannel: (state, action: PayloadAction<[string, string]>) => {
+      const m = action.payload;
+      // m = channel의 hashed_value
+      state.hashed.forEach((workspace, i) => {
+        if (m[0] === workspace.Workspace_value) {
+          workspace.channels_value.forEach((channel, i) => {
+            if (m[1] === channel) workspace.channels_value.splice(i, 1);
+          });
+        }
+      });
     },
   },
 });
 
-export const { enterWorkSpace, exitWorkSpace } = WorkSpaceSlice.actions;
+export const { enterWorkSpace, exitWorkSpace, exitChannel } =
+  WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

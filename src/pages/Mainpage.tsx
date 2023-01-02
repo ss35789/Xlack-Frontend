@@ -24,9 +24,8 @@ const Mainpage = () => {
         res.data.map((c: ChatChannelType) => {
           setChannels([...channels, c.hashed_value]);
         });
-        let v: string = hashed_value;
-        channels.forEach((c) => (v = v + "-" + c));
-        dispatch(enterWorkSpace(v));
+
+        dispatch(enterWorkSpace([hashed_value, channels]));
       });
   };
 
@@ -38,7 +37,7 @@ const Mainpage = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("나의 workspace 정보: ", res.data);
         res.data.map((value: WorkspaceType) => {
           getChannelsInWorkspace(value.hashed_value);
         });
@@ -49,7 +48,7 @@ const Mainpage = () => {
     getMyWorkspace();
   }, []);
   useEffect(() => {
-    console.log(channels);
+    //console.log(channels);
   }, [channels]);
   return (
     <>
