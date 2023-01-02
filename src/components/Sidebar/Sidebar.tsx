@@ -17,7 +17,7 @@ function Sidebar() {
   const [y, sety] = useState(0);
   const dispatch = useDispatch();
   const Workspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.Workspace_hashed_value
+    (state: RootState) => state.getMyWorkSpace.Workspace_value
   );
   const UpdateChannel = useSelector(
     (state: RootState) => state.UpdateChannel.title
@@ -47,8 +47,9 @@ function Sidebar() {
   // };
 
   useEffect(() => {
-    //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-    if (Workspace !== []) console.log(Workspace);
+    if (Workspace !== null) {
+      console.log(Workspace);
+    }
   }, [Workspace]);
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
