@@ -15,7 +15,7 @@ const Mainpage = () => {
   const [channels, setChannels] = useState<string[]>([]);
   const getChannelsInWorkspace = async (hashed_value: string) => {
     await axios
-      .get(`${backUrl}channel/${hashed_value}`, {
+      .get(`${backUrl}channel/${hashed_value}/`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },
@@ -24,7 +24,9 @@ const Mainpage = () => {
         res.data.map((c: ChatChannelType) => {
           setChannels([...channels, c.hashed_value]);
         });
-        dispatch(enterWorkSpace([hashed_value, channels]));
+        let v: string = hashed_value;
+        channels.forEach((c) => (v = v + "-" + c));
+        dispatch(enterWorkSpace(v));
       });
   };
 
@@ -39,7 +41,6 @@ const Mainpage = () => {
         console.log(res.data);
         res.data.map((value: WorkspaceType) => {
           getChannelsInWorkspace(value.hashed_value);
-          //dispatch(enterWorkSpace(value.hashed_value));
         });
       })
       .catch((e) => console.log("getWorkspace error : ", e));
@@ -47,6 +48,9 @@ const Mainpage = () => {
   useEffect(() => {
     getMyWorkspace();
   }, []);
+  useEffect(() => {
+    console.log(channels);
+  }, [channels]);
   return (
     <>
       <Logout />
