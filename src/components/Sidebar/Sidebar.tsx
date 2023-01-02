@@ -7,16 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
-import Channel from "../Channel/Channel";
 import { ChannelType } from "../types";
 import User from "../Profile/MyProfile";
 import { ClickedChannel } from "../../variable/ClickedChannelSlice";
+import Workspace from "../Workspace/Workspace";
 
 function Sidebar() {
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
   const dispatch = useDispatch();
-  const Workspace = useSelector(
+  const WorkspaceData = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
   );
 
@@ -48,8 +48,11 @@ function Sidebar() {
   // };
 
   useEffect(() => {
-    if (Workspace !== null) {
-      console.log("내 workspace와 내부 channle들의 hashed_value : ", Workspace);
+    if (WorkspaceData !== null) {
+      console.log(
+        "내 workspace와 내부 channle들의 hashed_value : ",
+        WorkspaceData
+      );
     }
   }, [Workspace]);
   useEffect(() => {
@@ -103,7 +106,14 @@ function Sidebar() {
       </span>
       <hr />
       {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
-
+      {showChannels &&
+        WorkspaceData.map((element, i) => {
+          return (
+            <>
+              <Workspace {...element} key={i} />
+            </>
+          );
+        })}
       {showChannels &&
         ChannelList.map((channel) => {
           return (
@@ -124,9 +134,7 @@ function Sidebar() {
                 showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
                 onClickshowChannelMenu();
               }}
-            >
-              <Channel name={channel.name} id={channel.id} />
-            </span>
+            ></span>
           );
         })}
       {showChannelMenu && (
