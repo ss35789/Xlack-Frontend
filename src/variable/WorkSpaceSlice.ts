@@ -13,7 +13,7 @@ export const WorkSpaceSlice = createSlice({
   name: "getMyWorkSpace",
   initialState,
   reducers: {
-    enterWorkSpace: (state, action: PayloadAction<WorkspaceType>) => {
+    getWorkSpace: (state, action: PayloadAction<WorkspaceType>) => {
       const m = action.payload;
       state.hashed.push({
         created_at: m.created_at,
@@ -24,16 +24,8 @@ export const WorkSpaceSlice = createSlice({
         name: m.name,
       });
     },
-    exitWorkSpace: (state, action: PayloadAction<string>) => {
-      const m = action.payload;
-      state.hashed.forEach((ele, i) => {
-        if (m === ele.name) {
-          state.hashed.splice(i, 1);
-        }
-      });
-    },
   },
 });
 
-export const { enterWorkSpace, exitWorkSpace } = WorkSpaceSlice.actions;
+export const { getWorkSpace } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

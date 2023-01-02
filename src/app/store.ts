@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EnterRoomReducer from "../variable/EnterChannelSlice";
+import ClickedChannelReducer from "../variable/ClickedChannelSlice";
 import UpdateChannelReducer from "../variable/UpdateChannelSlice";
 import UpdateChatContextReducer from "../variable/UpdateChatContextSlice";
 import WorkSpaceReducer from "../variable/WorkSpaceSlice";
 
 export const store = configureStore({
   reducer: {
-    enterRoom: EnterRoomReducer,
+    ClickedChannel: ClickedChannelReducer,
     UpdateChannel: UpdateChannelReducer,
     UpdateChatContext: UpdateChatContextReducer,
     getMyWorkSpace: WorkSpaceReducer,

@@ -10,7 +10,9 @@ function Chat() {
   const receiveMessage = useSelector(
     (state: RootState) => state.UpdateChatContext.receiveMessage
   );
-  const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
+  const enterRoomId = useSelector(
+    (state: RootState) => state.ClickedChannel.channel_hashde_value
+  );
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
 

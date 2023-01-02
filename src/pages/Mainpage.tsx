@@ -7,7 +7,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { enterWorkSpace } from "../variable/WorkSpaceSlice";
+import { getWorkSpace } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 
@@ -26,10 +26,8 @@ const Mainpage = () => {
         },
       })
       .then((res) => {
-        console.log("나의 workspace 정보: ", res.data);
-
         res.data.map((value: WorkspaceType) => {
-          dispatch(enterWorkSpace(value));
+          dispatch(getWorkSpace(value));
         });
       })
       .catch((e) => console.log("getWorkspace error : ", e));

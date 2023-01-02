@@ -6,11 +6,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
-import { enterRoom } from "../../variable/EnterChannelSlice";
 import ChannelMenu from "../Channel/ChannelMenu";
 import Channel from "../Channel/Channel";
 import { ChannelType } from "../types";
 import User from "../Profile/MyProfile";
+import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 
 function Sidebar() {
   const [x, setx] = useState(0);
@@ -111,12 +111,12 @@ function Sidebar() {
               ref={channelMenuRef}
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
+                dispatch(ClickedChannel(channel.id.toString())); //enterRoomId 를 channel id로 변경
                 //connectChat(enterRoomId);
               }}
               onContextMenu={(e) => {
                 e.preventDefault();
-                dispatch(enterRoom(channel.id));
+                dispatch(ClickedChannel(channel.id.toString()));
 
                 console.log("채널 메뉴열기!");
                 setx(e.clientX);
