@@ -1,15 +1,11 @@
 import React from "react";
 import { WorkspaceType } from "../types";
 import styled from "styled-components";
-import Channel from "../Channel/Channel";
 
 function Workspace(props: WorkspaceType) {
   return (
     <>
       <h1>{props.name}</h1>
-      {props.chat_channel.map((c, i) => {
-        return <Channel {...c} key={i} />;
-      })}
     </>
   );
 }

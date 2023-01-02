@@ -10,7 +10,7 @@ function Chat() {
   const receiveMessage = useSelector(
     (state: RootState) => state.UpdateChatContext.receiveMessage
   );
-  const enterRoomId = useSelector(
+  const Clicked_channel_hv = useSelector(
     (state: RootState) => state.ClickedChannel.channel_hashde_value
   );
   const messagesRef = useRef<any>();
@@ -24,8 +24,8 @@ function Chat() {
     });
   };
   useEffect(() => {
-    console.log(enterRoomId);
-  }, [receiveMessage, enterRoomId]);
+    console.log(Clicked_channel_hv);
+  }, [receiveMessage, Clicked_channel_hv]);
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]);
@@ -35,7 +35,7 @@ function Chat() {
       {/* {roomDetails && roomMessages && ( */}
       <>
         <ChatMessages ref={messagesRef}>
-          <h4>{enterRoomId}</h4>
+          <h4>{Clicked_channel_hv}</h4>
           {getChatData &&
             getChatData.results
               .slice(0)
