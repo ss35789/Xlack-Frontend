@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Workspace {
+  name: string;
   Workspace_value: string;
   channels_value: string[];
   //hashed_value, channel들의 hashed_value
@@ -18,9 +19,16 @@ export const WorkSpaceSlice = createSlice({
   name: "getMyWorkSpace",
   initialState,
   reducers: {
-    enterWorkSpace: (state, action: PayloadAction<[string, string[]]>) => {
+    enterWorkSpace: (
+      state,
+      action: PayloadAction<[string, string, string[]]>
+    ) => {
       const m = action.payload;
-      state.hashed.push({ Workspace_value: m[0], channels_value: m[1] });
+      state.hashed.push({
+        name: m[0],
+        Workspace_value: m[1],
+        channels_value: m[2],
+      });
     },
     exitWorkSpace: (state, action: PayloadAction<string>) => {
       const m = action.payload;

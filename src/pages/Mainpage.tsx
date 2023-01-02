@@ -13,7 +13,7 @@ import { ChatChannelType, WorkspaceType } from "../components/types";
 const Mainpage = () => {
   const dispatch = useDispatch();
   const [channels, setChannels] = useState<string[]>([]);
-  const getChannelsInWorkspace = async (hashed_value: string) => {
+  const getChannelsInWorkspace = async (name: string, hashed_value: string) => {
     await axios
       .get(`${backUrl}channel/${hashed_value}/`, {
         headers: {
@@ -25,7 +25,7 @@ const Mainpage = () => {
           setChannels([...channels, c.hashed_value]);
         });
 
-        dispatch(enterWorkSpace([hashed_value, channels]));
+        dispatch(enterWorkSpace([name, hashed_value, channels]));
       });
   };
 
@@ -39,7 +39,7 @@ const Mainpage = () => {
       .then((res) => {
         console.log("나의 workspace 정보: ", res.data);
         res.data.map((value: WorkspaceType) => {
-          getChannelsInWorkspace(value.hashed_value);
+          getChannelsInWorkspace(value.name, value.hashed_value);
         });
       })
       .catch((e) => console.log("getWorkspace error : ", e));
