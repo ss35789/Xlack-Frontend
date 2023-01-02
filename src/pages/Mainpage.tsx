@@ -6,30 +6,17 @@ import Logout from "../components/Logout";
 import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { enterWorkSpace } from "../variable/WorkSpaceSlice";
-import { ChatChannelType, WorkspaceType } from "../components/types";
-import { enterChannel } from "../variable/ChannelSlice";
+import { WorkspaceType } from "../components/types";
+import { RootState } from "../app/store";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
   const [channels, setChannels] = useState<string[]>([]);
-  const getChannelsInWorkspace = async (name: string, hashed_value: string) => {
-    await axios
-      .get(`${backUrl}channel/${hashed_value}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      })
-      .then((res) => {
-        res.data.map((c: ChatChannelType) => {
-          setChannels([...channels, c.hashed_value]);
-          dispatch(enterChannel([c.name, c.hashed_value, c.members]));
-        });
-
-        dispatch(enterWorkSpace([name, hashed_value, channels]));
-      });
-  };
+  const Workspace = useSelector(
+    (state: RootState) => state.getMyWorkSpace.hashed
+  );
 
   const getMyWorkspace = async () => {
     await axios
@@ -40,18 +27,18 @@ const Mainpage = () => {
       })
       .then((res) => {
         console.log("나의 workspace 정보: ", res.data);
+
         res.data.map((value: WorkspaceType) => {
-          getChannelsInWorkspace(value.name, value.hashed_value);
+          dispatch(enterWorkSpace(value));
         });
       })
       .catch((e) => console.log("getWorkspace error : ", e));
   };
+
   useEffect(() => {
     getMyWorkspace();
   }, []);
-  useEffect(() => {
-    //console.log(channels);
-  }, [channels]);
+
   return (
     <>
       <Logout />

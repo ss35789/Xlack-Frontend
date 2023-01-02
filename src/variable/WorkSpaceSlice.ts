@@ -1,14 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface Workspace {
-  name: string;
-  Workspace_value: string;
-  channels_value: string[];
-  //hashed_value, channel들의 hashed_value
-}
+import { WorkspaceType } from "../components/types";
 
 interface strut {
-  hashed: Workspace[];
+  hashed: WorkspaceType[];
 }
 
 const initialState: strut = {
@@ -19,39 +13,27 @@ export const WorkSpaceSlice = createSlice({
   name: "getMyWorkSpace",
   initialState,
   reducers: {
-    enterWorkSpace: (
-      state,
-      action: PayloadAction<[string, string, string[]]>
-    ) => {
+    enterWorkSpace: (state, action: PayloadAction<WorkspaceType>) => {
       const m = action.payload;
       state.hashed.push({
-        name: m[0],
-        Workspace_value: m[1],
-        channels_value: m[2],
+        created_at: m.created_at,
+        updated_at: m.updated_at,
+        members: m.members,
+        chat_channel: m.chat_channel,
+        hashed_value: m.hashed_value,
+        name: m.name,
       });
     },
     exitWorkSpace: (state, action: PayloadAction<string>) => {
       const m = action.payload;
       state.hashed.forEach((ele, i) => {
-        if (m === ele.Workspace_value) {
+        if (m === ele.name) {
           state.hashed.splice(i, 1);
-        }
-      });
-    },
-    exitChannel: (state, action: PayloadAction<[string, string]>) => {
-      const m = action.payload;
-      // m = channel의 hashed_value
-      state.hashed.forEach((workspace, i) => {
-        if (m[0] === workspace.Workspace_value) {
-          workspace.channels_value.forEach((channel, i) => {
-            if (m[1] === channel) workspace.channels_value.splice(i, 1);
-          });
         }
       });
     },
   },
 });
 
-export const { enterWorkSpace, exitWorkSpace, exitChannel } =
-  WorkSpaceSlice.actions;
+export const { enterWorkSpace, exitWorkSpace } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

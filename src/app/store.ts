@@ -3,7 +3,6 @@ import EnterRoomReducer from "../variable/EnterChannelSlice";
 import UpdateChannelReducer from "../variable/UpdateChannelSlice";
 import UpdateChatContextReducer from "../variable/UpdateChatContextSlice";
 import WorkSpaceReducer from "../variable/WorkSpaceSlice";
-import ChannelSliceReducer from "../variable/ChannelSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +10,6 @@ export const store = configureStore({
     UpdateChannel: UpdateChannelReducer,
     UpdateChatContext: UpdateChatContextReducer,
     getMyWorkSpace: WorkSpaceReducer,
-    getMyChannel: ChannelSliceReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
