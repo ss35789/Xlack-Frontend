@@ -7,13 +7,19 @@ import ChatContext from "./ChatContext";
 import { getChat } from "../types";
 
 function Chat() {
-  const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
+  const receiveMessage = useSelector(
+    (state: RootState) => state.UpdateChatContext.receiveMessage
+  );
   const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
 
   const scrollToBottom = () => {
-    messagesRef.current.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
+    messagesRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
   };
   useEffect(() => {
     console.log(enterRoomId);
@@ -32,9 +38,15 @@ function Chat() {
             getChatData.results
               .slice(0)
               .reverse()
-              .map(chat => (
+              .map((chat) => (
                 <span>
-                  <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
+                  <ChatContext
+                    id={chat.id}
+                    channel={chat.channel}
+                    chatter={chat.chatter}
+                    message={chat.message}
+                    created_at={chat.created_at}
+                  ></ChatContext>
                 </span>
               ))}
         </ChatMessages>
