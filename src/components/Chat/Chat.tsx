@@ -5,6 +5,7 @@ import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import ChatContext from "./ChatContext";
 import { getChat } from "../types";
+import { at, WsUrl } from "../../variable/cookie";
 
 function Chat() {
   const receiveMessage = useSelector(
@@ -15,7 +16,7 @@ function Chat() {
   );
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
-
+  const [websocket, setWebsocket] = useState<WebSocket>();
   const scrollToBottom = () => {
     messagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -24,8 +25,25 @@ function Chat() {
     });
   };
   useEffect(() => {
+    if (websocket !== null && Clicked_channel_hv !== null) {
+      websocket?.close();
+      setWebsocket(
+        new WebSocket(`${WsUrl}${Clicked_channel_hv}/`, null, {
+          headers: { Authorization: { at } },
+        })
+      );
+    } else {
+      setWebsocket(new WebSocket(`${WsUrl}${Clicked_channel_hv}/`));
+    }
     console.log(Clicked_channel_hv);
   }, [receiveMessage, Clicked_channel_hv]);
+  useEffect(() => {
+    if (websocket) {
+      websocket.onmessage = (event) => {
+        console.log(event.data);
+      };
+    }
+  }, [websocket]);
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]);
