@@ -19,6 +19,9 @@ function Sidebar() {
   const Workspace = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
   );
+  const InChannel = useSelector(
+    (state: RootState) => state.getMyChannel.hashed
+  );
   const UpdateChannel = useSelector(
     (state: RootState) => state.UpdateChannel.title
   );
@@ -49,6 +52,7 @@ function Sidebar() {
   useEffect(() => {
     if (Workspace !== null) {
       console.log("내 workspace와 내부 channle들의 hashed_value : ", Workspace);
+      console.log("내 channel과 유저 정보: ", InChannel);
     }
   }, [Workspace]);
   useEffect(() => {

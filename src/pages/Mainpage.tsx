@@ -9,6 +9,7 @@ import { at, backUrl } from "../variable/cookie";
 import { useDispatch } from "react-redux";
 import { enterWorkSpace } from "../variable/WorkSpaceSlice";
 import { ChatChannelType, WorkspaceType } from "../components/types";
+import { enterChannel } from "../variable/ChannelSlice";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Mainpage = () => {
       .then((res) => {
         res.data.map((c: ChatChannelType) => {
           setChannels([...channels, c.hashed_value]);
+          dispatch(enterChannel([c.name, c.hashed_value, c.members]));
         });
 
         dispatch(enterWorkSpace([name, hashed_value, channels]));
