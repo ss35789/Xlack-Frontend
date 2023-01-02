@@ -88,9 +88,7 @@ function Sidebar() {
     <SidebarContainer>
       <SidebarHeader>
         <SidebarInfo>
-          <div>
-            <User></User>
-          </div>
+          <User></User>
         </SidebarInfo>
         {/* <span onClick={editProfile}>
                     <CreateIcon />
@@ -106,12 +104,12 @@ function Sidebar() {
       {showChannels &&
         WorkspaceData.map((element, i) => {
           return (
-            <>
-              <Workspace {...element} key={i} />
-              {element.chat_channel.map((c, i) => {
+            <div key={i}>
+              <Workspace {...element} />
+              {element.chat_channel.map((c, index) => {
                 return (
                   <span
-                    key={i}
+                    key={index}
                     ref={channelMenuRef}
                     onClick={(e) => {
                       e.preventDefault();
@@ -129,11 +127,11 @@ function Sidebar() {
                       onClickshowChannelMenu();
                     }}
                   >
-                    <Channel {...c} key={i} />
+                    <Channel {...c} />
                   </span>
                 );
               })}
-            </>
+            </div>
           );
         })}
 
