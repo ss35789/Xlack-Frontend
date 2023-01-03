@@ -92,6 +92,7 @@ const HeaderRight = styled.div`
   flex: 0.3;
   display: flex;
   align-items: flex-end;
+  margin-right: 12px;
 
   > .MuiSvgIcon-root {
     /* HelpOutlineIcon */
