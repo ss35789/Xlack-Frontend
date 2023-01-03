@@ -4,8 +4,11 @@ import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import { useEffect, useState } from "react";
 import { UserDetailsType } from "../types";
+import { useDispatch } from "react-redux";
+import { switchOnOff } from "../../variable/OnEditProfileSlice";
 
 const Profil = () => {
+  const dispatch = useDispatch();
   const [user, setUser] = useState<UserDetailsType>();
   const getMyUser = async (at: string) => {
     try {
@@ -71,7 +74,12 @@ const Profil = () => {
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
-                <span className="flex flex-col">
+                <span
+                  className="flex flex-col"
+                  onClick={() => {
+                    dispatch(switchOnOff());
+                  }}
+                >
                   <Op>프로필</Op>
                 </span>
               </a>

@@ -10,9 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWorkSpace } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
+import EditProfile from "../components/Profile/EditProfile";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
+
   const [channels, setChannels] = useState<string[]>([]);
   const Workspace = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
@@ -36,13 +38,13 @@ const Mainpage = () => {
   useEffect(() => {
     getMyWorkspace();
   }, []);
-
   return (
     <>
       <Logout />
       <AppBody>
         <Header />
         <Sidebar />
+        <EditProfile />
         <Chat />
       </AppBody>
     </>
