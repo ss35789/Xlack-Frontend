@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
-import User from "../Profile/MyProfile";
 import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 import Workspace from "../Workspace/Workspace";
 import Channel from "../Channel/Channel";
@@ -87,9 +86,6 @@ function Sidebar() {
   return (
     <SidebarContainer>
       <SidebarHeader>
-        <SidebarInfo>
-          <User></User>
-        </SidebarInfo>
         {/* <span onClick={editProfile}>
                     <CreateIcon />
                 </span> */}
@@ -118,7 +114,6 @@ function Sidebar() {
                     }}
                     onContextMenu={(e) => {
                       e.preventDefault();
-                      dispatch(ClickedChannel(c.hashed_value));
 
                       console.log("채널 메뉴열기!");
                       setx(e.clientX);

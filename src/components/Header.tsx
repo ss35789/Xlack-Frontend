@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Profile from "./Profile/Profile";
 
 function Header() {
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+
   return (
     <HeaderContainer>
       {/* Header Left */}
       <HeaderLeft>
-        <HeaderAvatar
-        //TODO: Add onclick
-        />
         <AccessTimeIcon />
       </HeaderLeft>
 
@@ -25,6 +25,11 @@ function Header() {
       {/* {Header Right} */}
       <HeaderRight>
         <HelpOutlineIcon />
+        <HeaderAvatar
+          onClick={() => setShowProfile(!showProfile)}
+          //TODO: Add onclick
+        />
+        {showProfile && <Profile></Profile>}
       </HeaderRight>
     </HeaderContainer>
   );
