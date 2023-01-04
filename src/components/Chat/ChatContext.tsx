@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { ChatType, ProfileType } from "../types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
+function ChatContext({ id, channel, chatter, message, created_at }: ChatType) {
   const [chatterName, setchatterName] = useState<ProfileType>();
   const getChatterName = async () => {
     try {
@@ -33,7 +32,8 @@ function ChatContext({id, channel, chatter, message, created_at}: ChatType) {
               <strong>{channel}</strong>
               <StarBorderOutlinedIcon />
             </h4>
-            {chatterName && chatterName.user.first_name}_{chatterName && chatterName.user.last_name}
+            {chatterName && chatterName.user.first_name}_
+            {chatterName && chatterName.user.last_name}
           </HeaderLeft>
           <br></br>
           <HeaderRight>

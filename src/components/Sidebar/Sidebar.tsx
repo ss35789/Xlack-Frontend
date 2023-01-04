@@ -6,20 +6,24 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
-import { enterRoom } from "../../variable/EnterChannelSlice";
 import ChannelMenu from "../Channel/ChannelMenu";
-import Channel from "../Channel/Channel";
-import { ChannelType } from "../types";
 import User from "../Profile/MyProfile";
+import { ClickedChannel } from "../../variable/ClickedChannelSlice";
+import Workspace from "../Workspace/Workspace";
+import Channel from "../Channel/Channel";
 
 function Sidebar() {
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
   const dispatch = useDispatch();
+  const WorkspaceData = useSelector(
+    (state: RootState) => state.getMyWorkSpace.hashed
+  );
+
   const UpdateChannel = useSelector(
     (state: RootState) => state.UpdateChannel.title
   );
-  const [ChannelList, setChannelList] = useState<ChannelType[]>([]); // 기존에 가입되어있던 채널들 정보
+  const [ChannelList, setChannelList] = useState<string[]>([]); // 기존에 가입되어있던 채널들 정보
   // const [showProfileMenu, setshowProfileMenu] = useState(false);
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
@@ -44,8 +48,18 @@ function Sidebar() {
   // };
 
   useEffect(() => {
-    //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-  }, [UpdateChannel]);
+    if (WorkspaceData !== null) {
+      console.log(
+        "내 workspace와 내부 channle들의 hashed_value : ",
+        WorkspaceData
+      );
+    }
+    WorkspaceData.forEach((element) => {
+      element.chat_channel.forEach((cha) => {
+        setChannelList([...ChannelList, cha.hashed_value]);
+      });
+    });
+  }, [WorkspaceData]);
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
@@ -56,6 +70,7 @@ function Sidebar() {
         setshowChannelMenu(false);
       }
     }
+
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -73,55 +88,53 @@ function Sidebar() {
     <SidebarContainer>
       <SidebarHeader>
         <SidebarInfo>
-          <div>
-            <User></User>
-          </div>
+          <User></User>
         </SidebarInfo>
         {/* <span onClick={editProfile}>
                     <CreateIcon />
                 </span> */}
       </SidebarHeader>
 
-      {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/>
-            <SidebarOption Icon={InboxIcon} title='Mention & reactions'/>
-            <SidebarOption Icon={DraftsIcon} title='Saved items'/>
-            <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/>
-            <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/>
-            <SidebarOption Icon={AppsIcon} title='Apps'/>
-            <SidebarOption Icon={FileCopyIcon} title='File browser'/>
-            <SidebarOption Icon={ExpandLessIcon} title='Show less'/>  */}
       <hr />
       <span onClick={onClickshowChannels}>
         <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
       </span>
       <hr />
       {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
-
       {showChannels &&
-        ChannelList.map((channel) => {
+        WorkspaceData.map((element, i) => {
           return (
-            <span
-              ref={channelMenuRef}
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
-                //connectChat(enterRoomId);
-              }}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                dispatch(enterRoom(channel.id));
+            <div key={i}>
+              <Workspace {...element} />
+              {element.chat_channel.map((c, index) => {
+                return (
+                  <span
+                    key={index}
+                    ref={channelMenuRef}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
+                      //connectChat(enterRoomId)
+                    }}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      dispatch(ClickedChannel(c.hashed_value));
 
-                console.log("채널 메뉴열기!");
-                setx(e.clientX);
-                sety(e.clientY);
-                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                onClickshowChannelMenu();
-              }}
-            >
-              <Channel name={channel.name} id={channel.id} />
-            </span>
+                      console.log("채널 메뉴열기!");
+                      setx(e.clientX);
+                      sety(e.clientY);
+                      showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                      onClickshowChannelMenu();
+                    }}
+                  >
+                    <Channel {...c} />
+                  </span>
+                );
+              })}
+            </div>
           );
         })}
+
       {showChannelMenu && (
         <div style={{ position: "absolute", top: y, left: x }}>
           <ChannelMenu />

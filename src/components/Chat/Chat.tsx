@@ -5,19 +5,40 @@ import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import ChatContext from "./ChatContext";
 import { getChat } from "../types";
+import { WsUrl } from "../../variable/cookie";
 
 function Chat() {
-  const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
-  const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
+  const receiveMessage = useSelector(
+    (state: RootState) => state.UpdateChatContext.receiveMessage
+  );
+  const Clicked_channel_hv = useSelector(
+    (state: RootState) => state.ClickedChannel.channel_hashde_value
+  );
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
-
+  const [websocket, setWebsocket] = useState<WebSocket>();
   const scrollToBottom = () => {
-    messagesRef.current.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
+    messagesRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
   };
   useEffect(() => {
-    console.log(enterRoomId);
-  }, [receiveMessage, enterRoomId]);
+    if (websocket !== null && Clicked_channel_hv !== null) {
+      websocket?.close();
+    } else {
+      setWebsocket(new WebSocket(`${WsUrl}${Clicked_channel_hv}/`));
+    }
+    console.log(Clicked_channel_hv);
+  }, [receiveMessage, Clicked_channel_hv]);
+  useEffect(() => {
+    if (websocket) {
+      websocket.onmessage = (event) => {
+        console.log(event.data);
+      };
+    }
+  }, [websocket]);
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]);
@@ -27,14 +48,20 @@ function Chat() {
       {/* {roomDetails && roomMessages && ( */}
       <>
         <ChatMessages ref={messagesRef}>
-          <h4>{enterRoomId}</h4>
+          <h4>{Clicked_channel_hv}</h4>
           {getChatData &&
             getChatData.results
               .slice(0)
               .reverse()
-              .map(chat => (
+              .map((chat) => (
                 <span>
-                  <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
+                  <ChatContext
+                    id={chat.id}
+                    channel={chat.channel}
+                    chatter={chat.chatter}
+                    message={chat.message}
+                    created_at={chat.created_at}
+                  ></ChatContext>
                 </span>
               ))}
         </ChatMessages>
