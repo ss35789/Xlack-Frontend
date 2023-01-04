@@ -4,7 +4,7 @@ import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import Status from "./Status";
+import Status from "./Profile/Status";
 
 function Header() {
   return (

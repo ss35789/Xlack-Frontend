@@ -30,7 +30,7 @@ const Status = () => {
       <Dialog fullWidth={true} open={open} onClose={handleToClose}>
         <DialogTitle>{"Set a status"}</DialogTitle>
         <DialogContent>
-          <DialogContentText>This is dialog box😭</DialogContentText>
+          <DialogContentText>This is dialog box</DialogContentText>
         </DialogContent>
         <Dropdown
           options={options}
