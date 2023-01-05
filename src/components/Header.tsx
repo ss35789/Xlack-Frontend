@@ -4,7 +4,7 @@ import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import Status from "./Profile/Status";
+import StatusDefault from "./Status/StatusDefault";
 
 function Header() {
   return (
@@ -22,7 +22,7 @@ function Header() {
         <SearchIcon />
         <input placeholder="Search"></input>
       </HeaderSearch>
-      <Status />
+      <StatusDefault />
       {/* {Header Right} */}
       <HeaderRight>
         <HelpOutlineIcon />

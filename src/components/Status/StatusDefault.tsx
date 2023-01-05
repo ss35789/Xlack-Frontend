@@ -6,13 +6,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import "react-dropdown/style.css";
-import Dropdown from "react-dropdown";
-import { createTheme } from "@mui/material";
-import { MuiThemeProvider, Paper } from "@material-ui/core";
 import styled from "styled-components";
+import { Paper } from "@material-ui/core";
 
-const Status = () => {
+const StatusManual = () => {
   const [open, setOpen] = React.useState(false);
+  const [detail, setdetail] = React.useState(false);
+  const detailOpen = async () => {
+    setdetail(true);
+  };
   const handleClickToOpen = async () => {
     setOpen(true);
   };
@@ -20,15 +22,10 @@ const Status = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick"];
-  const times = ["1 hour", "2 hour", "3 hour"];
-  const defaultOption = options[0];
-  const defaultTime = times[0];
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+
   return (
     <div>
-      <button onClick={handleClickToOpen}>Open Status box</button>
+      <button onClick={handleClickToOpen}>Open Status Default</button>
       <Dialog
         fullWidth={true}
         open={open}
@@ -37,22 +34,9 @@ const Status = () => {
       >
         <DialogTitle>{"Set a status"}</DialogTitle>
         <DialogContent>
-          <DialogContentText>This is dialog box</DialogContentText>
+          <DialogContentText>This is default status</DialogContentText>
         </DialogContent>
-        <DefaultButton children={"sdfsdl"} />
-        <Dropdown
-          options={options}
-          value={defaultOption}
-          placeholder="Select an option"
-          children={"dropdown"}
-        />
-        <br />
-        <Dropdown
-          options={times}
-          value={defaultTime}
-          placeholder="Select an option"
-          children={"dropdown"}
-        />
+        <DefaultButton children={detailOpen} />
         <DialogActions>
           <Button onClick={handleToClose} color="primary" autoFocus>
             Save
@@ -66,7 +50,7 @@ const Status = () => {
   );
 };
 
-export default Status;
+export default StatusManual;
 
 const StyledPaper = styled(Paper)`
   & {
