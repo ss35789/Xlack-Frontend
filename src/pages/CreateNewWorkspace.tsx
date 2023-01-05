@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import React from "react";
-function Createnew() {
+import { CreateWorkspace } from "../variable/createWorkspace";
+function CreateNewWorkspace() {
+  const submitEmail = (response: never) => {
+    CreateWorkspace();
+  };
   return (
     <Body className="body">
       <Header>
@@ -48,7 +52,12 @@ function Createnew() {
             placeholder="name@work-email.com"
             type="email"
           />
-          <button className="button" id="submitButton" type="button">
+          <button
+            className="button"
+            id="submitButton"
+            type="button"
+            onClick={submitEmail}
+          >
             계속
           </button>
           <div className="horizontal_content">
@@ -175,4 +184,4 @@ const H1 = styled.h1`
   text-align: center;
 `;
 
-export default Createnew;
+export default CreateNewWorkspace;
