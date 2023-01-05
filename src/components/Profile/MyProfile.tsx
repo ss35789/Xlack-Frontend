@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { UserDetailsType } from "../types";
 import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
+import Modal from "../Modal";
 
 function User() {
   const [user, setUser] = useState<UserDetailsType>();
-
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const getMyUser = async (at: string) => {
     try {
       const UsersData = await axios.get(`${backUrl}accounts/user/`, {
@@ -19,12 +20,16 @@ function User() {
       console.log(err);
     }
   };
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
   useEffect(() => {
     getMyUser(at);
   }, [at]);
 
   return (
-    <UserContainer>
+    <UserContainer onClick={onClickToggleModal}>
+      {isOpenModal && <Modal onClickToggleModal={onClickToggleModal}></Modal>}
       {user?.first_name} {user?.last_name} <br></br>
       {user?.email}
     </UserContainer>
