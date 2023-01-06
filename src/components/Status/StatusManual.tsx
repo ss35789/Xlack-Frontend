@@ -44,9 +44,8 @@ const StatusManual = () => {
       >
         <DialogTitle>{"Set a status"}</DialogTitle>
         <DialogContent>
-          <DialogContentText>This is dialog box</DialogContentText>
+          <DialogContentText>This is Status Manual</DialogContentText>
         </DialogContent>
-        <DefaultButton children={"sdfsdl"} />
         <Dropdown
           options={options}
           value={defaultOption}
@@ -84,10 +83,13 @@ const StyledPaper = styled(Paper)`
   }
 `;
 
-const DefaultButton = styled.button`
+const StatusButton = styled.button`
   width: 1200px;
   height: 40px;
-  background-color: dodgerblue;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  background-color: aliceblue;
+  border: none;
+  text-align: left;
+  :hover {
+    background-color: cornflowerblue;
+  }
 `;
