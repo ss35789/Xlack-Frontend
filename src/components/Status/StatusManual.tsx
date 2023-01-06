@@ -25,6 +25,7 @@ const StatusManual = () => {
     "🤒 Sick",
     "vacationing",
     "working remotely",
+    "customize",
   ];
   const times = ["1 hour", "2 hour", "3 hour"];
   const defaultOption = options[0];
@@ -36,6 +37,7 @@ const StatusManual = () => {
       <StatusButton onClick={handleClickToOpen}>{options[2]}</StatusButton>
       <StatusButton onClick={handleClickToOpen}>{options[3]}</StatusButton>
       <StatusButton onClick={handleClickToOpen}>{options[4]}</StatusButton>
+      <StatusButton onClick={handleClickToOpen}>{options[5]}</StatusButton>
       <Dialog
         fullWidth={true}
         open={open}

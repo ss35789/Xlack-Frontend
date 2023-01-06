@@ -24,7 +24,6 @@ const StatusDefault = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick"];
 
   return (
     <div>
