@@ -11,12 +11,13 @@ import { Paper } from "@material-ui/core";
 
 const StatusManual = () => {
   const [open, setOpen] = React.useState(false);
-  const [detail, setdetail] = React.useState(false);
-  const detailOpen = async () => {
-    setdetail(true);
-  };
+  const [detail, setDetail] = React.useState(false);
+
   const handleClickToOpen = async () => {
     setOpen(true);
+  };
+  const detailClickToOpen = async () => {
+    setDetail(true);
   };
 
   const handleToClose = async () => {
