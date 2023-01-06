@@ -57,7 +57,7 @@ const StatusDefault = () => {
   );
 };
 
-export default StatusManual;
+export default StatusDefault;
 
 const StyledPaper = styled(Paper)`
   & {

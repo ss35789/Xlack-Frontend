@@ -19,12 +19,23 @@ const StatusManual = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick"];
+  const options = [
+    "📆 In a meeting",
+    "🚗 Communicating",
+    "🤒 Sick",
+    "vacationing",
+    "working remotely",
+  ];
   const times = ["1 hour", "2 hour", "3 hour"];
   const defaultOption = options[0];
   const defaultTime = times[0];
   return (
     <div>
+      <StatusButton onClick={handleClickToOpen}>{options[0]}</StatusButton>
+      <StatusButton onClick={handleClickToOpen}>{options[1]}</StatusButton>
+      <StatusButton onClick={handleClickToOpen}>{options[2]}</StatusButton>
+      <StatusButton onClick={handleClickToOpen}>{options[3]}</StatusButton>
+      <StatusButton onClick={handleClickToOpen}>{options[4]}</StatusButton>
       <Dialog
         fullWidth={true}
         open={open}
