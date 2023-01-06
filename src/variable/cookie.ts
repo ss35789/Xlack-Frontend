@@ -14,12 +14,12 @@ export async function UpdateToken() {
       .post(
         `${backUrl}accounts/token/refresh/`,
         {
-          refresh: check,
+          refresh: check
         },
         {
           validateStatus: function (status: number) {
             return status < 500;
-          },
+          }
         }
       )
       .then((res) => {
@@ -35,7 +35,7 @@ export async function AtVerify() {
     {
       validateStatus: function (status: number) {
         return status < 500;
-      },
+      }
     }
   );
   return check.status;
