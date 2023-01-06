@@ -8,8 +8,9 @@ import Button from "@material-ui/core/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
+import StatusManual from "./StatusManual";
 
-const StatusManual = () => {
+const StatusDefault = () => {
   const [open, setOpen] = React.useState(false);
   const [detail, setDetail] = React.useState(false);
 
@@ -37,7 +38,12 @@ const StatusManual = () => {
         <DialogContent>
           <DialogContentText>This is default status</DialogContentText>
         </DialogContent>
-        <DefaultButton children={detailOpen} />
+        <br />
+        {!detailClickToOpen ? (
+          <DefaultButton onClick={detailClickToOpen} children={detail} />
+        ) : (
+          <StatusManual />
+        )}
         <DialogActions>
           <Button onClick={handleToClose} color="primary" autoFocus>
             Save
