@@ -69,7 +69,7 @@ const StatusButton = styled.button`
   background-color: aliceblue;
   border: none;
   text-align: left;
-  font-size: 14px;
+  font-size: 13px;
   :hover {
     background-color: cornflowerblue;
   }
