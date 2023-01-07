@@ -52,12 +52,13 @@ function Sidebar() {
         "내 workspace와 내부 channle들의 hashed_value : ",
         WorkspaceData
       );
-    }
-    WorkspaceData.forEach((element) => {
-      element.chat_channel.forEach((cha) => {
-        setChannelList([...ChannelList, cha.hashed_value]);
+
+      WorkspaceData.forEach((element) => {
+        element.chat_channel.forEach((cha) => {
+          setChannelList([...ChannelList, cha.hashed_value]);
+        });
       });
-    });
+    }
   }, [WorkspaceData]);
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
