@@ -6,8 +6,6 @@ import { useSelector } from "react-redux";
 import ChatContext from "./ChatContext";
 import { getChat } from "../types";
 import { Socket } from "socket.io";
-import { at, WsUrl } from "../../variable/cookie";
-import { io } from "socket.io-client";
 
 function Chat() {
   const receiveMessage = useSelector(
@@ -27,24 +25,24 @@ function Chat() {
     });
   };
   //현재 보고 있는 채널의 hashed_value가 바뀌면 기존 소켓 연결 끊고 새로 재연결
-  useEffect(() => {
-    if (socket !== undefined) {
-      socket?.disconnect();
-    } else {
-      const socketio = io(`${WsUrl}${Clicked_channel_hv}/`, {
-        auth: {
-          token: `Bearer ${at}`,
-        },
-      });
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      setSocket(socketio);
-
-      if (socketio.connected) console.log("소켓연결");
-    }
-
-    console.log(Clicked_channel_hv);
-  }, [receiveMessage, Clicked_channel_hv]);
+  // useEffect(() => {
+  //   if (socket !== undefined) {
+  //     socket?.disconnect();
+  //   } else {
+  //     const socketio = io(`${WsUrl}${Clicked_channel_hv}/`, {
+  //       auth: {
+  //         token: `Bearer ${at}`,
+  //       },
+  //     });
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-ignore
+  //     setSocket(socketio);
+  //
+  //     if (socketio.connected) console.log("소켓연결");
+  //   }
+  //
+  //   console.log(Clicked_channel_hv);
+  // }, [receiveMessage, Clicked_channel_hv]);
   //재연결한 소켓
 
   useEffect(() => {

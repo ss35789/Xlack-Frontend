@@ -2,7 +2,7 @@ import React from "react";
 import { UserDetailsType } from "../types";
 import styled from "styled-components";
 
-function User(props: UserDetailsType) {
+function MyState(props: UserDetailsType) {
   return (
     <UserContainer>
       {props?.first_name} {props?.last_name} <br></br>
@@ -11,7 +11,7 @@ function User(props: UserDetailsType) {
   );
 }
 
-export default User;
+export default MyState;
 
 const UserContainer = styled.div`
   color: black;

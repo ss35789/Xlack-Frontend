@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWorkSpace } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
-import EditProfile from "../components/Profile/EditProfile";
+import Profile from "../components/Profile/Profile";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const Mainpage = () => {
       <AppBody>
         <Header />
         <Sidebar />
-        <EditProfile />
+        <Profile />
         <Chat />
       </AppBody>
     </>

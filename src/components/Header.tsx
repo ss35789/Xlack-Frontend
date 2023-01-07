@@ -4,7 +4,7 @@ import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import Profile from "./Profile/Profile";
+import ProfileMenu from "./Profile/ProfileMenu";
 
 function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
@@ -29,7 +29,7 @@ function Header() {
           onClick={() => setShowProfile(!showProfile)}
           //TODO: Add onclick
         />
-        {showProfile && <Profile></Profile>}
+        {showProfile && <ProfileMenu />}
       </HeaderRight>
     </HeaderContainer>
   );
