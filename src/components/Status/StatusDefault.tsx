@@ -28,22 +28,13 @@ const StatusDefault = () => {
   return (
     <div>
       <button onClick={handleClickToOpen}>Open Status Default</button>
-      <Dialog
-        fullWidth={true}
-        open={open}
-        onClose={handleToClose}
-        PaperComponent={StyledPaper}
-      >
+      <Dialog fullWidth={true} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
         <DialogTitle>{"Set a status"}</DialogTitle>
         <DialogContent>
           <DialogContentText>This is default status</DialogContentText>
         </DialogContent>
         <br />
-        {!detailClickToOpen ? (
-          <DefaultButton onClick={detailClickToOpen} children={detail} />
-        ) : (
-          <StatusManual />
-        )}
+        {!detailClickToOpen ? <DefaultButton onClick={detailClickToOpen} children={detail} /> : <StatusManual />}
         <DialogActions>
           <Button onClick={handleToClose} color="primary" autoFocus>
             Save
