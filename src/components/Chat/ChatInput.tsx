@@ -3,13 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
-import {
-  at,
-  AtVerify,
-  backUrl,
-  removeCookie,
-  UpdateToken,
-} from "../../variable/cookie";
+import { at, AtVerify, backUrl, removeCookie, UpdateToken } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { UserDetailsType } from "../types";
 
@@ -17,9 +11,7 @@ function ChatInput() {
   const [msg, setmsg] = useState("");
   const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelId = useSelector(
-    (state: RootState) => state.enterRoom.roomId
-  );
+  const enterChannelId = useSelector((state: RootState) => state.enterRoom.roomId);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
@@ -66,13 +58,13 @@ function ChatInput() {
           JSON.stringify({
             user_id: MyUserDetails.pk,
             message: msg,
-          })
+          }),
         );
       }
 
       console.log(msg);
 
-      socket.onmessage = (message) => {
+      socket.onmessage = message => {
         // 클라이언트로부터 메시지 수신 시
         console.log(message);
         dispatch(UpdateChat());
@@ -92,11 +84,7 @@ function ChatInput() {
   return (
     <ChatInputContainer>
       <form>
-        <input
-          ref={inputRef}
-          onChange={(e) => setmsg(e.target.value)}
-          placeholder={`Message #`}
-        />
+        <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`} />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>

@@ -16,9 +16,7 @@ function Sidebar() {
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
   const dispatch = useDispatch();
-  const UpdateChannel = useSelector(
-    (state: RootState) => state.UpdateChannel.title
-  );
+  const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
   const [ChannelList, setChannelList] = useState<ChannelType[]>([]); // 기존에 가입되어있던 채널들 정보
   // const [showProfileMenu, setshowProfileMenu] = useState(false);
   const [showChannelMenu, setshowChannelMenu] = useState(false);
@@ -49,10 +47,7 @@ function Sidebar() {
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
-      if (
-        channelMenuRef.current &&
-        !channelMenuRef.current.contains(e.target as Node)
-      ) {
+      if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
         setshowChannelMenu(false);
       }
     }
@@ -63,11 +58,11 @@ function Sidebar() {
   }, [channelMenuRef]);
 
   const onClickshowChannelMenu = useCallback(() => {
-    setshowChannelMenu((prev) => !prev);
+    setshowChannelMenu(prev => !prev);
   }, []);
 
   const onClickshowChannels = useCallback(() => {
-    setshowChannels((prev) => !prev);
+    setshowChannels(prev => !prev);
   }, []);
   return (
     <SidebarContainer>
@@ -98,16 +93,16 @@ function Sidebar() {
       {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
 
       {showChannels &&
-        ChannelList.map((channel) => {
+        ChannelList.map(channel => {
           return (
             <span
               ref={channelMenuRef}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
                 //connectChat(enterRoomId);
               }}
-              onContextMenu={(e) => {
+              onContextMenu={e => {
                 e.preventDefault();
                 dispatch(enterRoom(channel.id));
 

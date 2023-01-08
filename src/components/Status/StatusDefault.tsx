@@ -54,13 +54,13 @@ const StyledPaper = styled(Paper)`
   & {
     background-color: aliceblue;
     max-width: revert;
-    width: 1200px;
+    width: 600px;
     border-radius: 10px;
   }
 `;
 
 const DefaultButton = styled.button`
-  width: 1200px;
+  width: 600px;
   height: 40px;
   background-color: dodgerblue;
   margin-top: 10px;

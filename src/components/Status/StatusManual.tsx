@@ -57,8 +57,7 @@ export default StatusManual;
 const StyledPaper = styled(Paper)`
   & {
     background-color: aliceblue;
-    max-width: revert;
-    width: 1200px;
+    width: 600px;
     border-radius: 10px;
   }
 `;
@@ -69,7 +68,7 @@ const StatusButton = styled.button`
   background-color: aliceblue;
   border: none;
   text-align: left;
-  font-size: 13px;
+  font-size: 25px;
   :hover {
     background-color: cornflowerblue;
   }

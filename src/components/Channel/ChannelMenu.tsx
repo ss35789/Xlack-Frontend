@@ -12,9 +12,7 @@ function ChannelMenu() {
 
   const editChannelName = async () => {
     try {
-      const newChannelName: string | null = prompt(
-        "Please enter the channel name"
-      );
+      const newChannelName: string | null = prompt("Please enter the channel name");
       await axios.put(
         `${backUrl}channel/${enterRoomId}/`,
         {
@@ -24,7 +22,7 @@ function ChannelMenu() {
           headers: {
             Authorization: `Bearer ${at}`,
           },
-        }
+        },
       );
       dispatch(UpdateRoom());
     } catch (err) {
