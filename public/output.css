@@ -691,6 +691,9 @@ video {
 .h-12 {
   height: 3rem;
 }
+.h-8 {
+  height: 2rem;
+}
 
 .h-full {
   height: 100%;
@@ -1040,6 +1043,9 @@ video {
 
 .opacity-0 {
   opacity: 0;
+}
+.opacity-50 {
+  opacity: 0.5;
 }
 
 .opacity-100 {

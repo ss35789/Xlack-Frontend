@@ -86,14 +86,15 @@ const Profile = () => {
                     <hr />
                     <span>
                       <h5>{MyProfile.username}</h5>
-                      <h1
+                      <button
+                        style={{ color: "blue" }}
                         onClick={() => {
                           setShowEditProfile(true);
                           setOpen(false);
                         }}
                       >
                         편집
-                      </h1>
+                      </button>
                     </span>
                     <div> 자리비움</div>
                     <div> 현재 시간</div>
