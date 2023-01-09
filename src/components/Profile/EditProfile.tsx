@@ -1,7 +1,10 @@
 import defaultImg from "./defaultProfileImg.jpeg";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const EditProfile = () => {
+  const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   return (
     <>
       <div
@@ -17,15 +20,18 @@ const EditProfile = () => {
             <div className="mt-10 sm:mt-0">
               {/*내부*/}
 
-              <div className="md:grid md:grid-cols-3 md:gap-6">
+              <div className="w-qua max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
-                  <form action="#" method="POST">
+                  <form action="" method="POST">
                     <div className="overflow-hidden shadow sm:rounded-md">
-                      <div className="bg-white px-4 py-5 sm:p-6">
+                      <div className="bg-white py-5 sm:p-6">
+                        <h1 className="flex text-lg">Edit your Profile</h1>
+                        <hr />
+
                         <div className="flex">
-                          <div className="grid grid-cols-6 gap-6">
-                            <div className="col-span-6 sm:col-span-4">
-                              <div className="col-span-6 sm:col-span-4">
+                          <div className="px-4">
+                            <div className="col-span-6 sm:col-span-4 py-1 mt-10">
+                              <div>
                                 <label
                                   htmlFor="email-address"
                                   className="flex text-sm font-medium text-gray-700"
@@ -37,10 +43,11 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
+                                  placeholder={MyUser.username}
                                   className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                               </div>
-                              <div className="col-span-6 sm:col-span-4">
+                              <div className="col-span-6 sm:col-span-4 mt-10">
                                 <label
                                   htmlFor="email-address"
                                   className="flex text-sm font-medium text-gray-700"
@@ -52,16 +59,17 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
+                                  placeholder={MyUser.username}
                                   className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
-                                <h1 className="text-sm text-left opacity-50">
+                                <h1 className="text-sm text-left opacity-60">
                                   This could be your first name, or a nickname —
                                   however you’d like people to refer to you in
                                   Slack.
                                 </h1>
                               </div>
 
-                              <div className="col-span-6 sm:col-span-4">
+                              <div className="col-span-6 sm:col-span-4 mt-10">
                                 <label
                                   htmlFor="email-address"
                                   className="flex text-sm font-medium text-gray-700"
@@ -73,14 +81,40 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
-                                  className="mt-1 block w-ful h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  placeholder="Title"
+                                  className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
+                                <h1 className="text-sm text-left opacity-60">
+                                  Let people know what you do at Mylène Farmer
+                                  Team.
+                                </h1>
                               </div>
 
-                              <div className="col-span-6 sm:col-span-3">
+                              <div className="col-span-6 sm:col-span-4 mt-10">
+                                <label
+                                  htmlFor="email-address"
+                                  className="flex text-sm font-medium text-gray-700"
+                                >
+                                  Name pronunciation
+                                </label>
+                                <input
+                                  type="text"
+                                  name="email-address"
+                                  id="email-address"
+                                  autoComplete="email"
+                                  placeholder="Zoe (pronounced 'zo-ee')"
+                                  className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                />
+                                <h1 className="text-sm text-left opacity-60">
+                                  This could be a phonetic pronunciation, or an
+                                  example of something your name sounds like.
+                                </h1>
+                              </div>
+
+                              <div className="col-span-6 sm:col-span-3 mt-10">
                                 <label
                                   htmlFor="country"
-                                  className="block text-sm font-medium text-gray-700"
+                                  className="flex block text-sm font-medium text-gray-700"
                                 >
                                   Time zone
                                 </label>
@@ -94,11 +128,16 @@ const EditProfile = () => {
                                   <option>Canada</option>
                                   <option>Mexico</option>
                                 </select>
+                                <h1 className="text-sm text-left opacity-60">
+                                  Your current time zone. Used to send summary
+                                  and notification emails, for times in your
+                                  activity feeds, and for reminders.
+                                </h1>
                               </div>
                             </div>
                           </div>
-                          <div>
-                            <h1 className="flex text-sm font-medium text-gray-700">
+                          <div className="mt-10">
+                            <h1 className="flex text-sm font-medium text-gray-700 flex-grow">
                               Profile photo
                             </h1>
                             <img src={defaultImg} width="200" height="200" />
@@ -110,7 +149,14 @@ const EditProfile = () => {
                       <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
                         <button
                           type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
+                        >
+                          Cancel
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                           Save
                         </button>
@@ -140,6 +186,7 @@ const CustomButton = styled.button`
   font-size: 19px;
   color: black;
   z-index: 1;
+  white-space: nowrap;
 
   :before {
     content: "";

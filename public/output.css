@@ -707,6 +707,10 @@ video {
   width: 14rem;
 }
 
+.w-qua {
+  width: 40vw;
+}
+
 .w-full {
   width: 100%;
 }
@@ -728,7 +732,7 @@ video {
 }
 
 .max-w-md {
-  max-width: 28rem;
+  max-width: 40rem;
 }
 
 .flex-1 {
@@ -1044,8 +1048,8 @@ video {
 .opacity-0 {
   opacity: 0;
 }
-.opacity-50 {
-  opacity: 0.5;
+.opacity-60 {
+  opacity: 0.6;
 }
 
 .opacity-100 {
