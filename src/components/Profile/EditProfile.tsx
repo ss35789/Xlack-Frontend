@@ -1,13 +1,15 @@
 import defaultImg from "./defaultProfileImg.jpeg";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
+import { switchOnOff } from "../../variable/OnEditProfileSlice";
 
 const EditProfile = () => {
   const formData = new FormData();
+  const dispatch = useDispatch();
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   const [EditUsername, setEditUsername] = useState("");
   const [EditDisplayName, setEditDisplayName] = useState("");
@@ -55,7 +57,8 @@ const EditProfile = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then();
+      .then(() => console.log("Complete Edit!"))
+      .finally(() => dispatch(switchOnOff()));
   };
   return (
     <>
@@ -74,7 +77,7 @@ const EditProfile = () => {
 
               <div className="max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
-                  <form onSubmit={UpdateProfile}>
+                  <form onSubmit={UpdateProfile} action="">
                     <div className="overflow-hidden shadow sm:rounded-md">
                       <div className="bg-white py-5 sm:p-6">
                         <h1 className="flex text-lg">Edit your Profile</h1>
@@ -201,14 +204,14 @@ const EditProfile = () => {
                               Profile photo
                             </h1>
                             <img src={defaultImg} width="200" height="200" />
-                            {/*<CustomButton onClick={selectImg}>*/}
-                            {/*  Upload Photo*/}
-                            {/*</CustomButton>*/}
-                            <input
-                              type="button"
-                              value="업로드"
-                              onClick={selectImg}
-                            />
+                            <CustomButton onClick={selectImg}>
+                              Upload Photo
+                            </CustomButton>
+                            {/*<input*/}
+                            {/*  type="button"*/}
+                            {/*  value="업로드"*/}
+                            {/*  onClick={selectImg}*/}
+                            {/*/>*/}
                           </div>
                         </div>
                       </div>

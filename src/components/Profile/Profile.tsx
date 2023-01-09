@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import EditProfile from "./EditProfile";
 import defaultImg from "./defaultProfileImg.jpeg";
+import styled from "styled-components";
 
 const Profile = () => {
   const [open, setOpen] = useState(true);
@@ -18,6 +19,7 @@ const Profile = () => {
   );
   useEffect(() => {
     setOpen(!open);
+    setShowEditProfile(false);
   }, [onEditProfilePage]);
 
   return (
@@ -46,7 +48,7 @@ const Profile = () => {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full"
             >
-              <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
+              <Dialog.Panel className="pointer-events-auto relative w-screen max-w-sm">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-500"
@@ -84,8 +86,10 @@ const Profile = () => {
                       />
                     </div>
                     <hr />
-                    <span>
-                      <h5>{MyProfile.username}</h5>
+                    <div className="flex justify-between mt-6">
+                      <h5 className="text-lg font-medium">
+                        {MyProfile.username}
+                      </h5>
                       <button
                         style={{ color: "blue" }}
                         onClick={() => {
@@ -93,25 +97,43 @@ const Profile = () => {
                           setOpen(false);
                         }}
                       >
-                        편집
+                        Edit
                       </button>
-                    </span>
-                    <div> 자리비움</div>
-                    <div> 현재 시간</div>
-                    <div>
-                      <button>상태 설정</button>
-                      <button>다음으로.. drop</button>
-                      <button> ...</button>
+                    </div>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => {
+                        setShowEditProfile(true);
+                        setOpen(false);
+                      }}
+                    >
+                      +Add name pronunciation
+                    </button>
+                    <div className="mt-2"> Away</div>
+                    <div>{new Date().toLocaleTimeString()}</div>
+                    <div className="flex justify-center mt-2 ">
+                      <CustomButton>Set a status</CustomButton>
+                      <CustomButton>View as</CustomButton>
+                      <CustomButton> ...</CustomButton>
                     </div>
                     <hr />
                     <div>
-                      <h3>연락처 정보</h3>
-                      <div>
-                        <h1>이메일 주소</h1>
-                        <h1>{MyProfile.email}</h1>
+                      <div className="flex justify-between mt-2">
+                        <h5 className="text-lg font-medium">
+                          Contact information
+                        </h5>
+                        <button style={{ color: "blue" }}>Edit</button>
                       </div>
-                      <div>
-                        <h1>전화</h1>
+
+                      <div className="mt-2">
+                        <h1>Email Address</h1>
+                        <button style={{ color: "blue" }}>
+                          {MyProfile.email}
+                        </button>
+                      </div>
+
+                      <div className="mt-2">
+                        <h1>Phone</h1>
                         <h1>{MyProfile.phone_number}</h1>
                       </div>
                     </div>
@@ -136,4 +158,47 @@ const Profile = () => {
   );
 };
 
+const CustomButton = styled.button`
+  appearance: none;
+  background-color: transparent;
+  border: 0.025em solid #1a1a1a;
+  border-radius: 0.9375em;
+  box-sizing: border-box;
+  color: #3b3b3b;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 3px;
+  min-height: 3.75em;
+  min-width: 0;
+  outline: none;
+  padding: 1em 2.3em;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+
+  :disabled {
+    pointer-events: none;
+  }
+
+  :hover {
+    color: #fff;
+    background-color: #1a1a1a;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
+
+  :active {
+    box-shadow: none;
+    transform: translateY(0);
+  }
+`;
 export default Profile;
