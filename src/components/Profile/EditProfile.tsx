@@ -16,11 +16,11 @@ const EditProfile = () => {
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="mt-10 sm:mt-0">
               {/*내부*/}
 
-              <div className="w-qua max-w-md">
+              <div className="max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
                   <form action="" method="POST">
                     <div className="overflow-hidden shadow sm:rounded-md">
