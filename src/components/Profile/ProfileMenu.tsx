@@ -13,7 +13,7 @@ const ProfileMenu = () => {
   const [user, setUser] = useState<CustomUserType>();
   const getMyUser = async (at: string) => {
     try {
-      const UsersData = await axios.get(`${backUrl}profile`, {
+      const UsersData = await axios.get(`${backUrl}profile/`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },

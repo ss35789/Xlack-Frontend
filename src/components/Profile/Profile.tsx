@@ -105,6 +105,21 @@ const Profile = () => {
                     <hr />
                     <div>
                       <h3>연락처 정보</h3>
+                      <div>
+                        <h1>이메일 주소</h1>
+                        <h1>{MyProfile.email}</h1>
+                      </div>
+                      <div>
+                        <h1>전화</h1>
+                        <h1>{MyProfile.phone_number}</h1>
+                      </div>
+                    </div>
+
+                    <hr />
+
+                    <div>
+                      <h1>about me</h1>
+                      <h1>skype</h1>
                     </div>
 
                     {/* /End replace */}
