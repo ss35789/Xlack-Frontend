@@ -4,11 +4,15 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import EditProfile from "./EditProfile";
+import defaultImg from "./defaultProfileImg.jpeg";
 
 const Profile = () => {
   const [open, setOpen] = useState(true);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const dispatch = useDispatch();
+  const MyProfile = useSelector(
+    (state: RootState) => state.getMyProfile.userData
+  );
   const onEditProfilePage = useSelector(
     (state: RootState) => state.switchOnOff
   );
@@ -70,12 +74,18 @@ const Profile = () => {
                     {/* Replace with your content */}
                     <h1>프로필</h1>
                     <hr />
-                    <img
-                      src="/media/cc0-images/grapefruit-slice-332-332.jpg"
-                      alt="Grapefruit slice atop a pile of other slices"
-                    />
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                      <img
+                        src={defaultImg}
+                        //MyProfile.profile_image
+                        width="200"
+                        height="200"
+                        alt="Profile img"
+                      />
+                    </div>
+                    <hr />
                     <span>
-                      <h1>이름</h1>
+                      <h5>{MyProfile.username}</h5>
                       <h1
                         onClick={() => {
                           setShowEditProfile(true);
@@ -93,6 +103,9 @@ const Profile = () => {
                       <button> ...</button>
                     </div>
                     <hr />
+                    <div>
+                      <h3>연락처 정보</h3>
+                    </div>
 
                     {/* /End replace */}
                   </div>

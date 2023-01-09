@@ -2,21 +2,23 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import { useEffect, useState } from "react";
-import { UserDetailsType } from "../types";
+import { CustomUserType } from "../types";
 import { useDispatch } from "react-redux";
 import { switchOnOff } from "../../variable/OnEditProfileSlice";
 import MyState from "./MyState";
+import { getMyProfile } from "../../variable/MyProfileSlice";
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState<UserDetailsType>();
+  const [user, setUser] = useState<CustomUserType>();
   const getMyUser = async (at: string) => {
     try {
-      const UsersData = await axios.get(`${backUrl}accounts/user/`, {
+      const UsersData = await axios.get(`${backUrl}profile`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },
       });
+      dispatch(getMyProfile(UsersData.data));
       setUser(UsersData.data);
     } catch (err) {
       console.log(err);
@@ -43,11 +45,12 @@ const ProfileMenu = () => {
               >
                 <span className="flex flex-col">
                   <MyState
-                    first_name={user.first_name}
+                    username={user.username}
                     email={user?.email}
-                    last_name={user?.last_name}
-                    pk={user?.pk}
-                    username={user?.username}
+                    display_name={user?.display_name}
+                    title={user?.title}
+                    phone_number={user?.phone_number}
+                    profile_image={user?.profile_image}
                   />
                 </span>
               </a>

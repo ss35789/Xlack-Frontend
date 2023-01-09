@@ -1,11 +1,13 @@
 import React from "react";
-import { UserDetailsType } from "../types";
+import { CustomUserType } from "../types";
 import styled from "styled-components";
 
-function MyState(props: UserDetailsType) {
+function MyState(props: CustomUserType) {
   return (
     <UserContainer>
-      {props?.first_name} {props?.last_name} <br></br>
+      {props.profile_image}
+      {props?.username}
+      <br />
       {props?.email}
     </UserContainer>
   );
