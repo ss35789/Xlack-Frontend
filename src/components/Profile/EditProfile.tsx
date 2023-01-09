@@ -2,9 +2,61 @@ import defaultImg from "./defaultProfileImg.jpeg";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import { useCallback, useState } from "react";
+import axios from "axios";
+import { at, backUrl } from "../../variable/cookie";
 
 const EditProfile = () => {
+  const formData = new FormData();
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
+  const [EditUsername, setEditUsername] = useState("");
+  const [EditDisplayName, setEditDisplayName] = useState("");
+  const [EditTitle, setEditTitle] = useState("");
+  const [EditProfileImage, setEditProfileImage] =
+    useState<FormDataEntryValue>();
+
+  const onChangeEditUsername = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEditUsername(e.target.value);
+    },
+    []
+  );
+  const onChangeEditDisplayName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEditDisplayName(e.target.value);
+    },
+    []
+  );
+  const onChangeEditTitle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEditTitle(e.target.value);
+    },
+    []
+  );
+
+  const selectImg = (e: any) => {
+    const img = e.target.files[0];
+    console.log(img);
+  };
+  const UpdateProfile = async () => {
+    const dataSet = {
+      username: { EditUsername },
+      email: {},
+      display_name: { EditDisplayName },
+      title: { EditTitle },
+      phone_number: {},
+      profile_image: { EditProfileImage },
+    };
+    formData.append("data", JSON.stringify(dataSet));
+    await axios
+      .post(`${backUrl}profile/`, formData, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then();
+  };
   return (
     <>
       <div
@@ -22,7 +74,7 @@ const EditProfile = () => {
 
               <div className="max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
-                  <form action="" method="POST">
+                  <form onSubmit={UpdateProfile}>
                     <div className="overflow-hidden shadow sm:rounded-md">
                       <div className="bg-white py-5 sm:p-6">
                         <h1 className="flex text-lg">Edit your Profile</h1>
@@ -43,6 +95,8 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
+                                  value={EditUsername}
+                                  onChange={onChangeEditUsername}
                                   placeholder={MyUser.username}
                                   className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
@@ -59,7 +113,9 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
-                                  placeholder={MyUser.username}
+                                  value={EditDisplayName}
+                                  onChange={onChangeEditDisplayName}
+                                  placeholder={MyUser.display_name}
                                   className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                                 <h1 className="text-sm text-left opacity-60">
@@ -81,6 +137,8 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
+                                  value={EditTitle}
+                                  onChange={onChangeEditTitle}
                                   placeholder="Title"
                                   className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
@@ -102,6 +160,8 @@ const EditProfile = () => {
                                   name="email-address"
                                   id="email-address"
                                   autoComplete="email"
+                                  value={EditTitle}
+                                  onChange={onChangeEditTitle}
                                   placeholder="Zoe (pronounced 'zo-ee')"
                                   className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
@@ -141,7 +201,14 @@ const EditProfile = () => {
                               Profile photo
                             </h1>
                             <img src={defaultImg} width="200" height="200" />
-                            <CustomButton>Upload Photo</CustomButton>
+                            {/*<CustomButton onClick={selectImg}>*/}
+                            {/*  Upload Photo*/}
+                            {/*</CustomButton>*/}
+                            <input
+                              type="button"
+                              value="업로드"
+                              onClick={selectImg}
+                            />
                           </div>
                         </div>
                       </div>
