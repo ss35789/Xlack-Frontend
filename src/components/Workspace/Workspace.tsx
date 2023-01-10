@@ -1,18 +1,16 @@
 import React from "react";
+import { WorkspaceType } from "../types";
 import styled from "styled-components";
-import { ChatChannelType } from "../types";
 
-function Channel(props: ChatChannelType) {
+function Workspace(props: WorkspaceType) {
   return (
-    <ChannelContainer>
-      <OptionChannel>
-        # {props.name}__ {props.hashed_value}
-      </OptionChannel>
-    </ChannelContainer>
+    <>
+      <h1>{props.name}</h1>
+    </>
   );
 }
 
-export default Channel;
+export default Workspace;
 
 const ChannelContainer = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { enterRoom } from "../../variable/EnterChannelSlice";
 import { useDispatch } from "react-redux";
+import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 
 export interface SidebarInfo {
   Icon?: any;
@@ -14,7 +14,7 @@ function SidebarOption({ Icon, title, id }: SidebarInfo) {
 
   const selectChannel = () => {
     if (id) {
-      dispatch(enterRoom(id));
+      dispatch(ClickedChannel(id.toString()));
     }
     // console.log(`id : ${id}`);
   };
@@ -42,6 +42,7 @@ const SidebarOptionContainer = styled.div`
   padding: 10px;
   align-items: center;
   cursor: pointer;
+
   :hover {
     opacity: 0.9;
     background-color: #340e36;
@@ -50,6 +51,7 @@ const SidebarOptionContainer = styled.div`
   > h3 {
     font-weight: 500;
   }
+
   > h3 > span {
     padding: 15px;
   }
