@@ -21,8 +21,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<FirstPage />} />
-            <Route path="/workspace" element={<CreateNewWorkspace />} />
-            <Route path="/setTeamName" element={<SetupTeamName />} />
+            {/*<Route path="/workspace" element={<CreateNewWorkspace />} />*/}
+            {/*<Route path="/setTeamName" element={<SetupTeamName />} />*/}
           </Routes>
           {!rt ? (
             <Routes>

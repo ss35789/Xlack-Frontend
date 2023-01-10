@@ -37,14 +37,29 @@ function ModalMenuList() {
           <hr />
         </Separator>
       </div>
-      <div>
+      <div
+        onMouseOver={() => setIsHovering(1)}
+        // onMouseLeave={() => setIsHovering(0)}
+      >
+        {isHovering ? (
+          <Sub
+            // onMouseOver={() => setIsHovering(1)}
+            onMouseLeave={() => setIsHovering(0)}
+            className="as"
+          >
+            asd
+          </Sub>
+        ) : (
+          ""
+        )}
         <Button
-          onMouseOver={() => setIsHovering(1)}
-          onMouseOut={() => setIsHovering(0)}
+          className="createWork"
+          onClick={() =>
+            (window.location.href = "http://localhost:3000/setTeamName")
+          }
         >
           워크스페이스 추가
         </Button>
-        {isHovering ? <Sub className="as">asd</Sub> : null}
         <Separator>
           <hr />
         </Separator>
@@ -78,16 +93,40 @@ const MenuList = styled.menu`
 const SubMenu = styled.div`
   padding-left: 0px;
 `;
-const Button = styled.div`
+const Button = styled.button`
   display: block;
+  align-items: center;
+  background: #0000;
+  border: 0;
+  border-radius: 0;
+  color: rgba(var(--sk_primary_foreground, 29, 28, 29), 1);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  line-height: normal;
+  min-height: 28px;
+  overflow: visible;
+  overflow-x: hidden;
+  padding: 0 24px;
+  text-align: left;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  .createWork {
+  }
 `;
 const Sub = styled.div`
   left: 352px;
-  top: 240px;
-  width: 380px;
+  top: 290px;
+  width: 250px;
   height: 140px;
-  //align-items: center;
-  //justify-content: center;
   position: absolute;
+  box-sizing: inherit;
+  display: block;
+  box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+  z-index: 1000000;
+  border: solid #c5cacd 0.5px;
+  border-radius: 8px;
 `;
 export default ModalMenuList;

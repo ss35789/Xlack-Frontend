@@ -26,9 +26,9 @@ function Modal({
 }
 
 const ModalContainer = styled.div`
-  top: 170px;
-  width: 350px;
-  height: 700px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
   display: block;
   align-items: center;
   justify-content: center;
@@ -36,7 +36,7 @@ const ModalContainer = styled.div`
 `;
 
 const DialogBox = styled.dialog`
-  //top: 50px;
+  top: 170px;
   width: 350px;
   height: 700px;
   position: absolute;
@@ -44,8 +44,8 @@ const DialogBox = styled.dialog`
   padding: 12px 0;
   flex-direction: column;
   align-items: center;
-  border: none;
-  border-radius: 3px;
+  border: solid #c5cacd 0.5px;
+  border-radius: 8px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   //box-sizing: border-box;
   background-color: white;
