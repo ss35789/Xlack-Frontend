@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import { submit } from "../variable/createWorkspace";
 import axios from "axios";
 import { backUrl } from "../variable/cookie";
@@ -11,8 +11,10 @@ function SetupTeamName() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setTeamName(e.target.value);
     },
-    []
+    [setTeamName]
   );
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  useEffect(() => {}, [setTeamName]);
   const Submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
@@ -39,7 +41,11 @@ function SetupTeamName() {
           <div className="sidebarHeaderButton">
             <div className="sidebarHeaderInfo">
               <div className="teamName">
-                <div className="loadingSpacer"></div>
+                {!teamName ? (
+                  <div className="loadingSpacer"></div>
+                ) : (
+                  <span>{teamName}</span>
+                )}
               </div>
             </div>
           </div>
