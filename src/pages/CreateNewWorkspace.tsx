@@ -1,10 +1,41 @@
 import styled from "styled-components";
 import React from "react";
 import { CreateWorkspace } from "../variable/createWorkspace";
-function CreateNewWorkspace() {
-  const submitEmail = (response: never) => {
-    CreateWorkspace();
+import { AccessToken } from "./Login";
+import LoginGithub from "react-login-github";
+import { useNavigate } from "react-router-dom";
+import { backUrl } from "../variable/cookie";
+import axios from "axios";
+async function CreateW(code: string): Promise<JSON> {
+  const url = `${backUrl}token/github/`;
+  const config = {
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+      // TODO: Add real CSRF Token.
+      // 'X-CSRFToken': 'NJfuIPmycNBlby6TW4r5xirFqq23915KBfU0h4jekTz8JDmpcPRD2z6MaIOCHYGL',
+    },
   };
+  const data = {
+    access_token: "",
+    code: code,
+    id_token: "",
+  };
+  const res = await axios.post(url, data, config);
+  return res.data;
+}
+function CreateNewWorkspace() {
+  const navigate = useNavigate();
+  const onSuccess = (response: never) => {
+    let token_info;
+    CreateW(response["code"]).then((res) => {
+      token_info = res;
+      window.location.href = "http://localhost:3000/setTeamName";
+      //console.log(token_info);
+    });
+  };
+  const onFailure = (response: any) => console.error(response);
+
   return (
     <Body className="body">
       <Header>
@@ -52,14 +83,17 @@ function CreateNewWorkspace() {
             placeholder="name@work-email.com"
             type="email"
           />
-          <button
+          <LoginGithub
             className="button"
             id="submitButton"
             type="button"
-            onClick={submitEmail}
+            clientId="9ac10cd868488ad0185b"
+            scope="read:user"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
           >
             계속
-          </button>
+          </LoginGithub>
           <div className="horizontal_content">
             <hr className="horizontal_content_left" />
             <div className="horizontal_content_center">또는</div>
