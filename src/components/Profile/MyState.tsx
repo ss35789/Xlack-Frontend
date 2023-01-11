@@ -5,8 +5,7 @@ import styled from "styled-components";
 function MyState(props: CustomUserType) {
   return (
     <UserContainer>
-      {props.profile_image}
-      {props?.username}
+      {props?.display_name}
       <br />
       {props?.email}
     </UserContainer>

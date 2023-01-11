@@ -1,19 +1,18 @@
-import defaultImg from "./defaultProfileImg.jpeg";
-import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
-import { switchOnOff } from "../../variable/OnEditProfileSlice";
+import styled from "styled-components";
 
 const EditProfile = () => {
   const formData = new FormData();
   const dispatch = useDispatch();
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
-  const [EditUsername, setEditUsername] = useState("");
+  const [EditUsername, setEditUsername] = useState(MyUser.username);
   const [EditDisplayName, setEditDisplayName] = useState("");
   const [EditTitle, setEditTitle] = useState("");
+  const [selectedImg, setSelectedImg] = useState("");
   const [EditProfileImage, setEditProfileImage] =
     useState<FormDataEntryValue>();
 
@@ -37,29 +36,27 @@ const EditProfile = () => {
   );
 
   const selectImg = (e: any) => {
-    const img = e.target.files[0];
-    console.log(img);
+    setSelectedImg(e.target.files[0]);
+    console.log(selectedImg);
   };
   const UpdateProfile = async () => {
-    const dataSet = {
-      username: { EditUsername },
-      email: {},
-      display_name: { EditDisplayName },
-      title: { EditTitle },
-      phone_number: {},
-      profile_image: { EditProfileImage },
-    };
-    formData.append("data", JSON.stringify(dataSet));
+    formData.append("username", EditUsername);
+    formData.append("display_name", EditDisplayName);
+    formData.append("title", EditTitle);
+    formData.append("profile_image", selectedImg);
     await axios
-      .post(`${backUrl}profile/`, formData, {
+      .patch(`${backUrl}profile/`, formData, {
         headers: {
           Authorization: `Bearer ${at}`,
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => console.log("Complete Edit!"))
-      .finally(() => dispatch(switchOnOff()));
+      .then(() => {
+        console.log("Complete Edit!");
+        console.log(formData);
+      });
   };
+
   return (
     <>
       <div
@@ -77,162 +74,166 @@ const EditProfile = () => {
 
               <div className="max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
-                  <form onSubmit={UpdateProfile} action="">
-                    <div className="overflow-hidden shadow sm:rounded-md">
-                      <div className="bg-white py-5 sm:p-6">
-                        <h1 className="flex text-lg">Edit your Profile</h1>
-                        <hr />
+                  <div className="overflow-hidden shadow sm:rounded-md">
+                    <div className="bg-white py-5 sm:p-6">
+                      <h1 className="flex text-lg">Edit your Profile</h1>
+                      <hr />
 
-                        <div className="flex">
-                          <div className="px-4">
-                            <div className="col-span-6 sm:col-span-4 py-1 mt-10">
-                              <div>
-                                <label
-                                  htmlFor="email-address"
-                                  className="flex text-sm font-medium text-gray-700"
-                                >
-                                  Full name
-                                </label>
-                                <input
-                                  type="text"
-                                  name="email-address"
-                                  id="email-address"
-                                  autoComplete="email"
-                                  value={EditUsername}
-                                  onChange={onChangeEditUsername}
-                                  placeholder={MyUser.username}
-                                  className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                              </div>
-                              <div className="col-span-6 sm:col-span-4 mt-10">
-                                <label
-                                  htmlFor="email-address"
-                                  className="flex text-sm font-medium text-gray-700"
-                                >
-                                  Display name
-                                </label>
-                                <input
-                                  type="text"
-                                  name="email-address"
-                                  id="email-address"
-                                  autoComplete="email"
-                                  value={EditDisplayName}
-                                  onChange={onChangeEditDisplayName}
-                                  placeholder={MyUser.display_name}
-                                  className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                                <h1 className="text-sm text-left opacity-60">
-                                  This could be your first name, or a nickname —
-                                  however you’d like people to refer to you in
-                                  Slack.
-                                </h1>
-                              </div>
+                      <div className="flex">
+                        <div className="px-4">
+                          <div className="col-span-6 sm:col-span-4 py-1 mt-10">
+                            <div>
+                              <label
+                                htmlFor="email-address"
+                                className="flex text-sm font-medium text-gray-700"
+                              >
+                                Full name
+                              </label>
+                              <input
+                                type="text"
+                                name="email-address"
+                                id="email-address"
+                                autoComplete="email"
+                                value={EditUsername}
+                                onChange={onChangeEditUsername}
+                                placeholder={MyUser.username}
+                                className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              />
+                            </div>
+                            <div className="col-span-6 sm:col-span-4 mt-10">
+                              <label
+                                htmlFor="email-address"
+                                className="flex text-sm font-medium text-gray-700"
+                              >
+                                Display name
+                              </label>
+                              <input
+                                type="text"
+                                name="email-address"
+                                id="email-address"
+                                autoComplete="email"
+                                value={EditDisplayName}
+                                onChange={onChangeEditDisplayName}
+                                placeholder={MyUser.display_name}
+                                className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              />
+                              <h1 className="text-sm text-left opacity-60">
+                                This could be your first name, or a nickname —
+                                however you’d like people to refer to you in
+                                Slack.
+                              </h1>
+                            </div>
 
-                              <div className="col-span-6 sm:col-span-4 mt-10">
-                                <label
-                                  htmlFor="email-address"
-                                  className="flex text-sm font-medium text-gray-700"
-                                >
-                                  Title
-                                </label>
-                                <input
-                                  type="text"
-                                  name="email-address"
-                                  id="email-address"
-                                  autoComplete="email"
-                                  value={EditTitle}
-                                  onChange={onChangeEditTitle}
-                                  placeholder="Title"
-                                  className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                                <h1 className="text-sm text-left opacity-60">
-                                  Let people know what you do at Mylène Farmer
-                                  Team.
-                                </h1>
-                              </div>
+                            <div className="col-span-6 sm:col-span-4 mt-10">
+                              <label
+                                htmlFor="email-address"
+                                className="flex text-sm font-medium text-gray-700"
+                              >
+                                Title
+                              </label>
+                              <input
+                                type="text"
+                                name="email-address"
+                                id="email-address"
+                                autoComplete="email"
+                                value={EditTitle}
+                                onChange={onChangeEditTitle}
+                                placeholder={MyUser.title}
+                                className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              />
+                              <h1 className="text-sm text-left opacity-60">
+                                Let people know what you do at Mylène Farmer
+                                Team.
+                              </h1>
+                            </div>
 
-                              <div className="col-span-6 sm:col-span-4 mt-10">
-                                <label
-                                  htmlFor="email-address"
-                                  className="flex text-sm font-medium text-gray-700"
-                                >
-                                  Name pronunciation
-                                </label>
-                                <input
-                                  type="text"
-                                  name="email-address"
-                                  id="email-address"
-                                  autoComplete="email"
-                                  value={EditTitle}
-                                  onChange={onChangeEditTitle}
-                                  placeholder="Zoe (pronounced 'zo-ee')"
-                                  className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                                <h1 className="text-sm text-left opacity-60">
-                                  This could be a phonetic pronunciation, or an
-                                  example of something your name sounds like.
-                                </h1>
-                              </div>
+                            <div className="col-span-6 sm:col-span-4 mt-10">
+                              <label
+                                htmlFor="email-address"
+                                className="flex text-sm font-medium text-gray-700"
+                              >
+                                Name pronunciation
+                              </label>
+                              <input
+                                type="text"
+                                name="email-address"
+                                id="email-address"
+                                autoComplete="email"
+                                value={EditTitle}
+                                onChange={onChangeEditTitle}
+                                placeholder="Zoe (pronounced 'zo-ee')"
+                                className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              />
+                              <h1 className="text-sm text-left opacity-60">
+                                This could be a phonetic pronunciation, or an
+                                example of something your name sounds like.
+                              </h1>
+                            </div>
 
-                              <div className="col-span-6 sm:col-span-3 mt-10">
-                                <label
-                                  htmlFor="country"
-                                  className="flex block text-sm font-medium text-gray-700"
-                                >
-                                  Time zone
-                                </label>
-                                <select
-                                  id="country"
-                                  name="country"
-                                  autoComplete="country-name"
-                                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                >
-                                  <option>United States</option>
-                                  <option>Canada</option>
-                                  <option>Mexico</option>
-                                </select>
-                                <h1 className="text-sm text-left opacity-60">
-                                  Your current time zone. Used to send summary
-                                  and notification emails, for times in your
-                                  activity feeds, and for reminders.
-                                </h1>
-                              </div>
+                            <div className="col-span-6 sm:col-span-3 mt-10">
+                              <label
+                                htmlFor="country"
+                                className="flex block text-sm font-medium text-gray-700"
+                              >
+                                Time zone
+                              </label>
+                              <select
+                                id="country"
+                                name="country"
+                                autoComplete="country-name"
+                                className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                              >
+                                <option>United States</option>
+                                <option>Canada</option>
+                                <option>Mexico</option>
+                              </select>
+                              <h1 className="text-sm text-left opacity-60">
+                                Your current time zone. Used to send summary and
+                                notification emails, for times in your activity
+                                feeds, and for reminders.
+                              </h1>
                             </div>
                           </div>
-                          <div className="mt-10">
-                            <h1 className="flex text-sm font-medium text-gray-700 flex-grow">
-                              Profile photo
-                            </h1>
-                            <img src={defaultImg} width="200" height="200" />
-                            <CustomButton onClick={selectImg}>
-                              Upload Photo
-                            </CustomButton>
-                            {/*<input*/}
-                            {/*  type="button"*/}
-                            {/*  value="업로드"*/}
-                            {/*  onClick={selectImg}*/}
-                            {/*/>*/}
-                          </div>
+                        </div>
+                        <div className="mt-10">
+                          <h1 className="flex text-sm font-medium text-gray-700 flex-grow">
+                            Profile photo
+                          </h1>
+                          <img
+                            src={MyUser.profile_image}
+                            width="200"
+                            height="200"
+                          />
+                          {/*testcode defaultImg => MyUser.profile_image*/}
+
+                          <label htmlFor="profile_img">
+                            <CustomDiv>Upload Image</CustomDiv>
+                          </label>
+                          <input
+                            id="profile_img"
+                            type="file"
+                            style={{ display: "none" }}
+                            accept="image/jpg,impge/png,image/jpeg,image/gif"
+                            name="profile_img"
+                            onChange={selectImg}
+                          ></input>
                         </div>
                       </div>
-
-                      <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
-                        >
-                          Cancel
-                        </button>
-
-                        <button
-                          type="submit"
-                          className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                          Save
-                        </button>
-                      </div>
                     </div>
-                  </form>
+
+                    <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
+                      <button className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2">
+                        Cancel
+                      </button>
+
+                      <button
+                        onClick={UpdateProfile}
+                        className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -244,65 +245,23 @@ const EditProfile = () => {
     </>
   );
 };
-const CustomButton = styled.button`
-  margin-top: 10px;
-  display: inline-block;
-  padding: 1px 40px;
-  border: 1px solid #4f4f4f;
-  border-radius: 4px;
-  transition: all 0.2s ease-in;
-  position: relative;
-  overflow: hidden;
-  font-size: 19px;
-  color: black;
-  z-index: 1;
-  white-space: nowrap;
 
-  :before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) scaleY(1) scaleX(1.25);
-    top: 100%;
-    width: 140%;
-    height: 180%;
-    background-color: rgba(0, 0, 0, 0.05);
-    border-radius: 50%;
-    display: block;
-    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
-    z-index: -1;
-  }
-
-  :after {
-    content: "";
-    position: absolute;
-    left: 55%;
-    transform: translateX(-50%) scaleY(1) scaleX(1.45);
-    top: 180%;
-    width: 160%;
-    height: 190%;
-    background-color: #39bda7;
-    border-radius: 50%;
-    display: block;
-    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
-    z-index: -1;
-  }
+const CustomDiv = styled.div`
+  margin-top: 12px;
+  width: 150px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid rgb(77, 77, 77);
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   :hover {
-    color: #ffffff;
-    border: 1px solid #39bda7;
-  }
-
-  :hover:before {
-    top: -35%;
-    background-color: #39bda7;
-    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
-  }
-
-  :hover:after {
-    top: -45%;
-    background-color: #39bda7;
-    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+    background: rgb(77, 77, 77);
+    color: #fff;
   }
 `;
 
