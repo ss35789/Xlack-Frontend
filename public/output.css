@@ -651,6 +651,9 @@ video {
 .mt-10 {
   margin-top: 2.5rem;
 }
+.mt-30 {
+  margin-top: 7.5rem;
+}
 
 .-ml-8 {
   margin-left: -2rem;
@@ -659,6 +662,14 @@ video {
 .mt-6 {
   margin-top: 1.5rem;
 }
+
+.centers{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .block {
   display: block;
 }

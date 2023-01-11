@@ -58,7 +58,7 @@ const EditContactInfo = () => {
       >
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-10 overflow-y-auto mt-30">
           <div className="flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="mt-10 sm:mt-0">
               {/*내부*/}
