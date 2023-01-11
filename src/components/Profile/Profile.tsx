@@ -147,9 +147,23 @@ const Profile = () => {
                         </button>
                       </div>
 
-                      <div className="mt-2">
+                      <div className="mt-2 py-5">
                         <h1>Phone</h1>
-                        <h1>{MyProfile.phone_number}</h1>
+                        {MyProfile.phone_number.length > 0 ? (
+                          <h1 style={{ color: "blue" }}>
+                            {MyProfile.phone_number}
+                          </h1>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              setShowEditContactInfo(true);
+                              setOpen(false);
+                            }}
+                            style={{ color: "blue" }}
+                          >
+                            + Add Phone
+                          </button>
+                        )}
                       </div>
                     </div>
 
