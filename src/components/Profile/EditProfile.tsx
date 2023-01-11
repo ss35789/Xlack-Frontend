@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import styled from "styled-components";
-import { switchOnOff } from "../../variable/OnEditProfileSlice";
+import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
 
 const EditProfile = () => {
@@ -56,7 +56,7 @@ const EditProfile = () => {
       .then((res) => {
         window.alert("Complete Edit!");
         dispatch(getMyProfile(res.data));
-        dispatch(switchOnOff());
+        dispatch(EditProfileOnOff());
       })
       .catch((e) => {
         console.log(e.data);
@@ -230,7 +230,7 @@ const EditProfile = () => {
 
                     <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
                       <button
-                        onClick={() => dispatch(switchOnOff())}
+                        onClick={() => dispatch(EditProfileOnOff())}
                         className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
                       >
                         Cancel

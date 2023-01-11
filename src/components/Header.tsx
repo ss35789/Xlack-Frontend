@@ -5,10 +5,12 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ProfileMenu from "./Profile/ProfileMenu";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
-
+  const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   return (
     <HeaderContainer>
       {/* Header Left */}
@@ -26,6 +28,7 @@ function Header() {
       <HeaderRight>
         <HelpOutlineIcon />
         <HeaderAvatar
+          src={MyUser.profile_image}
           onClick={() => setShowProfile(!showProfile)}
           //TODO: Add onclick
         />

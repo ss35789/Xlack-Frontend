@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { switchOnOff } from "../../variable/OnEditProfileSlice";
+import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
 import MyState from "./MyState";
 import { RootState } from "../../app/store";
 
@@ -60,7 +60,7 @@ const ProfileMenu = () => {
                 <span
                   className="flex flex-col"
                   onClick={() => {
-                    dispatch(switchOnOff());
+                    dispatch(EditProfileOnOff());
                   }}
                 >
                   <Op>프로필</Op>

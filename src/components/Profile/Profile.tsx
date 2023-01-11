@@ -4,24 +4,31 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import EditProfile from "./EditProfile";
-import defaultImg from "./defaultProfileImg.jpeg";
 import styled from "styled-components";
+import EditContactInfo from "./EditContactInfo";
 
 const Profile = () => {
   const [open, setOpen] = useState(true);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showEditContactInfo, setShowEditContactInfo] = useState(false);
   const dispatch = useDispatch();
   const MyProfile = useSelector(
     (state: RootState) => state.getMyProfile.userData
   );
   const onEditProfilePage = useSelector(
-    (state: RootState) => state.switchOnOff
+    (state: RootState) => state.EditProfileOnOff
+  );
+  const onEditContactInfo = useSelector(
+    (state: RootState) => state.EditContactInfoOnOff
   );
   useEffect(() => {
     setOpen(!open);
     setShowEditProfile(false);
   }, [onEditProfilePage]);
-
+  useEffect(() => {
+    setOpen(!open);
+    setShowEditContactInfo(false);
+  }, [onEditContactInfo]);
   return (
     <>
       <Transition.Root show={open} as={Fragment}>
@@ -78,7 +85,7 @@ const Profile = () => {
                     <hr />
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <img
-                        src={defaultImg}
+                        src={MyProfile.profile_image}
                         //MyProfile.profile_image
                         width="200"
                         height="200"
@@ -122,7 +129,15 @@ const Profile = () => {
                         <h5 className="text-lg font-medium">
                           Contact information
                         </h5>
-                        <button style={{ color: "blue" }}>Edit</button>
+                        <button
+                          onClick={() => {
+                            setShowEditContactInfo(true);
+                            setOpen(false);
+                          }}
+                          style={{ color: "blue" }}
+                        >
+                          Edit
+                        </button>
                       </div>
 
                       <div className="mt-2">
@@ -154,6 +169,7 @@ const Profile = () => {
         </Dialog>
       </Transition.Root>
       {showEditProfile && <EditProfile />}
+      {showEditContactInfo && <EditContactInfo />}
     </>
   );
 };
