@@ -11,7 +11,7 @@ const EditContactInfo = () => {
   const dispatch = useDispatch();
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   const [EditEmail, setEditEmail] = useState(MyUser.email);
-  const [Editphone, setEditphone] = useState(MyUser.phone_number);
+  const [EditPhone, setEditPhone] = useState(MyUser.phone_number);
 
   const onChangeEditEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,9 +19,9 @@ const EditContactInfo = () => {
     },
     []
   );
-  const onChangeEditphone = useCallback(
+  const onChangeEditPhone = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditphone(e.target.value);
+      setEditPhone(e.target.value);
     },
     []
   );
@@ -29,7 +29,7 @@ const EditContactInfo = () => {
   const UpdateProfile = async () => {
     formData.append("username", MyUser.username);
     formData.append("email", EditEmail);
-    formData.append("phone_number", Editphone);
+    formData.append("phone_number", EditPhone);
     await axios
       .patch(`${backUrl}profile/`, formData, {
         headers: {
@@ -82,9 +82,6 @@ const EditContactInfo = () => {
                               </label>
                               <input
                                 type="text"
-                                name="email-address"
-                                id="email-address"
-                                autoComplete="email"
                                 value={EditEmail}
                                 onChange={onChangeEditEmail}
                                 placeholder={MyUser.email}
@@ -100,11 +97,8 @@ const EditContactInfo = () => {
                               </label>
                               <input
                                 type="text"
-                                name="email-address"
-                                id="email-address"
-                                autoComplete="email"
-                                value={Editphone}
-                                onChange={onChangeEditphone}
+                                value={EditPhone}
+                                onChange={onChangeEditPhone}
                                 placeholder={MyUser.phone_number}
                                 className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               />

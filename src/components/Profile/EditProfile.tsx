@@ -12,11 +12,10 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   const [EditUsername, setEditUsername] = useState(MyUser.username);
-  const [EditDisplayName, setEditDisplayName] = useState("");
-  const [EditTitle, setEditTitle] = useState("");
-  const [selectedImg, setSelectedImg] = useState("");
-  const [EditProfileImage, setEditProfileImage] =
-    useState<FormDataEntryValue>();
+  const [EditDisplayName, setEditDisplayName] = useState(MyUser.display_name);
+  const [EditTitle, setEditTitle] = useState(MyUser.title);
+  const [EditNamePronunciation, setEditNamePronunciation] = useState("");
+  const [selectedImg, setSelectedImg] = useState(MyUser.profile_image);
 
   const onChangeEditUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +26,12 @@ const EditProfile = () => {
   const onChangeEditDisplayName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditDisplayName(e.target.value);
+    },
+    []
+  );
+  const onChangeEditNamePronunciation = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEditNamePronunciation(e.target.value);
     },
     []
   );
@@ -98,9 +103,6 @@ const EditProfile = () => {
                               </label>
                               <input
                                 type="text"
-                                name="email-address"
-                                id="email-address"
-                                autoComplete="email"
                                 value={EditUsername}
                                 onChange={onChangeEditUsername}
                                 placeholder={MyUser.username}
@@ -116,9 +118,6 @@ const EditProfile = () => {
                               </label>
                               <input
                                 type="text"
-                                name="email-address"
-                                id="email-address"
-                                autoComplete="email"
                                 value={EditDisplayName}
                                 onChange={onChangeEditDisplayName}
                                 placeholder={MyUser.display_name}
@@ -140,9 +139,6 @@ const EditProfile = () => {
                               </label>
                               <input
                                 type="text"
-                                name="email-address"
-                                id="email-address"
-                                autoComplete="email"
                                 value={EditTitle}
                                 onChange={onChangeEditTitle}
                                 placeholder={MyUser.title}
@@ -163,11 +159,8 @@ const EditProfile = () => {
                               </label>
                               <input
                                 type="text"
-                                name="email-address"
-                                id="email-address"
-                                autoComplete="email"
-                                value={EditTitle}
-                                onChange={onChangeEditTitle}
+                                value={EditNamePronunciation}
+                                onChange={onChangeEditNamePronunciation}
                                 placeholder="Zoe (pronounced 'zo-ee')"
                                 className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               />
