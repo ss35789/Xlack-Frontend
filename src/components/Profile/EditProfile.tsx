@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import styled from "styled-components";
+import { switchOnOff } from "../../variable/OnEditProfileSlice";
+import { getMyProfile } from "../../variable/MyProfileSlice";
 
 const EditProfile = () => {
   const formData = new FormData();
@@ -51,9 +53,14 @@ const EditProfile = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => {
-        console.log("Complete Edit!");
-        console.log(formData);
+      .then((res) => {
+        window.alert("Complete Edit!");
+        dispatch(getMyProfile(res.data));
+        dispatch(switchOnOff());
+      })
+      .catch((e) => {
+        console.log(e.data);
+        window.alert("Failed Edit Profile");
       });
   };
 
@@ -222,7 +229,10 @@ const EditProfile = () => {
                     </div>
 
                     <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
-                      <button className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2">
+                      <button
+                        onClick={() => dispatch(switchOnOff())}
+                        className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
+                      >
                         Cancel
                       </button>
 
