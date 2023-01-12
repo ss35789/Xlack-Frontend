@@ -10,10 +10,12 @@ import ChannelMenu from "../Channel/ChannelMenu";
 import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 import Workspace from "../Workspace/Workspace";
 import Channel from "../Channel/Channel";
+import Modal from "../Modal";
 
 function Sidebar() {
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const WorkspaceData = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
@@ -76,7 +78,9 @@ function Sidebar() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [channelMenuRef]);
-
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
   const onClickshowChannelMenu = useCallback(() => {
     setshowChannelMenu((prev) => !prev);
   }, []);
@@ -86,7 +90,23 @@ function Sidebar() {
   }, []);
   return (
     <SidebarContainer>
-      <SidebarHeader>
+      <SidebarHeader onClick={onClickToggleModal}>
+        {isOpenModal && <Modal onClickToggleModal={onClickToggleModal}></Modal>}
+        <SidebarTop className="sidebarTop">
+          <div className="sidebarHeaderButton">
+            <div className="sidebarHeaderInfo">
+              <div className="teamName">
+                <div className="loadingSpacer"></div>
+                <span>
+                  {WorkspaceData.map((element, i) => {
+                    return <Workspace {...element} />;
+                  })}
+                </span>
+              </div>
+            </div>
+          </div>
+        </SidebarTop>
+
         {/* <span onClick={editProfile}>
                     <CreateIcon />
                 </span> */}
@@ -197,4 +217,54 @@ const SidebarInfo = styled.div`
       opacity: 0.6;
     }
   }
+`;
+const SidebarTop = styled.div`
+  .sidebarTop {
+    align-items: stretch;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    position: relative;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.33334;
+    min-height: 50px;
+    background: rgb(82, 38, 83);
+    color: #ffffff;
+
+    .sidebarHeaderButton {
+      outline: none;
+      display: flex;
+      cursor: pointer;
+      padding: 12px 54px 0 16px;
+      align-items: flex-start;
+      min-height: inherit;
+      min-width: 0;
+      flex-direction: row-reverse;
+      background-color: initial;
+      border-color: rgb(82, 38, 83);
+
+      .sidebarHeaderInfo {
+        flex: 1;
+        min-width: 0;
+        box-sizing: border-box;
+
+        .teamName {
+          display: flex;
+          align-items: center;
+          padding-left: 4px;
+          max-width: 100%;
+          margin-left: -4px;
+
+          .loadingSpacer {
+            width: 65%;
+            border-radius: 8px;
+            height: 15px;
+            background-color: #ffffff1a;
+            margin-right: 16px;
+            box-sizing: inherit;
+          }
+        }
+      }
+    }
 `;

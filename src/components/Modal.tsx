@@ -36,7 +36,7 @@ const ModalContainer = styled.div`
 `;
 
 const DialogBox = styled.dialog`
-  top: 170px;
+  top: 145px;
   width: 350px;
   height: 700px;
   position: absolute;
