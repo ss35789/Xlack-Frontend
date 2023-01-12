@@ -30,16 +30,12 @@ const StatusPanel = () => {
       <button onClick={handleClickToOpen}>Open Status Default</button>
       <Dialog fullWidth={true} scroll={"body"} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
         <DialogTitle>{"Set a status"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>This is default status</DialogContentText>
-        </DialogContent>
-        <br />
         {!detailClickToOpen ? <DefaultButton onClick={detailClickToOpen} children={opendefault} /> : <StatusDefault />}
         <DialogActions>
-          <Button onClick={handleToClose} color="primary" autoFocus>
+          <Button onClick={handleToClose} variant="contained" color="default" autoFocus>
             Save
           </Button>
-          <Button onClick={handleToClose} color="secondary" autoFocus>
+          <Button onClick={handleToClose} variant="contained" color="secondary" autoFocus>
             Close
           </Button>
         </DialogActions>
@@ -52,10 +48,11 @@ export default StatusPanel;
 
 const StyledPaper = styled(Paper)`
   & {
-    background-color: aliceblue;
+    background-color: white;
     max-width: max-content;
     width: 600px;
     border-radius: 10px;
+    padding: 5px;
   }
 `;
 
