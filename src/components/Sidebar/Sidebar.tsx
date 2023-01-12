@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
-import User from "../Profile/MyProfile";
 import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 import Workspace from "../Workspace/Workspace";
 import Channel from "../Channel/Channel";
@@ -53,12 +52,13 @@ function Sidebar() {
         "내 workspace와 내부 channle들의 hashed_value : ",
         WorkspaceData
       );
-    }
-    WorkspaceData.forEach((element) => {
-      element.chat_channel.forEach((cha) => {
-        setChannelList([...ChannelList, cha.hashed_value]);
+
+      WorkspaceData.forEach((element) => {
+        element.chat_channel.forEach((cha) => {
+          setChannelList([...ChannelList, cha.hashed_value]);
+        });
       });
-    });
+    }
   }, [WorkspaceData]);
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
@@ -87,9 +87,6 @@ function Sidebar() {
   return (
     <SidebarContainer>
       <SidebarHeader>
-        <SidebarInfo>
-          <User></User>
-        </SidebarInfo>
         {/* <span onClick={editProfile}>
                     <CreateIcon />
                 </span> */}
@@ -118,7 +115,6 @@ function Sidebar() {
                     }}
                     onContextMenu={(e) => {
                       e.preventDefault();
-                      dispatch(ClickedChannel(c.hashed_value));
 
                       console.log("채널 메뉴열기!");
                       setx(e.clientX);
