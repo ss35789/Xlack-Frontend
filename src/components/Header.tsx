@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ProfileMenu from "./Profile/ProfileMenu";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 function Header() {
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+  const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   return (
     <HeaderContainer>
       {/* Header Left */}
       <HeaderLeft>
-        <HeaderAvatar
-        //TODO: Add onclick
-        />
         <AccessTimeIcon />
       </HeaderLeft>
 
@@ -25,6 +27,12 @@ function Header() {
       {/* {Header Right} */}
       <HeaderRight>
         <HelpOutlineIcon />
+        <HeaderAvatar
+          src={MyUser.profile_image}
+          onClick={() => setShowProfile(!showProfile)}
+          //TODO: Add onclick
+        />
+        {showProfile && <ProfileMenu />}
       </HeaderRight>
     </HeaderContainer>
   );
@@ -87,6 +95,7 @@ const HeaderRight = styled.div`
   flex: 0.3;
   display: flex;
   align-items: flex-end;
+  margin-right: 12px;
 
   > .MuiSvgIcon-root {
     /* HelpOutlineIcon */

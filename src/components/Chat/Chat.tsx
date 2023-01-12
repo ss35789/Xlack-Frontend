@@ -5,7 +5,7 @@ import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import ChatContext from "./ChatContext";
 import { getChat } from "../types";
-import { WsUrl } from "../../variable/cookie";
+import { Socket } from "socket.io";
 
 function Chat() {
   const receiveMessage = useSelector(
@@ -16,7 +16,7 @@ function Chat() {
   );
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
-  const [websocket, setWebsocket] = useState<WebSocket>();
+  const [socket, setSocket] = useState<Socket>();
   const scrollToBottom = () => {
     messagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -24,21 +24,27 @@ function Chat() {
       inline: "nearest",
     });
   };
-  useEffect(() => {
-    if (websocket !== null && Clicked_channel_hv !== null) {
-      websocket?.close();
-    } else {
-      setWebsocket(new WebSocket(`${WsUrl}${Clicked_channel_hv}/`));
-    }
-    console.log(Clicked_channel_hv);
-  }, [receiveMessage, Clicked_channel_hv]);
-  useEffect(() => {
-    if (websocket) {
-      websocket.onmessage = (event) => {
-        console.log(event.data);
-      };
-    }
-  }, [websocket]);
+  //현재 보고 있는 채널의 hashed_value가 바뀌면 기존 소켓 연결 끊고 새로 재연결
+  // useEffect(() => {
+  //   if (socket !== undefined) {
+  //     socket?.disconnect();
+  //   } else {
+  //     const socketio = io(`${WsUrl}${Clicked_channel_hv}/`, {
+  //       auth: {
+  //         token: `Bearer ${at}`,
+  //       },
+  //     });
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-ignore
+  //     setSocket(socketio);
+  //
+  //     if (socketio.connected) console.log("소켓연결");
+  //   }
+  //
+  //   console.log(Clicked_channel_hv);
+  // }, [receiveMessage, Clicked_channel_hv]);
+  //재연결한 소켓
+
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]);

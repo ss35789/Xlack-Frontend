@@ -10,14 +10,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWorkSpace } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
+import Profile from "../components/Profile/Profile";
+import { getMyProfile } from "../variable/MyProfileSlice";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
+
   const [channels, setChannels] = useState<string[]>([]);
   const Workspace = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
   );
-
+  const getMyUser = async () => {
+    try {
+      const UsersData = await axios.get(`${backUrl}profile/`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      });
+      dispatch(getMyProfile(UsersData.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getMyWorkspace = async () => {
     await axios
       .get(`${backUrl}workspace/`, {
@@ -34,15 +48,16 @@ const Mainpage = () => {
   };
 
   useEffect(() => {
+    getMyUser();
     getMyWorkspace();
   }, []);
-
   return (
     <>
       <Logout />
       <AppBody>
         <Header />
         <Sidebar />
+        <Profile />
         <Chat />
       </AppBody>
     </>
