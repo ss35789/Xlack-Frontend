@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import Mainpage from "./pages/Mainpage";
 import { rt } from "./variable/cookie";
 import FirstPage from "./pages/FirstPage";
+import CreateNewWorkspace from "./pages/CreateNewWorkspace";
+import SetupTeamName from "./pages/SetupTeamName";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<FirstPage />} />
+            {/*<Route path="/workspace" element={<CreateNewWorkspace />} />*/}
+            {/*<Route path="/setTeamName" element={<SetupTeamName />} />*/}
           </Routes>
           {!rt ? (
             <Routes>
@@ -28,6 +32,8 @@ function App() {
             <Routes>
               <Route path="/main" element={<Mainpage />} />
               <Route path="/" element={<Navigate replace to="/main" />} />
+              {/*<Route path="/workspace" element={<CreateNewWorkspace />} />*/}
+              <Route path="/setTeamName" element={<SetupTeamName />} />
             </Routes>
           )}
         </Router>
