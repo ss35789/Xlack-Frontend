@@ -23,15 +23,15 @@ const StatusDefault = () => {
   const times = ["1 hour", "2 hour", "3 hour"];
   const defaultOption = options[0];
   const defaultTime = times[0];
-  const Status = [];
+  const Statusbtns = [];
   for (let i = 0; i < options.length; i++) {
-    Status.push(<StatusButton onClick={handleClickToOpen}>{options[i]}</StatusButton>);
+    Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{options[i]}</StatusButton>);
   }
   return (
     <div>
       <StatusDiv placeholder={"🙂What is your Status"} onClick={handleClickToOpen} />
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
-      {Status}
+      {Statusbtns}
       <Dialog fullWidth={true} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
         <DialogTitle>{"Set a status(Manual)"}</DialogTitle>
         <DialogContent>
