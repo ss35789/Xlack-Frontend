@@ -12,7 +12,6 @@ import { Paper } from "@material-ui/core";
 
 const StatusDefault = () => {
   const [open, setOpen] = React.useState(false);
-  const [status, setStatus] = React.useState();
 
   const handleClickToOpen = async () => {
     setOpen(true);
@@ -23,12 +22,16 @@ const StatusDefault = () => {
   };
   const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "Vacationing", "Working remotely"];
   const times = ["1 hour", "2 hour", "3 hour"];
-  const defaultOption = options[0];
-  const defaultTime = times[0];
+  const [status, setStatus] = React.useState();
+  const [time, setTime] = React.useState();
   const Statusbtns = [];
   const Options = [];
-  const handleOnChange = (e: { target: { value: any } }) => {
+  const Times = [];
+  const handleOnChange = async (e: { target: { value: any } }) => {
     setStatus(e.target.value);
+  };
+  const handleOnChange_T = async (e: { target: { value: any } }) => {
+    setTime(e.target.value);
   };
 
   for (const element of options) {
@@ -36,6 +39,9 @@ const StatusDefault = () => {
   }
   for (const element of options) {
     Options.push(<option>{element}</option>);
+  }
+  for (const element of times) {
+    Times.push(<option>{element}</option>);
   }
   return (
     <div>
@@ -47,13 +53,14 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="fruits" value={status} onChange={handleOnChange}>
+        <StatusSelect id="status" value={status} onChange={handleOnChange}>
           {Options}
         </StatusSelect>
-
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
-        <Dropdown options={times} value={defaultTime} />
+        <TimeSelect id="time" value={time} onChange={handleOnChange_T}>
+          {Times}
+        </TimeSelect>
         <DialogActions>
           <Button onClick={handleToClose} variant="contained" color="primary" autoFocus>
             Save
@@ -99,4 +106,15 @@ const StatusDiv = styled.input`
 `;
 const StatusSelect = styled.select`
   width: 600px;
+  height: 40px;
+  font-size: 20px;
+  color: grey;
+  border: 1px solid lightgrey;
+`;
+const TimeSelect = styled.select`
+  width: 600px;
+  height: 40px;
+  font-size: 20px;
+  color: grey;
+  border: 1px solid lightgrey;
 `;
