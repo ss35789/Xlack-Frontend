@@ -12,6 +12,8 @@ import { Paper } from "@material-ui/core";
 
 const StatusDefault = () => {
   const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = React.useState();
+
   const handleClickToOpen = async () => {
     setOpen(true);
   };
@@ -25,13 +27,16 @@ const StatusDefault = () => {
   const defaultTime = times[0];
   const Statusbtns = [];
   const Options = [];
+  const handleOnChange = (e: { target: { value: any } }) => {
+    setStatus(e.target.value);
+  };
+
   for (const element of options) {
     Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
   }
   for (const element of options) {
-    Options.push(<option value={defaultOption}>{element}</option>);
+    Options.push(<option>{element}</option>);
   }
-  const [status, setStatus] = useState();
   return (
     <div>
       <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
@@ -42,7 +47,7 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="fruits" value={status} onChange={e => setStatus(e.target.value)}>
+        <StatusSelect id="fruits" value={status} onChange={handleOnChange}>
           {Options}
         </StatusSelect>
 
