@@ -1,9 +1,7 @@
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
@@ -27,7 +25,7 @@ const StatusPanel = () => {
 
   return (
     <div>
-      <button onClick={handleClickToOpen}>Open Status Default</button>
+      <button onClick={handleClickToOpen}>Open Status Panel</button>
       <Dialog fullWidth={true} scroll={"body"} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
         <DialogTitle>{"Set a status"}</DialogTitle>
         {!detailClickToOpen ? <DefaultButton onClick={detailClickToOpen} children={opendefault} /> : <StatusDefault />}

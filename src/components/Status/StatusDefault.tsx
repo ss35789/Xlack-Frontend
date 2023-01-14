@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -24,12 +24,17 @@ const StatusDefault = () => {
   const defaultOption = options[0];
   const defaultTime = times[0];
   const Statusbtns = [];
-  for (let i = 0; i < options.length; i++) {
-    Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{options[i]}</StatusButton>);
+  const Options = [];
+  for (const element of options) {
+    Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
   }
+  for (const element of options) {
+    Options.push(<option value={defaultOption}>{element}</option>);
+  }
+  const [status, setStatus] = useState();
   return (
     <div>
-      <StatusDiv placeholder={"🙂What is your Status"} onClick={handleClickToOpen} />
+      <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
       <Dialog fullWidth={true} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
@@ -37,7 +42,10 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <Dropdown options={options} value={defaultOption} />
+        <StatusSelect id="fruits" value={status} onChange={e => setStatus(e.target.value)}>
+          {Options}
+        </StatusSelect>
+
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
         <Dropdown options={times} value={defaultTime} />
@@ -83,4 +91,7 @@ const StatusDiv = styled.input`
   width: 500px;
   height: 40px;
   font-size: 20px;
+`;
+const StatusSelect = styled.select`
+  width: 600px;
 `;
