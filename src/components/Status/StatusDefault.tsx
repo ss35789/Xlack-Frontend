@@ -20,7 +20,7 @@ const StatusDefault = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "Vacationing", "Working remotely"];
+  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
   const times = ["1 hour", "2 hour", "3 hour"];
   const [status, setStatus] = React.useState();
   const [time, setTime] = React.useState();
