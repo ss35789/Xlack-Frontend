@@ -4,7 +4,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
@@ -65,11 +65,11 @@ const StatusDefault = () => {
           {Times}
         </TimeSelect>
         <DialogActions>
-          <Button onClick={handleToClose} variant="contained" color="primary" autoFocus>
-            Save
-          </Button>
-          <Button onClick={handleToClose} variant="contained" color="secondary" autoFocus>
+          <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
             Close
+          </Button>
+          <Button onClick={handleToClose} variant="contained" color="success" autoFocus>
+            Save
           </Button>
         </DialogActions>
       </Dialog>
@@ -84,7 +84,7 @@ const StyledPaper = styled(Paper)`
     background-color: white;
     width: 600px;
     border-radius: 10px;
-    padding: 5px;
+    padding: 15px;
   }
 `;
 
@@ -94,6 +94,7 @@ const StatusButton = styled.button`
   background-color: white;
   border: none;
   text-align: left;
+  font-family: "Fira Code", emoji;
   font-size: 20px;
   :hover {
     background-color: #1264a3;
