@@ -6,7 +6,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 import "react-dropdown/style.css";
-import Dropdown from "react-dropdown";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 
@@ -16,12 +15,15 @@ const StatusDefault = () => {
   const handleClickToOpen = async () => {
     setOpen(true);
   };
+  const sendStatus = (e: { target: { value: React.SetStateAction<undefined> } }) => {
+    setStatus(e.target.value);
+  };
 
   const handleToClose = async () => {
     setOpen(false);
   };
   const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
-  const times = ["1 hour", "2 hour", "3 hour"];
+  const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
   const [status, setStatus] = React.useState();
   const [time, setTime] = React.useState();
   const Statusbtns = [];
@@ -46,6 +48,7 @@ const StatusDefault = () => {
   return (
     <div>
       <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
+      <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
       <Dialog fullWidth={true} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
