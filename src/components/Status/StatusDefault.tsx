@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 
 const StatusDefault = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickToOpen = async () => {
     setOpen(true);
@@ -24,8 +24,8 @@ const StatusDefault = () => {
   };
   const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
   const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
-  const [status, setStatus] = React.useState();
-  const [time, setTime] = React.useState();
+  const [status, setStatus] = useState();
+  const [time, setTime] = useState();
   const Statusbtns = [];
   const Options = [];
   const Times = [];
@@ -100,6 +100,7 @@ const StatusButton = styled.button`
     background-color: #1264a3;
   }
 `;
+
 const StatusDiv = styled.input`
   border: 1px solid grey;
   margin-left: 40px;
