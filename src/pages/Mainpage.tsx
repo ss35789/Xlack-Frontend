@@ -12,6 +12,8 @@ import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";
+import { Link } from "react-router-dom";
+import { SelectWorkspace } from "../components/Workspace/Workspace";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -56,6 +58,10 @@ const Mainpage = () => {
       <Logout />
       <AppBody>
         <Header />
+        {Workspace.map((element, i) => {
+          console.log(element.name);
+          return <SelectWorkspace {...element} />;
+        })}
         <Sidebar />
         <Profile />
         <Chat />
