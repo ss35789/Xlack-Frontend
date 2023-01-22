@@ -8,16 +8,25 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
+import EmojiPicker from "emoji-picker-react";
+import any = jasmine.any;
+// import WsUrl from "../../variable/cookie";
 
 const StatusDefault = () => {
   const [open, setOpen] = useState(false);
+  const [openStatus, SetopenStatus] = useState(false);
 
+  const openStatusHandler = async () => {
+    SetopenStatus(!openStatus);
+  };
+
+  // const ws = new WebSocket("wss://api.xlack.kreimben.com/ws/status/<workspace_hashed_value>/");
   const handleClickToOpen = async () => {
     setOpen(true);
   };
-  const sendStatus = (e: { target: { value: React.SetStateAction<undefined> } }) => {
-    setStatus(e.target.value);
-  };
+  // const sendStatus = (e: { target: { value: React.SetStateAction<undefined> } }) => {
+  //   setStatus(e.target.value);
+  // };
 
   const handleToClose = async () => {
     setOpen(false);
@@ -45,9 +54,43 @@ const StatusDefault = () => {
   for (const element of times) {
     Times.push(<option>{element}</option>);
   }
+  const [chosenEmoji, setChosenEmoji] = useState();
+
+  const onEmojiClick = (event, emojiObject: any) => {
+    setChosenEmoji(emojiObject);
+  };
+  const EmojiData = ({ chosenEmoji }) => (
+    <div>
+      <strong>Unified:</strong> {chosenEmoji.unified}
+      <br />
+      <strong>Names:</strong> {chosenEmoji.names.join(", ")}
+      <br />
+      <strong>Symbol:</strong> {chosenEmoji.emoji}
+      <br />
+      <strong>ActiveSkinTone:</strong> {chosenEmoji.activeSkinTone}
+    </div>
+  );
   return (
     <div>
+      <button onClick={openStatusHandler}>
+        👍
+        {openStatus ? (
+          <Dialog open={openStatus}>
+            {/*<EmojiPicker onEmojiClick={onEmojiClick} />*/}
+            <div>
+              <EmojiPicker onEmojiClick={onEmojiClick} disableAutoFocus={true} native />
+              {chosenEmoji && <EmojiData chosenEmoji={chosenEmoji} />}
+            </div>
+            {console.log(chosenEmoji)}
+          </Dialog>
+        ) : (
+          ""
+        )}
+      </button>
       <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
+      {chosenEmoji}
+      {console.log(chosenEmoji)}
+
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
