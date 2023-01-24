@@ -99,7 +99,7 @@ function Sidebar() {
                 <div className="loadingSpacer"></div>
                 <span>
                   {WorkspaceData.map((element, i) => {
-                    return <Workspace {...element} />;
+                    return <Workspace {...element} key={i} />;
                   })}
                 </span>
               </div>

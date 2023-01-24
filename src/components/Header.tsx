@@ -7,15 +7,23 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ProfileMenu from "./Profile/ProfileMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import Historymenu from "./History/Historymenu";
 
 function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  const [showHistorymenu, setShowHistorymenu] = useState<boolean>(false);
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   return (
     <HeaderContainer>
       {/* Header Left */}
       <HeaderLeft>
-        <AccessTimeIcon />
+        <AccessTimeIcon
+          onClick={() => {
+            setShowHistorymenu(!showHistorymenu);
+            console.log("test");
+          }}
+        />
+        {showHistorymenu && <Historymenu />}
       </HeaderLeft>
 
       {/* Header Search */}
