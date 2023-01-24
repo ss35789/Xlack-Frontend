@@ -130,6 +130,10 @@ function Sidebar() {
                     ref={channelMenuRef}
                     onClick={(e) => {
                       e.preventDefault();
+                      window.localStorage.setItem(
+                        c.name,
+                        JSON.stringify(c.hashed_value)
+                      );
                       dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
                       //connectChat(enterRoomId)
                     }}
