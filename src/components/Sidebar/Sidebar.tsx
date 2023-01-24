@@ -17,6 +17,7 @@ function Sidebar() {
   const [y, sety] = useState(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const historyMap = new Map<string, string>();
   const WorkspaceData = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
   );
@@ -130,8 +131,16 @@ function Sidebar() {
                     ref={channelMenuRef}
                     onClick={(e) => {
                       e.preventDefault();
-                      window.localStorage.removeItem(c.name);
-                      window.localStorage.setItem(c.name, c.hashed_value);
+                      historyMap.set(c.name, c.hashed_value);
+                      console.log(historyMap.get(c.name));
+                      const array = Array.from(historyMap, ([name, value]) => ({
+                        name,
+                        value,
+                      }));
+                      window.localStorage.setItem(
+                        "history",
+                        JSON.stringify(array)
+                      );
                       dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
                       //connectChat(enterRoomId)
                     }}
