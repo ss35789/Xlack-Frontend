@@ -4,10 +4,15 @@ import { useDispatch } from "react-redux";
 import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 
 const Historymenu = () => {
-  const [historyData, sethistoryData] = useState<string[]>();
+  const [historyData, sethistoryData] =
+    useState<[{ name: string; hv: string }]>();
   const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const asd = JSON.parse(window.localStorage.getItem("history"));
   useEffect(() => {
-    sethistoryData(Object.keys(window.localStorage));
+    sethistoryData(asd);
+    console.log(historyData);
   }, []);
 
   return (
@@ -36,11 +41,13 @@ const Historymenu = () => {
                     className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                     role="menuitem"
                     onClick={() => {
-                      dispatch(ClickedChannel(window.localStorage.getItem(h)));
+                      dispatch(
+                        ClickedChannel(window.localStorage.getItem(h.hv))
+                      );
                     }}
                   >
                     <span className="flex flex-col">
-                      <Op key={i}># {h}</Op>
+                      <Op key={i}># {h.name}</Op>
                     </span>
                   </a>
                 </>

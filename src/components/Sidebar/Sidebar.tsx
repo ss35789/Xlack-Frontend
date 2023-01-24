@@ -50,6 +50,12 @@ function Sidebar() {
   // };
 
   useEffect(() => {
+    // if (window.localStorage.getItem("history") !== null) {
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   // @ts-ignore
+    //   const add = JSON.parse(window.localStorage.getItem("history"));
+    //   // 새로고침할떄 history 남아있게
+    // }
     if (WorkspaceData !== null) {
       console.log(
         "내 workspace와 내부 channle들의 hashed_value : ",
