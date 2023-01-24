@@ -23,7 +23,11 @@ function Header() {
             console.log("test");
           }}
         />
-        {showHistorymenu && <Historymenu />}
+        {showHistorymenu && (
+          <div className="z-10">
+            <Historymenu />
+          </div>
+        )}
       </HeaderLeft>
 
       {/* Header Search */}
