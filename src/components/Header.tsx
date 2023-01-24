@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -13,14 +13,32 @@ function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [showHistorymenu, setShowHistorymenu] = useState<boolean>(false);
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
+  const historyMenuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // historyMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
+    function handleClickOutside(e: MouseEvent): void {
+      if (
+        historyMenuRef.current &&
+        !historyMenuRef.current.contains(e.target as Node)
+      ) {
+        setShowHistorymenu(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [historyMenuRef]);
+
   return (
     <HeaderContainer>
       {/* Header Left */}
-      <HeaderLeft>
+      <HeaderLeft ref={historyMenuRef}>
         <AccessTimeIcon
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             setShowHistorymenu(!showHistorymenu);
-            console.log("test");
           }}
         />
         {showHistorymenu && (

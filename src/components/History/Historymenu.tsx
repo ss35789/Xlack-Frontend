@@ -6,7 +6,9 @@ import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 const Historymenu = () => {
   const [historyData, sethistoryData] = useState<string[]>();
   const dispatch = useDispatch();
-  useEffect(() => sethistoryData(Object.keys(window.localStorage)), []);
+  useEffect(() => {
+    sethistoryData(Object.keys(window.localStorage));
+  }, []);
 
   return (
     <div className="relative inline-block text-left">

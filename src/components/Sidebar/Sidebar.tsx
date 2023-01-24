@@ -130,13 +130,13 @@ function Sidebar() {
                     ref={channelMenuRef}
                     onClick={(e) => {
                       e.preventDefault();
+                      window.localStorage.removeItem(c.name);
                       window.localStorage.setItem(c.name, c.hashed_value);
                       dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
                       //connectChat(enterRoomId)
                     }}
                     onContextMenu={(e) => {
                       e.preventDefault();
-
                       console.log("채널 메뉴열기!");
                       setx(e.clientX);
                       sety(e.clientY);
