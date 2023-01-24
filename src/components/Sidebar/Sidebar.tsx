@@ -79,6 +79,16 @@ function Sidebar() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [channelMenuRef]);
+  const storeHistory = (name: string, hv: string) => {
+    historyMap.delete(name);
+    historyMap.set(name, hv);
+    console.log(historyMap.get(name));
+    const array = Array.from(historyMap, ([name, value]) => ({
+      name,
+      value,
+    }));
+    window.localStorage.setItem("history", JSON.stringify(array));
+  };
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -131,16 +141,7 @@ function Sidebar() {
                     ref={channelMenuRef}
                     onClick={(e) => {
                       e.preventDefault();
-                      historyMap.set(c.name, c.hashed_value);
-                      console.log(historyMap.get(c.name));
-                      const array = Array.from(historyMap, ([name, value]) => ({
-                        name,
-                        value,
-                      }));
-                      window.localStorage.setItem(
-                        "history",
-                        JSON.stringify(array)
-                      );
+                      storeHistory(c.name, c.hashed_value);
                       dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
                       //connectChat(enterRoomId)
                     }}
