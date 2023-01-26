@@ -13,6 +13,7 @@ import Channel from "../Channel/Channel";
 import Modal from "../Modal";
 
 function Sidebar() {
+  const max_history_size = 6;
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
@@ -101,8 +102,9 @@ function Sidebar() {
     const array = Array.from(historyMap, ([name, value]) => ({
       name,
       value,
-    }));
-    window.localStorage.setItem("history", JSON.stringify(array.reverse()));
+    })).reverse();
+    if (array.length > max_history_size) array.pop();
+    window.localStorage.setItem("history", JSON.stringify(array));
   };
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
