@@ -15,7 +15,7 @@ export function SelectWorkspace(prop: WorkspaceType) {
   return (
     <WorkspaceContainer>
       <OptionWorkspace>
-        <WorkspaceButton>{prop.name.slice(0, 1)}</WorkspaceButton>
+        <WorkspaceButton>{prop.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
       </OptionWorkspace>
     </WorkspaceContainer>
   );
@@ -43,24 +43,7 @@ const ChannelContainer = styled.div`
     padding: 15px;
   }
 `;
-const WorkspaceContainer = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  vertical-align: top;
-  text-align: center;
-  padding: 15px 0 0;
-  background-color: var(--slack-color);
-  border-right-width: 1px;
-  border-right-style: solid;
-  border-top-width: 1px;
-  border-top-color: rgb(73, 39, 75);
-  border-right-color: rgb(73, 39, 75);
-  top: 60px;
-  position: relative;
-  width: 60px;
-  align-content: center;
-`;
+const WorkspaceContainer = styled.div``;
 const OptionWorkspace = styled.div`
   color: white;
 `;
@@ -73,11 +56,26 @@ const WorkspaceButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: white;
+  background: rgb(89, 87, 87);
   border: 3px solid #3f0e40;
   margin-bottom: 15px;
   font-size: 18px;
   font-weight: 700;
-  color: black;
+  color: white;
   cursor: pointer;
+  &:hover {
+    border-color: lightgray;
+  }
+`;
+const Workspaces = styled.div`
+  width: 65px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: #3f0e40;
+  border-top: 1px solid rgb(82, 38, 83);
+  border-right: 1px solid rgb(82, 38, 83);
+  vertical-align: top;
+  text-align: center;
+  padding: 15px 0 0;
 `;

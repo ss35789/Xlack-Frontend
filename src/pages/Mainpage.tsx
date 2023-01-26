@@ -58,10 +58,16 @@ const Mainpage = () => {
       <Logout />
       <AppBody>
         <Header />
-        {Workspace.map((element, i) => {
-          console.log(element.name);
-          return <SelectWorkspace {...element} />;
-        })}
+        <SelectWorkspaces>
+          {Workspace.map((element, i) => {
+            // console.log(element);
+            return <SelectWorkspace {...element} />;
+          })}
+          <PlusButton>
+            +
+            {}
+          </PlusButton>
+        </SelectWorkspaces>
         <Sidebar />
         <Profile />
         <Chat />
@@ -71,8 +77,35 @@ const Mainpage = () => {
 };
 
 export default Mainpage;
-
+const SelectWorkspaces = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: top;
+  text-align: center;
+  padding: 15px 0 0;
+  background-color: var(--slack-color);
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-top-width: 1px;
+  border-top-color: rgb(73, 39, 75);
+  border-right-color: rgb(73, 39, 75);
+  top: 60px;
+  position: relative;
+  width: 60px;
+  align-content: center;
+`;
 const AppBody = styled.div`
   display: flex;
   height: 100vh;
+`;
+const PlusButton = styled.div`
+  color: white;
+  font-size: 30px;
+  //margin-top: -10px;
+  align-items: center;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  display: inline-block;
 `;
