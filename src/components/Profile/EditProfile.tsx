@@ -16,7 +16,7 @@ const EditProfile = () => {
   const [EditTitle, setEditTitle] = useState(MyUser.title);
   const [EditNamePronunciation, setEditNamePronunciation] = useState("");
   const [selectedImg, setSelectedImg] = useState(MyUser.profile_image);
-
+  const [PreviewPhoto, setPreviewPhoto] = useState(MyUser.profile_image);
   const onChangeEditUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditUsername(e.target.value);
@@ -41,10 +41,10 @@ const EditProfile = () => {
     },
     []
   );
-
   const selectImg = (e: any) => {
+    e.preventDefault();
     setSelectedImg(e.target.files[0]);
-    console.log(selectedImg);
+    setPreviewPhoto(URL.createObjectURL(e.target.files[0]));
   };
   const UpdateProfile = async () => {
     formData.append("username", EditUsername);
@@ -199,11 +199,7 @@ const EditProfile = () => {
                           <h1 className="flex text-sm font-medium text-gray-700 flex-grow">
                             Profile photo
                           </h1>
-                          <img
-                            src={MyUser.profile_image}
-                            width="200"
-                            height="200"
-                          />
+                          <img src={PreviewPhoto} width="200" height="200" />
                           {/*testcode defaultImg => MyUser.profile_image*/}
 
                           <label htmlFor="profile_img">
