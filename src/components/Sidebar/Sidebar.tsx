@@ -17,7 +17,7 @@ function Sidebar() {
   const [y, sety] = useState(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const historyMap = new Map<string, string>();
+  const [historyMap, setHistoryMap] = useState(new Map<string, string>());
   const WorkspaceData = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
   );
@@ -50,12 +50,21 @@ function Sidebar() {
   // };
 
   useEffect(() => {
-    // if (window.localStorage.getItem("history") !== null) {
-    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //   // @ts-ignore
-    //   const add = JSON.parse(window.localStorage.getItem("history"));
-    //   // 새로고침할떄 history 남아있게
-    // }
+    if (window.localStorage.getItem("history") !== null) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const h = JSON.parse(window.localStorage.getItem("history"));
+      // 새로고침할떄 history 남아있게
+
+      const arrMap = h.reduce(
+        (map: Map<string, string>, obj: { name: string; value: string }) => {
+          map.set(obj.name, obj.value);
+          return map;
+        },
+        new Map()
+      );
+      setHistoryMap(arrMap);
+    }
     if (WorkspaceData !== null) {
       console.log(
         "내 workspace와 내부 channle들의 hashed_value : ",
@@ -93,7 +102,7 @@ function Sidebar() {
       name,
       value,
     }));
-    window.localStorage.setItem("history", JSON.stringify(array));
+    window.localStorage.setItem("history", JSON.stringify(array.reverse()));
   };
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
