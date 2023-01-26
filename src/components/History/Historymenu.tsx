@@ -5,14 +5,17 @@ import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 
 const Historymenu = () => {
   const [historyData, sethistoryData] =
-    useState<[{ name: string; hv: string }]>();
+    useState<[{ name: string; value: string }]>();
   const dispatch = useDispatch();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const asd = JSON.parse(window.localStorage.getItem("history"));
+
+  const localStorage_hisory = JSON.parse(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.localStorage.getItem("history")
+  );
   useEffect(() => {
-    sethistoryData(asd);
-    console.log(historyData);
+    sethistoryData(localStorage_hisory);
+    console.log("localStorage getHistoryData", localStorage_hisory);
   }, []);
 
   return (
@@ -41,9 +44,8 @@ const Historymenu = () => {
                     className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                     role="menuitem"
                     onClick={() => {
-                      dispatch(
-                        ClickedChannel(window.localStorage.getItem(h.hv))
-                      );
+                      dispatch(ClickedChannel(h.value));
+                      console.log("history click:", h.value);
                     }}
                   >
                     <span className="flex flex-col">
