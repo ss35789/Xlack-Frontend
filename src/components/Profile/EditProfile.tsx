@@ -29,7 +29,6 @@ const EditProfile = () => {
   });
   const cancelCheckFunc = (cancel: boolean) => {
     setCancelCheck(cancel);
-    console.log("모달 닫힘");
   };
   const onChangeEditUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

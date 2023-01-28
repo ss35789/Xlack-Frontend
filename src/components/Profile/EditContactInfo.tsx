@@ -5,6 +5,7 @@ import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import { EditContactInfoOnOff } from "../../variable/OnEditProfileSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
+import EditcheckModal from "./EditcheckModal";
 
 const EditContactInfo = () => {
   const formData = new FormData();
@@ -12,16 +13,26 @@ const EditContactInfo = () => {
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   const [EditEmail, setEditEmail] = useState(MyUser.email);
   const [EditPhone, setEditPhone] = useState(MyUser.phone_number);
-
+  const [cancelCheck, setCancelCheck] = useState(false);
+  const [UpdateCheck, setUpdateCheck] = useState({
+    Update_Email: false,
+    Update_Phone: false,
+    Updated: false,
+  });
+  const cancelCheckFunc = (cancel: boolean) => {
+    setCancelCheck(cancel);
+  };
   const onChangeEditEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditEmail(e.target.value);
+      setUpdateCheck({ ...UpdateCheck, Update_Email: true, Updated: true });
     },
     []
   );
   const onChangeEditPhone = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditPhone(e.target.value);
+      setUpdateCheck({ ...UpdateCheck, Update_Phone: true, Updated: true });
     },
     []
   );
@@ -111,7 +122,10 @@ const EditContactInfo = () => {
 
                   <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
                     <button
-                      onClick={() => dispatch(EditContactInfoOnOff())}
+                      onClick={() => {
+                        if (UpdateCheck.Updated) setCancelCheck(true);
+                        else dispatch(EditContactInfoOnOff());
+                      }}
                       className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
                     >
                       Cancel
@@ -132,6 +146,7 @@ const EditContactInfo = () => {
           </div>
         </div>
       </div>
+      <EditcheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
     </>
   );
 };
