@@ -6,6 +6,7 @@ import { at, backUrl } from "../../variable/cookie";
 import styled from "styled-components";
 import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
+import EditcheckModal from "./EditcheckModal";
 
 const EditProfile = () => {
   const formData = new FormData();
@@ -17,45 +18,59 @@ const EditProfile = () => {
   const [EditNamePronunciation, setEditNamePronunciation] = useState("");
   const [selectedImg, setSelectedImg] = useState(MyUser.profile_image);
   const [PreviewPhoto, setPreviewPhoto] = useState(MyUser.profile_image);
+  const [cancelCheck, setCancelCheck] = useState(false);
   const [UpdateCheck, setUpdateCheck] = useState({
     Update_username: false,
     Update_DisplayName: false,
     Update_Title: false,
     Update_NamePronunciation: false,
     Update_selectedImg: false,
+    Updated: false,
   });
+  const cancelCheckFunc = (cancel: boolean) => {
+    setCancelCheck(cancel);
+    console.log("모달 닫힘");
+  };
   const onChangeEditUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditUsername(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_username: true });
+      setUpdateCheck({ ...UpdateCheck, Update_username: true, Updated: true });
     },
     []
   );
   const onChangeEditDisplayName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditDisplayName(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_DisplayName: true });
+      setUpdateCheck({
+        ...UpdateCheck,
+        Update_DisplayName: true,
+        Updated: true,
+      });
     },
     []
   );
   const onChangeEditNamePronunciation = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditNamePronunciation(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_NamePronunciation: true });
+      setUpdateCheck({
+        ...UpdateCheck,
+        Update_NamePronunciation: true,
+        Updated: true,
+      });
     },
     []
   );
   const onChangeEditTitle = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditTitle(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_Title: true });
+      setUpdateCheck({ ...UpdateCheck, Update_Title: true, Updated: true });
     },
     []
   );
   const selectImg = (e: any) => {
     setSelectedImg(e.target.files[0]);
     setPreviewPhoto(URL.createObjectURL(e.target.files[0]));
-    setUpdateCheck({ ...UpdateCheck, Update_selectedImg: true });
+    setUpdateCheck({ ...UpdateCheck, Update_selectedImg: true, Updated: true });
   };
   const UpdateProfile = async () => {
     formData.append("username", EditUsername);
@@ -233,7 +248,8 @@ const EditProfile = () => {
                     <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
                       <button
                         onClick={() => {
-                          dispatch(EditProfileOnOff());
+                          if (UpdateCheck.Updated) setCancelCheck(true);
+                          else dispatch(EditProfileOnOff());
                         }}
                         className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
                       >
@@ -256,6 +272,8 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
+
+      <EditcheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
     </>
   );
 };
