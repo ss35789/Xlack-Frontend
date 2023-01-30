@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Chat from "../components/Chat/Chat";
@@ -14,10 +14,12 @@ import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";
 import { Link } from "react-router-dom";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
+import Modal from "../components/Modal";
+import PlusModal from "../components/Workspace/PlusModal";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
-
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [channels, setChannels] = useState<string[]>([]);
   const Workspace = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
@@ -53,6 +55,9 @@ const Mainpage = () => {
     getMyUser();
     getMyWorkspace();
   }, []);
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
   return (
     <>
       <Logout />
@@ -63,9 +68,11 @@ const Mainpage = () => {
             // console.log(element);
             return <SelectWorkspace {...element} />;
           })}
-          <PlusButton>
+          <PlusButton onClick={onClickToggleModal}>
             +
-            {}
+            {isOpenModal && (
+              <PlusModal onClickToggleModal={onClickToggleModal}></PlusModal>
+            )}
           </PlusButton>
         </SelectWorkspaces>
         <Sidebar />
