@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -7,15 +7,45 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ProfileMenu from "./Profile/ProfileMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import Historymenu from "./History/Historymenu";
 
 function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  const [showHistorymenu, setShowHistorymenu] = useState<boolean>(false);
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
+  const historyMenuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // historyMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
+    function handleClickOutside(e: MouseEvent): void {
+      if (
+        historyMenuRef.current &&
+        !historyMenuRef.current.contains(e.target as Node)
+      ) {
+        setShowHistorymenu(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [historyMenuRef]);
+
   return (
     <HeaderContainer>
       {/* Header Left */}
-      <HeaderLeft>
-        <AccessTimeIcon />
+      <HeaderLeft ref={historyMenuRef}>
+        <AccessTimeIcon
+          onClick={(e) => {
+            e.preventDefault();
+            setShowHistorymenu(!showHistorymenu);
+          }}
+        />
+        {showHistorymenu && (
+          <div className="z-10">
+            <Historymenu />
+          </div>
+        )}
       </HeaderLeft>
 
       {/* Header Search */}

@@ -6,6 +6,7 @@ import { at, backUrl } from "../../variable/cookie";
 import styled from "styled-components";
 import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
+import EditcheckModal from "./EditcheckModal";
 
 const EditProfile = () => {
   const formData = new FormData();
@@ -16,41 +17,67 @@ const EditProfile = () => {
   const [EditTitle, setEditTitle] = useState(MyUser.title);
   const [EditNamePronunciation, setEditNamePronunciation] = useState("");
   const [selectedImg, setSelectedImg] = useState(MyUser.profile_image);
-
+  const [PreviewPhoto, setPreviewPhoto] = useState(MyUser.profile_image);
+  const [cancelCheck, setCancelCheck] = useState(false);
+  const [UpdateCheck, setUpdateCheck] = useState({
+    Update_username: false,
+    Update_DisplayName: false,
+    Update_Title: false,
+    Update_NamePronunciation: false,
+    Update_selectedImg: false,
+    Updated: false,
+  });
+  const cancelCheckFunc = (cancel: boolean) => {
+    setCancelCheck(cancel);
+  };
   const onChangeEditUsername = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditUsername(e.target.value);
+      setUpdateCheck({ ...UpdateCheck, Update_username: true, Updated: true });
     },
     []
   );
   const onChangeEditDisplayName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditDisplayName(e.target.value);
+      setUpdateCheck({
+        ...UpdateCheck,
+        Update_DisplayName: true,
+        Updated: true,
+      });
     },
     []
   );
   const onChangeEditNamePronunciation = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditNamePronunciation(e.target.value);
+      setUpdateCheck({
+        ...UpdateCheck,
+        Update_NamePronunciation: true,
+        Updated: true,
+      });
     },
     []
   );
   const onChangeEditTitle = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEditTitle(e.target.value);
+      setUpdateCheck({ ...UpdateCheck, Update_Title: true, Updated: true });
     },
     []
   );
-
   const selectImg = (e: any) => {
     setSelectedImg(e.target.files[0]);
-    console.log(selectedImg);
+    setPreviewPhoto(URL.createObjectURL(e.target.files[0]));
+    setUpdateCheck({ ...UpdateCheck, Update_selectedImg: true, Updated: true });
   };
   const UpdateProfile = async () => {
     formData.append("username", EditUsername);
     formData.append("display_name", EditDisplayName);
     formData.append("title", EditTitle);
-    formData.append("profile_image", selectedImg);
+    if (UpdateCheck.Update_selectedImg)
+      formData.append("profile_image", selectedImg);
+
     await axios
       .patch(`${backUrl}profile/`, formData, {
         headers: {
@@ -197,13 +224,9 @@ const EditProfile = () => {
                         </div>
                         <div className="mt-10">
                           <h1 className="flex text-sm font-medium text-gray-700 flex-grow">
-                            Profile photo
+                            Profile image
                           </h1>
-                          <img
-                            src={MyUser.profile_image}
-                            width="200"
-                            height="200"
-                          />
+                          <img src={PreviewPhoto} width="200" height="200" />
                           {/*testcode defaultImg => MyUser.profile_image*/}
 
                           <label htmlFor="profile_img">
@@ -223,7 +246,10 @@ const EditProfile = () => {
 
                     <div className="bg-gray-100 px-4 py-3 text-right sm:px-6">
                       <button
-                        onClick={() => dispatch(EditProfileOnOff())}
+                        onClick={() => {
+                          if (UpdateCheck.Updated) setCancelCheck(true);
+                          else dispatch(EditProfileOnOff());
+                        }}
                         className="inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-black shadow-sm hover:bg-indigo-700 focus:outline-black focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
                       >
                         Cancel
@@ -245,6 +271,8 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
+
+      <EditcheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
     </>
   );
 };

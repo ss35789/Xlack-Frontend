@@ -24,8 +24,11 @@ export const WorkSpaceSlice = createSlice({
         name: m.name,
       });
     },
+    clearWorkSpace: (state) => {
+      state.hashed = [];
+    },
   },
 });
 
-export const { getWorkSpace } = WorkSpaceSlice.actions;
+export const { getWorkSpace, clearWorkSpace } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

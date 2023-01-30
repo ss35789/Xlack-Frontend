@@ -13,10 +13,12 @@ import Channel from "../Channel/Channel";
 import Modal from "../Modal";
 
 function Sidebar() {
+  const max_history_size = 6;
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const [historyMap, setHistoryMap] = useState(new Map<string, string>());
   const WorkspaceData = useSelector(
     (state: RootState) => state.getMyWorkSpace.hashed
   );
@@ -49,6 +51,21 @@ function Sidebar() {
   // };
 
   useEffect(() => {
+    if (window.localStorage.getItem("history") !== null) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const h = JSON.parse(window.localStorage.getItem("history"));
+      // 새로고침할떄 history 남아있게
+
+      const arrMap = h.reduce(
+        (map: Map<string, string>, obj: { name: string; value: string }) => {
+          map.set(obj.name, obj.value);
+          return map;
+        },
+        new Map()
+      );
+      setHistoryMap(arrMap);
+    }
     if (WorkspaceData !== null) {
       console.log(
         "내 workspace와 내부 channle들의 hashed_value : ",
@@ -78,6 +95,17 @@ function Sidebar() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [channelMenuRef]);
+  const storeHistory = (name: string, hv: string) => {
+    historyMap.delete(name);
+    historyMap.set(name, hv);
+    console.log(historyMap.get(name));
+    const array = Array.from(historyMap, ([name, value]) => ({
+      name,
+      value,
+    })).reverse();
+    if (array.length > max_history_size) array.pop();
+    window.localStorage.setItem("history", JSON.stringify(array));
+  };
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -99,7 +127,7 @@ function Sidebar() {
                 <div className="loadingSpacer"></div>
                 <span>
                   {WorkspaceData.map((element, i) => {
-                    return <Workspace {...element} />;
+                    return <Workspace {...element} key={i} />;
                   })}
                 </span>
               </div>
@@ -130,12 +158,12 @@ function Sidebar() {
                     ref={channelMenuRef}
                     onClick={(e) => {
                       e.preventDefault();
+                      storeHistory(c.name, c.hashed_value);
                       dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
                       //connectChat(enterRoomId)
                     }}
                     onContextMenu={(e) => {
                       e.preventDefault();
-
                       console.log("채널 메뉴열기!");
                       setx(e.clientX);
                       sety(e.clientY);

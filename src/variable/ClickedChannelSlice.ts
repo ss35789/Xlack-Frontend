@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ClickedChannelState {
-  channel_hashde_value: string;
+  channel_hashde_value: string | null;
 }
 
 const initialState: ClickedChannelState = {
@@ -11,7 +11,7 @@ export const ClickedChannelSlice = createSlice({
   name: "ClickedChannel",
   initialState,
   reducers: {
-    ClickedChannel: (state, action: PayloadAction<string>) => {
+    ClickedChannel: (state, action: PayloadAction<string | null>) => {
       state.channel_hashde_value = action.payload;
     },
   },

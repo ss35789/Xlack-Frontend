@@ -7,7 +7,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { getWorkSpace } from "../variable/WorkSpaceSlice";
+import { clearWorkSpace, getWorkSpace } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
@@ -40,6 +40,7 @@ const Mainpage = () => {
         },
       })
       .then((res) => {
+        dispatch(clearWorkSpace());
         res.data.map((value: WorkspaceType) => {
           dispatch(getWorkSpace(value));
         });
