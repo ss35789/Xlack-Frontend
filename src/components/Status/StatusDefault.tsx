@@ -9,7 +9,6 @@ import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 import EmojiPicker from "emoji-picker-react";
-import any = jasmine.any;
 // import WsUrl from "../../variable/cookie";
 
 const StatusDefault = () => {
@@ -56,18 +55,12 @@ const StatusDefault = () => {
   }
   const [chosenEmoji, setChosenEmoji] = useState();
 
-  const onEmojiClick = (event, emojiObject: any) => {
+  const onEmojiClick = (emojiObject: any) => {
     setChosenEmoji(emojiObject);
   };
   const EmojiData = ({ chosenEmoji }) => (
     <div>
-      <strong>Unified:</strong> {chosenEmoji.unified}
-      <br />
-      <strong>Names:</strong> {chosenEmoji.names.join(", ")}
-      <br />
-      <strong>Symbol:</strong> {chosenEmoji.emoji}
-      <br />
-      <strong>ActiveSkinTone:</strong> {chosenEmoji.activeSkinTone}
+      <strong>Selected emoji:</strong> {chosenEmoji.emoji}
     </div>
   );
   return (
@@ -79,7 +72,7 @@ const StatusDefault = () => {
             {/*<EmojiPicker onEmojiClick={onEmojiClick} />*/}
             <div>
               <EmojiPicker onEmojiClick={onEmojiClick} disableAutoFocus={true} native />
-              {chosenEmoji && <EmojiData chosenEmoji={chosenEmoji} />}
+              {chosenEmoji && <EmojiData chosenEmoji={console.log} />}
             </div>
             {console.log(chosenEmoji)}
           </Dialog>
