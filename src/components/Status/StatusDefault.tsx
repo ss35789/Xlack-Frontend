@@ -34,6 +34,7 @@ const StatusDefault = () => {
   const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
   const [status, setStatus] = useState();
   const [time, setTime] = useState();
+  const [emoji, setEmoji] = useState();
   const Statusbtns = [];
   const Options = [];
   const Times = [];
@@ -42,6 +43,9 @@ const StatusDefault = () => {
   };
   const handleOnChange_T = async (e: { target: { value: any } }) => {
     setTime(e.target.value);
+  };
+  const emojiClicked = async (e: { target: { value: any } }) => {
+    setEmoji(e.target.value);
   };
 
   for (const element of options) {
@@ -71,7 +75,7 @@ const StatusDefault = () => {
           <Dialog open={openStatus}>
             {/*<EmojiPicker onEmojiClick={onEmojiClick} />*/}
             <div>
-              <EmojiPicker onEmojiClick={onEmojiClick} disableAutoFocus={true} native />
+              <EmojiPicker onEmojiClick={emojiClicked} disableAutoFocus={true} native />
               {chosenEmoji && <EmojiData chosenEmoji={console.log} />}
             </div>
             {console.log(chosenEmoji)}
