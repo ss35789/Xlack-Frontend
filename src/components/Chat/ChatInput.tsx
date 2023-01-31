@@ -9,6 +9,7 @@ import {
   backUrl,
   removeCookie,
   UpdateToken,
+  WsUrl_chat,
 } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { UserDetailsType } from "../types";
@@ -17,7 +18,7 @@ function ChatInput() {
   const [msg, setmsg] = useState("");
   const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelId = useSelector(
+  const enterChannelHv = useSelector(
     (state: RootState) => state.ClickedChannel.channel_hashde_value
   );
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -53,9 +54,9 @@ function ChatInput() {
       socket.close();
     }
     //이전의 소켓 닫기
-
-    //setsocket(new WebSocket(`${WsUrl}${enterChannelId}/`));
-  }, [enterChannelId]);
+    if (enterChannelHv !== "")
+      setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
+  }, [enterChannelHv]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
