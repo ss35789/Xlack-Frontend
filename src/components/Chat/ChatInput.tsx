@@ -16,16 +16,22 @@ function ChatInput() {
   useEffect(() => {
     if (enterChannelHv !== "") {
       setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
-      if (socket) {
+    }
+  }, [enterChannelHv]);
+
+  useEffect(() => {
+    console.log("현재 소켓", enterChannelHv);
+    if (socket) {
+      socket.onopen = () => {
         socket.send(
           JSON.stringify({
             authorization: at,
           })
         );
         console.log("웹소켓 연결");
-      }
+      };
     }
-  }, [enterChannelHv]);
+  }, [socket]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -34,7 +40,6 @@ function ChatInput() {
       socket.send(
         JSON.stringify({
           message: msg,
-          file_id: "",
         })
       );
 
