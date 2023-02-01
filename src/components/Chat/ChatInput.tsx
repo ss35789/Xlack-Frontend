@@ -17,13 +17,12 @@ function ChatInput() {
     if (enterChannelHv !== "") {
       setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
       if (socket) {
-        socket.onopen = () => {
-          socket.send(
-            JSON.stringify({
-              authorization: { at },
-            })
-          );
-        };
+        socket.send(
+          JSON.stringify({
+            authorization: at,
+          })
+        );
+        console.log("웹소켓 연결");
       }
     }
   }, [enterChannelHv]);
