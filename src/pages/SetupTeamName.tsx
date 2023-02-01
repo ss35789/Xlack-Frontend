@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useCallback, useEffect, useState } from "react";
 // import { submit } from "../variable/createWorkspace";
 import axios from "axios";
-import { backUrl } from "../variable/cookie";
+import { at, backUrl } from "../variable/cookie";
 import { AccessToken } from "./Login";
 
 function SetupTeamName() {
@@ -13,8 +13,7 @@ function SetupTeamName() {
     },
     [setTeamName]
   );
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  useEffect(() => {}, [setTeamName]);
+
   const Submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
@@ -25,7 +24,7 @@ function SetupTeamName() {
         },
         {
           headers: {
-            // Authorization: `Bearer ${AccessToken}`,
+            Authorization: `Bearer ${at}`,
             "Content-Type": "application/json",
             accept: "application/json",
           },
