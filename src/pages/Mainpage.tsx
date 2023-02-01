@@ -12,9 +12,7 @@ import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";
-import { Link } from "react-router-dom";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
-import Modal from "../components/Modal";
 import PlusModal from "../components/Workspace/PlusModal";
 
 const Mainpage = () => {
@@ -116,4 +114,5 @@ const PlusButton = styled.div`
   width: fit-content;
   height: fit-content;
   display: inline-block;
+  position: relative;
 `;
