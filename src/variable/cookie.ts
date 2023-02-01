@@ -2,13 +2,13 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { AccessToken } from "../pages/Login";
 
-export async function UpdateToken() {
+export function UpdateToken() {
   const check = rt;
   if (check) {
     let token_info;
     //already has accessToken.
 
-    const res = await axios
+    axios
       .post(
         `${backUrl}accounts/token/refresh/`,
         {
