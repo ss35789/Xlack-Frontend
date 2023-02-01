@@ -12,6 +12,7 @@ export const store = configureStore({
     UpdateChannel: UpdateChannelReducer,
     UpdateChatContext: UpdateChatContextReducer,
     getMyWorkSpace: WorkSpaceReducer,
+    clearWorkSpace: WorkSpaceReducer,
     EditProfileOnOff: OnEditProfileReducer,
     EditContactInfoOnOff: OnEditProfileReducer,
     getMyProfile: MyProfileReducer,

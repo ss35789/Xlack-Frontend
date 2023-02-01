@@ -101,7 +101,6 @@ const Button = styled.button`
   border-radius: 0;
   color: rgba(var(--sk_primary_foreground, 29, 28, 29), 1);
   cursor: pointer;
-  display: flex;
   font: inherit;
   line-height: normal;
   min-height: 28px;
@@ -114,6 +113,10 @@ const Button = styled.button`
   white-space: nowrap;
   width: 100%;
   .createWork {
+  }
+  &:hover {
+    background-color: #1264a3;
+    color: white;
   }
 `;
 const Sub = styled.div`

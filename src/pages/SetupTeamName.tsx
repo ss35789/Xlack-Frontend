@@ -233,8 +233,10 @@ const WorkspaceLayout = styled.div`
               z-index: 2;
               .inputText {
                 font-size: 18px;
+                border: 1px solid;
+                border-radius: 4px;
                 height: 44px;
-                box-sizing: border-box;
+                //box-sizing: border-box;
                 line-height: 1.3333333;
                 padding: 11px 46px 13px 12px;
                 width: 100%;
@@ -243,6 +245,7 @@ const WorkspaceLayout = styled.div`
             .nextButton {
               margin-top: 48px;
               min-width: 200px;
+              background-color: rgb(221, 221, 221);
               transition: none !important;
               font-size: 18px;
               font-weight: 700;

@@ -149,7 +149,7 @@ const Profile = () => {
 
                       <div className="mt-2 py-5">
                         <h1>Phone</h1>
-                        {MyProfile.phone_number.length !== null ? (
+                        {MyProfile.phone_number !== null ? (
                           <h1 style={{ color: "blue" }}>
                             {MyProfile.phone_number}
                           </h1>
