@@ -5,16 +5,14 @@ import Chat from "../components/Chat/Chat";
 import Logout from "../components/Logout";
 import styled from "styled-components";
 import axios from "axios";
-import { at, backUrl } from "../variable/cookie";
+import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { clearWorkSpace, getWorkSpace } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";
-import { Link } from "react-router-dom";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
-import Modal from "../components/Modal";
 import PlusModal from "../components/Workspace/PlusModal";
 
 const Mainpage = () => {
@@ -25,15 +23,21 @@ const Mainpage = () => {
     (state: RootState) => state.getMyWorkSpace.hashed
   );
   const getMyUser = async () => {
-    try {
-      const UsersData = await axios.get(`${backUrl}profile/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      });
-      dispatch(getMyProfile(UsersData.data));
-    } catch (err) {
-      console.log(err);
+    if ((await AtVerify()) == 200) {
+      try {
+        const UsersData = await axios.get(`${backUrl}profile/`, {
+          headers: {
+            Authorization: `Bearer ${at}`,
+          },
+        });
+        dispatch(getMyProfile(UsersData.data));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      //행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
+      removeCookie();
+      // TODO document why this block is empty
     }
   };
   const getMyWorkspace = async () => {
