@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { WorkspaceType } from "../components/types";
 
-interface strut {
+interface struct {
   hashed: WorkspaceType[];
 }
 
-const initialState: strut = {
+const initialState: struct = {
   hashed: [],
 };
 
