@@ -11,6 +11,7 @@ import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 import Workspace from "../Workspace/Workspace";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
+import { SearchChannel } from "../../variable/WorkSpaceSlice";
 
 function Sidebar() {
   const max_history_size = 6;
@@ -23,28 +24,9 @@ function Sidebar() {
     (state: RootState) => state.getMyWorkSpace.MyWorkSpace
   );
   const [ChannelList, setChannelList] = useState<string[]>([]); // 기존에 가입되어있던 채널들 정보
-  // const [showProfileMenu, setshowProfileMenu] = useState(false);
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
   const channelMenuRef = useRef<HTMLDivElement>(null);
-  // const editProfile = async () => {
-  //     try {
-  //         const res = await axios.patch(`${backUrl}accounts/user/`,
-  //         {
-  //             username : `${userName}`,
-  //             first_name: `${firstName}`.
-  //             last_name: `${lastName}`
-  //         },
-  //         {
-  //             headers: {
-  //                 Authorization: `Bearer ${at}`
-  //             }
-  //         });
-
-  //     } catch (err) {
-  //         console.log(err);
-  //     }
-  // };
 
   useEffect(() => {
     if (window.localStorage.getItem("history") !== null) {
@@ -163,6 +145,7 @@ function Sidebar() {
                       console.log("채널 메뉴열기!");
                       setx(e.clientX);
                       sety(e.clientY);
+                      dispatch(SearchChannel(c.hashed_value));
                       showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
                       onClickshowChannelMenu();
                     }}

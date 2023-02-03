@@ -67,7 +67,6 @@ const Mainpage = () => {
         <Header />
         <SelectWorkspaces>
           {Workspace.map((element, i) => {
-            // console.log(element);
             return <SelectWorkspace key={i} {...element} />;
           })}
           <PlusButton onClick={onClickToggleModal}>

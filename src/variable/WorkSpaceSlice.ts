@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { WorkspaceType } from "../components/types";
+import { ChatChannelType, WorkspaceType } from "../components/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
   ClickedWorkSpace: WorkspaceType;
+  SearchedChannel: ChatChannelType;
 }
 
 const initialState: struct = {
@@ -15,6 +16,14 @@ const initialState: struct = {
     chat_channel: [],
     hashed_value: "",
     name: "",
+  },
+  SearchedChannel: {
+    id: "",
+    name: "default",
+    hashed_value: "",
+    description: "",
+    members: [],
+    admins: [],
   },
 };
 
@@ -44,7 +53,7 @@ export const WorkSpaceSlice = createSlice({
     SearchChannel: (state, action: PayloadAction<string>) => {
       state.ClickedWorkSpace.chat_channel.forEach((value) => {
         if (value.hashed_value === action.payload) {
-          return value;
+          state.SearchedChannel = value;
         }
       });
     },

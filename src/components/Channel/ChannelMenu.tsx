@@ -7,7 +7,7 @@ import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 
-const ChannelMenu = () => {
+const ChannelMenu = (props: any) => {
   const enterRoomId = useSelector(
     (state: RootState) => state.ClickedChannel.hashed_value
   ); // 현재 우리가 클릭한 채널id
@@ -32,23 +32,6 @@ const ChannelMenu = () => {
     } catch (err) {
       console.log(err);
     }
-  };
-  const inviteChannel = () => {
-    console.log("invite test");
-    // try{
-    //   const inviteUserId : string|null=prompt('Please enter the UserId');
-    //   await axios.patch(`https://xlack.kreimben.com/api/channel/${inviteUserId}`,
-    //   {
-    //       //쿠키 생성
-    //       headers:{
-    //           'access-token': at,
-    //           'refresh-token': rt
-    //       }
-
-    //   })
-    // }catch{
-
-    // }
   };
 
   const exitChannel = async () => {
@@ -84,7 +67,6 @@ const ChannelMenu = () => {
         <h3>채널 음소거</h3>
         <h3>알림변경</h3>
         <h3>채널을 즐겨찾기에 추가</h3>
-        <h3 onClick={inviteChannel}>초대하기</h3>
         <h3 onClick={editChannelName}>채널이름 바꾸기</h3>
         <h3 onClick={exitChannel}>나가기</h3>
       </Menu>

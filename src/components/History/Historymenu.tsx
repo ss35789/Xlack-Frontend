@@ -40,28 +40,24 @@ const Historymenu = () => {
           {historyData &&
             historyData.map((h, i) => {
               return (
-                <>
-                  <a
-                    key={i}
-                    className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-                    role="menuitem"
-                    onClick={() => {
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-ignore
-                      dispatch(SearchChannel(h.value)).then(
-                        (res: ChatChannelType) => {
-                          dispatch(ClickedChannel(res));
-                        }
-                      );
-
-                      console.log("history click:", h.value);
-                    }}
-                  >
-                    <span key={i} className="flex flex-col">
-                      <Op># {h.name}</Op>
-                    </span>
-                  </a>
-                </>
+                <a
+                  key={i}
+                  className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+                  role="menuitem"
+                  onClick={() => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    const channel: ChatChannelType = dispatch(
+                      SearchChannel(h.value)
+                    );
+                    dispatch(ClickedChannel(channel));
+                    console.log("history click:", h.value);
+                  }}
+                >
+                  <span className="flex flex-col">
+                    <Op># {h.name}</Op>
+                  </span>
+                </a>
               );
             })}
         </div>

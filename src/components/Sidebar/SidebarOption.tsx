@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { ClickedChannel } from "../../variable/ClickedChannelSlice";
-import { SearchChannel } from "../../variable/WorkSpaceSlice";
-import { ChatChannelType } from "../types";
 
 export interface SidebarInfo {
   Icon?: any;
@@ -15,13 +12,9 @@ function SidebarOption({ Icon, title, id }: SidebarInfo) {
   const dispatch = useDispatch();
 
   const selectChannel = () => {
-    if (id) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      dispatch(SearchChannel(id.toString())).then((res: ChatChannelType) => {
-        dispatch(ClickedChannel(res));
-      });
-    }
+    // if (id) {
+    //   dispatch(ClickedChannel(id.toString()));
+    // }
     // console.log(`id : ${id}`);
   };
 

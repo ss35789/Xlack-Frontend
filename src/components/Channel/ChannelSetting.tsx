@@ -1,10 +1,18 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
+import { RootState } from "../../app/store";
+import { useEffect } from "react";
 
 const ChannelSetting = () => {
   const dispatch = useDispatch();
+  const AboutChannel = useSelector(
+    (state: RootState) => state.getMyWorkSpace.SearchedChannel
+  );
+  useEffect(() => {
+    console.log(AboutChannel.name);
+  }, []);
   return (
     <>
       <div
@@ -24,7 +32,7 @@ const ChannelSetting = () => {
                   <div className="overflow-hidden shadow sm:rounded-md">
                     <div className="bg-white py-5 sm:p-6">
                       <div className="flex  justify-between">
-                        <h1 className="flex text-lg">Edit your Profile</h1>
+                        <h1 className="flex text-lg"># {AboutChannel.name}</h1>
                         <div>
                           <button
                             type="button"
