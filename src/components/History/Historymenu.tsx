@@ -48,8 +48,8 @@ const Historymenu = () => {
                       console.log("history click:", h.value);
                     }}
                   >
-                    <span className="flex flex-col">
-                      <Op key={i}># {h.name}</Op>
+                    <span key={i} className="flex flex-col">
+                      <Op># {h.name}</Op>
                     </span>
                   </a>
                 </>

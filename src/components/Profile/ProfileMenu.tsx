@@ -19,7 +19,6 @@ const ProfileMenu = () => {
               aria-labelledby="options-menu"
             >
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
@@ -35,7 +34,6 @@ const ProfileMenu = () => {
                 </span>
               </a>
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
@@ -44,7 +42,6 @@ const ProfileMenu = () => {
                 </span>
               </a>
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
@@ -53,12 +50,11 @@ const ProfileMenu = () => {
                 </span>
               </a>
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
                 <span
-                  className="flex flex-col"
+                  className="flex flex-col cursor-pointer"
                   onClick={() => {
                     dispatch(EditProfileOnOff());
                   }}
@@ -68,7 +64,6 @@ const ProfileMenu = () => {
               </a>
 
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600 "
                 role="menuitem"
               >
@@ -79,7 +74,6 @@ const ProfileMenu = () => {
                 </span>
               </a>
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
@@ -88,7 +82,6 @@ const ProfileMenu = () => {
                 </span>
               </a>
               <a
-                href="#"
                 className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                 role="menuitem"
               >
