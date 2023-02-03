@@ -159,7 +159,7 @@ function Sidebar() {
                     onClick={(e) => {
                       e.preventDefault();
                       storeHistory(c.name, c.hashed_value);
-                      dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
+                      dispatch(ClickedChannel(c)); //enterRoomId 를 channel id로 변경
                       //connectChat(enterRoomId)
                     }}
                     onContextMenu={(e) => {
