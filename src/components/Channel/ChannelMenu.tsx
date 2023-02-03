@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateRoom } from "../../variable/UpdateChannelSlice";
@@ -7,10 +7,14 @@ import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 
 function ChannelMenu() {
+  const [openChannelSetting, setOpenChannelSetting] = useState(false);
   const enterRoomId = useSelector(
     (state: RootState) => state.ClickedChannel.channel_hashde_value
   ); // 현재 우리가 클릭한 채널id
   const dispatch = useDispatch();
+  const showChannelSetting = useCallback(() => {
+    setOpenChannelSetting(true);
+  }, []);
 
   const editChannelName = async () => {
     try {
@@ -70,11 +74,19 @@ function ChannelMenu() {
   };
 
   return (
-    <Menu>
-      <h3 onClick={inviteChannel}>초대하기</h3>
-      <h3 onClick={editChannelName}>채널이름 바꾸기</h3>
-      <h3 onClick={exitChannel}>나가기</h3>
-    </Menu>
+    <>
+      <Menu>
+        <h3>분활 화면으로 열기</h3>
+        <h3 onClick={showChannelSetting}>채널 세부정보로 보기</h3>
+        <h3>복사</h3>
+        <h3>채널 음소거</h3>
+        <h3>알림변경</h3>
+        <h3>채널을 즐겨찾기에 추가</h3>
+        <h3 onClick={inviteChannel}>초대하기</h3>
+        <h3 onClick={editChannelName}>채널이름 바꾸기</h3>
+        <h3 onClick={exitChannel}>나가기</h3>
+      </Menu>
+    </>
   );
 }
 

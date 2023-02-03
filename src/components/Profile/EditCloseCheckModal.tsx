@@ -7,7 +7,7 @@ import {
   EditProfileOnOff,
 } from "../../variable/OnEditProfileSlice";
 
-const EditcheckModal = (props: any) => {
+const EditCloseCheckModal = (props: any) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const cancelButtonRef = useRef(null);
@@ -105,4 +105,4 @@ const EditcheckModal = (props: any) => {
   );
 };
 
-export default EditcheckModal;
+export default EditCloseCheckModal;
