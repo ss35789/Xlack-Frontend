@@ -12,7 +12,7 @@ function Chat() {
     (state: RootState) => state.UpdateChatContext.receiveMessage
   );
   const Clicked_channel_hv = useSelector(
-    (state: RootState) => state.ClickedChannel.channel_hashde_value
+    (state: RootState) => state.ClickedChannel.hashed_value
   );
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();

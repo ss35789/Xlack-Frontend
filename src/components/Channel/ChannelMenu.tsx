@@ -9,7 +9,7 @@ import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 
 const ChannelMenu = () => {
   const enterRoomId = useSelector(
-    (state: RootState) => state.ClickedChannel.channel_hashde_value
+    (state: RootState) => state.ClickedChannel.hashed_value
   ); // 현재 우리가 클릭한 채널id
   const dispatch = useDispatch();
   const editChannelName = async () => {

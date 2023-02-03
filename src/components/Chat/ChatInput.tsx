@@ -18,7 +18,7 @@ function ChatInput() {
   const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
   const [socket, setsocket] = useState<WebSocket>();
   const enterChannelId = useSelector(
-    (state: RootState) => state.ClickedChannel.channel_hashde_value
+    (state: RootState) => state.ClickedChannel.hashed_value
   );
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();

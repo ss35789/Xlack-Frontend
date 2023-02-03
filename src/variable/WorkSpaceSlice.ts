@@ -2,11 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { WorkspaceType } from "../components/types";
 
 interface struct {
-  hashed: WorkspaceType[];
+  MyWorkSpace: WorkspaceType[];
+  ClickedWorkSpace: WorkspaceType;
 }
 
 const initialState: struct = {
-  hashed: [],
+  MyWorkSpace: [],
+  ClickedWorkSpace: {
+    created_at: "",
+    updated_at: "",
+    members: [],
+    chat_channel: [],
+    hashed_value: "",
+    name: "",
+  },
 };
 
 export const WorkSpaceSlice = createSlice({
@@ -15,7 +24,7 @@ export const WorkSpaceSlice = createSlice({
   reducers: {
     getWorkSpace: (state, action: PayloadAction<WorkspaceType>) => {
       const m = action.payload;
-      state.hashed.push({
+      state.MyWorkSpace.push({
         created_at: m.created_at,
         updated_at: m.updated_at,
         members: m.members,
@@ -25,7 +34,19 @@ export const WorkSpaceSlice = createSlice({
       });
     },
     clearWorkSpace: (state) => {
-      state.hashed = [];
+      state.MyWorkSpace = [];
+    },
+    //현재 내가 클릭한 워크스페이스
+    SetClickedWorkSpace: (state, action: PayloadAction<WorkspaceType>) => {
+      state.ClickedWorkSpace = action.payload;
+    },
+    //현재 워크스페이스에서 channel.hashed_value를 이용해 channel의 정보 찾기
+    SearchChannel: (state, action: PayloadAction<string>) => {
+      state.ClickedWorkSpace.chat_channel.forEach((value) => {
+        if (value.hashed_value === action.payload) {
+          return value;
+        }
+      });
     },
   },
 });
