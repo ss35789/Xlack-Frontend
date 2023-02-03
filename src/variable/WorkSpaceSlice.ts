@@ -51,5 +51,10 @@ export const WorkSpaceSlice = createSlice({
   },
 });
 
-export const { getWorkSpace, clearWorkSpace } = WorkSpaceSlice.actions;
+export const {
+  getWorkSpace,
+  clearWorkSpace,
+  SetClickedWorkSpace,
+  SearchChannel,
+} = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

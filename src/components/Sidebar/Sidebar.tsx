@@ -20,11 +20,7 @@ function Sidebar() {
   const dispatch = useDispatch();
   const [historyMap, setHistoryMap] = useState(new Map<string, string>());
   const WorkspaceData = useSelector(
-    (state: RootState) => state.getMyWorkSpace.hashed
-  );
-
-  const UpdateChannel = useSelector(
-    (state: RootState) => state.UpdateChannel.title
+    (state: RootState) => state.getMyWorkSpace.MyWorkSpace
   );
   const [ChannelList, setChannelList] = useState<string[]>([]); // 기존에 가입되어있던 채널들 정보
   // const [showProfileMenu, setshowProfileMenu] = useState(false);

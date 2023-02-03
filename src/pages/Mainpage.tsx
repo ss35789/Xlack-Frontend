@@ -19,12 +19,11 @@ import ChannelSetting from "../components/Channel/ChannelSetting";
 const Mainpage = () => {
   const dispatch = useDispatch();
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [channels, setChannels] = useState<string[]>([]);
   const OpenChannelSetting = useSelector(
     (state: RootState) => state.OnModal.OnChannelSetting
   );
   const Workspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.hashed
+    (state: RootState) => state.getMyWorkSpace.MyWorkSpace
   );
   const getMyUser = async () => {
     try {
