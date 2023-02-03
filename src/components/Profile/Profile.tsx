@@ -15,10 +15,10 @@ const Profile = () => {
     (state: RootState) => state.getMyProfile.userData
   );
   const onEditProfilePage = useSelector(
-    (state: RootState) => state.EditProfileOnOff
+    (state: RootState) => state.OnModal.OnEditProfilePage
   );
   const onEditContactInfo = useSelector(
-    (state: RootState) => state.EditContactInfoOnOff
+    (state: RootState) => state.OnModal.OnEditContactInfo
   );
   useEffect(() => {
     setOpen(!open);

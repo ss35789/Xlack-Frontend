@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import styled from "styled-components";
-import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
+import { EditProfileOnOff } from "../../variable/OnModalSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
 import EditCloseCheckModal from "./EditCloseCheckModal";
 

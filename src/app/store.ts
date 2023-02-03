@@ -3,7 +3,7 @@ import ClickedChannelReducer from "../variable/ClickedChannelSlice";
 import UpdateChannelReducer from "../variable/UpdateChannelSlice";
 import UpdateChatContextReducer from "../variable/UpdateChatContextSlice";
 import WorkSpaceReducer from "../variable/WorkSpaceSlice";
-import OnEditProfileReducer from "../variable/OnEditProfileSlice";
+import OnModalReducer from "../variable/OnModalSlice";
 import MyProfileReducer from "../variable/MyProfileSlice";
 
 export const store = configureStore({
@@ -13,8 +13,7 @@ export const store = configureStore({
     UpdateChatContext: UpdateChatContextReducer,
     getMyWorkSpace: WorkSpaceReducer,
     clearWorkSpace: WorkSpaceReducer,
-    EditProfileOnOff: OnEditProfileReducer,
-    EditContactInfoOnOff: OnEditProfileReducer,
+    OnModal: OnModalReducer,
     getMyProfile: MyProfileReducer,
   },
 });

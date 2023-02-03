@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
+import { EditProfileOnOff } from "../../variable/OnModalSlice";
 import MyState from "./MyState";
 import { RootState } from "../../app/store";
 

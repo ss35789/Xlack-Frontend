@@ -1,21 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useCallback, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateRoom } from "../../variable/UpdateChannelSlice";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
+import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 
-function ChannelMenu() {
-  const [openChannelSetting, setOpenChannelSetting] = useState(false);
+const ChannelMenu = () => {
   const enterRoomId = useSelector(
     (state: RootState) => state.ClickedChannel.channel_hashde_value
   ); // 현재 우리가 클릭한 채널id
   const dispatch = useDispatch();
-  const showChannelSetting = useCallback(() => {
-    setOpenChannelSetting(true);
-  }, []);
-
   const editChannelName = async () => {
     try {
       const newChannelName: string | null = prompt(
@@ -77,7 +73,13 @@ function ChannelMenu() {
     <>
       <Menu>
         <h3>분활 화면으로 열기</h3>
-        <h3 onClick={showChannelSetting}>채널 세부정보로 보기</h3>
+        <h3
+          onClick={() => {
+            dispatch(ChannelSettingOnOff());
+          }}
+        >
+          채널 세부정보로 보기
+        </h3>
         <h3>복사</h3>
         <h3>채널 음소거</h3>
         <h3>알림변경</h3>
@@ -88,7 +90,7 @@ function ChannelMenu() {
       </Menu>
     </>
   );
-}
+};
 
 export default ChannelMenu;
 

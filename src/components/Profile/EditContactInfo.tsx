@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
-import { EditContactInfoOnOff } from "../../variable/OnEditProfileSlice";
+import { EditContactInfoOnOff } from "../../variable/OnModalSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
 import EditCloseCheckModal from "./EditCloseCheckModal";
 
