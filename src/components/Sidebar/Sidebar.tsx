@@ -27,7 +27,9 @@ function Sidebar() {
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
   const channelMenuRef = useRef<HTMLDivElement>(null);
-
+  const currentWorkspace = useSelector(
+    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
+  );
   useEffect(() => {
     if (window.localStorage.getItem("history") !== null) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -103,11 +105,7 @@ function Sidebar() {
             <div className="sidebarHeaderInfo">
               <div className="teamName">
                 <div className="loadingSpacer"></div>
-                <span>
-                  {WorkspaceData.map((element, i) => {
-                    return <Workspace {...element} key={i} />;
-                  })}
-                </span>
+                <span>{currentWorkspace.name}</span>
               </div>
             </div>
           </div>
@@ -125,36 +123,31 @@ function Sidebar() {
       <hr />
       {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
       {showChannels &&
-        WorkspaceData.map((element, i) => {
+        currentWorkspace.chat_channel.map((c, i) => {
           return (
-            <div key={i}>
-              <Workspace {...element} />
-              {element.chat_channel.map((c, index) => {
-                return (
-                  <span
-                    key={index}
-                    ref={channelMenuRef}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      storeHistory(c.name, c.hashed_value);
-                      dispatch(ClickedChannel(c)); //enterRoomId 를 channel id로 변경
-                      //connectChat(enterRoomId)
-                    }}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      console.log("채널 메뉴열기!");
-                      setx(e.clientX);
-                      sety(e.clientY);
-                      dispatch(SearchChannel(c.hashed_value));
-                      showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                      onClickshowChannelMenu();
-                    }}
-                  >
-                    <Channel {...c} />
-                  </span>
-                );
-              })}
-            </div>
+            // <div key={i}>
+            <span
+              key={i}
+              ref={channelMenuRef}
+              onClick={(e) => {
+                e.preventDefault();
+                storeHistory(c.name, c.hashed_value);
+                dispatch(ClickedChannel(c));
+                // connectChat(enterRoomId)
+              }}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                console.log("채널 메뉴열기!");
+                setx(e.clientX);
+                sety(e.clientY);
+                dispatch(SearchChannel(c.hashed_value));
+                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                onClickshowChannelMenu();
+              }}
+            >
+              <Channel {...c} />
+            </span>
+            // </div>
           );
         })}
 
