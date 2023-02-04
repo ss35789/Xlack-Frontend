@@ -1,74 +1,47 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
-import {
-  at,
-  AtVerify,
-  backUrl,
-  removeCookie,
-  UpdateToken,
-} from "../../variable/cookie";
+import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
-import { UserDetailsType } from "../types";
 
 function ChatInput() {
   const [msg, setmsg] = useState("");
-  const [MyUserDetails, setMyUserDetails] = useState<UserDetailsType>();
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelId = useSelector(
+  const enterChannelHv = useSelector(
     (state: RootState) => state.ClickedChannel.channel_hashde_value
   );
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
-
-  const getMyUserData = async () => {
-    if ((await AtVerify()) == 200) {
-      try {
-        const getdata = await axios.get(`${backUrl}accounts/user/`, {
-          headers: {
-            Authorization: `Bearer ${at}`,
-          },
-        });
-        setMyUserDetails(getdata.data);
-        console.log(getdata.data);
-        //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
-        UpdateToken();
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      //행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
-      removeCookie();
-      // TODO document why this block is empty
+  useEffect(() => {
+    if (enterChannelHv !== "") {
+      setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
     }
-  };
+  }, [enterChannelHv]);
+
   useEffect(() => {
-    getMyUserData();
-    //처음 한 번만 나의 데이터를 불러옴
-  }, []);
-  useEffect(() => {
+    console.log("현재 소켓", enterChannelHv);
     if (socket) {
-      socket.close();
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            authorization: at,
+          })
+        );
+        console.log("웹소켓 연결");
+      };
     }
-    //이전의 소켓 닫기
-
-    //setsocket(new WebSocket(`${WsUrl}${enterChannelId}/`));
-  }, [enterChannelId]);
+  }, [socket]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket) {
       console.log(socket);
-      if (MyUserDetails) {
-        socket.send(
-          JSON.stringify({
-            user_id: MyUserDetails.pk,
-            message: msg,
-          })
-        );
-      }
+      socket.send(
+        JSON.stringify({
+          message: msg,
+        })
+      );
 
       console.log(msg);
 
