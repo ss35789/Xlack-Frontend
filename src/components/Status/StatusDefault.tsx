@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
-import EmojiPicker from "emoji-picker-react";
+// import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
   const [open, setOpen] = useState(false);
@@ -43,9 +43,9 @@ const StatusDefault = () => {
   const handleOnChange_T = async (e: { target: { value: any } }) => {
     setTime(e.target.value);
   };
-  const emojiClicked = async (e: { target: { value: any } }) => {
-    setEmoji(e.target.value);
-  };
+  // const emojiClicked = async (e: { target: { value: any } }) => {
+  //   setEmoji(e.target.value);
+  // };
 
   for (const element of options) {
     Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
@@ -58,14 +58,14 @@ const StatusDefault = () => {
   }
   const [chosenEmoji, setChosenEmoji] = useState();
 
-  const onEmojiClick = (emojiObject: any) => {
-    setChosenEmoji(emojiObject);
-  };
-  const EmojiData = ({ chosenEmoji }) => (
-    <div>
-      <strong>Selected emoji:</strong> {chosenEmoji.emoji}
-    </div>
-  );
+  // const onEmojiClick = (emojiObject: any) => {
+  //   setChosenEmoji(emojiObject);
+  // };
+  // const EmojiData = ({ chosenEmoji }) => (
+  //   <div>
+  //     <strong>Selected emoji:</strong> {chosenEmoji.emoji}
+  //   </div>
+  // );
   return (
     <div>
       <button onClick={openStatusHandler}>
@@ -73,11 +73,11 @@ const StatusDefault = () => {
         {openStatus ? (
           <Dialog open={openStatus}>
             {/*<EmojiPicker onEmojiClick={onEmojiClick} />*/}
-            <div>
-              <EmojiPicker onEmojiClick={emojiClicked} disableAutoFocus={true} native />
-              {chosenEmoji && <EmojiData chosenEmoji={console.log} />}
-            </div>
-            {console.log(chosenEmoji)}
+            {/*<div>*/}
+            {/*  <EmojiPicker onEmojiClick={emojiClicked} disableAutoFocus={true} native />*/}
+            {/*  {chosenEmoji && <EmojiData chosenEmoji={console.log} />}*/}
+            {/*</div>*/}
+            {/*{console.log(chosenEmoji)}*/}
           </Dialog>
         ) : (
           ""
