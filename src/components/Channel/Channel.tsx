@@ -1,12 +1,12 @@
 import React from "react";
-import { ChannelType } from "../types";
 import styled from "styled-components";
+import { ChatChannelType } from "../types";
 
-function Channel({ name, id }: ChannelType) {
+function Channel(props: ChatChannelType) {
   return (
     <ChannelContainer>
       <OptionChannel>
-        # {name}__ {id}
+        # {props.name}__ {props.hashed_value}
       </OptionChannel>
     </ChannelContainer>
   );

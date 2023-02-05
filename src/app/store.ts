@@ -1,13 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import EnterRoomReducer from "../variable/EnterChannelSlice";
+import ClickedChannelReducer from "../variable/ClickedChannelSlice";
 import UpdateChannelReducer from "../variable/UpdateChannelSlice";
 import UpdateChatContextReducer from "../variable/UpdateChatContextSlice";
+import WorkSpaceReducer from "../variable/WorkSpaceSlice";
+import OnEditProfileReducer from "../variable/OnEditProfileSlice";
+import MyProfileReducer from "../variable/MyProfileSlice";
 
 export const store = configureStore({
   reducer: {
-    enterRoom: EnterRoomReducer,
+    ClickedChannel: ClickedChannelReducer,
     UpdateChannel: UpdateChannelReducer,
     UpdateChatContext: UpdateChatContextReducer,
+    getMyWorkSpace: WorkSpaceReducer,
+    clearWorkSpace: WorkSpaceReducer,
+    EditProfileOnOff: OnEditProfileReducer,
+    EditContactInfoOnOff: OnEditProfileReducer,
+    getMyProfile: MyProfileReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,16 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
 import { Cookies } from "react-cookie";
-import { UserDetailsType } from "../components/types";
-import { useLocation } from "react-router-dom";
 import { AccessToken } from "../pages/Login";
 
-export async function UpdateToken() {
+export function UpdateToken() {
   const check = rt;
   if (check) {
     let token_info;
     //already has accessToken.
-    const res = await axios
+
+    axios
       .post(
         `${backUrl}accounts/token/refresh/`,
         {
@@ -20,14 +18,15 @@ export async function UpdateToken() {
           validateStatus: function (status: number) {
             return status < 500;
           },
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         token_info = res;
         AccessToken(token_info, null);
       });
   }
 }
+
 export async function AtVerify() {
   const check = await axios.post(
     `${backUrl}accounts/token/verify/`,
@@ -36,7 +35,7 @@ export async function AtVerify() {
       validateStatus: function (status: number) {
         return status < 500;
       },
-    },
+    }
   );
   return check.status;
 }
@@ -44,7 +43,7 @@ export async function AtVerify() {
 const cookies = new Cookies();
 
 export const backUrl = "https://api.xlack.kreimben.com/";
-export const WsUrl = "ws://xlack-backend.herokuapp.com/ws/chat/";
+export const WsUrl_chat = "wss://api.xlack.kreimben.com/ws/chat/";
 export const setCookie = (name: string, value: string, option?: any) => {
   return cookies.set(name, value, {});
 };

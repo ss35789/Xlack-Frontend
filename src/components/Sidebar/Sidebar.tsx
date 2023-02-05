@@ -6,18 +6,27 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
-import { enterRoom } from "../../variable/EnterChannelSlice";
 import ChannelMenu from "../Channel/ChannelMenu";
+import { ClickedChannel } from "../../variable/ClickedChannelSlice";
+import Workspace from "../Workspace/Workspace";
 import Channel from "../Channel/Channel";
-import { ChannelType } from "../types";
-import User from "../Profile/MyProfile";
+import Modal from "../Modal";
 
 function Sidebar() {
+  const max_history_size = 6;
   const [x, setx] = useState(0);
   const [y, sety] = useState(0);
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel.title);
-  const [ChannelList, setChannelList] = useState<ChannelType[]>([]); // 기존에 가입되어있던 채널들 정보
+  const [historyMap, setHistoryMap] = useState(new Map<string, string>());
+  const WorkspaceData = useSelector(
+    (state: RootState) => state.getMyWorkSpace.hashed
+  );
+
+  const UpdateChannel = useSelector(
+    (state: RootState) => state.UpdateChannel.title
+  );
+  const [ChannelList, setChannelList] = useState<string[]>([]); // 기존에 가입되어있던 채널들 정보
   // const [showProfileMenu, setshowProfileMenu] = useState(false);
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
@@ -42,81 +51,134 @@ function Sidebar() {
   // };
 
   useEffect(() => {
-    //test를 넣어도 처음 시작할때 showChannelList()가 발생하면서 setChannelList(res.data); 가 실행되기에 안나와 주석처리
-  }, [UpdateChannel]);
+    if (window.localStorage.getItem("history") !== null) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const h = JSON.parse(window.localStorage.getItem("history"));
+      // 새로고침할떄 history 남아있게
+
+      const arrMap = h.reduce(
+        (map: Map<string, string>, obj: { name: string; value: string }) => {
+          map.set(obj.name, obj.value);
+          return map;
+        },
+        new Map()
+      );
+      setHistoryMap(arrMap);
+    }
+    if (WorkspaceData !== null) {
+      console.log(
+        "내 workspace와 내부 channle들의 hashed_value : ",
+        WorkspaceData
+      );
+
+      WorkspaceData.forEach((element) => {
+        element.chat_channel.forEach((cha) => {
+          setChannelList([...ChannelList, cha.hashed_value]);
+        });
+      });
+    }
+  }, [WorkspaceData]);
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
-      if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
+      if (
+        channelMenuRef.current &&
+        !channelMenuRef.current.contains(e.target as Node)
+      ) {
         setshowChannelMenu(false);
       }
     }
+
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [channelMenuRef]);
-
+  const storeHistory = (name: string, hv: string) => {
+    historyMap.delete(name);
+    historyMap.set(name, hv);
+    console.log(historyMap.get(name));
+    const array = Array.from(historyMap, ([name, value]) => ({
+      name,
+      value,
+    })).reverse();
+    if (array.length > max_history_size) array.pop();
+    window.localStorage.setItem("history", JSON.stringify(array));
+  };
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
   const onClickshowChannelMenu = useCallback(() => {
-    setshowChannelMenu(prev => !prev);
+    setshowChannelMenu((prev) => !prev);
   }, []);
 
   const onClickshowChannels = useCallback(() => {
-    setshowChannels(prev => !prev);
+    setshowChannels((prev) => !prev);
   }, []);
   return (
     <SidebarContainer>
-      <SidebarHeader>
-        <SidebarInfo>
-          <div>
-            <User></User>
+      <SidebarHeader onClick={onClickToggleModal}>
+        {isOpenModal && <Modal onClickToggleModal={onClickToggleModal}></Modal>}
+        <SidebarTop className="sidebarTop">
+          <div className="sidebarHeaderButton">
+            <div className="sidebarHeaderInfo">
+              <div className="teamName">
+                <div className="loadingSpacer"></div>
+                <span>
+                  {WorkspaceData.map((element, i) => {
+                    return <Workspace {...element} key={i} />;
+                  })}
+                </span>
+              </div>
+            </div>
           </div>
-        </SidebarInfo>
+        </SidebarTop>
+
         {/* <span onClick={editProfile}>
                     <CreateIcon />
                 </span> */}
       </SidebarHeader>
 
-      {/* <SidebarOption Icon={InsertCommentIcon} title='Threads'/>
-            <SidebarOption Icon={InboxIcon} title='Mention & reactions'/>
-            <SidebarOption Icon={DraftsIcon} title='Saved items'/>
-            <SidebarOption Icon={BookmarkBorderIcon} title='Channel browser'/>
-            <SidebarOption Icon={PeopleAltIcon} title='People & user groups'/>
-            <SidebarOption Icon={AppsIcon} title='Apps'/>
-            <SidebarOption Icon={FileCopyIcon} title='File browser'/>
-            <SidebarOption Icon={ExpandLessIcon} title='Show less'/>  */}
       <hr />
       <span onClick={onClickshowChannels}>
         <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
       </span>
       <hr />
       {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
-
       {showChannels &&
-        ChannelList.map(channel => {
+        WorkspaceData.map((element, i) => {
           return (
-            <span
-              ref={channelMenuRef}
-              onClick={e => {
-                e.preventDefault();
-                dispatch(enterRoom(channel.id)); //enterRoomId 를 channel id로 변경
-                //connectChat(enterRoomId);
-              }}
-              onContextMenu={e => {
-                e.preventDefault();
-                dispatch(enterRoom(channel.id));
-
-                console.log("채널 메뉴열기!");
-                setx(e.clientX);
-                sety(e.clientY);
-                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                onClickshowChannelMenu();
-              }}
-            >
-              <Channel name={channel.name} id={channel.id} />
-            </span>
+            <div key={i}>
+              <Workspace {...element} />
+              {element.chat_channel.map((c, index) => {
+                return (
+                  <span
+                    key={index}
+                    ref={channelMenuRef}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      storeHistory(c.name, c.hashed_value);
+                      dispatch(ClickedChannel(c.hashed_value)); //enterRoomId 를 channel id로 변경
+                      //connectChat(enterRoomId)
+                    }}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      console.log("채널 메뉴열기!");
+                      setx(e.clientX);
+                      sety(e.clientY);
+                      showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                      onClickshowChannelMenu();
+                    }}
+                  >
+                    <Channel {...c} />
+                  </span>
+                );
+              })}
+            </div>
           );
         })}
+
       {showChannelMenu && (
         <div style={{ position: "absolute", top: y, left: x }}>
           <ChannelMenu />
@@ -183,4 +245,54 @@ const SidebarInfo = styled.div`
       opacity: 0.6;
     }
   }
+`;
+const SidebarTop = styled.div`
+  .sidebarTop {
+    align-items: stretch;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    position: relative;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.33334;
+    min-height: 50px;
+    background: rgb(82, 38, 83);
+    color: #ffffff;
+
+    .sidebarHeaderButton {
+      outline: none;
+      display: flex;
+      cursor: pointer;
+      padding: 12px 54px 0 16px;
+      align-items: flex-start;
+      min-height: inherit;
+      min-width: 0;
+      flex-direction: row-reverse;
+      background-color: initial;
+      border-color: rgb(82, 38, 83);
+
+      .sidebarHeaderInfo {
+        flex: 1;
+        min-width: 0;
+        box-sizing: border-box;
+
+        .teamName {
+          display: flex;
+          align-items: center;
+          padding-left: 4px;
+          max-width: 100%;
+          margin-left: -4px;
+
+          .loadingSpacer {
+            width: 65%;
+            border-radius: 8px;
+            height: 15px;
+            background-color: #ffffff1a;
+            margin-right: 16px;
+            box-sizing: inherit;
+          }
+        }
+      }
+    }
 `;

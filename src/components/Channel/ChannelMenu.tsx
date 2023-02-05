@@ -7,12 +7,16 @@ import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 
 function ChannelMenu() {
-  const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId); // 현재 우리가 클릭한 채널id
+  const enterRoomId = useSelector(
+    (state: RootState) => state.ClickedChannel.channel_hashde_value
+  ); // 현재 우리가 클릭한 채널id
   const dispatch = useDispatch();
 
   const editChannelName = async () => {
     try {
-      const newChannelName: string | null = prompt("Please enter the channel name");
+      const newChannelName: string | null = prompt(
+        "Please enter the channel name"
+      );
       await axios.put(
         `${backUrl}channel/${enterRoomId}/`,
         {
@@ -22,7 +26,7 @@ function ChannelMenu() {
           headers: {
             Authorization: `Bearer ${at}`,
           },
-        },
+        }
       );
       dispatch(UpdateRoom());
     } catch (err) {

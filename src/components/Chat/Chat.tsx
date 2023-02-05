@@ -5,23 +5,42 @@ import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import ChatContext from "./ChatContext";
 import { getChat } from "../types";
+import { Socket } from "socket.io";
 
 function Chat() {
-  const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
-  const enterRoomId = useSelector((state: RootState) => state.enterRoom.roomId);
+  const receiveMessage = useSelector(
+    (state: RootState) => state.UpdateChatContext.receiveMessage
+  );
+  const Clicked_channel_hv = useSelector(
+    (state: RootState) => state.ClickedChannel.channel_hashde_value
+  );
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
-
+  const [socket, setSocket] = useState<Socket>();
   const scrollToBottom = () => {
-    messagesRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
+    messagesRef.current.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
   };
-  useEffect(() => {
-    console.log(enterRoomId);
-  }, [receiveMessage, enterRoomId]);
+  //현재 보고 있는 채널의 hashed_value가 바뀌면 기존 소켓 연결 끊고 새로 재연결
+  // useEffect(() => {
+  //   if (socket !== undefined) {
+  //     socket?.disconnect();
+  //   } else {
+  //     const socketio = io(`${WsUrl}${Clicked_channel_hv}/`, {
+  //       auth: {
+  //         token: `Bearer ${at}`,
+  //       },
+  //     });
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-ignore
+  //     setSocket(socketio);
+  //
+  //     if (socketio.connected) console.log("소켓연결");
+  //   }
+  //
+  //   console.log(Clicked_channel_hv);
+  // }, [receiveMessage, Clicked_channel_hv]);
+  //재연결한 소켓
+
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]);
@@ -31,14 +50,20 @@ function Chat() {
       {/* {roomDetails && roomMessages && ( */}
       <>
         <ChatMessages ref={messagesRef}>
-          <h4>{enterRoomId}</h4>
+          <h4>{Clicked_channel_hv}</h4>
           {getChatData &&
             getChatData.results
               .slice(0)
               .reverse()
-              .map(chat => (
+              .map((chat) => (
                 <span>
-                  <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
+                  <ChatContext
+                    id={chat.id}
+                    channel={chat.channel}
+                    chatter={chat.chatter}
+                    message={chat.message}
+                    created_at={chat.created_at}
+                  ></ChatContext>
                 </span>
               ))}
         </ChatMessages>

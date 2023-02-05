@@ -1,3 +1,30 @@
+export interface CustomUserType {
+  username: string;
+  email: string;
+  display_name: string;
+  title: string;
+  phone_number: string;
+  profile_image: string;
+}
+
+export interface ChatChannelType {
+  id: string;
+  name: string;
+  hashed_value: string;
+  description: string;
+  members: CustomUserType[];
+  admins: CustomUserType[];
+}
+
+export interface WorkspaceType {
+  created_at: string;
+  updated_at: string;
+  members: CustomUserType[];
+  chat_channel: ChatChannelType[];
+  hashed_value: string;
+  name: string;
+}
+
 export interface ChannelType {
   name: string;
 
@@ -6,6 +33,7 @@ export interface ChannelType {
   id: number;
   // title: Channel Id
 }
+
 // export interface UserType{
 
 // }
@@ -26,12 +54,14 @@ export interface ChatType {
   // title: Created at
   // readOnly: true
 }
+
 export interface getChat {
   count: number;
   next: string;
   previous: string;
   results: ChatType[];
 }
+
 export interface ProfileType {
   user: {
     username: string;
@@ -42,6 +72,7 @@ export interface ProfileType {
   bio: string;
   thumbnail_url: string;
 }
+
 export interface UserDetailsType {
   pk: number;
   // title: ID
@@ -64,6 +95,7 @@ export interface UserDetailsType {
   // title: Last name
   // maxLength: 150
 }
+
 export interface UserProfileType {
   id: number;
   // title: ID
@@ -89,6 +121,7 @@ export interface UserProfileType {
   // title: Updated at
   // readOnly: true
 }
+
 export interface ChatInfo {
   channelName: string;
   channelId: number;
