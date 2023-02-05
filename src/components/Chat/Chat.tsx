@@ -18,7 +18,11 @@ function Chat() {
   const [getChatData, setgetChatData] = useState<getChat>();
   const [socket, setSocket] = useState<Socket>();
   const scrollToBottom = () => {
-    messagesRef.current.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
+    messagesRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
   };
   //현재 보고 있는 채널의 hashed_value가 바뀌면 기존 소켓 연결 끊고 새로 재연결
   // useEffect(() => {
