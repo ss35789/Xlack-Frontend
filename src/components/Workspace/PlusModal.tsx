@@ -24,7 +24,7 @@ function PlusModal({
   );
 }
 const ModalContainer = styled.div`
-  top: 0px;
+  top: -120px;
   width: 100%;
   height: 100%;
   display: block;
