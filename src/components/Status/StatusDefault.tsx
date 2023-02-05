@@ -9,7 +9,6 @@ import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 import EmojiPicker from "emoji-picker-react";
-// import WsUrl from "../../variable/cookie";
 
 const StatusDefault = () => {
   const [open, setOpen] = useState(false);
@@ -87,7 +86,6 @@ const StatusDefault = () => {
       <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
       {chosenEmoji}
       {console.log(chosenEmoji)}
-
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
