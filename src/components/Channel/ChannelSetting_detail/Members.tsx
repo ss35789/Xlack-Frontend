@@ -1,7 +1,14 @@
 import styled from "styled-components";
 import React from "react";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
+import { Avatar } from "@material-ui/core";
 
 const Members = () => {
+  const currentWorkspace = useSelector(
+    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
+  );
   return (
     <>
       <SearchBar>
@@ -14,10 +21,45 @@ const Members = () => {
           <input placeholder="Find members" type="search" className="input" />
         </div>
       </SearchBar>
+      <div className="mt-1 mx-auto text-lg overflow-y-scroll max-h">
+        <User>
+          <GroupAddIcon
+            style={{
+              fontSize: 30,
+              marginRight: 10,
+            }}
+          />
+          <h1>Add People</h1>
+        </User>
+        {currentWorkspace &&
+          currentWorkspace.members.map((member, i) => {
+            return (
+              <User key={i}>
+                <HeaderAvatar src={member.profile_image} />
+                <h1>{member.username}</h1>
+              </User>
+            );
+          })}
+      </div>
     </>
   );
 };
+const HeaderAvatar = styled(Avatar)`
+  margin-right: 10px;
+`;
 
+const User = styled.span`
+  align-items: center;
+  width: 100%;
+  display: flex;
+  padding: 0.5rem;
+
+  :hover {
+    cursor: pointer;
+    opacity: 0.6;
+    background-color: #9ca3af;
+  }
+`;
 const SearchBar = styled.div`
   .group {
     display: flex;
