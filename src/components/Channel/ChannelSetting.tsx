@@ -5,6 +5,10 @@ import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 import { RootState } from "../../app/store";
 import { useEffect } from "react";
 import { Tabs, TabsProps } from "antd";
+import About from "./ChannelSetting_detail/About";
+import Integrations from "./ChannelSetting_detail/Integrations";
+import Members from "./ChannelSetting_detail/Members";
+import Settings from "./ChannelSetting_detail/Settings";
 
 const onChange = (key: string) => {
   console.log(key);
@@ -13,18 +17,23 @@ const onChange = (key: string) => {
 const items: TabsProps["items"] = [
   {
     key: "1",
-    label: `Tab 1`,
-    children: `Content of Tab Pane 1`,
+    label: `About`,
+    children: <About />,
   },
   {
     key: "2",
-    label: `Tab 2`,
-    children: `Content of Tab Pane 2`,
+    label: `Members`,
+    children: <Members />,
   },
   {
     key: "3",
-    label: `Tab 3`,
-    children: `Content of Tab Pane 3`,
+    label: `Integrations`,
+    children: <Integrations />,
+  },
+  {
+    key: "4",
+    label: `Settings`,
+    children: <Settings />,
   },
 ];
 
