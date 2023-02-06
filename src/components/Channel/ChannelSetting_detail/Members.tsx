@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
@@ -7,6 +7,14 @@ import { Avatar } from "@material-ui/core";
 import { Button, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
+import {
+  at,
+  AtVerify,
+  backUrl,
+  removeCookie,
+  UpdateToken,
+} from "../../../variable/cookie";
 
 const Members = () => {
   const currentWorkspace = useSelector(
@@ -58,6 +66,7 @@ const Members = () => {
           CloseModal={() => {
             closeAddUserModal();
           }}
+          workspace={currentWorkspace}
         />
       )}
     </>
@@ -126,6 +135,37 @@ const AddUserModal = (props: any) => {
   const currentChannel = useSelector(
     (state: RootState) => state.getMyWorkSpace.SearchedChannel
   );
+  const [EditInput, setEditInput] = useState("");
+  const onChangeEditInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEditInput(e.target.value);
+    },
+    []
+  );
+  const AddUsertoChannel = async () => {
+    if ((await AtVerify()) == 200) {
+      try {
+        const d = await axios.post(
+          `${backUrl}channel/${props.workspace.hashed_value}/${currentChannel.hashed_value}/members/`,
+          { members_usernames: [{ EditInput }] },
+          {
+            headers: {
+              Authorization: `Bearer ${at}`,
+            },
+          }
+        );
+        //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
+        UpdateToken();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      //행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
+      removeCookie();
+      // TODO document why this block is empty
+    }
+  };
+
   return (
     <>
       <div
@@ -162,10 +202,19 @@ const AddUserModal = (props: any) => {
                       </div>
                       <Input
                         size="large"
+                        value={EditInput}
+                        onChange={onChangeEditInput}
                         placeholder="Enter a name or email"
                         prefix={<UserOutlined />}
                       />
-                      <Button>Add</Button>
+                      <Button
+                        onClick={() => {
+                          AddUsertoChannel();
+                          console.log(EditInput);
+                        }}
+                      >
+                        Add
+                      </Button>
                       {/*내부*/}
                     </div>
                   </div>
