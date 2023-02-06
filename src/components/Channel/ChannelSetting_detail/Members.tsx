@@ -1,14 +1,22 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { Avatar } from "@material-ui/core";
+import { Button, Input } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const Members = () => {
   const currentWorkspace = useSelector(
     (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
   );
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const closeAddUserModal = () => {
+    setShowAddUserModal(false);
+  };
+
   return (
     <>
       <SearchBar>
@@ -22,7 +30,11 @@ const Members = () => {
         </div>
       </SearchBar>
       <div className="mt-1 mx-auto text-lg overflow-y-scroll max-h">
-        <User>
+        <User
+          onClick={() => {
+            setShowAddUserModal(true);
+          }}
+        >
           <GroupAddIcon
             style={{
               fontSize: 30,
@@ -41,6 +53,13 @@ const Members = () => {
             );
           })}
       </div>
+      {showAddUserModal && (
+        <AddUserModal
+          CloseModal={() => {
+            closeAddUserModal();
+          }}
+        />
+      )}
     </>
   );
 };
@@ -102,4 +121,61 @@ const SearchBar = styled.div`
     height: 1rem;
   }
 `;
+
+const AddUserModal = (props: any) => {
+  const currentChannel = useSelector(
+    (state: RootState) => state.getMyWorkSpace.SearchedChannel
+  );
+  return (
+    <>
+      <div
+        className="relative z-10"
+        aria-labelledby="modal-title"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="mt-10 sm:mt-0">
+              <div className="wrapper-center">
+                <div className="mt-5 md:col-span-2 md:mt-0">
+                  <div className="overflow-hidden shadow sm:rounded-md">
+                    <div className="bg-white py-5 sm:p-6 space-y-6">
+                      {/*내부*/}
+                      <div className="flex justify-between">
+                        <div className="float-l">
+                          <h1>Add Member</h1>
+                          <h1>#{currentChannel.name}</h1>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            props.CloseModal();
+                          }}
+                          className="rounded-md text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white"
+                        >
+                          <span className="sr-only">Close panel</span>
+                          <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                      </div>
+                      <Input
+                        size="large"
+                        placeholder="Enter a name or email"
+                        prefix={<UserOutlined />}
+                      />
+                      <Button>Add</Button>
+                      {/*내부*/}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 export default Members;

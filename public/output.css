@@ -1281,7 +1281,12 @@ video {
   .sm\:-ml-10 {
     margin-left: -2.5rem;
   }
-
+.float-l{
+  float: left;
+}
+.float-r{
+  float: right;
+}
   .sm\:block {
     display: block;
   }
