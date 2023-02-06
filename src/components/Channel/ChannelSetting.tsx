@@ -4,6 +4,29 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 import { RootState } from "../../app/store";
 import { useEffect } from "react";
+import { Tabs, TabsProps } from "antd";
+
+const onChange = (key: string) => {
+  console.log(key);
+};
+
+const items: TabsProps["items"] = [
+  {
+    key: "1",
+    label: `Tab 1`,
+    children: `Content of Tab Pane 1`,
+  },
+  {
+    key: "2",
+    label: `Tab 2`,
+    children: `Content of Tab Pane 2`,
+  },
+  {
+    key: "3",
+    label: `Tab 3`,
+    children: `Content of Tab Pane 3`,
+  },
+];
 
 const ChannelSetting = () => {
   const dispatch = useDispatch();
@@ -27,11 +50,13 @@ const ChannelSetting = () => {
           <div className="flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="mt-10 sm:mt-0">
               {/*내부*/}
+
               <div className="wrapper-center max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
                   <div className="overflow-hidden shadow sm:rounded-md">
                     <div className="bg-white py-5 sm:p-6">
                       <div className="flex  justify-between">
+                        {/*헤더*/}
                         <h1 className="flex text-lg"># {AboutChannel.name}</h1>
                         <div>
                           <button
@@ -46,7 +71,12 @@ const ChannelSetting = () => {
                           </button>
                         </div>
                       </div>
-                      <hr />
+                      <Tabs
+                        defaultActiveKey="1"
+                        items={items}
+                        onChange={onChange}
+                      />
+                      {/*헤더 끝*/}
                       <div className="flex">
                         <div className="px-4">
                           <div className="col-span-6 sm:col-span-4 py-1 mt-10">
