@@ -6,6 +6,7 @@ import { RootState } from "../../app/store";
 import EditProfile from "./EditProfile";
 import styled from "styled-components";
 import EditContactInfo from "./EditContactInfo";
+import StatusPanel from "../Status/StatusPanel";
 
 const Profile = () => {
   const [open, setOpen] = useState(true);
@@ -119,7 +120,7 @@ const Profile = () => {
                     <div className="mt-2"> Away</div>
                     <div>{new Date().toLocaleTimeString()}</div>
                     <div className="flex justify-center mt-2 ">
-                      <CustomButton>Set a status</CustomButton>
+                      <StatusPanel />
                       <CustomButton>View as</CustomButton>
                       <CustomButton> ...</CustomButton>
                     </div>
