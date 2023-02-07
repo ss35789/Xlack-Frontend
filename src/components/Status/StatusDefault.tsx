@@ -84,8 +84,6 @@ const StatusDefault = () => {
         )}
       </button>
       <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
-      {chosenEmoji}
-      {console.log(chosenEmoji)}
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}

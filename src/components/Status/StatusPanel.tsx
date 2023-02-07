@@ -7,7 +7,6 @@ import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 import StatusDefault from "./StatusDefault";
-import CustomButton from "../Profile/Profile";
 
 const StatusPanel = () => {
   const [open, setOpen] = React.useState(false);

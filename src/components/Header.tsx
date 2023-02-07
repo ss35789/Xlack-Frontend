@@ -54,7 +54,6 @@ function Header() {
         <SearchIcon />
         <input placeholder="Search"></input>
       </HeaderSearch>
-      <StatusPanel />
       {/* {Header Right} */}
       <HeaderRight>
         <HelpOutlineIcon />
