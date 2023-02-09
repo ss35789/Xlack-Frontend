@@ -213,6 +213,31 @@ const MemberOption = (props: any) => {
     }
     dispatch(UpdateRoom());
   };
+  const MakeManager = async (UserName: string) => {
+    if ((await AtVerify()) == 200) {
+      try {
+        const d = await axios.post(
+          `${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/admins/`,
+          { admins_usernames: [{ username: UserName }] },
+          {
+            headers: {
+              Authorization: `Bearer ${at}`,
+            },
+          }
+        );
+        window.alert("어드민 추가");
+        //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
+        UpdateToken();
+      } catch (err) {
+        window.alert("존재하지 않는 계정입니다.");
+        console.log(err);
+      }
+    } else {
+      //행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
+      removeCookie();
+    }
+    dispatch(UpdateRoom());
+  };
 
   return (
     <>
@@ -231,7 +256,7 @@ const MemberOption = (props: any) => {
               <span
                 className="flex flex-col"
                 onClick={() => {
-                  // MakeManager(props.username);
+                  MakeManager(props.username);
                   console.log("make manager");
                 }}
               >
@@ -259,8 +284,6 @@ const MemberOption = (props: any) => {
     </>
   );
 };
-
-// const MakeManager = (username: string) => {};
 
 const AddUserModal = (props: any) => {
   const dispatch = useDispatch();
