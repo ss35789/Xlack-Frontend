@@ -17,8 +17,8 @@ import {
 } from "../../../variable/cookie";
 
 const Members = () => {
-  const currentWorkspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
+  const currentChannel = useSelector(
+    (state: RootState) => state.getMyWorkSpace.SearchedChannel
   );
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const closeAddUserModal = () => {
@@ -51,8 +51,8 @@ const Members = () => {
           />
           <h1>Add People</h1>
         </User>
-        {currentWorkspace &&
-          currentWorkspace.members.map((member, i) => {
+        {currentChannel &&
+          currentChannel.members.map((member, i) => {
             return (
               <User key={i}>
                 <HeaderAvatar src={member.profile_image} />
@@ -66,7 +66,7 @@ const Members = () => {
           CloseModal={() => {
             closeAddUserModal();
           }}
-          workspace={currentWorkspace}
+          channel={currentChannel}
         />
       )}
     </>
@@ -132,8 +132,8 @@ const SearchBar = styled.div`
 `;
 
 const AddUserModal = (props: any) => {
-  const currentChannel = useSelector(
-    (state: RootState) => state.getMyWorkSpace.SearchedChannel
+  const currentWorkspace = useSelector(
+    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
   );
   const [EditInput, setEditInput] = useState("");
   const onChangeEditInput = useCallback(
@@ -146,7 +146,7 @@ const AddUserModal = (props: any) => {
     if ((await AtVerify()) == 200) {
       try {
         const d = await axios.post(
-          `${backUrl}channel/${props.workspace.hashed_value}/${currentChannel.hashed_value}/members/`,
+          `${backUrl}channel/${currentWorkspace.hashed_value}/${props.channel.hashed_value}/members/`,
           { members_usernames: [{ EditInput }] },
           {
             headers: {
@@ -187,7 +187,7 @@ const AddUserModal = (props: any) => {
                       <div className="flex justify-between">
                         <div className="float-l">
                           <h1>Add Member</h1>
-                          <h1>#{currentChannel.name}</h1>
+                          <h1>#{props.name}</h1>
                         </div>
                         <button
                           type="button"
