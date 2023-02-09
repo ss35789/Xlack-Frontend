@@ -8,6 +8,7 @@ import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  CallClickedWorkSpace,
   clearWorkSpace,
   getWorkSpace,
   SearchChannel,
@@ -61,9 +62,11 @@ const Mainpage = () => {
   useEffect(() => {
     getMyUser();
     getMyWorkspace();
-    dispatch(SearchChannel());
-    console.log("Updated");
   }, [Update]);
+  useEffect(() => {
+    dispatch(CallClickedWorkSpace());
+    dispatch(SearchChannel());
+  }, [Workspace]);
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);

@@ -166,6 +166,7 @@ const AddUserModal = (props: any) => {
       removeCookie();
       // TODO document why this block is empty
     }
+    dispatch(UpdateRoom());
   };
 
   return (
@@ -212,7 +213,6 @@ const AddUserModal = (props: any) => {
                       <Button
                         onClick={() => {
                           AddUsertoChannel();
-                          dispatch(UpdateRoom());
                           console.log(EditInput);
                         }}
                       >

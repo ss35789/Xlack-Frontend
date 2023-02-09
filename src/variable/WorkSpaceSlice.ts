@@ -4,6 +4,7 @@ import { ChatChannelType, WorkspaceType } from "../components/types";
 interface struct {
   MyWorkSpace: WorkspaceType[];
   rightClicked_channel_hashed_value: string;
+  ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
 }
@@ -11,6 +12,7 @@ interface struct {
 const initialState: struct = {
   MyWorkSpace: [],
   rightClicked_channel_hashed_value: "",
+  ClickedWorkSpace_hashed_value: "",
   ClickedWorkSpace: {
     created_at: "",
     updated_at: "",
@@ -48,8 +50,18 @@ export const WorkSpaceSlice = createSlice({
       state.MyWorkSpace = [];
     },
     //현재 내가 클릭한 워크스페이스
-    SetClickedWorkSpace: (state, action: PayloadAction<WorkspaceType>) => {
-      state.ClickedWorkSpace = action.payload;
+
+    SetClickedWorkSpace: (state, action: PayloadAction<string>) => {
+      state.ClickedWorkSpace_hashed_value = action.payload;
+    },
+
+    CallClickedWorkSpace: (state, action: PayloadAction<void>) => {
+      const w = state.ClickedWorkSpace_hashed_value;
+      state.MyWorkSpace.forEach((value) => {
+        if (value.hashed_value === w) {
+          state.ClickedWorkSpace = value;
+        }
+      });
     },
     //현재 워크스페이스에서 channel.hashed_value를 이용해 channel의 정보 찾기
     SearchChannel: (state, action: PayloadAction<void>) => {
@@ -70,6 +82,7 @@ export const {
   getWorkSpace,
   clearWorkSpace,
   SetClickedWorkSpace,
+  CallClickedWorkSpace,
   SearchChannel,
   rightClick_channel,
 } = WorkSpaceSlice.actions;

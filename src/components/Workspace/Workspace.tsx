@@ -2,7 +2,10 @@ import React from "react";
 import { WorkspaceType } from "../types";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { SetClickedWorkSpace } from "../../variable/WorkSpaceSlice";
+import {
+  CallClickedWorkSpace,
+  SetClickedWorkSpace,
+} from "../../variable/WorkSpaceSlice";
 
 function Workspace(props: WorkspaceType) {
   return (
@@ -19,7 +22,8 @@ export function SelectWorkspace(prop: WorkspaceType) {
       <OptionWorkspace>
         <WorkspaceButton
           onClick={() => {
-            dispatch(SetClickedWorkSpace(prop));
+            dispatch(SetClickedWorkSpace(prop.hashed_value));
+            dispatch(CallClickedWorkSpace());
             console.log("내가 현재 보는 워크스페이스 이름:", prop.name);
           }}
         >
