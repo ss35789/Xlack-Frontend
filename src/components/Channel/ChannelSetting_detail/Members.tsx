@@ -204,7 +204,7 @@ const MemberOption = (props: any) => {
         //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
         UpdateToken();
       } catch (err) {
-        window.alert("존재하지 않는 계정입니다.");
+        window.alert("권한이 없습니다.");
         console.log(err);
       }
     } else {
@@ -229,7 +229,7 @@ const MemberOption = (props: any) => {
         //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
         UpdateToken();
       } catch (err) {
-        window.alert("존재하지 않는 계정입니다.");
+        window.alert("권한이 없습니다.");
         console.log(err);
       }
     } else {
