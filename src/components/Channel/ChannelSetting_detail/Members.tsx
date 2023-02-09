@@ -21,6 +21,7 @@ const Members = () => {
   const currentChannel = useSelector(
     (state: RootState) => state.getMyWorkSpace.SearchedChannel
   );
+  const [showOption, setShowOption] = useState(-1);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const closeAddUserModal = () => {
     setShowAddUserModal(false);
@@ -39,7 +40,7 @@ const Members = () => {
         </div>
       </SearchBar>
       <div className="mt-1 mx-auto text-lg overflow-y-scroll max-h">
-        <User
+        <AddUser
           onClick={() => {
             setShowAddUserModal(true);
           }}
@@ -51,13 +52,26 @@ const Members = () => {
             }}
           />
           <h1>Add People</h1>
-        </User>
+        </AddUser>
         {currentChannel &&
           currentChannel.members.map((member, i) => {
             return (
-              <User key={i}>
-                <HeaderAvatar src={member.profile_image} />
-                <h1>{member.username}</h1>
+              <User
+                key={i}
+                onMouseOver={() => {
+                  setShowOption(i);
+                }}
+                onMouseLeave={() => {
+                  setShowOption(-1);
+                }}
+              >
+                <div className="flex justify-between">
+                  <HeaderAvatar src={member.profile_image} />
+                  <h1>{member.username}</h1>
+                </div>
+                {showOption === i && (
+                  <Button style={{ backgroundColor: "white" }}>...</Button>
+                )}
               </User>
             );
           })}
@@ -76,12 +90,24 @@ const Members = () => {
 const HeaderAvatar = styled(Avatar)`
   margin-right: 10px;
 `;
+const AddUser = styled.span`
+  align-items: center;
+  width: 100%;
+  display: flex;
+  padding: 0.5rem;
 
+  :hover {
+    cursor: pointer;
+    opacity: 0.6;
+    background-color: #9ca3af;
+  }
+`;
 const User = styled.span`
   align-items: center;
   width: 100%;
   display: flex;
   padding: 0.5rem;
+  justify-content: space-between;
 
   :hover {
     cursor: pointer;
@@ -156,9 +182,11 @@ const AddUserModal = (props: any) => {
             },
           }
         );
+        window.alert("멤버 추가");
         //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
         UpdateToken();
       } catch (err) {
+        window.alert("존재하지 않는 계정입니다.");
         console.log(err);
       }
     } else {
