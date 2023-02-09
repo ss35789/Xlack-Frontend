@@ -22,6 +22,7 @@ const Members = () => {
     (state: RootState) => state.getMyWorkSpace.SearchedChannel
   );
   const [showOption, setShowOption] = useState(-1);
+  const [showOptionMenu, setShowOptionMenu] = useState(false);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const closeAddUserModal = () => {
     setShowAddUserModal(false);
@@ -65,12 +66,30 @@ const Members = () => {
                   setShowOption(-1);
                 }}
               >
-                <div className="flex justify-between">
+                <div className="flex">
                   <HeaderAvatar src={member.profile_image} />
                   <h1>{member.username}</h1>
                 </div>
                 {showOption === i && (
-                  <Button style={{ backgroundColor: "white" }}>...</Button>
+                  <>
+                    <Button
+                      className="bg-white"
+                      onClick={() => {
+                        setShowOptionMenu(true);
+                      }}
+                    >
+                      ...
+                    </Button>
+                    {showOptionMenu && (
+                      <span
+                        onMouseLeave={() => {
+                          setShowOptionMenu(false);
+                        }}
+                      >
+                        <MemberOption />
+                      </span>
+                    )}
+                  </>
                 )}
               </User>
             );
@@ -157,6 +176,53 @@ const SearchBar = styled.div`
     height: 1rem;
   }
 `;
+
+const MemberOption = () => {
+  return (
+    <>
+      <div className="relative inline-block text-left">
+        <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+          <div
+            className="py-1 "
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
+          >
+            <a
+              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+              role="menuitem"
+            ></a>
+            <a
+              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+              role="menuitem"
+            >
+              <span className="flex flex-col">
+                <span>알람 일시정지</span>
+              </span>
+            </a>
+
+            <a
+              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+              role="menuitem"
+            >
+              <span className="flex flex-col">
+                <span>다운로드</span>
+              </span>
+            </a>
+            <a
+              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+              role="menuitem"
+            >
+              <span className="flex flex-col">
+                <span>''에서 로그아웃</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const AddUserModal = (props: any) => {
   const dispatch = useDispatch();
