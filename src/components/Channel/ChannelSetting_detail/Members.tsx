@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useCallback, useState } from "react";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { Avatar } from "@material-ui/core";
 import { Button, Input } from "antd";
@@ -15,6 +15,7 @@ import {
   removeCookie,
   UpdateToken,
 } from "../../../variable/cookie";
+import { UpdateRoom } from "../../../variable/UpdateChannelSlice";
 
 const Members = () => {
   const currentChannel = useSelector(
@@ -132,6 +133,7 @@ const SearchBar = styled.div`
 `;
 
 const AddUserModal = (props: any) => {
+  const dispatch = useDispatch();
   const currentWorkspace = useSelector(
     (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
   );
@@ -147,7 +149,7 @@ const AddUserModal = (props: any) => {
       try {
         const d = await axios.post(
           `${backUrl}channel/${currentWorkspace.hashed_value}/${props.channel.hashed_value}/members/`,
-          { members_usernames: [{ EditInput }] },
+          { members_usernames: [{ username: EditInput }] },
           {
             headers: {
               Authorization: `Bearer ${at}`,
@@ -187,7 +189,7 @@ const AddUserModal = (props: any) => {
                       <div className="flex justify-between">
                         <div className="float-l">
                           <h1>Add Member</h1>
-                          <h1>#{props.name}</h1>
+                          <h1>#{props.channel.name}</h1>
                         </div>
                         <button
                           type="button"
@@ -210,6 +212,7 @@ const AddUserModal = (props: any) => {
                       <Button
                         onClick={() => {
                           AddUsertoChannel();
+                          dispatch(UpdateRoom());
                           console.log(EditInput);
                         }}
                       >

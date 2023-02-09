@@ -7,7 +7,11 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { clearWorkSpace, getWorkSpace } from "../variable/WorkSpaceSlice";
+import {
+  clearWorkSpace,
+  getWorkSpace,
+  SearchChannel,
+} from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
@@ -18,6 +22,7 @@ import ChannelSetting from "../components/Channel/ChannelSetting";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
+  const Update = useSelector((state: RootState) => state.UpdateChannel);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const OpenChannelSetting = useSelector(
     (state: RootState) => state.OnModal.OnChannelSetting
@@ -56,7 +61,9 @@ const Mainpage = () => {
   useEffect(() => {
     getMyUser();
     getMyWorkspace();
-  }, []);
+    dispatch(SearchChannel());
+    console.log("Updated");
+  }, [Update]);
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);

@@ -3,12 +3,14 @@ import { ChatChannelType, WorkspaceType } from "../components/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
+  rightClicked_channel_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
 }
 
 const initialState: struct = {
   MyWorkSpace: [],
+  rightClicked_channel_hashed_value: "",
   ClickedWorkSpace: {
     created_at: "",
     updated_at: "",
@@ -50,12 +52,16 @@ export const WorkSpaceSlice = createSlice({
       state.ClickedWorkSpace = action.payload;
     },
     //현재 워크스페이스에서 channel.hashed_value를 이용해 channel의 정보 찾기
-    SearchChannel: (state, action: PayloadAction<string>) => {
+    SearchChannel: (state, action: PayloadAction<void>) => {
+      const r = state.rightClicked_channel_hashed_value;
       state.ClickedWorkSpace.chat_channel.forEach((value) => {
-        if (value.hashed_value === action.payload) {
+        if (value.hashed_value === r) {
           state.SearchedChannel = value;
         }
       });
+    },
+    rightClick_channel: (state, action: PayloadAction<string>) => {
+      state.rightClicked_channel_hashed_value = action.payload;
     },
   },
 });
@@ -65,5 +71,6 @@ export const {
   clearWorkSpace,
   SetClickedWorkSpace,
   SearchChannel,
+  rightClick_channel,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

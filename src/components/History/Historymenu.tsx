@@ -47,9 +47,7 @@ const Historymenu = () => {
                   onClick={() => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    const channel: ChatChannelType = dispatch(
-                      SearchChannel(h.value)
-                    );
+                    const channel: ChatChannelType = dispatch(SearchChannel());
                     dispatch(ClickedChannel(channel));
                     console.log("history click:", h.value);
                   }}

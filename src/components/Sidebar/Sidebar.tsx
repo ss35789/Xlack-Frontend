@@ -8,10 +8,12 @@ import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
 import { ClickedChannel } from "../../variable/ClickedChannelSlice";
-import Workspace from "../Workspace/Workspace";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
-import { SearchChannel } from "../../variable/WorkSpaceSlice";
+import {
+  rightClick_channel,
+  SearchChannel,
+} from "../../variable/WorkSpaceSlice";
 
 function Sidebar() {
   const max_history_size = 6;
@@ -140,7 +142,8 @@ function Sidebar() {
                 console.log("채널 메뉴열기!");
                 setx(e.clientX);
                 sety(e.clientY);
-                dispatch(SearchChannel(c.hashed_value));
+                dispatch(rightClick_channel(c.hashed_value));
+                dispatch(SearchChannel());
                 showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
                 onClickshowChannelMenu();
               }}
