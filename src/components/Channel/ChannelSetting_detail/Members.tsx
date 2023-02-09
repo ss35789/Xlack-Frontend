@@ -16,7 +16,10 @@ import {
   UpdateToken,
 } from "../../../variable/cookie";
 import { UpdateRoom } from "../../../variable/UpdateChannelSlice";
-
+// Members 컴포넌트
+// AddUserModal 컴포넌트
+// MemberOption 컴포넌트
+// AddUsertoChannel 함수(api)
 const Members = () => {
   const currentChannel = useSelector(
     (state: RootState) => state.getMyWorkSpace.SearchedChannel
@@ -86,7 +89,7 @@ const Members = () => {
                           setShowOptionMenu(false);
                         }}
                       >
-                        <MemberOption />
+                        <MemberOption username={member.username} />
                       </span>
                     )}
                   </>
@@ -177,7 +180,40 @@ const SearchBar = styled.div`
   }
 `;
 
-const MemberOption = () => {
+const MemberOption = (props: any) => {
+  const dispatch = useDispatch();
+  const currentWorkspace = useSelector(
+    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
+  );
+  const AboutChannel = useSelector(
+    (state: RootState) => state.getMyWorkSpace.SearchedChannel
+  );
+
+  const RemoveUser = async (Username: string) => {
+    if ((await AtVerify()) == 200) {
+      try {
+        const d = await axios.delete(
+          `${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/members/${Username}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${at}`,
+            },
+          }
+        );
+        window.alert("멤버 삭제");
+        //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
+        UpdateToken();
+      } catch (err) {
+        window.alert("존재하지 않는 계정입니다.");
+        console.log(err);
+      }
+    } else {
+      //행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
+      removeCookie();
+    }
+    dispatch(UpdateRoom());
+  };
+
   return (
     <>
       <div className="relative inline-block text-left">
@@ -189,32 +225,32 @@ const MemberOption = () => {
             aria-labelledby="options-menu"
           >
             <a
-              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-              role="menuitem"
-            ></a>
-            <a
-              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+              className="block block px-4 py-2 text-md text-blue-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
               role="menuitem"
             >
-              <span className="flex flex-col">
-                <span>알람 일시정지</span>
+              <span
+                className="flex flex-col"
+                onClick={() => {
+                  // MakeManager(props.username);
+                  console.log("make manager");
+                }}
+              >
+                <span>Make channel manager</span>
               </span>
             </a>
 
             <a
-              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+              className="block block px-4 py-2 text-md text-blue-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
               role="menuitem"
             >
-              <span className="flex flex-col">
-                <span>다운로드</span>
-              </span>
-            </a>
-            <a
-              className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-              role="menuitem"
-            >
-              <span className="flex flex-col">
-                <span>''에서 로그아웃</span>
+              <span
+                className="flex flex-col"
+                onClick={() => {
+                  RemoveUser(props.username);
+                  console.log("remove user");
+                }}
+              >
+                <span>Remove from channel</span>
               </span>
             </a>
           </div>
@@ -223,6 +259,8 @@ const MemberOption = () => {
     </>
   );
 };
+
+// const MakeManager = (username: string) => {};
 
 const AddUserModal = (props: any) => {
   const dispatch = useDispatch();
