@@ -4,13 +4,12 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
+import message from "../Message";
 
 function ChatInput() {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelHv = useSelector(
-    (state: RootState) => state.ClickedChannel.channel_hashde_value
-  );
+  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel.channel_hashde_value);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,7 +25,7 @@ function ChatInput() {
         socket.send(
           JSON.stringify({
             authorization: at,
-          })
+          }),
         );
         console.log("웹소켓 연결");
       };
@@ -40,12 +39,12 @@ function ChatInput() {
       socket.send(
         JSON.stringify({
           message: msg,
-        })
+        }),
       );
 
       console.log(msg);
 
-      socket.onmessage = (message) => {
+      socket.onmessage = message => {
         // 클라이언트로부터 메시지 수신 시
         console.log(message);
         dispatch(UpdateChat());
@@ -65,11 +64,7 @@ function ChatInput() {
   return (
     <ChatInputContainer>
       <form>
-        <input
-          ref={inputRef}
-          onChange={(e) => setmsg(e.target.value)}
-          placeholder={`Message #`}
-        />
+        <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`} />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
