@@ -3,9 +3,9 @@ import { RootState } from "../../app/store";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
-import { EditContactInfoOnOff } from "../../variable/OnEditProfileSlice";
+import { EditContactInfoOnOff } from "../../variable/OnModalSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
-import EditcheckModal from "./EditcheckModal";
+import EditCloseCheckModal from "./EditCloseCheckModal";
 
 const EditContactInfo = () => {
   const formData = new FormData();
@@ -69,12 +69,12 @@ const EditContactInfo = () => {
       >
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto mt-30">
+        <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="mt-10 sm:mt-0">
               {/*내부*/}
 
-              <div className="max-w-md">
+              <div className="wrapper-center max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
                   <div className="overflow-hidden shadow sm:rounded-md">
                     <div className="bg-white py-5 sm:p-6">
@@ -146,7 +146,7 @@ const EditContactInfo = () => {
           </div>
         </div>
       </div>
-      <EditcheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
+      <EditCloseCheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
     </>
   );
 };

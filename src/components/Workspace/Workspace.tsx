@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { WorkspaceType } from "../types";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { useDispatch } from "react-redux";
+import {
+  CallClickedWorkSpace,
+  SetClickedWorkSpace,
+} from "../../variable/WorkSpaceSlice";
 
 function Workspace(props: WorkspaceType) {
   return (
@@ -11,11 +14,21 @@ function Workspace(props: WorkspaceType) {
     </>
   );
 }
+
 export function SelectWorkspace(prop: WorkspaceType) {
+  const dispatch = useDispatch();
   return (
     <WorkspaceContainer>
       <OptionWorkspace>
-        <WorkspaceButton>{prop.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
+        <WorkspaceButton
+          onClick={() => {
+            dispatch(SetClickedWorkSpace(prop.hashed_value));
+            dispatch(CallClickedWorkSpace());
+            console.log("내가 현재 보는 워크스페이스 이름:", prop.name);
+          }}
+        >
+          {prop.name.slice(0, 1).toUpperCase()}
+        </WorkspaceButton>
       </OptionWorkspace>
     </WorkspaceContainer>
   );
@@ -63,6 +76,7 @@ const WorkspaceButton = styled.button`
   font-weight: 700;
   color: white;
   cursor: pointer;
+
   &:hover {
     border-color: lightgray;
   }

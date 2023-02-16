@@ -15,6 +15,7 @@ function Header() {
   const [showHistorymenu, setShowHistorymenu] = useState<boolean>(false);
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   const historyMenuRef = useRef<HTMLDivElement>(null);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // historyMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
@@ -31,6 +32,23 @@ function Header() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [historyMenuRef]);
+
+  useEffect(() => {
+    // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
+    function handleClickOutside(e: MouseEvent): void {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(e.target as Node)
+      ) {
+        setShowProfile(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [profileMenuRef]);
 
   return (
     <HeaderContainer>
@@ -58,11 +76,19 @@ function Header() {
       <HeaderRight>
         <HelpOutlineIcon />
         <HeaderAvatar
+          ref={profileMenuRef}
           src={MyUser.profile_image}
-          onClick={() => setShowProfile(!showProfile)}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowProfile(!showProfile);
+          }}
           //TODO: Add onclick
         />
-        {showProfile && <ProfileMenu />}
+        {showProfile && (
+          <div>
+            <ProfileMenu />
+          </div>
+        )}
       </HeaderRight>
     </HeaderContainer>
   );

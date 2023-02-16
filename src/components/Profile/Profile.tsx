@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import EditProfile from "./EditProfile";
 import styled from "styled-components";
@@ -12,15 +12,14 @@ const Profile = () => {
   const [open, setOpen] = useState(true);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showEditContactInfo, setShowEditContactInfo] = useState(false);
-  const dispatch = useDispatch();
   const MyProfile = useSelector(
     (state: RootState) => state.getMyProfile.userData
   );
   const onEditProfilePage = useSelector(
-    (state: RootState) => state.EditProfileOnOff
+    (state: RootState) => state.OnModal.OnEditProfilePage
   );
   const onEditContactInfo = useSelector(
-    (state: RootState) => state.EditContactInfoOnOff
+    (state: RootState) => state.OnModal.OnEditContactInfo
   );
   useEffect(() => {
     setOpen(!open);

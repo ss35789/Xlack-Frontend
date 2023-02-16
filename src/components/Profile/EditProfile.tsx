@@ -4,9 +4,9 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import styled from "styled-components";
-import { EditProfileOnOff } from "../../variable/OnEditProfileSlice";
+import { EditProfileOnOff } from "../../variable/OnModalSlice";
 import { getMyProfile } from "../../variable/MyProfileSlice";
-import EditcheckModal from "./EditcheckModal";
+import EditCloseCheckModal from "./EditCloseCheckModal";
 
 const EditProfile = () => {
   const formData = new FormData();
@@ -111,7 +111,7 @@ const EditProfile = () => {
             <div className="mt-10 sm:mt-0">
               {/*내부*/}
 
-              <div className="max-w-md">
+              <div className="wrapper-center max-w-md">
                 <div className="mt-5 md:col-span-2 md:mt-0">
                   <div className="overflow-hidden shadow sm:rounded-md">
                     <div className="bg-white py-5 sm:p-6">
@@ -272,7 +272,7 @@ const EditProfile = () => {
         </div>
       </div>
 
-      <EditcheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
+      <EditCloseCheckModal show={cancelCheck} returnFunc={cancelCheckFunc} />
     </>
   );
 };

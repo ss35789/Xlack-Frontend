@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { ClickedChannel } from "../../variable/ClickedChannelSlice";
 
 export interface SidebarInfo {
   Icon?: any;
@@ -13,9 +12,9 @@ function SidebarOption({ Icon, title, id }: SidebarInfo) {
   const dispatch = useDispatch();
 
   const selectChannel = () => {
-    if (id) {
-      dispatch(ClickedChannel(id.toString()));
-    }
+    // if (id) {
+    //   dispatch(ClickedChannel(id.toString()));
+    // }
     // console.log(`id : ${id}`);
   };
 

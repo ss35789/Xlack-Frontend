@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChatChannelType } from "../components/types";
 
-interface ClickedChannelState {
-  channel_hashde_value: string | null;
-}
-
-const initialState: ClickedChannelState = {
-  channel_hashde_value: "",
+const initialState: ChatChannelType = {
+  id: "",
+  name: "",
+  hashed_value: "",
+  description: "",
+  members: [],
+  admins: [],
 };
 export const ClickedChannelSlice = createSlice({
   name: "ClickedChannel",
   initialState,
   reducers: {
-    ClickedChannel: (state, action: PayloadAction<string | null>) => {
-      state.channel_hashde_value = action.payload;
+    ClickedChannel: (state, action: PayloadAction<ChatChannelType>) => {
+      state = action.payload;
     },
   },
 });

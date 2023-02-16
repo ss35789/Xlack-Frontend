@@ -7,20 +7,29 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { clearWorkSpace, getWorkSpace } from "../variable/WorkSpaceSlice";
+import {
+  CallClickedWorkSpace,
+  clearWorkSpace,
+  getWorkSpace,
+  SearchChannel,
+} from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
+import ChannelSetting from "../components/Channel/ChannelSetting";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
+  const Update = useSelector((state: RootState) => state.UpdateChannel);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [channels, setChannels] = useState<string[]>([]);
+  const OpenChannelSetting = useSelector(
+    (state: RootState) => state.OnModal.OnChannelSetting
+  );
   const Workspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.hashed
+    (state: RootState) => state.getMyWorkSpace.MyWorkSpace
   );
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
@@ -59,7 +68,11 @@ const Mainpage = () => {
   useEffect(() => {
     getMyUser();
     getMyWorkspace();
-  }, []);
+  }, [Update]);
+  useEffect(() => {
+    dispatch(CallClickedWorkSpace());
+    dispatch(SearchChannel());
+  }, [Workspace]);
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
@@ -70,8 +83,7 @@ const Mainpage = () => {
         <Header />
         <SelectWorkspaces>
           {Workspace.map((element, i) => {
-            // console.log(element);
-            return <SelectWorkspace {...element} />;
+            return <SelectWorkspace key={i} {...element} />;
           })}
           <PlusButton onClick={onClickToggleModal}>
             +
@@ -82,6 +94,7 @@ const Mainpage = () => {
         </SelectWorkspaces>
         <Sidebar />
         <Profile />
+        {OpenChannelSetting && <ChannelSetting />}
         <Chat />
       </AppBody>
     </>
