@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ClickedChannel } from "../../variable/ClickedChannelSlice";
+import { setClickedChannel } from "../../variable/ClickedChannelSlice";
 import { SearchChannel } from "../../variable/WorkSpaceSlice";
 import { ChatChannelType } from "../types";
 
@@ -48,7 +48,7 @@ const Historymenu = () => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     const channel: ChatChannelType = dispatch(SearchChannel());
-                    dispatch(ClickedChannel(channel));
+                    dispatch(setClickedChannel(channel));
                     console.log("history click:", h.value);
                   }}
                 >

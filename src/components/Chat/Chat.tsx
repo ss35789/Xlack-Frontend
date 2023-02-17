@@ -6,14 +6,33 @@ import { useSelector } from "react-redux";
 import ChatContext from "./ChatContext";
 import { getChat } from "../types";
 import { Socket } from "socket.io";
+import { at, backUrl } from "../../variable/cookie";
+import axios from "axios";
 
 function Chat() {
-  const receiveMessage = useSelector(
-    (state: RootState) => state.UpdateChatContext.receiveMessage
-  );
-  const Clicked_channel_hv = useSelector(
-    (state: RootState) => state.ClickedChannel.hashed_value
-  );
+  const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
+  const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel);
+  const receiveChatData = async () => {
+    try {
+      const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      });
+      setgetChatData(res.data);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    console.log("저장된 채널:", Clicked_channel);
+    if (Clicked_channel.hashed_value) {
+      receiveChatData();
+    }
+  }, [Clicked_channel]);
+  // setgetChaData(res.data) 안에 axios
+
   const messagesRef = useRef<any>();
   const [getChatData, setgetChatData] = useState<getChat>();
   const [socket, setSocket] = useState<Socket>();
@@ -54,20 +73,14 @@ function Chat() {
       {/* {roomDetails && roomMessages && ( */}
       <>
         <ChatMessages ref={messagesRef}>
-          <h4>{Clicked_channel_hv}</h4>
+          <h4>{Clicked_channel.hashed_value}</h4>
           {getChatData &&
             getChatData.results
               .slice(0)
               .reverse()
-              .map((chat) => (
+              .map((chat, i) => (
                 <span>
-                  <ChatContext
-                    id={chat.id}
-                    channel={chat.channel}
-                    chatter={chat.chatter}
-                    message={chat.message}
-                    created_at={chat.created_at}
-                  ></ChatContext>
+                  <ChatContext key={i} id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
                 </span>
               ))}
         </ChatMessages>

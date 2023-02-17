@@ -7,13 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
-import { ClickedChannel } from "../../variable/ClickedChannelSlice";
+import { setClickedChannel } from "../../variable/ClickedChannelSlice";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
-import {
-  rightClick_channel,
-  SearchChannel,
-} from "../../variable/WorkSpaceSlice";
+import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
 
 function Sidebar() {
   const max_history_size = 6;
@@ -22,16 +19,12 @@ function Sidebar() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [historyMap, setHistoryMap] = useState(new Map<string, string>());
-  const WorkspaceData = useSelector(
-    (state: RootState) => state.getMyWorkSpace.MyWorkSpace
-  );
+  const WorkspaceData = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const [ChannelList, setChannelList] = useState<string[]>([]); // 기존에 가입되어있던 채널들 정보
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
   const channelMenuRef = useRef<HTMLDivElement>(null);
-  const currentWorkspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
-  );
+  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   useEffect(() => {
     if (window.localStorage.getItem("history") !== null) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -39,23 +32,17 @@ function Sidebar() {
       const h = JSON.parse(window.localStorage.getItem("history"));
       // 새로고침할떄 history 남아있게
 
-      const arrMap = h.reduce(
-        (map: Map<string, string>, obj: { name: string; value: string }) => {
-          map.set(obj.name, obj.value);
-          return map;
-        },
-        new Map()
-      );
+      const arrMap = h.reduce((map: Map<string, string>, obj: { name: string; value: string }) => {
+        map.set(obj.name, obj.value);
+        return map;
+      }, new Map());
       setHistoryMap(arrMap);
     }
     if (WorkspaceData !== null) {
-      console.log(
-        "내 workspace와 내부 channle들의 hashed_value : ",
-        WorkspaceData
-      );
+      console.log("내 workspace와 내부 channle들의 hashed_value : ", WorkspaceData);
 
-      WorkspaceData.forEach((element) => {
-        element.chat_channel.forEach((cha) => {
+      WorkspaceData.forEach(element => {
+        element.chat_channel.forEach(cha => {
           setChannelList([...ChannelList, cha.hashed_value]);
         });
       });
@@ -64,10 +51,7 @@ function Sidebar() {
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
-      if (
-        channelMenuRef.current &&
-        !channelMenuRef.current.contains(e.target as Node)
-      ) {
+      if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
         setshowChannelMenu(false);
       }
     }
@@ -80,7 +64,6 @@ function Sidebar() {
   const storeHistory = (name: string, hv: string) => {
     historyMap.delete(name);
     historyMap.set(name, hv);
-    console.log(historyMap.get(name));
     const array = Array.from(historyMap, ([name, value]) => ({
       name,
       value,
@@ -92,11 +75,11 @@ function Sidebar() {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
   const onClickshowChannelMenu = useCallback(() => {
-    setshowChannelMenu((prev) => !prev);
+    setshowChannelMenu(prev => !prev);
   }, []);
 
   const onClickshowChannels = useCallback(() => {
-    setshowChannels((prev) => !prev);
+    setshowChannels(prev => !prev);
   }, []);
   return (
     <SidebarContainer>
@@ -131,13 +114,14 @@ function Sidebar() {
             <span
               key={i}
               ref={channelMenuRef}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 storeHistory(c.name, c.hashed_value);
-                dispatch(ClickedChannel(c));
+                dispatch(setClickedChannel(c));
+
                 // connectChat(enterRoomId)
               }}
-              onContextMenu={(e) => {
+              onContextMenu={e => {
                 e.preventDefault();
                 console.log("채널 메뉴열기!");
                 setx(e.clientX);

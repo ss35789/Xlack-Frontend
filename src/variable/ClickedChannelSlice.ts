@@ -13,11 +13,16 @@ export const ClickedChannelSlice = createSlice({
   name: "ClickedChannel",
   initialState,
   reducers: {
-    ClickedChannel: (state, action: PayloadAction<ChatChannelType>) => {
-      state = action.payload;
+    setClickedChannel: (state, action: PayloadAction<ChatChannelType>) => {
+      state.id = action.payload.id;
+      state.name = action.payload.name;
+      state.hashed_value = action.payload.hashed_value;
+      state.description = action.payload.description;
+      state.members = action.payload.members;
+      state.admins = action.payload.admins;
     },
   },
 });
 
-export const { ClickedChannel } = ClickedChannelSlice.actions;
+export const { setClickedChannel } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;

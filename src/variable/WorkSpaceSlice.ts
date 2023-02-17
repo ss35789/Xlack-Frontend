@@ -46,7 +46,7 @@ export const WorkSpaceSlice = createSlice({
         name: m.name,
       });
     },
-    clearWorkSpace: (state) => {
+    clearWorkSpace: state => {
       state.MyWorkSpace = [];
     },
     //현재 내가 클릭한 워크스페이스
@@ -57,7 +57,7 @@ export const WorkSpaceSlice = createSlice({
 
     CallClickedWorkSpace: (state, action: PayloadAction<void>) => {
       const w = state.ClickedWorkSpace_hashed_value;
-      state.MyWorkSpace.forEach((value) => {
+      state.MyWorkSpace.forEach(value => {
         if (value.hashed_value === w) {
           state.ClickedWorkSpace = value;
         }
@@ -66,7 +66,7 @@ export const WorkSpaceSlice = createSlice({
     //현재 워크스페이스에서 channel.hashed_value를 이용해 channel의 정보 찾기
     SearchChannel: (state, action: PayloadAction<void>) => {
       const r = state.rightClicked_channel_hashed_value;
-      state.ClickedWorkSpace.chat_channel.forEach((value) => {
+      state.ClickedWorkSpace.chat_channel.forEach(value => {
         if (value.hashed_value === r) {
           state.SearchedChannel = value;
         }
@@ -78,12 +78,5 @@ export const WorkSpaceSlice = createSlice({
   },
 });
 
-export const {
-  getWorkSpace,
-  clearWorkSpace,
-  SetClickedWorkSpace,
-  CallClickedWorkSpace,
-  SearchChannel,
-  rightClick_channel,
-} = WorkSpaceSlice.actions;
+export const { getWorkSpace, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
