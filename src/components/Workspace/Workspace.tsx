@@ -2,10 +2,7 @@ import React from "react";
 import { WorkspaceType } from "../types";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import {
-  CallClickedWorkSpace,
-  SetClickedWorkSpace,
-} from "../../variable/WorkSpaceSlice";
+import { CallClickedWorkSpace, SetClickedWorkSpace } from "../../variable/WorkSpaceSlice";
 
 function Workspace(props: WorkspaceType) {
   return (

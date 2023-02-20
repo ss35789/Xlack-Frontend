@@ -52,12 +52,7 @@ function ModalMenuList() {
         ) : (
           ""
         )}
-        <Button
-          className="createWork"
-          onClick={() =>
-            (window.location.href = "http://localhost:3000/setTeamName")
-          }
-        >
+        <Button className="createWork" onClick={() => (window.location.href = "http://localhost:3000/setTeamName")}>
           워크스페이스 추가
         </Button>
         <Separator>
@@ -81,6 +76,7 @@ function ModalMenuList() {
     </MenuList>
   );
 }
+
 const Separator = styled.div`
   padding: 8px;
 `;

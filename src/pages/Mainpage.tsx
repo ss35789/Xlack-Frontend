@@ -7,12 +7,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  CallClickedWorkSpace,
-  clearWorkSpace,
-  getWorkSpace,
-  SearchChannel,
-} from "../variable/WorkSpaceSlice";
+import { CallClickedWorkSpace, clearWorkSpace, getWorkSpace, SearchChannel } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../components/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
@@ -25,12 +20,8 @@ const Mainpage = () => {
   const dispatch = useDispatch();
   const Update = useSelector((state: RootState) => state.UpdateChannel);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const OpenChannelSetting = useSelector(
-    (state: RootState) => state.OnModal.OnChannelSetting
-  );
-  const Workspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.MyWorkSpace
-  );
+  const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
+  const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -56,13 +47,13 @@ const Mainpage = () => {
           Authorization: `Bearer ${at}`,
         },
       })
-      .then((res) => {
+      .then(res => {
         dispatch(clearWorkSpace());
         res.data.map((value: WorkspaceType) => {
           dispatch(getWorkSpace(value));
         });
       })
-      .catch((e) => console.log("getWorkspace error : ", e));
+      .catch(e => console.log("getWorkspace error : ", e));
   };
 
   useEffect(() => {
@@ -85,12 +76,7 @@ const Mainpage = () => {
           {Workspace.map((element, i) => {
             return <SelectWorkspace key={i} {...element} />;
           })}
-          <PlusButton onClick={onClickToggleModal}>
-            +
-            {isOpenModal && (
-              <PlusModal onClickToggleModal={onClickToggleModal}></PlusModal>
-            )}
-          </PlusButton>
+          <PlusButton onClick={onClickToggleModal}>+{isOpenModal && <PlusModal onClickToggleModal={onClickToggleModal}></PlusModal>}</PlusButton>
         </SelectWorkspaces>
         <Sidebar />
         <Profile />
