@@ -13,7 +13,8 @@ const FileUpload = () => {
   // const handleOnChange_T = async (e: { target: { value: any } }) => {
   //   setTime(e.target.value);
   // };
-  const fileInput = useRef<HTMLInputElement | null>(null);
+  // const fileInput = useRef<HTMLInputElement | null>(null);
+  const fileInput = useRef(document.createElement("input"));
 
   const handleButtonClick = async (e: { target: any }) => {
     fileInput?.current.click();
