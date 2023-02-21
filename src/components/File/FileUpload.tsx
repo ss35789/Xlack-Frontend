@@ -4,16 +4,7 @@ import "react-dropdown/style.css";
 import styled from "styled-components";
 
 const FileUpload = () => {
-  // const [status, setStatus] = useState();
-  // const [time, setTime] = useState();
-  //
-  // const handleOnChange = async (e: { target: { value: any } }) => {
-  //   setStatus(e.target.value);
-  // };
-  // const handleOnChange_T = async (e: { target: { value: any } }) => {
-  //   setTime(e.target.value);
-  // };
-  // const fileInput = useRef<HTMLInputElement | null>(null);
+  const files: any[] = [];
   const fileInput = useRef(document.createElement("input"));
 
   const handleButtonClick = async (e: { target: any }) => {
@@ -21,7 +12,8 @@ const FileUpload = () => {
   };
 
   const handleChange = async (e: { target: any }) => {
-    console.log(e.target.files[0]);
+    files.push(e.target.files[0]);
+    console.log(files[0]);
   };
 
   return (

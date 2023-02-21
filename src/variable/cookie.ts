@@ -18,9 +18,9 @@ export function UpdateToken() {
           validateStatus: function (status: number) {
             return status < 500;
           },
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         token_info = res;
         AccessToken(token_info, null);
       });
