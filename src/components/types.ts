@@ -44,9 +44,9 @@ export interface ChatType {
   channel: number;
   // title: Channel
   // readOnly: true
-  chatter: number;
-  // title: Chatter
-  // readOnly: true
+  chatter: CustomUserType;
+  has_bookmarked: boolean;
+  reaction: [];
   message: string;
   // title: Message
   // minLength: 1

@@ -79,7 +79,16 @@ const Chat = () => {
               .map((chat, i) => {
                 return (
                   <span>
-                    <ChatContext key={i} id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
+                    <ChatContext
+                      key={i}
+                      id={chat.id}
+                      channel={chat.channel}
+                      chatter={chat.chatter}
+                      message={chat.message}
+                      created_at={chat.created_at}
+                      has_bookmarked={false}
+                      reaction={[]}
+                    ></ChatContext>
                   </span>
                 );
               })}
