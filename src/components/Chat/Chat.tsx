@@ -3,14 +3,13 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import ChatContext from "./ChatContext";
-import { getChat } from "../types";
-import { Socket } from "socket.io";
+import { ChatType } from "../types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
+import ChatContext from "./ChatContext";
 
-function Chat() {
-  const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
+const Chat = () => {
+  // const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel);
   const receiveChatData = async () => {
     try {
@@ -22,7 +21,7 @@ function Chat() {
       setgetChatData(res.data);
       console.log(res.data);
     } catch (err) {
-      console.log(err);
+      console.log("receiveChatError: ", err);
     }
   };
   useEffect(() => {
@@ -34,8 +33,7 @@ function Chat() {
   // setgetChaData(res.data) 안에 axios
 
   const messagesRef = useRef<any>();
-  const [getChatData, setgetChatData] = useState<getChat>();
-  const [socket, setSocket] = useState<Socket>();
+  const [getChatData, setgetChatData] = useState<ChatType[]>();
   const scrollToBottom = () => {
     messagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -75,20 +73,22 @@ function Chat() {
         <ChatMessages ref={messagesRef}>
           <h4>{Clicked_channel.hashed_value}</h4>
           {getChatData &&
-            getChatData.results
+            getChatData
               .slice(0)
               .reverse()
-              .map((chat, i) => (
-                <span>
-                  <ChatContext key={i} id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
-                </span>
-              ))}
+              .map((chat, i) => {
+                return (
+                  <span>
+                    <ChatContext key={i} id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
+                  </span>
+                );
+              })}
         </ChatMessages>
         <ChatInput />
       </>
     </ChatContainer>
   );
-}
+};
 
 export default Chat;
 
