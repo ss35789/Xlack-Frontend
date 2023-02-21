@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
-import { at, AtVerify, backUrl, removeCookie, UpdateToken } from "../../variable/cookie";
+import { at, AtVerify, backUrl, removeCookie, UpdateToken, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { UserDetailsType } from "../types";
 
@@ -46,7 +46,7 @@ function ChatInput() {
     }
     //이전의 소켓 닫기
 
-    //setsocket(new WebSocket(`${WsUrl}${enterChannelId}/`));
+    setsocket(new WebSocket(`${WsUrl_chat}${enterChannelId}/`));
   }, [enterChannelId]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
