@@ -45,7 +45,7 @@ function ChatInput() {
 
       socket.onmessage = message => {
         // 클라이언트로부터 메시지 수신 시
-        console.log(message);
+        console.log("받은 메세지", message);
         dispatch(UpdateChat());
       };
       socket.onerror = () => {
