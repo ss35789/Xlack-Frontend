@@ -71,7 +71,6 @@ const Chat = () => {
       {/* {roomDetails && roomMessages && ( */}
       <>
         <ChatMessages ref={messagesRef}>
-          <h4>{Clicked_channel.hashed_value}</h4>
           {getChatData &&
             getChatData
               .slice(0)

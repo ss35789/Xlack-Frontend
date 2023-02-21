@@ -12,7 +12,7 @@ function ChatContext({ id, channel, chatter, message, created_at }: ChatType) {
               <strong>{channel}</strong>
               <StarBorderOutlinedIcon />
             </h4>
-            {chatter.display_name}
+            {chatter && chatter.display_name}
           </HeaderLeft>
           <br></br>
           <HeaderRight>
