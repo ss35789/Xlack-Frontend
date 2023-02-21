@@ -48,6 +48,18 @@ function ChatInput() {
 
     setsocket(new WebSocket(`${WsUrl_chat}${enterChannelId}/`));
   }, [enterChannelId]);
+  useEffect(() => {
+    if (socket) {
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        console.log(at);
+      };
+    }
+  }, [socket]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
