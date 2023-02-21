@@ -75,6 +75,8 @@ function Header() {
       </HeaderSearch>
       {/* {Header Right} */}
       <HeaderRight>
+        <FileUpload />
+
         <HelpOutlineIcon />
         <HeaderAvatar
           ref={profileMenuRef}
@@ -85,7 +87,6 @@ function Header() {
           }}
           //TODO: Add onclick
         />
-        <FileUpload />
         {showProfile && (
           <div>
             <ProfileMenu />
