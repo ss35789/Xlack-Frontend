@@ -15,6 +15,9 @@ export function UpdateToken() {
           refresh: check,
         },
         {
+          headers: {
+            Authorization: `Bearer ${at}`,
+          },
           validateStatus: function (status: number) {
             return status < 500;
           },

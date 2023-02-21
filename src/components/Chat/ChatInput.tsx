@@ -52,7 +52,6 @@ function ChatInput() {
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket) {
-      console.log(socket);
       if (MyUserDetails) {
         socket.send(
           JSON.stringify({
@@ -60,15 +59,9 @@ function ChatInput() {
             message: msg,
           }),
         );
+        console.log("채팅전송", msg);
       }
 
-      console.log(msg);
-
-      socket.onmessage = message => {
-        // 클라이언트로부터 메시지 수신 시
-        console.log(message);
-        dispatch(UpdateChat());
-      };
       socket.onerror = () => {
         console.log(event);
       };
@@ -80,6 +73,13 @@ function ChatInput() {
       setmsg("");
     }
   };
+  if (socket) {
+    socket.onmessage = message => {
+      // 클라이언트로부터 메시지 수신 시
+      console.log("내가 받은 메세지", message);
+      dispatch(UpdateChat());
+    };
+  }
 
   return (
     <ChatInputContainer>
