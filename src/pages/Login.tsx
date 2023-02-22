@@ -13,7 +13,6 @@ function Login() {
     LoginDjango(response["code"]).then(res => {
       token_info = res;
       AccessToken(token_info, Date.now() + 3600000);
-      console.log("token_info: " + JSON.stringify(token_info, null, 2));
     });
   };
 
@@ -37,29 +36,21 @@ function Login() {
 
 export function AccessToken(resData: any, exp: any) {
   const access_token = resData.access_token;
-  console.log("access_token : " + JSON.stringify(resData.access_token, null, 2));
-  console.log("resData : " + JSON.stringify(resData, null, 2));
   //access_token 존재시 쿠키에 넣어줌
   const refresh_token = resData.refresh_token;
-  console.log("refresh_token : " + JSON.stringify(resData.refresh_token, null, 2));
   const exptime = exp;
-  console.log("exptime : " + exptime);
 
   //    const expire
   if (access_token) {
-    console.log("access_token exist");
     setCookie("access_token", access_token, {
       httpOnly: true,
     });
-    console.log("send token to cookie");
     setCookie("exp", exptime);
     setCookie("refresh_token", refresh_token, {
       expires: new Date(),
       httpOnly: true,
     });
     window.location.href = "http://localhost:3000/main";
-  } else {
-    console.error("access_token is None");
   }
 }
 

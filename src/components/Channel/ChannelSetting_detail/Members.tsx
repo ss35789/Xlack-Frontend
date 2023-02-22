@@ -8,22 +8,14 @@ import { Button, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import {
-  at,
-  AtVerify,
-  backUrl,
-  removeCookie,
-  UpdateToken,
-} from "../../../variable/cookie";
+import { at, AtVerify, backUrl, removeCookie, UpdateToken } from "../../../variable/cookie";
 import { UpdateRoom } from "../../../variable/UpdateChannelSlice";
 // Members 컴포넌트
 // AddUserModal 컴포넌트
 // MemberOption 컴포넌트
 // AddUsertoChannel 함수(api)
 const Members = () => {
-  const currentChannel = useSelector(
-    (state: RootState) => state.getMyWorkSpace.SearchedChannel
-  );
+  const currentChannel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
   const [showOption, setShowOption] = useState(-1);
   const [showOptionMenu, setShowOptionMenu] = useState(false);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
@@ -182,24 +174,17 @@ const SearchBar = styled.div`
 
 const MemberOption = (props: any) => {
   const dispatch = useDispatch();
-  const currentWorkspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
-  );
-  const AboutChannel = useSelector(
-    (state: RootState) => state.getMyWorkSpace.SearchedChannel
-  );
+  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+  const AboutChannel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
 
   const RemoveUser = async (Username: string) => {
     if ((await AtVerify()) == 200) {
       try {
-        const d = await axios.delete(
-          `${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/members/${Username}/`,
-          {
-            headers: {
-              Authorization: `Bearer ${at}`,
-            },
-          }
-        );
+        const d = await axios.delete(`${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/members/${Username}/`, {
+          headers: {
+            Authorization: `Bearer ${at}`,
+          },
+        });
         window.alert("멤버 삭제");
         //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
         UpdateToken();
@@ -223,7 +208,7 @@ const MemberOption = (props: any) => {
             headers: {
               Authorization: `Bearer ${at}`,
             },
-          }
+          },
         );
         window.alert("어드민 추가");
         //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
@@ -243,16 +228,8 @@ const MemberOption = (props: any) => {
     <>
       <div className="relative inline-block text-left">
         <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
-          <div
-            className="py-1 "
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
-            <a
-              className="block block px-4 py-2 text-md text-blue-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-              role="menuitem"
-            >
+          <div className="py-1 " role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+            <a className="block block px-4 py-2 text-md text-blue-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
               <span
                 className="flex flex-col"
                 onClick={() => {
@@ -264,10 +241,7 @@ const MemberOption = (props: any) => {
               </span>
             </a>
 
-            <a
-              className="block block px-4 py-2 text-md text-blue-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
-              role="menuitem"
-            >
+            <a className="block block px-4 py-2 text-md text-blue-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
               <span
                 className="flex flex-col"
                 onClick={() => {
@@ -287,16 +261,11 @@ const MemberOption = (props: any) => {
 
 const AddUserModal = (props: any) => {
   const dispatch = useDispatch();
-  const currentWorkspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.ClickedWorkSpace
-  );
+  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const [EditInput, setEditInput] = useState("");
-  const onChangeEditInput = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditInput(e.target.value);
-    },
-    []
-  );
+  const onChangeEditInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditInput(e.target.value);
+  }, []);
   const AddUsertoChannel = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -307,7 +276,7 @@ const AddUserModal = (props: any) => {
             headers: {
               Authorization: `Bearer ${at}`,
             },
-          }
+          },
         );
         window.alert("멤버 추가");
         //유저가 행동을 한다는 것 이므로 토큰 새로받아줌
@@ -326,12 +295,7 @@ const AddUserModal = (props: any) => {
 
   return (
     <>
-      <div
-        className="relative z-10"
-        aria-labelledby="modal-title"
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -358,13 +322,7 @@ const AddUserModal = (props: any) => {
                           <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
                       </div>
-                      <Input
-                        size="large"
-                        value={EditInput}
-                        onChange={onChangeEditInput}
-                        placeholder="Enter a name or email"
-                        prefix={<UserOutlined />}
-                      />
+                      <Input size="large" value={EditInput} onChange={onChangeEditInput} placeholder="Enter a name or email" prefix={<UserOutlined />} />
                       <Button
                         onClick={() => {
                           AddUsertoChannel();
