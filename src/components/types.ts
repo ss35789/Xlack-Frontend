@@ -55,6 +55,13 @@ export interface ChatType {
   // readOnly: true
 }
 
+export interface SocketReceiveChatType {
+  username: string;
+  user_id: number;
+  message: string;
+  file_id: string;
+}
+
 export interface getChat {
   count: number;
   next: string;

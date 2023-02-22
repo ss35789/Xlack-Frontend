@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import { ChatType } from "../types";
+import { ChatType, SocketReceiveChatType } from "../types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
@@ -11,6 +11,9 @@ import ChatContext from "./ChatContext";
 const Chat = () => {
   // const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel);
+  const [lastChat, setLastChat] = useState<any>("-1");
+  const messagesRef = useRef<any>();
+  const [getChatData, setgetChatData] = useState<ChatType[]>();
   const receiveChatData = async () => {
     try {
       const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
@@ -30,10 +33,18 @@ const Chat = () => {
       receiveChatData();
     }
   }, [Clicked_channel]);
-  // setgetChaData(res.data) 안에 axios
+  useEffect(() => {
+    if (lastChat !== "-1") {
+      console.log("최근 받은 메세지", lastChat.username, lastChat.message);
+      const Chat: ChatType = { lastChat };
+      setgetChatData({ ...getChatData, lastChat });
+    }
+  }, [lastChat]);
 
-  const messagesRef = useRef<any>();
-  const [getChatData, setgetChatData] = useState<ChatType[]>();
+  const ReceiveLastChat = (r: SocketReceiveChatType) => {
+    setLastChat(r);
+  };
+
   const scrollToBottom = () => {
     messagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -92,7 +103,11 @@ const Chat = () => {
                 );
               })}
         </ChatMessages>
-        <ChatInput />
+        <ChatInput
+          receive={(input: SocketReceiveChatType) => {
+            ReceiveLastChat(input);
+          }}
+        />
       </>
     </ChatContainer>
   );
