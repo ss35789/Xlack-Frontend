@@ -10,6 +10,7 @@ function ChatInput() {
   const [socket, setsocket] = useState<WebSocket>();
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel).hashed_value;
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [lastChat, setLastChat] = useState<any>("-1");
   const dispatch = useDispatch();
   useEffect(() => {
     if (enterChannelHv !== "") {
@@ -30,6 +31,9 @@ function ChatInput() {
       };
     }
   }, [socket]);
+  useEffect(() => {
+    if (lastChat !== "-1") console.log("최근 받은 메세지", lastChat.username, lastChat.message);
+  }, [lastChat]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -45,7 +49,7 @@ function ChatInput() {
 
       socket.onmessage = message => {
         // 클라이언트로부터 메시지 수신 시
-        console.log("받은 메세지", message);
+        setLastChat(JSON.parse(message.data));
         dispatch(UpdateChat());
       };
       socket.onerror = () => {
