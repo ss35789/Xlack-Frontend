@@ -11,11 +11,12 @@ const FileUpload = () => {
   const [file, setFile] = useState(null);
   const fileInput = useRef(document.createElement("input"));
   const uploadedFiles: any[] = [];
-  const fileArray: any[] = [];
+  const fileArray: unknown[] = [];
   const handleChange = (file: any) => {
     setFile(file);
     uploadedFiles.push(file.name);
     console.log(file.name + "업로드 성공");
+    console.log(uploadedFiles);
   };
   const handleClickToOpen = async () => {
     setOpen(true);
@@ -26,7 +27,7 @@ const FileUpload = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const fileTypes = ["JPG", "PNG", "GIF"];
+  const fileTypes = ["JPG", "PNG", "GIF", "ZIP"];
 
   return (
     <div>
