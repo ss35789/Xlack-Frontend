@@ -8,7 +8,7 @@ import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { CallClickedWorkSpace, clearWorkSpace, getWorkSpace, SearchChannel } from "../variable/WorkSpaceSlice";
-import { WorkspaceType } from "../components/types";
+import { WorkspaceType } from "../types/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";

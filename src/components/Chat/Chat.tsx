@@ -37,8 +37,8 @@ const Chat = () => {
     if (lastChat !== "-1") {
       console.log("최근 받은 메세지", lastChat.username, lastChat.message);
       //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-      const Chat: ChatType = { lastChat };
-      setgetChatData({ ...getChatData, lastChat });
+      // const Chat: ChatType = { lastChat };
+      // setgetChatData({ ...getChatData, lastChat });
     }
   }, [lastChat]);
 

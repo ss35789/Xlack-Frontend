@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import { ChatType } from "../types";
+import { ChatType } from "../../types/types";
 
 function ChatContext({ id, channel, chatter, message, created_at }: ChatType) {
   return (

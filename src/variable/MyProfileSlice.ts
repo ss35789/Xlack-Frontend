@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CustomUserType } from "../components/types";
+import { CustomUserType } from "../types/types";
 
 interface strut {
   userData: CustomUserType;

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setClickedChannel } from "../../variable/ClickedChannelSlice";
 import { SearchChannel } from "../../variable/WorkSpaceSlice";
-import { ChatChannelType } from "../types";
+import { ChatChannelType } from "../../types/types";
 
 const Historymenu = () => {
   const [historyData, sethistoryData] = useState<[{ name: string; value: string }]>();

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, WorkspaceType } from "../components/types";
+import { ChatChannelType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
