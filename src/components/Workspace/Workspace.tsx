@@ -1,5 +1,5 @@
 import React from "react";
-import { WorkspaceType } from "../types";
+import { WorkspaceType } from "../../types/types";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { CallClickedWorkSpace, SetClickedWorkSpace } from "../../variable/WorkSpaceSlice";

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import { ChatType, SocketReceiveChatType } from "../types";
+import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
@@ -36,6 +36,7 @@ const Chat = () => {
   useEffect(() => {
     if (lastChat !== "-1") {
       console.log("최근 받은 메세지", lastChat.username, lastChat.message);
+      //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
       const Chat: ChatType = { lastChat };
       setgetChatData({ ...getChatData, lastChat });
     }
