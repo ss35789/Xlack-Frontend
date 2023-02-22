@@ -8,7 +8,7 @@ import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 function ChatInput() {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel.channel_hashde_value);
+  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel).hashed_value;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
   useEffect(() => {
