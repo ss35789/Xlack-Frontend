@@ -35,12 +35,25 @@ const Chat = () => {
   }, [Clicked_channel]);
   useEffect(() => {
     if (lastChat !== "-1") {
-      console.log("최근 받은 메세지", lastChat.username, lastChat.message);
+      console.log("최근 받은 메세지", lastChat);
       //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-      // const Chat: ChatType = { lastChat };
+      // const Chat: ChatType = { id: "", channel: -1, chatter: "" };
       // setgetChatData({ ...getChatData, lastChat });
     }
   }, [lastChat]);
+
+  // const MakeChatDataFromLastChat=(s:SocketReceiveChatType)=>{
+  //   const c: ChatType ={
+  //     id: string,
+  //     channel: number,
+  //     chatter: CustomUserType,
+  //     has_bookmarked: boolean;
+  //     reaction: [];
+  //     message: string;
+  //     created_at: string;
+  //   }
+  //   return c;
+  // }
 
   const ReceiveLastChat = (r: SocketReceiveChatType) => {
     setLastChat(r);
@@ -89,17 +102,8 @@ const Chat = () => {
               .reverse()
               .map((chat, i) => {
                 return (
-                  <span>
-                    <ChatContext
-                      key={i}
-                      id={chat.id}
-                      channel={chat.channel}
-                      chatter={chat.chatter}
-                      message={chat.message}
-                      created_at={chat.created_at}
-                      has_bookmarked={false}
-                      reaction={[]}
-                    ></ChatContext>
+                  <span key={i}>
+                    <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at} has_bookmarked={false} reaction={[]}></ChatContext>
                   </span>
                 );
               })}

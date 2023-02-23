@@ -56,6 +56,7 @@ export interface ChatType {
 }
 
 export interface SocketReceiveChatType {
+  chat_id: number;
   username: string;
   user_id: number;
   message: string;
