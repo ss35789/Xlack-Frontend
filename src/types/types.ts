@@ -1,4 +1,5 @@
 export interface CustomUserType {
+  id: number;
   username: string;
   email: string;
   display_name: string;
@@ -56,7 +57,7 @@ export interface ChatType {
 }
 
 export interface SocketReceiveChatType {
-  chat_id: number;
+  chat_id: string;
   username: string;
   user_id: number;
   message: string;

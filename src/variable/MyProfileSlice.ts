@@ -7,6 +7,7 @@ interface struct {
 
 const initialState: struct = {
   userData: {
+    id: -1,
     username: "default_username",
     email: "default_email",
     display_name: "default_display_name",

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import { ChatType, SocketReceiveChatType } from "../../types/types";
+import { ChatType, CustomUserType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
@@ -13,7 +13,7 @@ const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel);
   const [lastChat, setLastChat] = useState<any>("-1");
   const messagesRef = useRef<any>();
-  const [getChatData, setgetChatData] = useState<ChatType[]>();
+  const [getChatData, setGetChatData] = useState<ChatType[]>([]);
   const receiveChatData = async () => {
     try {
       const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
@@ -21,7 +21,7 @@ const Chat = () => {
           Authorization: `Bearer ${at}`,
         },
       });
-      setgetChatData(res.data);
+      setGetChatData(res.data);
       console.log(res.data);
     } catch (err) {
       console.log("receiveChatError: ", err);
@@ -37,23 +37,31 @@ const Chat = () => {
     if (lastChat !== "-1") {
       console.log("최근 받은 메세지", lastChat);
       //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-      // const Chat: ChatType = { id: "", channel: -1, chatter: "" };
-      // setgetChatData({ ...getChatData, lastChat });
+      setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
     }
   }, [lastChat]);
 
-  // const MakeChatDataFromLastChat=(s:SocketReceiveChatType)=>{
-  //   const c: ChatType ={
-  //     id: string,
-  //     channel: number,
-  //     chatter: CustomUserType,
-  //     has_bookmarked: boolean;
-  //     reaction: [];
-  //     message: string;
-  //     created_at: string;
-  //   }
-  //   return c;
-  // }
+  const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
+    const u: CustomUserType = {
+      id: s.user_id,
+      username: s.username,
+      email: "",
+      display_name: "",
+      title: "",
+      phone_number: "",
+      profile_image: "",
+    };
+    const c: ChatType = {
+      id: s.chat_id,
+      channel: 11,
+      chatter: u,
+      has_bookmarked: false,
+      reaction: [],
+      message: s.message,
+      created_at: new Date().toDateString(),
+    };
+    return c;
+  };
 
   const ReceiveLastChat = (r: SocketReceiveChatType) => {
     setLastChat(r);
