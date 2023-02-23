@@ -8,7 +8,7 @@ import { at, backUrl } from "../../variable/cookie";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 
 const ChannelMenu = (props: any) => {
-  const enterRoomId = useSelector((state: RootState) => state.ClickedChannel.hashed_value); // 현재 우리가 클릭한 채널id
+  const enterRoomId = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value); // 현재 우리가 클릭한 채널id
   const dispatch = useDispatch();
   const editChannelName = async () => {
     try {

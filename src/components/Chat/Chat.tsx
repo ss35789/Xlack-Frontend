@@ -3,14 +3,14 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import { ChatType, CustomUserType, SocketReceiveChatType } from "../../types/types";
+import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
 
 const Chat = () => {
-  // const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
-  const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel);
+  const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
+  const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const [lastChat, setLastChat] = useState<any>("-1");
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
@@ -42,19 +42,10 @@ const Chat = () => {
   }, [lastChat]);
 
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
-    const u: CustomUserType = {
-      id: s.user_id,
-      username: s.username,
-      email: "",
-      display_name: s.username,
-      title: "",
-      phone_number: "",
-      profile_image: "",
-    };
     const c: ChatType = {
       id: s.chat_id,
       channel: Clicked_channel.id,
-      chatter: u,
+      chatter: findUser,
       has_bookmarked: false,
       reaction: [],
       message: s.message,

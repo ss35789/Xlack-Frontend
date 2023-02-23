@@ -4,11 +4,12 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
+import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel).hashed_value;
+  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel.channelData).hashed_value;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();
@@ -47,7 +48,9 @@ function ChatInput(props: any) {
 
       socket.onmessage = message => {
         // 클라이언트로부터 메시지 수신 시
-        props.receive(JSON.parse(message.data));
+        const m = JSON.parse(message.data);
+        dispatch(findUserDataInClickedChannel(m.user_id));
+        props.receive(m);
         dispatch(UpdateChat());
       };
       socket.onerror = () => {
