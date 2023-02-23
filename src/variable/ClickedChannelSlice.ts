@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChatChannelType } from "../types/types";
 
 const initialState: ChatChannelType = {
-  id: "",
+  id: -1,
   name: "",
   hashed_value: "",
   description: "",

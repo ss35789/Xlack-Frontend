@@ -46,14 +46,14 @@ const Chat = () => {
       id: s.user_id,
       username: s.username,
       email: "",
-      display_name: "",
+      display_name: s.username,
       title: "",
       phone_number: "",
       profile_image: "",
     };
     const c: ChatType = {
       id: s.chat_id,
-      channel: 11,
+      channel: Clicked_channel.id,
       chatter: u,
       has_bookmarked: false,
       reaction: [],

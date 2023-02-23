@@ -13,6 +13,7 @@ function ChatInput(props: any) {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if (socket) socket.close();
     if (enterChannelHv !== "") {
       setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
     }

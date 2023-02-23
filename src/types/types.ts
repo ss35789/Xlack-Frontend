@@ -9,7 +9,7 @@ export interface CustomUserType {
 }
 
 export interface ChatChannelType {
-  id: string;
+  id: number;
   name: string;
   hashed_value: string;
   description: string;

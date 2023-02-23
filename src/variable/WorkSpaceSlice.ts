@@ -22,7 +22,7 @@ const initialState: struct = {
     name: "",
   },
   SearchedChannel: {
-    id: "",
+    id: -1,
     name: "default",
     hashed_value: "",
     description: "",
