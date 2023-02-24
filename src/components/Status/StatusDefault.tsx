@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
+import { StatusSlice } from "../../variable/StatusSlices";
 // import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
