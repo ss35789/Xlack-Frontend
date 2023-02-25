@@ -25,5 +25,5 @@
   "include": [
     "src"
   ],
-
+  "typeRoots": ["src/types"]
 }
