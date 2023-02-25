@@ -1,29 +1,46 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
+import React, { useState } from "react";
+import ChatOption from "./ChatOption";
 
 function ChatContext({ id, channel, chatter, message, created_at }: ChatType) {
+  const [showChatOption, setShowChatOption] = useState<boolean>(false);
   return (
-    <ChatContainer>
-      <>
+    <div
+      onMouseOver={() => {
+        setShowChatOption(true);
+      }}
+      onMouseLeave={() => {
+        setShowChatOption(false);
+      }}
+    >
+      <ChatContainer>
         <Header>
           <HeaderLeft>
             <h4>
               <strong>{channel}</strong>
               <StarBorderOutlinedIcon />
             </h4>
-            {chatter && chatter.display_name}
+            <h1>{chatter && chatter.display_name}</h1>
+            <span className="text-sm text-gray-700">
+              {created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}
+            </span>
           </HeaderLeft>
           <br></br>
           <HeaderRight>
-            {created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}
+            {showChatOption && (
+              <span className="bg-gray-50">
+                <ChatOption />
+              </span>
+            )}
           </HeaderRight>
         </Header>
         <ChatMessages>
           <h2>{message}</h2>
         </ChatMessages>
-      </>
-    </ChatContainer>
+      </ChatContainer>
+    </div>
   );
 }
 
