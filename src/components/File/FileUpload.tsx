@@ -14,11 +14,11 @@ const FileUpload = () => {
   const fileArray: unknown[] = [];
   const handleChange = (file: any) => {
     setFile(file);
-    uploadedFiles.push(file);
+    uploadedFiles.push(file.name);
     console.log(file.name + "업로드 성공");
     console.log(uploadedFiles);
   };
-  const clickToShow = async () => {
+  const clickToShow = () => {
     console.log(uploadedFiles);
   };
   const handleClickToOpen = async () => {
@@ -39,7 +39,6 @@ const FileUpload = () => {
         <DialogContent>
           <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
           <Button onClick={clickToShow}>click to see files</Button>
-          {fileArray}
         </DialogContent>
       </Dialog>
     </div>

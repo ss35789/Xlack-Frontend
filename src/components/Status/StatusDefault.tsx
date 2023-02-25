@@ -14,12 +14,19 @@ import { StatusSlice } from "../../variable/StatusSlices";
 const StatusDefault = () => {
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
+  const [status, setStatus] = useState();
+  const [time, setTime] = useState();
+  const [emoji, setEmoji] = useState();
+  const [chosenEmoji, setChosenEmoji] = useState();
+  const Statusbtns = [];
+  const Options = [];
+  const Times = [];
+  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
+  const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
 
   const openStatusHandler = async () => {
     SetopenStatus(!openStatus);
   };
-
-  // const ws = new WebSocket("wss://api.xlack.kreimben.com/ws/status/<workspace_hashed_value>/");
   const handleClickToOpen = async () => {
     setOpen(true);
   };
@@ -30,14 +37,7 @@ const StatusDefault = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
-  const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
-  const [status, setStatus] = useState();
-  const [time, setTime] = useState();
-  const [emoji, setEmoji] = useState();
-  const Statusbtns = [];
-  const Options = [];
-  const Times = [];
+
   const handleOnChange = async (e: { target: { value: any } }) => {
     setStatus(e.target.value);
   };
@@ -57,7 +57,6 @@ const StatusDefault = () => {
   for (const element of times) {
     Times.push(<option>{element}</option>);
   }
-  const [chosenEmoji, setChosenEmoji] = useState();
 
   // const onEmojiClick = (emojiObject: any) => {
   //   setChosenEmoji(emojiObject);
