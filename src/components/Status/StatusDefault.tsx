@@ -40,13 +40,13 @@ const StatusDefault = () => {
     setOpen(false);
   };
 
-  const handleOnChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    formData.append("status_message", status);
+  const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    // formData.append("status_message", status);
     setStatus(e.target.value);
   }, []);
 
-  const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    formData.append("until", time);
+  const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    // formData.append("until", time);
     setTime(e.target.value);
   }, []);
 

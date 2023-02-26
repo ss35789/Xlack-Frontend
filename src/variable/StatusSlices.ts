@@ -7,7 +7,7 @@ const initialState: struct = {
   statusData: {
     status_message: "Default Status Message",
     status_icon: "Default Status Icon",
-    until: 100,
+    until: "after some minutes",
   },
 };
 export const StatusSlice = createSlice({
