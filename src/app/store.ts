@@ -5,6 +5,7 @@ import UpdateChatContextReducer from "../variable/UpdateChatContextSlice";
 import WorkSpaceReducer from "../variable/WorkSpaceSlice";
 import OnModalReducer from "../variable/OnModalSlice";
 import MyProfileReducer from "../variable/MyProfileSlice";
+import StatusSliceReducer from "../variable/StatusSlices";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     clearWorkSpace: WorkSpaceReducer,
     OnModal: OnModalReducer,
     getMyProfile: MyProfileReducer,
+    setStatus: StatusSliceReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
