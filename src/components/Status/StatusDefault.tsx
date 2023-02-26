@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -9,12 +9,14 @@ import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 import { setStatus } from "../../variable/StatusSlices";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 // import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
   const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
+  const formData = new FormData();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
   const [status, setStatus] = useState(MyStatus.status_message);
@@ -33,22 +35,27 @@ const StatusDefault = () => {
   const handleClickToOpen = async () => {
     setOpen(true);
   };
-  // const sendStatus = (e: { target: { value: React.SetStateAction<undefined> } }) => {
-  //   setStatus(e.target.value);
-  // };
 
   const handleToClose = async () => {
     setOpen(false);
   };
 
-  const handleOnChange = async (e: { target: { value: any } }) => {
+  const handleOnChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    formData.append("status_message", status);
     setStatus(e.target.value);
-  };
-  const handleOnChange_T = async (e: { target: { value: any } }) => {
+  }, []);
+
+  const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    formData.append("until", time);
     setTime(e.target.value);
-  };
-  // const emojiClicked = async (e: { target: { value: any } }) => {
-  //   setEmoji(e.target.value);
+  }, []);
+
+  // const handleOnChange = async (e: { target: { value: any } }) => {
+  //   setStatus(e.target.value);
+  // };
+  //
+  // const handleOnChange_T = async (e: { target: { value: any } }) => {
+  //   setTime(e.target.value);
   // };
 
   for (const element of options) {

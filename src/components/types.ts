@@ -138,5 +138,5 @@ export interface MessageRec {
 export interface Status {
   status_message: string;
   status_icon: string;
-  until: number;
+  until: string;
 }
