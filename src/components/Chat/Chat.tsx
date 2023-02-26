@@ -21,6 +21,7 @@ const Chat = () => {
           Authorization: `Bearer ${at}`,
         },
       });
+      //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
       setGetChatData(res.data);
       console.log(res.data);
     } catch (err) {
@@ -49,7 +50,7 @@ const Chat = () => {
       has_bookmarked: false,
       reaction: [],
       message: s.message,
-      created_at: new Date().toDateString(),
+      created_at: new Date().toString().substring(0, 25),
     };
     return c;
   };

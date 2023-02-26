@@ -4,7 +4,7 @@ import { ChatType } from "../../types/types";
 import React, { useState } from "react";
 import ChatOption from "./ChatOption";
 
-function ChatContext({ id, channel, chatter, message, created_at }: ChatType) {
+function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
   return (
     <div
@@ -19,25 +19,26 @@ function ChatContext({ id, channel, chatter, message, created_at }: ChatType) {
         <Header>
           <HeaderLeft>
             <h4>
-              <strong>{channel}</strong>
+              <strong>{chat.channel}</strong>
               <StarBorderOutlinedIcon />
             </h4>
-            <h1>{chatter && chatter.display_name}</h1>
+            <h1>{chat.chatter && chat.chatter.display_name}</h1>
             <span className="text-sm text-gray-700">
-              {created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}
+              {/*{created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}*/}
+              {chat.created_at}
             </span>
           </HeaderLeft>
           <br></br>
           <HeaderRight>
             {showChatOption && (
               <span className="bg-gray-50">
-                <ChatOption />
+                <ChatOption id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at} has_bookmarked={false} reaction={[]} />
               </span>
             )}
           </HeaderRight>
         </Header>
         <ChatMessages>
-          <h2>{message}</h2>
+          <h2>{chat.message}</h2>
         </ChatMessages>
       </ChatContainer>
     </div>
