@@ -66,8 +66,7 @@ function Chat() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [getChatData]);
-  //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
+  }, [getChatData]);//새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
   return (
     <ChatContainer>
       {/* {roomDetails && roomMessages && ( */}

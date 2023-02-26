@@ -8,15 +8,18 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
-import { StatusSlice } from "../../variable/StatusSlices";
+import { setStatus } from "../../variable/StatusSlices";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 // import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
+  const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
-  const [status, setStatus] = useState();
-  const [time, setTime] = useState();
-  const [emoji, setEmoji] = useState();
+  const [status, setStatus] = useState(MyStatus.status_message);
+  const [time, setTime] = useState(MyStatus.until);
+  const [emoji, setEmoji] = useState(MyStatus.status_icon);
   const [chosenEmoji, setChosenEmoji] = useState();
   const Statusbtns = [];
   const Options = [];
