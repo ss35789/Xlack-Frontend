@@ -41,12 +41,12 @@ const StatusDefault = () => {
   };
 
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    // formData.append("status_message", status);
+    formData.append("status_message", status);
     setStatus(e.target.value);
   }, []);
 
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    // formData.append("until", time);
+    formData.append("until", time);
     setTime(e.target.value);
   }, []);
 
