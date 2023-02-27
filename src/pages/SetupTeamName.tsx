@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 // import { submit } from "../variable/createWorkspace";
 import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
-import { AccessToken } from "./Login";
 
 function SetupTeamName() {
   const [teamName, setTeamName] = useState<string>("");
@@ -25,12 +24,11 @@ function SetupTeamName() {
         {
           headers: {
             Authorization: `Bearer ${at}`,
-            "Content-Type": "application/json",
-            accept: "application/json",
           },
         },
       )
-      .then(r => console.log(r));
+      .then(r => console.log(r))
+      .catch(err => console.log(err));
   };
   return (
     <WorkspaceLayout>
@@ -96,6 +94,7 @@ const WorkspaceLayout = styled.div`
   overflow: visible;
   height: 100vh;
   width: 100vw;
+
   .nav {
     grid-area: nav;
     background: #350d36;
@@ -215,10 +214,12 @@ const WorkspaceLayout = styled.div`
               font-weight: 400;
               line-height: 1.46668;
             }
+
             .inputCharacterCount {
               position: inherit;
               box-sizing: inherit;
               z-index: 2;
+
               .inputText {
                 font-size: 18px;
                 border: 1px solid;
@@ -230,6 +231,7 @@ const WorkspaceLayout = styled.div`
                 width: 100%;
               }
             }
+
             .nextButton {
               margin-top: 48px;
               min-width: 200px;
