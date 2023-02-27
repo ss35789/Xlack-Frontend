@@ -11,6 +11,7 @@ import { setClickedChannel } from "../../variable/ClickedChannelSlice";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
 import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
+import { setClickBookmark } from "../../variable/ChatBookmarkSlice";
 
 function Sidebar() {
   const max_history_size = 6;
@@ -102,7 +103,7 @@ function Sidebar() {
       </SidebarHeader>
       <span
         onClick={() => {
-          console.log("Bookmark 페이지로 이동");
+          dispatch(setClickBookmark(true));
         }}
       >
         <SidebarOption Icon={ExpandMoreIcon} title="ChatBookmark" />
@@ -125,7 +126,7 @@ function Sidebar() {
                 e.preventDefault();
                 storeHistory(c.name, c.hashed_value);
                 dispatch(setClickedChannel(c));
-
+                dispatch(setClickBookmark(false));
                 // connectChat(enterRoomId)
               }}
               onContextMenu={e => {

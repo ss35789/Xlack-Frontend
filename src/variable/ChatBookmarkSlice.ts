@@ -1,17 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChatType } from "../types/types";
 
+interface struct {
+  ChatBookmarkData: ChatType[];
+  ClickBookmark: boolean;
+}
+
+const initialState: struct = {
+  ChatBookmarkData: [],
+  ClickBookmark: false,
+};
 export const ChatBookmarkSlice = createSlice({
   name: "ChatBookmark",
-  initialState: {
-    receiveMessage: false, // 바뀌면 새로운 메세지가 수신되었다는 것
-  },
+  initialState,
   reducers: {
-    getChatBookmark: state => {
-      state.receiveMessage = !state.receiveMessage;
+    getChatBookmark: (state, action: PayloadAction<ChatType[]>) => {
+      state.ChatBookmarkData = action.payload;
+    },
+    setClickBookmark: (state, action: PayloadAction<boolean>) => {
+      state.ClickBookmark = action.payload;
     },
   },
 });
 
-export const { getChatBookmark } = ChatBookmarkSlice.actions;
+export const { getChatBookmark, setClickBookmark } = ChatBookmarkSlice.actions;
 
 export default ChatBookmarkSlice.reducer;

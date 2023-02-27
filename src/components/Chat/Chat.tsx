@@ -11,9 +11,25 @@ import ChatContext from "./ChatContext";
 const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
   const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
+  const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
+  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const [lastChat, setLastChat] = useState<any>("-1");
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
+  const receiveChatBookmarkData = async () => {
+    try {
+      const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      });
+      //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
+      setGetChatData(res.data);
+      console.log(res.data);
+    } catch (err) {
+      console.log("receiveChatBookmarkError: ", err);
+    }
+  };
   const receiveChatData = async () => {
     try {
       const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
@@ -41,7 +57,11 @@ const Chat = () => {
       setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
     }
   }, [lastChat]);
-
+  useEffect(() => {
+    if (ClickedBookmark) {
+      receiveChatBookmarkData();
+    }
+  }, [ClickedBookmark]);
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
