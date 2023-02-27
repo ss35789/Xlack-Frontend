@@ -75,7 +75,11 @@ const ChatOption = (chat: ChatType) => {
 export default ChatOption;
 
 const Option = styled.span`
+  font-size: 1.5rem;
+  border-radius: 10% / 50%;
+
   :hover {
+    text-underline-colorcolor: black;
     cursor: pointer;
     opacity: 0.6;
     background-color: #9ca3af;

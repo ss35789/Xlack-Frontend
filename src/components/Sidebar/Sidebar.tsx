@@ -100,8 +100,15 @@ function Sidebar() {
                     <CreateIcon />
                 </span> */}
       </SidebarHeader>
-
+      <span
+        onClick={() => {
+          console.log("Bookmark 페이지로 이동");
+        }}
+      >
+        <SidebarOption Icon={ExpandMoreIcon} title="ChatBookmark" />
+      </span>
       <hr />
+
       <span onClick={onClickshowChannels}>
         <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
       </span>
