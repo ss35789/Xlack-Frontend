@@ -6,12 +6,13 @@ import axios from "axios";
 
 const ChatOption = (chat: ChatType) => {
   const MakeChatBookmark = async () => {
-
+    const cid = parseInt(chat.id);
+    //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
       .post(
         `${backUrl}chat/bookmark/`,
         {
-          chat_id: { chat.id },
+          chat_id: cid,
         },
         {
           headers: {
