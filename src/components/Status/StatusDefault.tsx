@@ -39,24 +39,23 @@ const StatusDefault = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
+  const handleToSave = async () => {
+    setOpen(false);
+    console.log(status);
+    console.log(time);
+  };
 
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("status_message", status);
+    console.log(e.target.value);
     setStatus(e.target.value);
   }, []);
 
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("until", time);
+    console.log(e.target.value);
     setTime(e.target.value);
   }, []);
-
-  // const handleOnChange = async (e: { target: { value: any } }) => {
-  //   setStatus(e.target.value);
-  // };
-  //
-  // const handleOnChange_T = async (e: { target: { value: any } }) => {
-  //   setTime(e.target.value);
-  // };
 
   for (const element of options) {
     Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
@@ -67,6 +66,13 @@ const StatusDefault = () => {
   for (const element of times) {
     Times.push(<option>{element}</option>);
   }
+  // const handleOnChange = async (e: { target: { value: any } }) => {
+  //   setStatus(e.target.value);
+  // };
+  //
+  // const handleOnChange_T = async (e: { target: { value: any } }) => {
+  //   setTime(e.target.value);
+  // };
 
   // const onEmojiClick = (emojiObject: any) => {
   //   setChosenEmoji(emojiObject);
@@ -93,7 +99,7 @@ const StatusDefault = () => {
           ""
         )}
       </button>
-      <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
+      <StatusDiv placeholder={"🙂What is your Status"} defaultValue={status} onClick={handleClickToOpen} />
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
@@ -102,19 +108,19 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="status" value={status} onChange={handleOnChange}>
+        <StatusSelect id="status" defaultValue={status} onChange={handleOnChange}>
           {Options}
         </StatusSelect>
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
-        <TimeSelect id="time" value={time} onChange={handleOnChange_T}>
+        <TimeSelect id="time" defaultValue={time} onChange={handleOnChange_T}>
           {Times}
         </TimeSelect>
         <DialogActions>
           <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
             Close
           </Button>
-          <Button onClick={handleToClose} variant="contained" color="success" autoFocus>
+          <Button onClick={handleToSave} variant="contained" color="success" autoFocus>
             Save
           </Button>
         </DialogActions>
