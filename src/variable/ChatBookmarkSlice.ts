@@ -17,12 +17,12 @@ export const ChatBookmarkSlice = createSlice({
     getChatBookmark: (state, action: PayloadAction<ChatType[]>) => {
       state.ChatBookmarkData = action.payload;
     },
-    setClickBookmark: (state, action: PayloadAction<boolean>) => {
+    setClickBookmarkPage: (state, action: PayloadAction<boolean>) => {
       state.ClickBookmark = action.payload;
     },
   },
 });
 
-export const { getChatBookmark, setClickBookmark } = ChatBookmarkSlice.actions;
+export const { getChatBookmark, setClickBookmarkPage } = ChatBookmarkSlice.actions;
 
 export default ChatBookmarkSlice.reducer;

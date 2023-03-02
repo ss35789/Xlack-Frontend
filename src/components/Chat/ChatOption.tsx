@@ -7,8 +7,23 @@ import { useState } from "react";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
+  const cid = parseInt(chat.id);
+  const DeleteChatBookmark = async () => {
+    //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
+    await axios
+      .delete(`${backUrl}chat/bookmark/${cid}`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   const MakeChatBookmark = async () => {
-    const cid = parseInt(chat.id);
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
       .post(
@@ -34,7 +49,9 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "ChatBookmark",
       func: () => {
-        MakeChatBookmark();
+        if (!chat.has_bookmarked) {
+          MakeChatBookmark();
+        } else DeleteChatBookmark();
       },
       Icon: <PushpinOutlined />,
     },
