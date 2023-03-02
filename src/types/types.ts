@@ -54,6 +54,15 @@ export interface ChatType {
   created_at: string;
   // title: Created at
   // readOnly: true
+  InnerFile?: FileType;
+}
+
+export interface FileType {
+  id: number;
+  uploaded_by: CustomUserType;
+  file: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface SocketReceiveChatType {
