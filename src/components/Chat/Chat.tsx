@@ -60,6 +60,9 @@ const Chat = () => {
     }
   };
   useEffect(() => {
+    setGetChatData([]);
+  }, [currentWorkspace]);
+  useEffect(() => {
     console.log("저장된 채널:", Clicked_channel);
     if (Clicked_channel.hashed_value) {
       receiveChatData();
