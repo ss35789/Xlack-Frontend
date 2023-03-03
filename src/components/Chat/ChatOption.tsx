@@ -49,6 +49,7 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "ChatBookmark",
       func: () => {
+        console.log(chat.has_bookmarked);
         if (!chat.has_bookmarked) {
           MakeChatBookmark();
         } else DeleteChatBookmark();

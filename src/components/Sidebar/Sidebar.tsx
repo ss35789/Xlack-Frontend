@@ -20,12 +20,13 @@ function Sidebar() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [historyMap, setHistoryMap] = useState(new Map<string, string>());
+  const [ClickedChannelinSide, setClickedChannelinSide] = useState(-1);
   const WorkspaceData = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
-  const [ChannelList, setChannelList] = useState<string[]>([]); // 기존에 가입되어있던 채널들 정보
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
   const channelMenuRef = useRef<HTMLDivElement>(null);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+
   useEffect(() => {
     if (window.localStorage.getItem("history") !== null) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -39,16 +40,11 @@ function Sidebar() {
       }, new Map());
       setHistoryMap(arrMap);
     }
-    if (WorkspaceData !== null) {
-      console.log("내 workspace와 내부 channle들의 hashed_value : ", WorkspaceData);
-      //
-      // WorkspaceData.forEach(element => {
-      //   element.chat_channel.forEach(cha => {
-      //     setChannelList([...ChannelList, cha.hashed_value]);
-      //   });
-      // });
-    }
   }, [WorkspaceData]);
+  useEffect(() => {
+    setClickedChannelinSide(-1);
+  }, [currentWorkspace]);
+
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
@@ -62,6 +58,7 @@ function Sidebar() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [channelMenuRef]);
+
   const storeHistory = (name: string, hv: string) => {
     historyMap.delete(name);
     historyMap.set(name, hv);
@@ -101,13 +98,17 @@ function Sidebar() {
                     <CreateIcon />
                 </span> */}
       </SidebarHeader>
-      <span
-        onClick={() => {
-          dispatch(setClickBookmarkPage(true));
-        }}
-      >
-        <SidebarOption Icon={ExpandMoreIcon} title="ChatBookmark" />
-      </span>
+      <ChannelInSide>
+        <span
+          className={ClickedChannelinSide === -2 ? "click" : "non-click"}
+          onClick={() => {
+            dispatch(setClickBookmarkPage(true));
+            setClickedChannelinSide(-2);
+          }}
+        >
+          <SidebarOption Icon={ExpandMoreIcon} title="ChatBookmark" />
+        </span>
+      </ChannelInSide>
       <hr />
 
       <span onClick={onClickshowChannels}>
@@ -118,31 +119,33 @@ function Sidebar() {
       {showChannels &&
         currentWorkspace.chat_channel?.map((c, i) => {
           return (
-            // <div key={i}>
-            <span
-              key={i}
-              ref={channelMenuRef}
-              onClick={e => {
-                e.preventDefault();
-                storeHistory(c.name, c.hashed_value);
-                dispatch(setClickedChannel(c));
-                dispatch(setClickBookmarkPage(false));
-                // connectChat(enterRoomId)
-              }}
-              onContextMenu={e => {
-                e.preventDefault();
-                console.log("채널 메뉴열기!");
-                setx(e.clientX);
-                sety(e.clientY);
-                dispatch(rightClick_channel(c.hashed_value));
-                dispatch(SearchChannel());
-                showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
-                onClickshowChannelMenu();
-              }}
-            >
-              <Channel {...c} />
-            </span>
-            // </div>
+            <ChannelInSide>
+              <span
+                className={ClickedChannelinSide === i ? "click" : "non-click"}
+                key={i}
+                ref={channelMenuRef}
+                onClick={e => {
+                  e.preventDefault();
+                  storeHistory(c.name, c.hashed_value);
+                  dispatch(setClickedChannel(c));
+                  dispatch(setClickBookmarkPage(false));
+                  setClickedChannelinSide(i);
+                  // connectChat(enterRoomId)
+                }}
+                onContextMenu={e => {
+                  e.preventDefault();
+                  console.log("채널 메뉴열기!");
+                  setx(e.clientX);
+                  sety(e.clientY);
+                  dispatch(rightClick_channel(c.hashed_value));
+                  dispatch(SearchChannel());
+                  showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                  onClickshowChannelMenu();
+                }}
+              >
+                <Channel {...c} />
+              </span>
+            </ChannelInSide>
           );
         })}
 
@@ -156,7 +159,17 @@ function Sidebar() {
 }
 
 export default Sidebar;
+const ChannelInSide = styled.span`
+  .click {
+    background-color: #fff;
+    color: #404a5c;
+  }
 
+  .non-click {
+    background-color: #505bf0;
+    color: #fff;
+  }
+`;
 const SidebarContainer = styled.div`
   background-color: var(--slack-color);
   color: white;
