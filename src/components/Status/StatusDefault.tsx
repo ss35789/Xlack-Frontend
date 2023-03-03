@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -11,23 +11,63 @@ import { Paper } from "@material-ui/core";
 import { setStatus } from "../../variable/StatusSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import { WsUrl_status } from "../../variable/cookie";
+import { at } from "../../variable/cookie";
+
 // import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
   const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
   const formData = new FormData();
   const dispatch = useDispatch();
+  const [socket, setsocket] = useState<WebSocket>();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
   const [status, setStatus] = useState(MyStatus.status_message);
   const [time, setTime] = useState(MyStatus.until);
   const [emoji, setEmoji] = useState(MyStatus.status_icon);
+  const workspaceHV = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace).hashed_value;
   const [chosenEmoji, setChosenEmoji] = useState();
   const Statusbtns = [];
   const Options = [];
   const Times = [];
   const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
   const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
+
+  useEffect(() => {
+    if (socket) socket.close();
+    if (workspaceHV !== "") {
+      setsocket(new WebSocket(`${WsUrl_status}${workspaceHV}/`));
+    }
+  }, [workspaceHV]);
+
+  useEffect(() => {
+    console.log("현재 status 소켓", workspaceHV);
+    if (socket) {
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        console.log("status 웹소켓 연결");
+      };
+    }
+  }, [socket]);
+  const sendStatus = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (socket) {
+      console.log(socket);
+      socket.send(
+        JSON.stringify({
+          status_message: status,
+          status_icon: emoji,
+          until: time,
+        }),
+      );
+      console.log(status, time);
+    }
+  };
 
   const openStatusHandler = async () => {
     SetopenStatus(!openStatus);
@@ -120,6 +160,9 @@ const StatusDefault = () => {
           <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
             Close
           </Button>
+          <Button onClick={sendStatus} variant="outlined" color="inherit" autoFocus>
+            sendStatus
+          </Button>
           <Button onClick={handleToSave} variant="contained" color="success" autoFocus>
             Save
           </Button>
@@ -134,7 +177,8 @@ export default StatusDefault;
 const StyledPaper = styled(Paper)`
   & {
     background-color: white;
-    width: 600px;
+    max-width: max-content;
+    width: 650px;
     border-radius: 10px;
     padding: 15px;
   }
