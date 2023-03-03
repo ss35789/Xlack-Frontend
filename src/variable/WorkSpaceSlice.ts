@@ -41,7 +41,7 @@ export const WorkSpaceSlice = createSlice({
         created_at: m.created_at,
         updated_at: m.updated_at,
         members: m.members,
-        chat_channel: m.chat_channel,
+        chat_channel: [],
         hashed_value: m.hashed_value,
         name: m.name,
       });
@@ -66,7 +66,7 @@ export const WorkSpaceSlice = createSlice({
     //현재 워크스페이스에서 channel.hashed_value를 이용해 channel의 정보 찾기
     SearchChannel: (state, action: PayloadAction<void>) => {
       const r = state.rightClicked_channel_hashed_value;
-      state.ClickedWorkSpace.chat_channel.forEach(value => {
+      state.ClickedWorkSpace.chat_channel?.forEach(value => {
         if (value.hashed_value === r) {
           state.SearchedChannel = value;
         }

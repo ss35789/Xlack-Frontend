@@ -21,7 +21,7 @@ export interface WorkspaceType {
   created_at: string;
   updated_at: string;
   members: CustomUserType[];
-  chat_channel: ChatChannelType[];
+  chat_channel?: ChatChannelType[];
   hashed_value: string;
   name: string;
 }
