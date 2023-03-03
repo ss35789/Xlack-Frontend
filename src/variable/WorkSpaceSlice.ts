@@ -50,7 +50,9 @@ export const WorkSpaceSlice = createSlice({
       state.MyWorkSpace = [];
     },
     //현재 내가 클릭한 워크스페이스
-
+    getChannelList: (state, action: PayloadAction<ChatChannelType[]>) => {
+      state.ClickedWorkSpace.chat_channel = action.payload;
+    },
     SetClickedWorkSpace: (state, action: PayloadAction<string>) => {
       state.ClickedWorkSpace_hashed_value = action.payload;
     },
@@ -78,5 +80,5 @@ export const WorkSpaceSlice = createSlice({
   },
 });
 
-export const { getWorkSpace, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
+export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

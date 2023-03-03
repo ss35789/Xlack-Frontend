@@ -41,12 +41,12 @@ function Sidebar() {
     }
     if (WorkspaceData !== null) {
       console.log("내 workspace와 내부 channle들의 hashed_value : ", WorkspaceData);
-
-      WorkspaceData.forEach(element => {
-        element.chat_channel.forEach(cha => {
-          setChannelList([...ChannelList, cha.hashed_value]);
-        });
-      });
+      //
+      // WorkspaceData.forEach(element => {
+      //   element.chat_channel.forEach(cha => {
+      //     setChannelList([...ChannelList, cha.hashed_value]);
+      //   });
+      // });
     }
   }, [WorkspaceData]);
   useEffect(() => {
@@ -116,7 +116,7 @@ function Sidebar() {
       <hr />
       {showChannels && <AddChannel Icon={AddIcon} title="Add Channel" />}
       {showChannels &&
-        currentWorkspace.chat_channel.map((c, i) => {
+        currentWorkspace.chat_channel?.map((c, i) => {
           return (
             // <div key={i}>
             <span
