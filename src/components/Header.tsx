@@ -9,7 +9,6 @@ import ProfileMenu from "./Profile/ProfileMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import Historymenu from "./History/Historymenu";
-import FileUpload from "./File/FileUpload";
 
 function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
@@ -69,8 +68,6 @@ function Header() {
       </HeaderSearch>
       {/* {Header Right} */}
       <HeaderRight>
-        <FileUpload />
-
         <HelpOutlineIcon />
         <HeaderAvatar
           ref={profileMenuRef}
