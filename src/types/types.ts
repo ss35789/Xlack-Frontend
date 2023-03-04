@@ -54,7 +54,7 @@ export interface ChatType {
   created_at: string;
   // title: Created at
   // readOnly: true
-  InnerFile?: FileType;
+  file?: FileType;
 }
 
 export interface FileType {

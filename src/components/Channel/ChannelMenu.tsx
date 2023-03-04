@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
-import { UpdateRoom } from "../../variable/UpdateChannelSlice";
+import { Update } from "../../variable/UpdateChannelSlice";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
@@ -24,7 +24,7 @@ const ChannelMenu = (props: any) => {
           },
         },
       );
-      dispatch(UpdateRoom());
+      dispatch(Update());
     } catch (err) {
       console.log(err);
     }
@@ -45,7 +45,7 @@ const ChannelMenu = (props: any) => {
       console.log(err);
     }
 
-    dispatch(UpdateRoom());
+    dispatch(Update());
   };
 
   return (

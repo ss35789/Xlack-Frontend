@@ -32,7 +32,7 @@ function ChatContext(chat: ChatType) {
           <HeaderRight>
             {showChatOption && (
               <span className="bg-gray-50">
-                <ChatOption id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at} has_bookmarked={false} reaction={[]} />
+                <ChatOption id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at} has_bookmarked={chat.has_bookmarked} reaction={[]} />
               </span>
             )}
           </HeaderRight>

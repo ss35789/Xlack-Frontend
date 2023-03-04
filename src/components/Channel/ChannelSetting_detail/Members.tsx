@@ -9,7 +9,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { RootState } from "../../../app/store";
 import { at, AtVerify, backUrl, removeCookie, UpdateToken } from "../../../variable/cookie";
-import { UpdateRoom } from "../../../variable/UpdateChannelSlice";
+import { Update } from "../../../variable/UpdateChannelSlice";
 // Members 컴포넌트
 // AddUserModal 컴포넌트
 // MemberOption 컴포넌트
@@ -196,7 +196,7 @@ const MemberOption = (props: any) => {
       // 행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
       removeCookie();
     }
-    dispatch(UpdateRoom());
+    dispatch(Update());
   };
   const MakeManager = async (UserName: string) => {
     if ((await AtVerify()) == 200) {
@@ -221,7 +221,7 @@ const MemberOption = (props: any) => {
       // 행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
       removeCookie();
     }
-    dispatch(UpdateRoom());
+    dispatch(Update());
   };
 
   return (
@@ -290,7 +290,7 @@ const AddUserModal = (props: any) => {
       removeCookie();
       // TODO document why this block is empty
     }
-    dispatch(UpdateRoom());
+    dispatch(Update());
   };
 
   return (

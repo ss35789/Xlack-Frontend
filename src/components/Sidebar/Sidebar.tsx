@@ -119,10 +119,9 @@ function Sidebar() {
       {showChannels &&
         currentWorkspace.chat_channel?.map((c, i) => {
           return (
-            <ChannelInSide>
+            <ChannelInSide key={i}>
               <span
                 className={ClickedChannelinSide === i ? "click" : "non-click"}
-                key={i}
                 ref={channelMenuRef}
                 onClick={e => {
                   e.preventDefault();

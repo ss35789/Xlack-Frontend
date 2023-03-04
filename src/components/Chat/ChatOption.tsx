@@ -4,14 +4,17 @@ import { ChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
+  const dispatch = useDispatch();
   const cid = parseInt(chat.id);
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
-      .delete(`${backUrl}chat/bookmark/${cid}`, {
+      .delete(`${backUrl}chat/bookmark/${cid}/`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },
@@ -47,12 +50,14 @@ const ChatOption = (chat: ChatType) => {
 
   const ChatOptionDetailArray = [
     {
-      detailMessage: "ChatBookmark",
+      detailMessage: chat.has_bookmarked ? "UnChatBookmark" : "ChatBookmark",
       func: () => {
-        console.log(chat.has_bookmarked);
         if (!chat.has_bookmarked) {
           MakeChatBookmark();
-        } else DeleteChatBookmark();
+        } else {
+          DeleteChatBookmark();
+          dispatch(getBookmarkPage());
+        }
       },
       Icon: <PushpinOutlined />,
     },

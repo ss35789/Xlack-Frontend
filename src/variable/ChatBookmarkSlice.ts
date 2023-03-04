@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatType } from "../types/types";
 
 interface struct {
-  ChatBookmarkData: ChatType[];
   ClickBookmark: boolean;
+  UpdateBookmark: string[];
 }
 
 const initialState: struct = {
-  ChatBookmarkData: [],
   ClickBookmark: false,
+  UpdateBookmark: [],
 };
 export const ChatBookmarkSlice = createSlice({
   name: "ChatBookmark",
   initialState,
   reducers: {
-    getChatBookmark: (state, action: PayloadAction<ChatType[]>) => {
-      state.ChatBookmarkData = action.payload;
+    getBookmarkPage: (state, action: PayloadAction<void>) => {
+      state.UpdateBookmark.push("df");
+      state.UpdateBookmark.pop();
     },
     setClickBookmarkPage: (state, action: PayloadAction<boolean>) => {
       state.ClickBookmark = action.payload;
@@ -23,6 +23,6 @@ export const ChatBookmarkSlice = createSlice({
   },
 });
 
-export const { getChatBookmark, setClickBookmarkPage } = ChatBookmarkSlice.actions;
+export const { getBookmarkPage, setClickBookmarkPage } = ChatBookmarkSlice.actions;
 
 export default ChatBookmarkSlice.reducer;

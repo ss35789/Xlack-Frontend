@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateRoom } from "../../variable/UpdateChannelSlice";
+import { Update } from "../../variable/UpdateChannelSlice";
 import { SidebarInfo } from "../Sidebar/SidebarOption";
 import { at, backUrl, rt } from "../../variable/cookie";
 import { RootState } from "../../app/store";
@@ -30,7 +30,7 @@ function AddChannel({ Icon, title, id }: SidebarInfo) {
           },
         );
         //                console.log();
-        dispatch(UpdateRoom());
+        dispatch(Update());
       }
     } catch (err) {
       window.alert("권한이 없습니다");

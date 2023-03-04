@@ -13,6 +13,7 @@ const Chat = () => {
   const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+  const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
   const [lastChat, setLastChat] = useState<any>("-1");
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
@@ -31,16 +32,16 @@ const Chat = () => {
         c.push({
           id: r.id,
           chatter: r.chatter,
-          channel: r.channel.id,
-          has_bookmarked: r.has_bookmarked,
+          channel: r.channel,
+          has_bookmarked: true,
           message: r.message,
           created_at: r.created_at,
           reaction: r.reaction,
-          InnerFile: r.InnerFile,
+          file: r.file,
         });
       });
       setGetChatData(c);
-      console.log(res.data);
+      console.log(c);
     } catch (err) {
       console.log("receiveChatBookmarkError: ", err);
     }
@@ -79,7 +80,7 @@ const Chat = () => {
     if (ClickedBookmark) {
       receiveChatBookmarkData();
     }
-  }, [ClickedBookmark]);
+  }, [ClickedBookmark, UpdateBookmark]);
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
@@ -141,7 +142,7 @@ const Chat = () => {
               .map((chat, i) => {
                 return (
                   <span key={i}>
-                    <ChatContext id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at} has_bookmarked={false} reaction={[]}></ChatContext>
+                    <ChatContext {...chat}></ChatContext>
                   </span>
                 );
               })}
