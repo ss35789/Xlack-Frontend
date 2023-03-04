@@ -48,7 +48,7 @@ const StyledPaper = styled(Paper)`
   & {
     background-color: white;
     max-width: max-content;
-    width: 650px;
+    width: 700px;
     border-radius: 10px;
     padding: 15px;
   }

@@ -27,7 +27,7 @@ const StatusDefault = () => {
   const [time, setTime] = useState(MyStatus.until);
   const [emoji, setEmoji] = useState(MyStatus.status_icon);
   const workspaceHV = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace).hashed_value;
-  const [chosenEmoji, setChosenEmoji] = useState();
+  // const [chosenEmoji, setChosenEmoji] = useState();
   const Statusbtns = [];
   const Options = [];
   const Times = [];
@@ -65,7 +65,7 @@ const StatusDefault = () => {
           until: time,
         }),
       );
-      console.log(status, time);
+      console.log(status, emoji, time);
     }
   };
 
@@ -116,30 +116,11 @@ const StatusDefault = () => {
   //   setTime(e.target.value);
   // };
 
-  // const onEmojiClick = (emojiObject: any) => {
-  //   setChosenEmoji(emojiObject);
-  // };
-  // const EmojiData = ({ chosenEmoji }) => (
-  //   <div>
-  //     <strong>Selected emoji:</strong> {chosenEmoji.emoji}
-  //   </div>
-  // );
   return (
     <div>
       <button onClick={openStatusHandler}>
         👍
-        {openStatus ? (
-          <Dialog open={openStatus}>
-            {/*<EmojiPicker onEmojiClick={onEmojiClick} />*/}
-            {/*<div>*/}
-            {/*  <EmojiPicker onEmojiClick={emojiClicked} disableAutoFocus={true} native />*/}
-            {/*  {chosenEmoji && <EmojiData chosenEmoji={console.log} />}*/}
-            {/*</div>*/}
-            {/*{console.log(chosenEmoji)}*/}
-          </Dialog>
-        ) : (
-          ""
-        )}
+        {openStatus ? <Dialog open={openStatus}></Dialog> : ""}
       </button>
       <StatusDiv placeholder={"🙂What is your Status"} defaultValue={status} onClick={handleClickToOpen} />
       <DialogContentText>until {time}</DialogContentText>
@@ -180,7 +161,7 @@ const StyledPaper = styled(Paper)`
   & {
     background-color: white;
     max-width: max-content;
-    width: 650px;
+    width: 700px;
     border-radius: 10px;
     padding: 15px;
   }
