@@ -122,7 +122,7 @@ const StatusDefault = () => {
         👍
         {openStatus ? <Dialog open={openStatus}></Dialog> : ""}
       </button>
-      <StatusDiv placeholder={"🙂What is your Status"} defaultValue={status} onClick={handleClickToOpen} />
+      <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
@@ -131,12 +131,12 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="status" defaultValue={status} onChange={handleOnChange}>
+        <StatusSelect id="status" value={status} onChange={handleOnChange}>
           {Options}
         </StatusSelect>
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
-        <TimeSelect id="time" defaultValue={time} onChange={handleOnChange_T}>
+        <TimeSelect id="time" value={time} onChange={handleOnChange_T}>
           {Times}
         </TimeSelect>
         <DialogActions>
