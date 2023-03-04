@@ -79,24 +79,26 @@ const StatusDefault = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
-  const handleToSave = async () => {
-    setOpen(false);
-    console.log(status);
-    console.log(time);
-  };
 
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("status_message", status);
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setStatus(e.target.value);
+    setEmoji(e.target.value.slice(0, 2));
   }, []);
 
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("until", time);
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setTime(e.target.value);
   }, []);
 
+  const handleToSave = async () => {
+    setOpen(false);
+    console.log(status);
+    console.log(time);
+    console.log(emoji);
+  };
   for (const element of options) {
     Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
   }
