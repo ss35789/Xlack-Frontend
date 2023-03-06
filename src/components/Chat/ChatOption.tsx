@@ -43,6 +43,7 @@ const ChatOption = (chat: ChatType) => {
       )
       .then(res => {
         console.log(res);
+        dispatch(getBookmarkPage());
       })
       .catch(err => {
         console.log(err);

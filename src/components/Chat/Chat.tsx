@@ -68,7 +68,7 @@ const Chat = () => {
     if (Clicked_channel.hashed_value) {
       receiveChatData();
     }
-  }, [Clicked_channel]);
+  }, [Clicked_channel, UpdateBookmark]);
   useEffect(() => {
     if (lastChat !== "-1") {
       console.log("최근 받은 메세지", lastChat);
