@@ -6,6 +6,7 @@ import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 
+
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
