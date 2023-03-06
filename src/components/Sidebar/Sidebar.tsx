@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
-import { setClickedChannel } from "../../variable/ClickedChannelSlice";
+import { setClickedChannel, setUnClickedChannel } from "../../variable/ClickedChannelSlice";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
 import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
@@ -103,6 +103,7 @@ function Sidebar() {
           className={ClickedChannelinSide === -2 ? "click" : "non-click"}
           onClick={() => {
             dispatch(setClickBookmarkPage(true));
+            dispatch(setUnClickedChannel());
             setClickedChannelinSide(-2);
           }}
         >

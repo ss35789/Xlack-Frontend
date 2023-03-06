@@ -9,7 +9,7 @@ import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
-  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel.channelData).hashed_value;
+  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useDispatch();

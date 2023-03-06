@@ -29,11 +29,14 @@ export const ClickedChannelSlice = createSlice({
   name: "ClickedChannel",
   initialState,
   reducers: {
+    setUnClickedChannel: (state, action: PayloadAction<void>) => {
+      state.channelData = initialState.channelData;
+    },
     setClickedChannel: (state, action: PayloadAction<ChatChannelType>) => {
       state.channelData = action.payload;
     },
     findUserDataInClickedChannel: (state, action: PayloadAction<number>) => {
-      state.channelData.members.forEach(m => {
+      state.channelData?.members.forEach(m => {
         if (action.payload === m.id) {
           state.findUserData = m;
         }
@@ -42,5 +45,5 @@ export const ClickedChannelSlice = createSlice({
   },
 });
 
-export const { setClickedChannel, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;
