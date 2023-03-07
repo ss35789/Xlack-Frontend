@@ -14,6 +14,7 @@ const StatusPanel = () => {
   return (
     <div>
       <Dialog
+        disableEnforceFocus
         fullWidth={true}
         scroll={"body"}
         open={open}
@@ -21,6 +22,7 @@ const StatusPanel = () => {
           setOpen(false);
         }}
         PaperComponent={StyledPaper}
+        key="statusDialog"
       >
         <DialogTitle>{"Set a status"}</DialogTitle>
         <StatusDefault />
@@ -31,6 +33,7 @@ const StatusPanel = () => {
             }}
             variant="outlined"
             color="inherit"
+            key="close"
           >
             Close
           </Button>
@@ -40,6 +43,7 @@ const StatusPanel = () => {
             }}
             variant="contained"
             color="success"
+            key="save"
           >
             Save
           </Button>

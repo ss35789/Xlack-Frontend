@@ -87,17 +87,6 @@ const StatusDefault = () => {
   }, []);
 
   for (const element of options) {
-    Statusbtns.push(
-      <StatusButton
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        {element}
-      </StatusButton>,
-    );
-  }
-  for (const element of options) {
     Options.push(<option>{element}</option>);
   }
   for (const element of times) {
@@ -122,8 +111,9 @@ const StatusDefault = () => {
       />
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
-      {Statusbtns}
+      {StatusbtnMap}
       <Dialog
+        disableEnforceFocus
         fullWidth={true}
         open={open}
         onClose={() => {
@@ -136,12 +126,12 @@ const StatusDefault = () => {
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
         <StatusSelect id="status" value={status} onChange={handleOnChange}>
-          {Options}
+          {OptionMap}
         </StatusSelect>
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
         <TimeSelect id="time" value={time} onChange={handleOnChange_T}>
-          {Times}
+          {TimeMap}
         </TimeSelect>
         <DialogActions>
           <Button
