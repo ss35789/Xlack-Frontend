@@ -137,12 +137,12 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="status" value={status} onChange={handleOnChange}>
+        <StatusSelect id="status" defaultValue={status} onChange={handleOnChange}>
           {OptionMap}
         </StatusSelect>
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
-        <TimeSelect id="time" value={time} onChange={handleOnChange_T}>
+        <TimeSelect id="time" defaultValue={time} onChange={handleOnChange_T}>
           {TimeMap}
         </TimeSelect>
         <DialogActions>
