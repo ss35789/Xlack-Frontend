@@ -92,6 +92,18 @@ const StatusDefault = () => {
   for (const element of times) {
     Times.push(<option>{element}</option>);
   }
+  const OptionMap = options.map(op => <option key={op}>{op}</option>);
+  const TimeMap = times.map(ti => <option key={ti}>{ti}</option>);
+  const StatusbtnMap = options.map(op => (
+    <StatusButton
+      key={op}
+      onClick={() => {
+        setOpen(true);
+      }}
+    >
+      {op}
+    </StatusButton>
+  ));
 
   return (
     <div>
