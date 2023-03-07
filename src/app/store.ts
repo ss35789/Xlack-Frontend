@@ -6,6 +6,7 @@ import WorkSpaceReducer from "../variable/WorkSpaceSlice";
 import OnModalReducer from "../variable/OnModalSlice";
 import MyProfileReducer from "../variable/MyProfileSlice";
 import ChatBookmarkReducer from "../variable/ChatBookmarkSlice";
+import StatusSliceReducer from "../variable/StatusSlices";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     OnModal: OnModalReducer,
     getMyProfile: MyProfileReducer,
     ChatBookmark: ChatBookmarkReducer,
+    setStatus: StatusSliceReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

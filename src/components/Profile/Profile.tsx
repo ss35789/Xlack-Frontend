@@ -15,6 +15,8 @@ const Profile = () => {
   const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
   const onEditProfilePage = useSelector((state: RootState) => state.OnModal.OnEditProfilePage);
   const onEditContactInfo = useSelector((state: RootState) => state.OnModal.OnEditContactInfo);
+  const [status, showStatus] = useState(false);
+
   useEffect(() => {
     setOpen(!open);
     setShowEditProfile(false);
@@ -162,6 +164,7 @@ const Profile = () => {
       </Transition.Root>
       {showEditProfile && <EditProfile />}
       {showEditContactInfo && <EditContactInfo />}
+      {status && <StatusPanel />}
     </>
   );
 };

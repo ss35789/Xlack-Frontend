@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -8,103 +8,155 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
+import { setStatus } from "../../variable/StatusSlices";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { WsUrl_status } from "../../variable/cookie";
+import { at } from "../../variable/cookie";
+
 // import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
+  const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
+  const formData = new FormData();
+  const dispatch = useDispatch();
+  const [socket, setsocket] = useState<WebSocket>();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
-
-  const openStatusHandler = async () => {
-    SetopenStatus(!openStatus);
-  };
-
-  // const ws = new WebSocket("wss://api.xlack.kreimben.com/ws/status/<workspace_hashed_value>/");
-  const handleClickToOpen = async () => {
-    setOpen(true);
-  };
-  // const sendStatus = (e: { target: { value: React.SetStateAction<undefined> } }) => {
-  //   setStatus(e.target.value);
-  // };
-
-  const handleToClose = async () => {
-    setOpen(false);
-  };
-  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
-  const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
-  const [status, setStatus] = useState();
-  const [time, setTime] = useState();
-  const [emoji, setEmoji] = useState();
+  const [status, setStatus] = useState(MyStatus.status_message);
+  const [time, setTime] = useState(MyStatus.until);
+  const [emoji, setEmoji] = useState(MyStatus.status_icon);
+  const workspaceHV = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace).hashed_value;
+  // const [chosenEmoji, setChosenEmoji] = useState();
   const Statusbtns = [];
   const Options = [];
   const Times = [];
-  const handleOnChange = async (e: { target: { value: any } }) => {
-    setStatus(e.target.value);
-  };
-  const handleOnChange_T = async (e: { target: { value: any } }) => {
-    setTime(e.target.value);
-  };
-  // const emojiClicked = async (e: { target: { value: any } }) => {
-  //   setEmoji(e.target.value);
-  // };
+  const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
+  const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
 
-  for (const element of options) {
-    Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
-  }
+  useEffect(() => {
+    if (socket) socket.close();
+    if (workspaceHV !== "") {
+      setsocket(new WebSocket(`${WsUrl_status}${workspaceHV}/`));
+    }
+  }, [workspaceHV]);
+
+  useEffect(() => {
+    console.log("현재 status 소켓", workspaceHV);
+    if (socket) {
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        console.log("status 웹소켓 연결");
+      };
+    }
+  }, [socket]);
+  const sendStatus = (event: { preventDefault: () => void }) => {
+    setOpen(false);
+    console.log(status);
+    console.log(time);
+    console.log(emoji);
+    event.preventDefault();
+    if (socket) {
+      console.log(socket);
+      socket.send(
+        JSON.stringify({
+          status_message: status,
+          status_icon: emoji,
+          until: time,
+        }),
+      );
+      console.log(status, emoji, time);
+    }
+  };
+
+  const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    formData.append("status_message", status);
+    // console.log(e.target.value);
+    setStatus(e.target.value);
+    setEmoji(e.target.value.slice(0, 2));
+  }, []);
+
+  const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    formData.append("until", time);
+    // console.log(e.target.value);
+    setTime(e.target.value);
+  }, []);
+
   for (const element of options) {
     Options.push(<option>{element}</option>);
   }
   for (const element of times) {
     Times.push(<option>{element}</option>);
   }
-  const [chosenEmoji, setChosenEmoji] = useState();
+  const OptionMap = options.map(op => <option key={op}>{op}</option>);
+  const TimeMap = times.map(ti => <option key={ti}>{ti}</option>);
+  const StatusbtnMap = options.map(op => (
+    <StatusButton
+      key={op}
+      onClick={() => {
+        setOpen(true);
+      }}
+    >
+      {op}
+    </StatusButton>
+  ));
 
-  // const onEmojiClick = (emojiObject: any) => {
-  //   setChosenEmoji(emojiObject);
-  // };
-  // const EmojiData = ({ chosenEmoji }) => (
-  //   <div>
-  //     <strong>Selected emoji:</strong> {chosenEmoji.emoji}
-  //   </div>
-  // );
   return (
     <div>
-      <button onClick={openStatusHandler}>
-        👍
-        {openStatus ? (
-          <Dialog open={openStatus}>
-            {/*<EmojiPicker onEmojiClick={onEmojiClick} />*/}
-            {/*<div>*/}
-            {/*  <EmojiPicker onEmojiClick={emojiClicked} disableAutoFocus={true} native />*/}
-            {/*  {chosenEmoji && <EmojiData chosenEmoji={console.log} />}*/}
-            {/*</div>*/}
-            {/*{console.log(chosenEmoji)}*/}
-          </Dialog>
-        ) : (
-          ""
-        )}
+      <button
+        onClick={() => {
+          SetopenStatus(true);
+        }}
+      >
+        {openStatus ? <Dialog open={openStatus}></Dialog> : ""}
       </button>
-      <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
+      <StatusDiv
+        placeholder={"🙂What is your Status"}
+        value={status}
+        onClick={() => {
+          setOpen(true);
+        }}
+      />
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
-      {Statusbtns}
-      <Dialog fullWidth={true} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
+      {StatusbtnMap}
+      <Dialog
+        disableEnforceFocus
+        fullWidth={true}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperComponent={StyledPaper}
+      >
         <DialogTitle>{"Set a status(Manual)"}</DialogTitle>
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="status" value={status} onChange={handleOnChange}>
-          {Options}
+        <StatusSelect id="status" defaultValue={status} onChange={handleOnChange}>
+          {OptionMap}
         </StatusSelect>
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
-        <TimeSelect id="time" value={time} onChange={handleOnChange_T}>
-          {Times}
+        <TimeSelect id="time" defaultValue={time} onChange={handleOnChange_T}>
+          {TimeMap}
         </TimeSelect>
         <DialogActions>
-          <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            variant="outlined"
+            color="inherit"
+            autoFocus
+          >
             Close
           </Button>
-          <Button onClick={handleToClose} variant="contained" color="success" autoFocus>
+          <Button onClick={sendStatus} variant="contained" color="success" autoFocus>
             Save
           </Button>
         </DialogActions>
@@ -118,7 +170,8 @@ export default StatusDefault;
 const StyledPaper = styled(Paper)`
   & {
     background-color: white;
-    width: 600px;
+    max-width: max-content;
+    width: 700px;
     border-radius: 10px;
     padding: 15px;
   }

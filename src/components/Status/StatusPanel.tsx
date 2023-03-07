@@ -26,14 +26,36 @@ const StatusPanel = () => {
   return (
     <div>
       <ProfileButton onClick={handleClickToOpen}>Set a status</ProfileButton>
-      <Dialog fullWidth={true} scroll={"body"} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
+      <Dialog
+        disableEnforceFocus
+        fullWidth={true}
+        scroll={"body"}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperComponent={StyledPaper}
+      >
+        {" "}
         <DialogTitle>{"Set a status"}</DialogTitle>
         {!detailClickToOpen ? <DefaultButton onClick={detailClickToOpen} children={opendefault} /> : <StatusDefault />}
         <DialogActions>
-          <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            variant="outlined"
+            color="inherit"
+          >
             Close
           </Button>
-          <Button onClick={handleToClose} variant="contained" color="success" autoFocus>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            variant="contained"
+            color="success"
+          >
             Save
           </Button>
         </DialogActions>
@@ -48,7 +70,7 @@ const StyledPaper = styled(Paper)`
   & {
     background-color: white;
     max-width: max-content;
-    width: 600px;
+    width: 700px;
     border-radius: 10px;
     padding: 15px;
   }

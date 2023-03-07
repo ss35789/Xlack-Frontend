@@ -13,7 +13,6 @@ function Login() {
     LoginDjango(response["code"]).then(res => {
       token_info = res;
       AccessToken(token_info, Date.now() + 3600000);
-      //console.log(token_info);
     });
   };
 
@@ -40,6 +39,7 @@ export function AccessToken(resData: any, exp: any) {
   //access_token 존재시 쿠키에 넣어줌
   const refresh_token = resData.refresh_token;
   const exptime = exp;
+
   //    const expire
   if (access_token) {
     setCookie("access_token", access_token, {

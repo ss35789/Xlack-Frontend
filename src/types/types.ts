@@ -152,3 +152,9 @@ export interface MessageRec {
   user: string;
   userImage: string;
 }
+
+export interface Status {
+  status_message: string;
+  status_icon: string;
+  until: string;
+}
