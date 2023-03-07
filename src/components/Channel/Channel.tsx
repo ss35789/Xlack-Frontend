@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ChatChannelType } from "../../types/types";
+import { ChatChannelType } from "../types";
 
 function Channel(props: ChatChannelType) {
   return (

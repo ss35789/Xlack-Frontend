@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { UserDetailsType } from "../../types/types";
+import React, { ReactElement, ReactPropTypes, useCallback, useEffect, useState } from "react";
+import { UserDetailsType } from "../types";
 import styled from "styled-components";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import Modal from "../Modal";
-
 function User() {
   const [user, setUser] = useState<UserDetailsType>();
   const [isOpenModal, setOpenModal] = useState<boolean>(false);

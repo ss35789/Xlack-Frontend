@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import { submit } from "../variable/createWorkspace";
 import axios from "axios";
 import { at, backUrl } from "../variable/cookie";
+import { AccessToken } from "./Login";
 
 function SetupTeamName() {
   const [teamName, setTeamName] = useState<string>("");
@@ -10,7 +11,7 @@ function SetupTeamName() {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setTeamName(e.target.value);
     },
-    [setTeamName],
+    [setTeamName]
   );
 
   const Submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,11 +25,12 @@ function SetupTeamName() {
         {
           headers: {
             Authorization: `Bearer ${at}`,
+            "Content-Type": "application/json",
+            accept: "application/json",
           },
-        },
+        }
       )
-      .then(r => console.log(r))
-      .catch(err => console.log(err));
+      .then((r) => console.log(r));
   };
   return (
     <WorkspaceLayout>
@@ -37,7 +39,13 @@ function SetupTeamName() {
         <div className="sidebarTop">
           <div className="sidebarHeaderButton">
             <div className="sidebarHeaderInfo">
-              <div className="teamName">{!teamName ? <div className="loadingSpacer"></div> : <span>{teamName}</span>}</div>
+              <div className="teamName">
+                {!teamName ? (
+                  <div className="loadingSpacer"></div>
+                ) : (
+                  <span>{teamName}</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -49,8 +57,13 @@ function SetupTeamName() {
             <div className="setupPageContent">
               <div className="setupPageStepsCounter">1/3단계</div>
               <div className="autoclogHook">
-                <h2 className="setupHeader">회사 또는 팀 이름이 어떻게 됩니까?</h2>
-                <div className="setupHeaderDeprecated">Slack 워크스페이스의 이름이 됩니다. 팀이 인식할 수 있는 이름을 입력하세요.</div>
+                <h2 className="setupHeader">
+                  회사 또는 팀 이름이 어떻게 됩니까?
+                </h2>
+                <div className="setupHeaderDeprecated">
+                  Slack 워크스페이스의 이름이 됩니다. 팀이 인식할 수 있는 이름을
+                  입력하세요.
+                </div>
                 <form onSubmit={Submit}>
                   <div>
                     <div role="presentation" className="inputCharacterCount">
@@ -83,7 +96,6 @@ function SetupTeamName() {
     </WorkspaceLayout>
   );
 }
-
 const WorkspaceLayout = styled.div`
   display: grid;
   grid-template-columns: 213px auto;
@@ -94,7 +106,6 @@ const WorkspaceLayout = styled.div`
   overflow: visible;
   height: 100vh;
   width: 100vw;
-
   .nav {
     grid-area: nav;
     background: #350d36;
@@ -199,7 +210,8 @@ const WorkspaceLayout = styled.div`
             .setupHeader {
               margin-bottom: 8px;
               max-width: 820px;
-              font-family: Slack-Larsseit, Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
+              font-family: Slack-Larsseit, Helvetica Neue, Helvetica, Segoe UI,
+                Tahoma, Arial, sans-serif;
               font-size: 50px;
               font-weight: 700;
               line-height: 56px;
@@ -214,12 +226,10 @@ const WorkspaceLayout = styled.div`
               font-weight: 400;
               line-height: 1.46668;
             }
-
             .inputCharacterCount {
               position: inherit;
               box-sizing: inherit;
               z-index: 2;
-
               .inputText {
                 font-size: 18px;
                 border: 1px solid;
@@ -231,7 +241,6 @@ const WorkspaceLayout = styled.div`
                 width: 100%;
               }
             }
-
             .nextButton {
               margin-top: 48px;
               min-width: 200px;

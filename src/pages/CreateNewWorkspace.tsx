@@ -6,7 +6,6 @@ import LoginGithub from "react-login-github";
 import { useNavigate } from "react-router-dom";
 import { backUrl } from "../variable/cookie";
 import axios from "axios";
-
 async function CreateW(code: string): Promise<JSON> {
   const url = `${backUrl}token/github/`;
   const config = {
@@ -25,12 +24,11 @@ async function CreateW(code: string): Promise<JSON> {
   const res = await axios.post(url, data, config);
   return res.data;
 }
-
 function CreateNewWorkspace() {
   const navigate = useNavigate();
   const onSuccess = (response: never) => {
     let token_info;
-    CreateW(response["code"]).then(res => {
+    CreateW(response["code"]).then((res) => {
       token_info = res;
       window.location.href = "http://localhost:3000/setTeamName";
       //console.log(token_info);
@@ -50,7 +48,13 @@ function CreateNewWorkspace() {
             href="https://slack.com"
             rel="noopener noreferrer"
           >
-            <img className="img" alt="Slack" src="https://a.slack-edge.com/bv1-10/slack_logo-ebd02d1.svg" height="26" title="Slack" />
+            <img
+              className="img"
+              alt="Slack"
+              src="https://a.slack-edge.com/bv1-10/slack_logo-ebd02d1.svg"
+              height="26"
+              title="Slack"
+            />
           </a>
         </div>
         <div className="right-col" />
@@ -58,7 +62,8 @@ function CreateNewWorkspace() {
       <Div2>
         <H1> 먼저 이메일부터 입력해 보세요</H1>
         <div className="subHeader">
-          <strong>직장에서 사용하는 이메일 주소</strong>로 로그인하는 걸 추천드려요.
+          <strong>직장에서 사용하는 이메일 주소</strong>로 로그인하는 걸
+          추천드려요.
         </div>
         <form className="input_form">
           <label id="creator_signup_label"></label>
@@ -78,7 +83,15 @@ function CreateNewWorkspace() {
             placeholder="name@work-email.com"
             type="email"
           />
-          <LoginGithub className="button" id="submitButton" type="button" clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
+          <LoginGithub
+            className="button"
+            id="submitButton"
+            type="button"
+            clientId="9ac10cd868488ad0185b"
+            scope="read:user"
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+          >
             계속
           </LoginGithub>
           <div className="horizontal_content">
@@ -92,7 +105,6 @@ function CreateNewWorkspace() {
     </Body>
   );
 }
-
 const Body = styled.div`
   align-items: center;
   display: flex;

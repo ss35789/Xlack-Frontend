@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomUserType } from "../../types/types";
+import { CustomUserType } from "../types";
 import styled from "styled-components";
 
 function MyState(props: CustomUserType) {

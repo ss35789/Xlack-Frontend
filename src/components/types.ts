@@ -1,5 +1,4 @@
 export interface CustomUserType {
-  id: number;
   username: string;
   email: string;
   display_name: string;
@@ -9,7 +8,7 @@ export interface CustomUserType {
 }
 
 export interface ChatChannelType {
-  id: number;
+  id: string;
   name: string;
   hashed_value: string;
   description: string;
@@ -21,7 +20,7 @@ export interface WorkspaceType {
   created_at: string;
   updated_at: string;
   members: CustomUserType[];
-  chat_channel?: ChatChannelType[];
+  chat_channel: ChatChannelType[];
   hashed_value: string;
   name: string;
 }
@@ -45,32 +44,15 @@ export interface ChatType {
   channel: number;
   // title: Channel
   // readOnly: true
-  chatter: CustomUserType;
-  has_bookmarked: boolean;
-  reaction: [];
+  chatter: number;
+  // title: Chatter
+  // readOnly: true
   message: string;
   // title: Message
   // minLength: 1
   created_at: string;
   // title: Created at
   // readOnly: true
-  file?: FileType;
-}
-
-export interface FileType {
-  id: number;
-  uploaded_by: CustomUserType;
-  file: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface SocketReceiveChatType {
-  chat_id: string;
-  username: string;
-  user_id: number;
-  message: string;
-  file_id: string;
 }
 
 export interface getChat {
