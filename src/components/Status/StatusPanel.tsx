@@ -9,10 +9,23 @@ import { Paper } from "@material-ui/core";
 import StatusDefault from "./StatusDefault";
 
 const StatusPanel = () => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [opendefault, setDefault] = React.useState(false);
+
+  const handleClickToOpen = async () => {
+    setOpen(true);
+  };
+  const detailClickToOpen = async () => {
+    setDefault(true);
+  };
+
+  const handleToClose = async () => {
+    setOpen(false);
+  };
 
   return (
     <div>
+      <ProfileButton onClick={handleClickToOpen}>Set a status</ProfileButton>
       <Dialog
         disableEnforceFocus
         fullWidth={true}
@@ -22,10 +35,10 @@ const StatusPanel = () => {
           setOpen(false);
         }}
         PaperComponent={StyledPaper}
-        key="statusDialog"
       >
+        {" "}
         <DialogTitle>{"Set a status"}</DialogTitle>
-        <StatusDefault />
+        {!detailClickToOpen ? <DefaultButton onClick={detailClickToOpen} children={opendefault} /> : <StatusDefault />}
         <DialogActions>
           <Button
             onClick={() => {
@@ -33,7 +46,6 @@ const StatusPanel = () => {
             }}
             variant="outlined"
             color="inherit"
-            key="close"
           >
             Close
           </Button>
@@ -43,7 +55,6 @@ const StatusPanel = () => {
             }}
             variant="contained"
             color="success"
-            key="save"
           >
             Save
           </Button>

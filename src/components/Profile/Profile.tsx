@@ -15,7 +15,7 @@ const Profile = () => {
   const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
   const onEditProfilePage = useSelector((state: RootState) => state.OnModal.OnEditProfilePage);
   const onEditContactInfo = useSelector((state: RootState) => state.OnModal.OnEditContactInfo);
-  const [status, setStatus] = useState(false);
+  const [status, showStatus] = useState(false);
 
   useEffect(() => {
     setOpen(!open);
@@ -105,13 +105,14 @@ const Profile = () => {
                     <div className="mt-2"> Away</div>
                     <div>{new Date().toLocaleTimeString()}</div>
                     <div className="flex justify-center mt-2 ">
-                      <CustomButton
-                        onClick={() => {
-                          setStatus(true);
-                        }}
-                      >
-                        statustest
-                      </CustomButton>
+                      {/*<CustomButton*/}
+                      {/*  onClick={() => {*/}
+                      {/*    showStatus(true);*/}
+                      {/*  }}*/}
+                      {/*>*/}
+                      {/*  Set your Status*/}
+                      {/*</CustomButton>*/}
+                      <StatusPanel />
                       <CustomButton>View as</CustomButton>
                       <CustomButton> ...</CustomButton>
                     </div>
