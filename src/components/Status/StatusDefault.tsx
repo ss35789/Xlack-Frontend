@@ -116,7 +116,7 @@ const StatusDefault = () => {
       </button>
       <StatusDiv
         placeholder={"🙂What is your Status"}
-        defaultValue={status}
+        value={status}
         onClick={() => {
           setOpen(true);
         }}
