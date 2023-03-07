@@ -1,12 +1,13 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
 import WorkspaceMenuList from "./WorkspaceMenuList";
-
 interface ModalDefaultType {
   onClickToggleModal: () => void;
 }
-
-function PlusModal({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) {
+function PlusModal({
+  onClickToggleModal,
+  children,
+}: PropsWithChildren<ModalDefaultType>) {
   return (
     <ModalContainer>
       <DialogBox>
@@ -22,7 +23,6 @@ function PlusModal({ onClickToggleModal, children }: PropsWithChildren<ModalDefa
     </ModalContainer>
   );
 }
-
 const ModalContainer = styled.div`
   top: -120px;
   width: 100%;

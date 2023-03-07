@@ -3,49 +3,15 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import { ChatType, SocketReceiveChatType } from "../../types/types";
+import ChatContext from "./ChatContext";
+import { getChat } from "../types";
+import { Socket } from "socket.io";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
-import ChatContext from "./ChatContext";
 
-const Chat = () => {
-  const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
-  const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
-  const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
-  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
-  const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
-  const [lastChat, setLastChat] = useState<any>("-1");
-  const messagesRef = useRef<any>();
-  const [getChatData, setGetChatData] = useState<ChatType[]>([]);
-  const receiveChatBookmarkData = async () => {
-    try {
-      const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      });
-      //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
-      const c: ChatType[] = [];
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      res.data.map(r => {
-        c.push({
-          id: r.id,
-          chatter: r.chatter,
-          channel: r.channel,
-          has_bookmarked: true,
-          message: r.message,
-          created_at: r.created_at,
-          reaction: r.reaction,
-          file: r.file,
-        });
-      });
-      setGetChatData(c);
-      console.log(c);
-    } catch (err) {
-      console.log("receiveChatBookmarkError: ", err);
-    }
-  };
+function Chat() {
+  const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
+  const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel);
   const receiveChatData = async () => {
     try {
       const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
@@ -53,51 +19,23 @@ const Chat = () => {
           Authorization: `Bearer ${at}`,
         },
       });
-      //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
-      setGetChatData(res.data);
+      setgetChatData(res.data);
       console.log(res.data);
     } catch (err) {
-      console.log("receiveChatError: ", err);
+      console.log(err);
     }
   };
-  useEffect(() => {
-    setGetChatData([]);
-  }, [currentWorkspace]);
   useEffect(() => {
     console.log("저장된 채널:", Clicked_channel);
     if (Clicked_channel.hashed_value) {
       receiveChatData();
     }
-  }, [Clicked_channel, UpdateBookmark]);
-  useEffect(() => {
-    if (lastChat !== "-1") {
-      console.log("최근 받은 메세지", lastChat);
-      //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-      setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
-    }
-  }, [lastChat]);
-  useEffect(() => {
-    if (ClickedBookmark) {
-      receiveChatBookmarkData();
-    }
-  }, [ClickedBookmark, UpdateBookmark]);
-  const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
-    const c: ChatType = {
-      id: s.chat_id,
-      channel: Clicked_channel.id,
-      chatter: findUser,
-      has_bookmarked: false,
-      reaction: [],
-      message: s.message,
-      created_at: new Date().toString().substring(0, 25),
-    };
-    return c;
-  };
+  }, [Clicked_channel]);
+  // setgetChaData(res.data) 안에 axios
 
-  const ReceiveLastChat = (r: SocketReceiveChatType) => {
-    setLastChat(r);
-  };
-
+  const messagesRef = useRef<any>();
+  const [getChatData, setgetChatData] = useState<getChat>();
+  const [socket, setSocket] = useState<Socket>();
   const scrollToBottom = () => {
     messagesRef.current.scrollIntoView({
       behavior: "smooth",
@@ -135,27 +73,22 @@ const Chat = () => {
       {/* {roomDetails && roomMessages && ( */}
       <>
         <ChatMessages ref={messagesRef}>
+          <h4>{Clicked_channel.hashed_value}</h4>
           {getChatData &&
-            getChatData
+            getChatData.results
               .slice(0)
               .reverse()
-              .map((chat, i) => {
-                return (
-                  <span key={i}>
-                    <ChatContext {...chat}></ChatContext>
-                  </span>
-                );
-              })}
+              .map((chat, i) => (
+                <span>
+                  <ChatContext key={i} id={chat.id} channel={chat.channel} chatter={chat.chatter} message={chat.message} created_at={chat.created_at}></ChatContext>
+                </span>
+              ))}
         </ChatMessages>
-        <ChatInput
-          receive={(input: SocketReceiveChatType) => {
-            ReceiveLastChat(input);
-          }}
-        />
+        <ChatInput />
       </>
     </ChatContainer>
   );
-};
+}
 
 export default Chat;
 

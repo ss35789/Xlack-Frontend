@@ -39,13 +39,20 @@ const items: TabsProps["items"] = [
 
 const ChannelSetting = () => {
   const dispatch = useDispatch();
-  const AboutChannel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
+  const AboutChannel = useSelector(
+    (state: RootState) => state.getMyWorkSpace.SearchedChannel
+  );
   useEffect(() => {
     console.log(AboutChannel.name);
   }, []);
   return (
     <>
-      <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div
+        className="relative z-10"
+        aria-labelledby="modal-title"
+        role="dialog"
+        aria-modal="true"
+      >
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -73,18 +80,28 @@ const ChannelSetting = () => {
                           </button>
                         </div>
                       </div>
-                      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+                      <Tabs
+                        defaultActiveKey="1"
+                        items={items}
+                        onChange={onChange}
+                      />
                       {/*헤더 끝*/}
                       <div className="flex">
                         <div className="px-4">
                           <div className="col-span-6 sm:col-span-4 py-1 mt-10">
                             <div>
-                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
+                              <label
+                                htmlFor="email-address"
+                                className="flex text-sm font-medium text-gray-700"
+                              >
                                 Full name
                               </label>
 
                               <div className="col-span-6 sm:col-span-3 mt-10">
-                                <label htmlFor="country" className="flex block text-sm font-medium text-gray-700">
+                                <label
+                                  htmlFor="country"
+                                  className="flex block text-sm font-medium text-gray-700"
+                                >
                                   Time zone
                                 </label>
                                 <select
@@ -98,7 +115,9 @@ const ChannelSetting = () => {
                                   <option>Mexico</option>
                                 </select>
                                 <h1 className="text-sm text-left opacity-60">
-                                  Your current time zone. Used to send summary and notification emails, for times in your activity feeds, and for reminders.
+                                  Your current time zone. Used to send summary
+                                  and notification emails, for times in your
+                                  activity feeds, and for reminders.
                                 </h1>
                               </div>
                             </div>
