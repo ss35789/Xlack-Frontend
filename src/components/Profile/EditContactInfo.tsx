@@ -22,20 +22,14 @@ const EditContactInfo = () => {
   const cancelCheckFunc = (cancel: boolean) => {
     setCancelCheck(cancel);
   };
-  const onChangeEditEmail = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditEmail(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_Email: true, Updated: true });
-    },
-    []
-  );
-  const onChangeEditPhone = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditPhone(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_Phone: true, Updated: true });
-    },
-    []
-  );
+  const onChangeEditEmail = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditEmail(e.target.value);
+    setUpdateCheck({ ...UpdateCheck, Update_Email: true, Updated: true });
+  }, []);
+  const onChangeEditPhone = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditPhone(e.target.value);
+    setUpdateCheck({ ...UpdateCheck, Update_Phone: true, Updated: true });
+  }, []);
 
   const UpdateProfile = async () => {
     formData.append("username", MyUser.username);
@@ -48,12 +42,12 @@ const EditContactInfo = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => {
+      .then(res => {
         window.alert("Complete Edit!");
         dispatch(getMyProfile(res.data));
         dispatch(EditContactInfoOnOff());
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.data);
         window.alert("Failed Edit ContactInfo");
       });
@@ -61,12 +55,7 @@ const EditContactInfo = () => {
 
   return (
     <>
-      <div
-        className="relative z-10"
-        aria-labelledby="modal-title"
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -85,10 +74,7 @@ const EditContactInfo = () => {
                         <div className="px-4">
                           <div className="col-span-6 sm:col-span-4 py-1 mt-10">
                             <div>
-                              <label
-                                htmlFor="email-address"
-                                className="flex text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
                                 Email Address
                               </label>
                               <input
@@ -100,10 +86,7 @@ const EditContactInfo = () => {
                               />
                             </div>
                             <div className="col-span-6 sm:col-span-4 mt-10">
-                              <label
-                                htmlFor="email-address"
-                                className="flex text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
                                 Phone
                               </label>
                               <input

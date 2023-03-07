@@ -1,14 +1,12 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
 import MenuList from "./Sidebar/ModalMenuList";
+
 interface ModalDefaultType {
   onClickToggleModal: () => void;
 }
 
-function Modal({
-  onClickToggleModal,
-  children,
-}: PropsWithChildren<ModalDefaultType>) {
+function Modal({ onClickToggleModal, children }: PropsWithChildren<ModalDefaultType>) {
   return (
     <ModalContainer>
       <DialogBox>
