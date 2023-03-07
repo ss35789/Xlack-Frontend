@@ -12,15 +12,9 @@ const Profile = () => {
   const [open, setOpen] = useState(true);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showEditContactInfo, setShowEditContactInfo] = useState(false);
-  const MyProfile = useSelector(
-    (state: RootState) => state.getMyProfile.userData
-  );
-  const onEditProfilePage = useSelector(
-    (state: RootState) => state.OnModal.OnEditProfilePage
-  );
-  const onEditContactInfo = useSelector(
-    (state: RootState) => state.OnModal.OnEditContactInfo
-  );
+  const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
+  const onEditProfilePage = useSelector((state: RootState) => state.OnModal.OnEditProfilePage);
+  const onEditContactInfo = useSelector((state: RootState) => state.OnModal.OnEditContactInfo);
   useEffect(() => {
     setOpen(!open);
     setShowEditProfile(false);
@@ -33,15 +27,7 @@ const Profile = () => {
     <>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-in-out duration-500"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in-out duration-500"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          <Transition.Child as={Fragment} enter="ease-in-out duration-500" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in-out duration-500" leaveFrom="opacity-100" leaveTo="opacity-0">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
@@ -94,9 +80,7 @@ const Profile = () => {
                     </div>
                     <hr />
                     <div className="flex justify-between mt-6">
-                      <h5 className="text-lg font-medium">
-                        {MyProfile.username}
-                      </h5>
+                      <h5 className="text-lg font-medium">{MyProfile.username}</h5>
                       <button
                         style={{ color: "blue" }}
                         onClick={() => {
@@ -126,9 +110,7 @@ const Profile = () => {
                     <hr />
                     <div>
                       <div className="flex justify-between mt-2">
-                        <h5 className="text-lg font-medium">
-                          Contact information
-                        </h5>
+                        <h5 className="text-lg font-medium">Contact information</h5>
                         <button
                           onClick={() => {
                             setShowEditContactInfo(true);
@@ -142,17 +124,13 @@ const Profile = () => {
 
                       <div className="mt-2">
                         <h1>Email Address</h1>
-                        <button style={{ color: "blue" }}>
-                          {MyProfile.email}
-                        </button>
+                        <button style={{ color: "blue" }}>{MyProfile.email}</button>
                       </div>
 
                       <div className="mt-2 py-5">
                         <h1>Phone</h1>
                         {MyProfile.phone_number !== null ? (
-                          <h1 style={{ color: "blue" }}>
-                            {MyProfile.phone_number}
-                          </h1>
+                          <h1 style={{ color: "blue" }}>{MyProfile.phone_number}</h1>
                         ) : (
                           <button
                             onClick={() => {
@@ -197,8 +175,7 @@ const CustomButton = styled.button`
   color: #3b3b3b;
   cursor: pointer;
   display: inline-block;
-  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 600;
   line-height: normal;

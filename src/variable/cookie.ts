@@ -15,12 +15,15 @@ export function UpdateToken() {
           refresh: check,
         },
         {
+          headers: {
+            Authorization: `Bearer ${at}`,
+          },
           validateStatus: function (status: number) {
             return status < 500;
           },
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         token_info = res;
         AccessToken(token_info, null);
       });
@@ -35,7 +38,7 @@ export async function AtVerify() {
       validateStatus: function (status: number) {
         return status < 500;
       },
-    }
+    },
   );
   return check.status;
 }
