@@ -10,7 +10,7 @@ import { bounceInRight } from "react-animations";
 function Login() {
   const onSuccess = (response: never) => {
     let token_info;
-    LoginDjango(response["code"]).then((res) => {
+    LoginDjango(response["code"]).then(res => {
       token_info = res;
       AccessToken(token_info, Date.now() + 3600000);
       //console.log(token_info);
@@ -21,23 +21,13 @@ function Login() {
 
   return (
     <LoginContainer>
-      <LoginGithub
-        clientId="9ac10cd868488ad0185b"
-        scope="read:user"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-      >
+      <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
         Sign In to Slack
       </LoginGithub>
-      <LoginMessage>
-        We'll take you to the Github login page, and bring you back here.
-      </LoginMessage>
+      <LoginMessage>We'll take you to the Github login page, and bring you back here.</LoginMessage>
       <LoginMessage>
         Is your team new to Slack?&nbsp;
-        <a
-          href={"http://localhost:3000/Workspace"}
-          style={{ color: "white", fontSize: "20px" }}
-        >
+        <a href={"http://localhost:3000/Workspace"} style={{ color: "white", fontSize: "20px" }}>
           Create a new Workspace
         </a>
       </LoginMessage>
