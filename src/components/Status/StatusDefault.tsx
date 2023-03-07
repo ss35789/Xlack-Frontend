@@ -55,6 +55,10 @@ const StatusDefault = () => {
     }
   }, [socket]);
   const sendStatus = (event: { preventDefault: () => void }) => {
+    setOpen(false);
+    console.log(status);
+    console.log(time);
+    console.log(emoji);
     event.preventDefault();
     if (socket) {
       console.log(socket);
@@ -67,17 +71,6 @@ const StatusDefault = () => {
       );
       console.log(status, emoji, time);
     }
-  };
-
-  const openStatusHandler = async () => {
-    SetopenStatus(!openStatus);
-  };
-  const handleClickToOpen = async () => {
-    setOpen(true);
-  };
-
-  const handleToClose = async () => {
-    setOpen(false);
   };
 
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,14 +86,16 @@ const StatusDefault = () => {
     setTime(e.target.value);
   }, []);
 
-  const handleToSave = async () => {
-    setOpen(false);
-    console.log(status);
-    console.log(time);
-    console.log(emoji);
-  };
   for (const element of options) {
-    Statusbtns.push(<StatusButton onClick={handleClickToOpen}>{element}</StatusButton>);
+    Statusbtns.push(
+      <StatusButton
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        {element}
+      </StatusButton>,
+    );
   }
   for (const element of options) {
     Options.push(<option>{element}</option>);
@@ -108,25 +103,34 @@ const StatusDefault = () => {
   for (const element of times) {
     Times.push(<option>{element}</option>);
   }
-  // const handleOnChange = async (e: { target: { value: any } }) => {
-  //   setStatus(e.target.value);
-  // };
-  //
-  // const handleOnChange_T = async (e: { target: { value: any } }) => {
-  //   setTime(e.target.value);
-  // };
 
   return (
     <div>
-      <button onClick={openStatusHandler}>
-        👍
+      <button
+        onClick={() => {
+          SetopenStatus(true);
+        }}
+      >
         {openStatus ? <Dialog open={openStatus}></Dialog> : ""}
       </button>
-      <StatusDiv placeholder={"🙂What is your Status"} value={status} onClick={handleClickToOpen} />
+      <StatusDiv
+        placeholder={"🙂What is your Status"}
+        value={status}
+        onClick={() => {
+          setOpen(true);
+        }}
+      />
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {Statusbtns}
-      <Dialog fullWidth={true} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
+      <Dialog
+        fullWidth={true}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperComponent={StyledPaper}
+      >
         <DialogTitle>{"Set a status(Manual)"}</DialogTitle>
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
@@ -140,13 +144,17 @@ const StatusDefault = () => {
           {Times}
         </TimeSelect>
         <DialogActions>
-          <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            variant="outlined"
+            color="inherit"
+            autoFocus
+          >
             Close
           </Button>
-          <Button onClick={sendStatus} variant="outlined" color="inherit" autoFocus>
-            sendStatus
-          </Button>
-          <Button onClick={handleToSave} variant="contained" color="success" autoFocus>
+          <Button onClick={sendStatus} variant="contained" color="success" autoFocus>
             Save
           </Button>
         </DialogActions>

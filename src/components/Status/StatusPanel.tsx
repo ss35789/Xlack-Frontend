@@ -9,31 +9,38 @@ import { Paper } from "@material-ui/core";
 import StatusDefault from "./StatusDefault";
 
 const StatusPanel = () => {
-  const [open, setOpen] = React.useState(false);
-  const [opendefault, setDefault] = React.useState(false);
-
-  const handleClickToOpen = async () => {
-    setOpen(true);
-  };
-  const detailClickToOpen = async () => {
-    setDefault(true);
-  };
-
-  const handleToClose = async () => {
-    setOpen(false);
-  };
+  const [open, setOpen] = React.useState(true);
 
   return (
     <div>
-      <ProfileButton onClick={handleClickToOpen}>Set a status</ProfileButton>
-      <Dialog fullWidth={true} scroll={"body"} open={open} onClose={handleToClose} PaperComponent={StyledPaper}>
+      <Dialog
+        fullWidth={true}
+        scroll={"body"}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        PaperComponent={StyledPaper}
+      >
         <DialogTitle>{"Set a status"}</DialogTitle>
-        {!detailClickToOpen ? <DefaultButton onClick={detailClickToOpen} children={opendefault} /> : <StatusDefault />}
+        <StatusDefault />
         <DialogActions>
-          <Button onClick={handleToClose} variant="outlined" color="inherit" autoFocus>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            variant="outlined"
+            color="inherit"
+          >
             Close
           </Button>
-          <Button onClick={handleToClose} variant="contained" color="success" autoFocus>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            variant="contained"
+            color="success"
+          >
             Save
           </Button>
         </DialogActions>
