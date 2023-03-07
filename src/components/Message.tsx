@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { MessageRec } from "./types";
+import { MessageRec } from "../types/types";
 
 function Message({ message, timestamp, user, userImage }: MessageRec) {
   return (

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, WorkspaceType } from "../components/types";
+import { ChatChannelType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -22,7 +22,7 @@ const initialState: struct = {
     name: "",
   },
   SearchedChannel: {
-    id: "",
+    id: -1,
     name: "default",
     hashed_value: "",
     description: "",
@@ -41,7 +41,7 @@ export const WorkSpaceSlice = createSlice({
         created_at: m.created_at,
         updated_at: m.updated_at,
         members: m.members,
-        chat_channel: m.chat_channel,
+        chat_channel: [],
         hashed_value: m.hashed_value,
         name: m.name,
       });
@@ -50,7 +50,9 @@ export const WorkSpaceSlice = createSlice({
       state.MyWorkSpace = [];
     },
     //현재 내가 클릭한 워크스페이스
-
+    getChannelList: (state, action: PayloadAction<ChatChannelType[]>) => {
+      state.ClickedWorkSpace.chat_channel = action.payload;
+    },
     SetClickedWorkSpace: (state, action: PayloadAction<string>) => {
       state.ClickedWorkSpace_hashed_value = action.payload;
     },
@@ -66,7 +68,7 @@ export const WorkSpaceSlice = createSlice({
     //현재 워크스페이스에서 channel.hashed_value를 이용해 channel의 정보 찾기
     SearchChannel: (state, action: PayloadAction<void>) => {
       const r = state.rightClicked_channel_hashed_value;
-      state.ClickedWorkSpace.chat_channel.forEach(value => {
+      state.ClickedWorkSpace.chat_channel?.forEach(value => {
         if (value.hashed_value === r) {
           state.SearchedChannel = value;
         }
@@ -78,5 +80,5 @@ export const WorkSpaceSlice = createSlice({
   },
 });
 
-export const { getWorkSpace, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
+export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

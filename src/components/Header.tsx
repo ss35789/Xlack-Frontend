@@ -19,10 +19,7 @@ function Header() {
   useEffect(() => {
     // historyMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
-      if (
-        historyMenuRef.current &&
-        !historyMenuRef.current.contains(e.target as Node)
-      ) {
+      if (historyMenuRef.current && !historyMenuRef.current.contains(e.target as Node)) {
         setShowHistorymenu(false);
       }
     }
@@ -36,10 +33,7 @@ function Header() {
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
-      if (
-        profileMenuRef.current &&
-        !profileMenuRef.current.contains(e.target as Node)
-      ) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target as Node)) {
         setShowProfile(false);
       }
     }
@@ -55,7 +49,7 @@ function Header() {
       {/* Header Left */}
       <HeaderLeft ref={historyMenuRef}>
         <AccessTimeIcon
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             setShowHistorymenu(!showHistorymenu);
           }}
@@ -78,7 +72,7 @@ function Header() {
         <HeaderAvatar
           ref={profileMenuRef}
           src={MyUser.profile_image}
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             setShowProfile(!showProfile);
           }}

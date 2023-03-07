@@ -2,21 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
-import { UpdateRoom } from "../../variable/UpdateChannelSlice";
+import { Update } from "../../variable/UpdateChannelSlice";
 import axios from "axios";
 import { at, backUrl } from "../../variable/cookie";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 
 const ChannelMenu = (props: any) => {
-  const enterRoomId = useSelector(
-    (state: RootState) => state.ClickedChannel.hashed_value
-  ); // 현재 우리가 클릭한 채널id
+  const enterRoomId = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value); // 현재 우리가 클릭한 채널id
   const dispatch = useDispatch();
   const editChannelName = async () => {
     try {
-      const newChannelName: string | null = prompt(
-        "Please enter the channel name"
-      );
+      const newChannelName: string | null = prompt("Please enter the channel name");
       await axios.put(
         `${backUrl}channel/${enterRoomId}/`,
         {
@@ -26,9 +22,9 @@ const ChannelMenu = (props: any) => {
           headers: {
             Authorization: `Bearer ${at}`,
           },
-        }
+        },
       );
-      dispatch(UpdateRoom());
+      dispatch(Update());
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +45,7 @@ const ChannelMenu = (props: any) => {
       console.log(err);
     }
 
-    dispatch(UpdateRoom());
+    dispatch(Update());
   };
 
   return (

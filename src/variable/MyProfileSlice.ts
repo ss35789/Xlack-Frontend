@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CustomUserType } from "../components/types";
+import { CustomUserType } from "../types/types";
 
-interface strut {
+interface struct {
   userData: CustomUserType;
 }
 
-const initialState: strut = {
+const initialState: struct = {
   userData: {
+    id: -1,
     username: "default_username",
     email: "default_email",
     display_name: "default_display_name",
