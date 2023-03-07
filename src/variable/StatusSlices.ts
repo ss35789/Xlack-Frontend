@@ -1,4 +1,4 @@
-import { Status } from "../components/types";
+import { Status } from "../types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface struct {
   statusData: Status;
