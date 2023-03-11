@@ -68,7 +68,15 @@ function ChatInput(props: any) {
   return (
     <ChatInputContainer>
       <form>
-        <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`} />
+        <input
+          ref={inputRef}
+          onChange={e => {
+            const inputMsg = e.target.value;
+            setmsg(inputMsg);
+            if (inputMsg.startsWith("@")) console.log("Call mention");
+          }}
+          placeholder={`Message #`}
+        />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
