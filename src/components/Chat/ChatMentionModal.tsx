@@ -1,8 +1,14 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MentionProps } from "../../types/types";
 
-const ChatMentionModal = (props: any) => {
-  const [callingMentionArr, setCallingMentionArr] = useState([
+const ChatMentionModal = (props: MentionProps) => {
+  interface Mentions {
+    name: string;
+    state: string;
+  }
+
+  const CalleverDataArr: Mentions[] = [
     {
       name: "Sangmin",
       state: "good",
@@ -11,7 +17,23 @@ const ChatMentionModal = (props: any) => {
       name: "test",
       state: "bad",
     },
-  ]);
+  ];
+
+  const [callingMentionArr, setCallingMentionArr] = useState<Mentions[]>(CalleverDataArr);
+  useEffect(() => {
+    if (props.inputMsg.length == 1) {
+      setCallingMentionArr(CalleverDataArr);
+    } else {
+      const tmpArr: Mentions[] = [];
+      CalleverDataArr.forEach(v => {
+        if (v.name.startsWith(props.inputMsg.split("@")[1])) {
+          tmpArr.push(v);
+        }
+      });
+      setCallingMentionArr(tmpArr);
+    }
+  }, [props.inputMsg]);
+
   return (
     <>
       <div className="text-left">

@@ -38,6 +38,10 @@ export interface ChannelType {
 // export interface UserType{
 
 // }
+export interface MentionProps {
+  inputMsg: string;
+}
+
 export interface ChatType {
   id: string;
   // title: Id

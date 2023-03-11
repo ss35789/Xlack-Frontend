@@ -8,7 +8,7 @@ import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice
 import ChatMentionModal from "./ChatMentionModal";
 
 function ChatInput(props: any) {
-  const [msg, setmsg] = useState("");
+  const [msg, setmsg] = useState<string>("");
   const [socket, setsocket] = useState<WebSocket>();
   const [showMentionModal, setShowMentionModal] = useState(false);
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
@@ -67,6 +67,11 @@ function ChatInput(props: any) {
     }
   };
 
+  // const ChooseMention = (name: string) => {
+  //   setmsg("@" + name + "  " + { msg });
+  //   setShowMentionModal(false);
+  // };
+
   return (
     <>
       <ChatInputContainer>
@@ -89,7 +94,7 @@ function ChatInput(props: any) {
           <button hidden type="submit" onClick={sendMessage}>
             SEND
           </button>
-          {showMentionModal && <ChatMentionModal />}
+          {showMentionModal && <ChatMentionModal inputMsg={msg} />}
         </form>
       </ChatInputContainer>
     </>
