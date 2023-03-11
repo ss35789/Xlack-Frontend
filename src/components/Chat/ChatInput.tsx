@@ -5,10 +5,12 @@ import { RootState } from "../../app/store";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
+import ChatMentionModal from "./ChatMentionModal";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
+  const [showMentionModal, setShowMentionModal] = useState(false);
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -66,22 +68,31 @@ function ChatInput(props: any) {
   };
 
   return (
-    <ChatInputContainer>
-      <form>
-        <input
-          ref={inputRef}
-          onChange={e => {
-            const inputMsg = e.target.value;
-            setmsg(inputMsg);
-            if (inputMsg.startsWith("@")) console.log("Call mention");
-          }}
-          placeholder={`Message #`}
-        />
-        <button hidden type="submit" onClick={sendMessage}>
-          SEND
-        </button>
-      </form>
-    </ChatInputContainer>
+    <>
+      <ChatInputContainer>
+        <form>
+          <input
+            ref={inputRef}
+            onChange={e => {
+              const inputMsg = e.target.value;
+              setmsg(inputMsg);
+              if (inputMsg.split(" ")[0].startsWith("@")) {
+                // 모달 띄우고 클릭시 해당 문구 앞에 추가
+                setShowMentionModal(true);
+                console.log("call mention");
+              } else {
+                setShowMentionModal(false);
+              }
+            }}
+            placeholder={`Message #`}
+          />
+          <button hidden type="submit" onClick={sendMessage}>
+            SEND
+          </button>
+          {showMentionModal && <ChatMentionModal />}
+        </form>
+      </ChatInputContainer>
+    </>
   );
 }
 
