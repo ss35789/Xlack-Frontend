@@ -72,10 +72,14 @@ function ChatInput(props: any) {
     }
   };
 
-  // const ChooseMention = (name: string) => {
-  //   setmsg("@" + name + "  " + { msg });
-  //   setShowMentionModal(false);
-  // };
+  const ChooseMention = (name: string) => {
+    if (inputRef.current) {
+      // enter 치면 chatbox 공백으로 초기화 됨
+      inputRef.current.value = "@" + name + " ";
+      setmsg("@" + name + " ");
+    }
+    setShowMentionModal(false);
+  };
 
   return (
     <>
@@ -87,7 +91,7 @@ function ChatInput(props: any) {
               const inputMsg = e.target.value;
               setmsg(inputMsg);
               inputMsg.split(" ").forEach(v => {
-                if (v.startsWith("@")) {
+                if (v && v.startsWith("@")) {
                   // 모달 띄우고 클릭시 해당 문구 앞에 추가
                   setShowMentionModal(true);
                   console.log("call mention");
@@ -101,7 +105,7 @@ function ChatInput(props: any) {
           <button hidden type="submit" onClick={sendMessage}>
             SEND
           </button>
-          {showMentionModal && <ChatMentionModal inputMsg={msg} />}
+          {showMentionModal && <ChatMentionModal inputMsg={msg} Choose={ChooseMention} />}
         </form>
       </ChatInputContainer>
     </>

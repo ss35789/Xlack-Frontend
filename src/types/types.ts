@@ -46,6 +46,7 @@ export interface ChannelType {
 // }
 export interface MentionProps {
   inputMsg: string;
+  Choose: (name: string) => void;
 }
 
 export interface ChatType {
