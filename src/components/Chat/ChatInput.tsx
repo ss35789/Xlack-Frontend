@@ -81,13 +81,15 @@ function ChatInput(props: any) {
             onChange={e => {
               const inputMsg = e.target.value;
               setmsg(inputMsg);
-              if (inputMsg.split(" ")[0].startsWith("@")) {
-                // 모달 띄우고 클릭시 해당 문구 앞에 추가
-                setShowMentionModal(true);
-                console.log("call mention");
-              } else {
-                setShowMentionModal(false);
-              }
+              inputMsg.split(" ").forEach(v => {
+                if (v.startsWith("@")) {
+                  // 모달 띄우고 클릭시 해당 문구 앞에 추가
+                  setShowMentionModal(true);
+                  console.log("call mention");
+                } else {
+                  setShowMentionModal(false);
+                }
+              });
             }}
             placeholder={`Message #`}
           />
