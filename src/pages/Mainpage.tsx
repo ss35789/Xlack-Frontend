@@ -22,6 +22,25 @@ const Mainpage = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
   const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
+  const GetChatInAllChannel = (WspArr: WorkspaceType[]) => {
+    WspArr.forEach(w => {
+      w.chat_channel?.forEach(async channel => {
+        try {
+          const res = await axios.get(`${backUrl}chat/${channel.hashed_value}/`, {
+            headers: {
+              Authorization: `Bearer ${at}`,
+            },
+          });
+          //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
+          setGetChatData(res.data);
+          console.log(res.data);
+        } catch (err) {
+          console.log("receiveChatError: ", err);
+        }
+      });
+    });
+  };
+
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -63,6 +82,7 @@ const Mainpage = () => {
   useEffect(() => {
     dispatch(CallClickedWorkSpace());
     dispatch(SearchChannel());
+    GetChatInAllChannel(Workspace);
   }, [Workspace]);
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);

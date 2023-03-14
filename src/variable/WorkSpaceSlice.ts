@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -78,6 +78,7 @@ export const WorkSpaceSlice = createSlice({
     rightClick_channel: (state, action: PayloadAction<string>) => {
       state.rightClicked_channel_hashed_value = action.payload;
     },
+    SaveChat: (state, action: PayloadAction<ChatChannelType, ChatType[]>) => {},
   },
 });
 
