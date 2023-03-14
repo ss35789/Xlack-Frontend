@@ -20,6 +20,11 @@ function ChatInput(props: any) {
     if (enterChannelHv !== "") {
       setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
     }
+    if (inputRef.current) {
+      // enter 치면 chatbox 공백으로 초기화 됨
+      inputRef.current.value = "";
+      setmsg("");
+    }
   }, [enterChannelHv]);
 
   useEffect(() => {

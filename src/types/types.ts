@@ -8,6 +8,12 @@ export interface CustomUserType {
   profile_image: string;
 }
 
+export interface Mention {
+  name: string;
+  state?: string;
+  Img?: string;
+}
+
 export interface ChatChannelType {
   id: number;
   name: string;
