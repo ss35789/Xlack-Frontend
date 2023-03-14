@@ -2,9 +2,7 @@ import React from "react";
 import { WorkspaceType } from "../../types/types";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { CallClickedWorkSpace, getChannelList, SetClickedWorkSpace } from "../../variable/WorkSpaceSlice";
-import { at, backUrl } from "../../variable/cookie";
-import axios from "axios";
+import { CallClickedWorkSpace, SetClickedWorkSpace } from "../../variable/WorkSpaceSlice";
 
 function Workspace(props: WorkspaceType) {
   return (
@@ -16,20 +14,20 @@ function Workspace(props: WorkspaceType) {
 
 export function SelectWorkspace(prop: WorkspaceType) {
   const dispatch = useDispatch();
-  const getChannelListInCurrentWorkspace = async (workspace_hv: string) => {
-    await axios
-      .get(`${backUrl}channel/${workspace_hv}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      })
-      .then(res => {
-        dispatch(getChannelList(res.data));
-      })
-      .catch(err => {
-        console.log("getChannelListInCurrentWorkspace err : ", err);
-      });
-  };
+  // const getChannelListInCurrentWorkspace = async (workspace_hv: string) => {
+  //   await axios
+  //     .get(`${backUrl}channel/${workspace_hv}/`, {
+  //       headers: {
+  //         Authorization: `Bearer ${at}`,
+  //       },
+  //     })
+  //     .then(res => {
+  //       dispatch(getChannelList(res.data));
+  //     })
+  //     .catch(err => {
+  //       console.log("getChannelListInCurrentWorkspace err : ", err);
+  //     });
+  // };
 
   return (
     <WorkspaceContainer>
@@ -38,7 +36,7 @@ export function SelectWorkspace(prop: WorkspaceType) {
           onClick={() => {
             dispatch(SetClickedWorkSpace(prop.hashed_value));
             dispatch(CallClickedWorkSpace());
-            getChannelListInCurrentWorkspace(prop.hashed_value);
+            // getChannelListInCurrentWorkspace(prop.hashed_value);
             console.log("내가 현재 보는 워크스페이스 이름:", prop.name);
           }}
         >

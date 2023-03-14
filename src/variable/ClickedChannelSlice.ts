@@ -12,6 +12,7 @@ const initialState: struct = {
     name: "",
     hashed_value: "",
     description: "",
+    Chats: [],
     members: [],
     admins: [],
   },
