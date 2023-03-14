@@ -13,6 +13,7 @@ export interface ChatChannelType {
   name: string;
   hashed_value: string;
   description: string;
+  Chats: ChatType[];
   members: CustomUserType[];
   admins: CustomUserType[];
 }
