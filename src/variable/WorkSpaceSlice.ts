@@ -78,9 +78,19 @@ export const WorkSpaceSlice = createSlice({
     rightClick_channel: (state, action: PayloadAction<string>) => {
       state.rightClicked_channel_hashed_value = action.payload;
     },
-    SaveChat: (state, action: PayloadAction<ChatChannelType, ChatType[]>) => {},
+    SaveChat: (state, action: PayloadAction<[ChatChannelType, ChatType[]]>) => {
+      const channel = action.payload[0];
+      const ChatArr = action.payload[1];
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === channel.hashed_value) {
+            c.Chats = ChatArr;
+          }
+        });
+      });
+    },
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
+export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

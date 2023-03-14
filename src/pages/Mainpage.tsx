@@ -7,7 +7,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { CallClickedWorkSpace, clearWorkSpace, getWorkSpace, SearchChannel } from "../variable/WorkSpaceSlice";
+import { CallClickedWorkSpace, clearWorkSpace, getWorkSpace, SaveChat, SearchChannel } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../types/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
@@ -22,22 +22,20 @@ const Mainpage = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
   const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
-  const GetChatInAllChannel = (WspArr: WorkspaceType[]) => {
-    WspArr.forEach(w => {
-      w.chat_channel?.forEach(async channel => {
-        try {
-          const res = await axios.get(`${backUrl}chat/${channel.hashed_value}/`, {
-            headers: {
-              Authorization: `Bearer ${at}`,
-            },
-          });
-          //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
-          setGetChatData(res.data);
-          console.log(res.data);
-        } catch (err) {
-          console.log("receiveChatError: ", err);
-        }
-      });
+  const GetChatInAllChannel = (Ws: WorkspaceType) => {
+    Ws.chat_channel?.forEach(async channel => {
+      try {
+        const res = await axios.get(`${backUrl}chat/${channel.hashed_value}/`, {
+          headers: {
+            Authorization: `Bearer ${at}`,
+          },
+        });
+        //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
+        dispatch(SaveChat([channel, res.data]));
+        console.log(res.data);
+      } catch (err) {
+        console.log("receiveChatError: ", err);
+      }
     });
   };
 
@@ -70,6 +68,7 @@ const Mainpage = () => {
         dispatch(clearWorkSpace());
         res.data.map((value: WorkspaceType) => {
           dispatch(getWorkSpace(value));
+          GetChatInAllChannel(value);
         });
       })
       .catch(e => console.log("getWorkspace error : ", e));
@@ -82,7 +81,6 @@ const Mainpage = () => {
   useEffect(() => {
     dispatch(CallClickedWorkSpace());
     dispatch(SearchChannel());
-    GetChatInAllChannel(Workspace);
   }, [Workspace]);
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);

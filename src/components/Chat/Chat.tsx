@@ -46,29 +46,14 @@ const Chat = () => {
       console.log("receiveChatBookmarkError: ", err);
     }
   };
-  const receiveChatData = async () => {
-    try {
-      const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      });
-      //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
-      setGetChatData(res.data);
-      console.log(res.data);
-    } catch (err) {
-      console.log("receiveChatError: ", err);
-    }
-  };
+
   //setGetChatData에 저장해놓은 해당 채널의 Chats정보를 불러와야함
   useEffect(() => {
     setGetChatData([]);
   }, [currentWorkspace]);
   useEffect(() => {
     console.log("저장된 채널:", Clicked_channel);
-    if (Clicked_channel.hashed_value) {
-      receiveChatData();
-    }
+    if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
   }, [Clicked_channel, UpdateBookmark]);
   useEffect(() => {
     if (lastChat !== "-1") {
