@@ -60,6 +60,7 @@ const Chat = () => {
       console.log("receiveChatError: ", err);
     }
   };
+  //setGetChatData에 저장해놓은 해당 채널의 Chats정보를 불러와야함
   useEffect(() => {
     setGetChatData([]);
   }, [currentWorkspace]);
