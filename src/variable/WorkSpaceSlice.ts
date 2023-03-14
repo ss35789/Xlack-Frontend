@@ -41,7 +41,7 @@ export const WorkSpaceSlice = createSlice({
         created_at: m.created_at,
         updated_at: m.updated_at,
         members: m.members,
-        chat_channel: [],
+        chat_channel: m.chat_channel,
         hashed_value: m.hashed_value,
         name: m.name,
       });
