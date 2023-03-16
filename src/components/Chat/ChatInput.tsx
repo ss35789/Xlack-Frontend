@@ -10,39 +10,33 @@ function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
+  const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    Myworkspace.forEach(w => {
-      w.chat_channel?.forEach(c => {
-        const channel_hv = c.hashed_value;
-        const webSocket = new WebSocket(`${WsUrl_chat}${channel_hv}/`);
-        setMyWebSocket([{ ch_hv: channel_hv, wb: webSocket }, ...MyWebSocket]);
-        webSocket.onopen = () => {
-          webSocket.send(
-            JSON.stringify({
-              authorization: at,
-            }),
-          );
-          console.log("웹소켓 연결");
-        };
-        webSocket.onmessage = message => {
-          // 클라이언트로부터 메시지 수신 시
-          const m = JSON.parse(message.data);
-          dispatch(findUserDataInClickedChannel(m.user_id));
-          props.receive(webSocket, m);
-          dispatch(UpdateChat());
-        };
-        webSocket.onerror = () => {
-          console.log(event);
-        };
+    if (CompleteGetWorkspace) {
+      Myworkspace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          const channel_hv = c.hashed_value;
+          const webSocket = new WebSocket(`${WsUrl_chat}${channel_hv}/`);
+          MyWebSocket.push({ ch_hv: c.hashed_value, wb: webSocket });
+          webSocket.onopen = () => {
+            webSocket.send(
+              JSON.stringify({
+                authorization: at,
+              }),
+            );
+            console.log("웹소켓 연결");
+          };
+        });
       });
-    });
-  }, []);
+    }
+  }, [CompleteGetWorkspace]);
   useEffect(() => {
+    console.log("입력하려는 웹소켓", MyWebSocket);
     MyWebSocket.forEach(w => {
       if (w.ch_hv === enterChannelHv) {
         setsocket(w.wb);
@@ -73,13 +67,21 @@ function ChatInput(props: any) {
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket) {
-      console.log(socket);
       socket.send(
         JSON.stringify({
           message: msg,
         }),
       );
-
+      socket.onmessage = message => {
+        // 클라이언트로부터 메시지 수신 시
+        const m = JSON.parse(message.data);
+        dispatch(findUserDataInClickedChannel(m.user_id));
+        props.receive(socket, m);
+        dispatch(UpdateChat());
+      };
+      socket.onerror = () => {
+        console.log(event);
+      };
       console.log(msg);
     }
 

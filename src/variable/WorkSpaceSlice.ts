@@ -7,6 +7,7 @@ interface struct {
   ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
+  CompletegetWorkspace: boolean;
 }
 
 const initialState: struct = {
@@ -30,6 +31,7 @@ const initialState: struct = {
     members: [],
     admins: [],
   },
+  CompletegetWorkspace: false,
 };
 
 export const WorkSpaceSlice = createSlice({
@@ -100,8 +102,11 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
+    CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
+      state.CompletegetWorkspace = true;
+    },
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, AppendChat } = WorkSpaceSlice.actions;
+export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, CompleteGetMyWorkspace } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

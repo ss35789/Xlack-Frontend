@@ -57,13 +57,13 @@ const Chat = () => {
     console.log("저장된 채널:", Clicked_channel);
     if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
   }, [Clicked_channel, UpdateBookmark]);
-  // useEffect(() => {
-  //   if (lastChat !== "-1") {
-  //     console.log("최근 받은 메세지", lastChat);
-  //     //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-  //     setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
-  //   }
-  // }, [lastChat]);
+  useEffect(() => {
+    if (lastChat !== "-1") {
+      console.log("최근 받은 메세지", lastChat);
+      //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
+      setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
+    }
+  }, [lastChat]);
   useEffect(() => {
     if (ClickedBookmark) {
       receiveChatBookmarkData();
