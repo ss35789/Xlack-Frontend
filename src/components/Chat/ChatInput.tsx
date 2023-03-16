@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
-import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 
@@ -11,28 +10,48 @@ function ChatInput(props: any) {
   const [socket, setsocket] = useState<WebSocket>();
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const MyWebSocket = useSelector((state: RootState) => state.getMyWorkSpace.WebSocket);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (socket) socket.close();
-    if (enterChannelHv !== "") {
-      setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
-    }
-  }, [enterChannelHv]);
 
   useEffect(() => {
-    console.log("현재 소켓", enterChannelHv);
-    if (socket) {
-      socket.onopen = () => {
-        socket.send(
-          JSON.stringify({
-            authorization: at,
-          }),
-        );
-        console.log("웹소켓 연결");
+    MyWebSocket.forEach(w => {
+      if (w[0] === enterChannelHv) {
+        setsocket(w[1]);
+      }
+
+      w[1].onmessage = message => {
+        // 클라이언트로부터 메시지 수신 시
+        const m = JSON.parse(message.data);
+        dispatch(findUserDataInClickedChannel(m.user_id));
+        props.receive(m);
+        dispatch(UpdateChat());
       };
-    }
-  }, [socket]);
+      w[1].onerror = () => {
+        console.log(event);
+      };
+    });
+  }, [enterChannelHv]);
+  // useEffect(() => {
+  //   if (socket) socket.close();
+  //   if (enterChannelHv !== "") {
+  //     setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
+  //   }
+  // }, [enterChannelHv]);
+  //
+  // useEffect(() => {
+  //   console.log("현재 소켓", enterChannelHv);
+  //   if (socket) {
+  //     socket.onopen = () => {
+  //       socket.send(
+  //         JSON.stringify({
+  //           authorization: at,
+  //         }),
+  //       );
+  //       console.log("웹소켓 연결");
+  //     };
+  //   }
+  // }, [socket]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -45,17 +64,6 @@ function ChatInput(props: any) {
       );
 
       console.log(msg);
-
-      socket.onmessage = message => {
-        // 클라이언트로부터 메시지 수신 시
-        const m = JSON.parse(message.data);
-        dispatch(findUserDataInClickedChannel(m.user_id));
-        props.receive(m);
-        dispatch(UpdateChat());
-      };
-      socket.onerror = () => {
-        console.log(event);
-      };
     }
 
     if (inputRef.current) {
