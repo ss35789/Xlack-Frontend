@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
@@ -12,9 +12,11 @@ const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
   const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
+  const MyWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
   const [lastChat, setLastChat] = useState<any>("-1");
+  const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
   const receiveChatBookmarkData = async () => {
@@ -55,13 +57,13 @@ const Chat = () => {
     console.log("저장된 채널:", Clicked_channel);
     if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
   }, [Clicked_channel, UpdateBookmark]);
-  useEffect(() => {
-    if (lastChat !== "-1") {
-      console.log("최근 받은 메세지", lastChat);
-      //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-      setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
-    }
-  }, [lastChat]);
+  // useEffect(() => {
+  //   if (lastChat !== "-1") {
+  //     console.log("최근 받은 메세지", lastChat);
+  //     //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
+  //     setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
+  //   }
+  // }, [lastChat]);
   useEffect(() => {
     if (ClickedBookmark) {
       receiveChatBookmarkData();
@@ -80,7 +82,13 @@ const Chat = () => {
     return c;
   };
 
-  const ReceiveLastChat = (r: SocketReceiveChatType) => {
+  const ReceiveLastChat = (w: WebSocket, r: SocketReceiveChatType) => {
+    // ConnectingWebSocket.forEach(v => {
+    //   if (v.w === w) {
+    //     dispatch(AppendChat([v.ch_hv, MakeChatDataFromLastChat(r)]));
+    //   }
+    // });
+    // console.log("scsc", currentWorkspace);
     setLastChat(r);
   };
 
@@ -133,8 +141,8 @@ const Chat = () => {
               })}
         </ChatMessages>
         <ChatInput
-          receive={(input: SocketReceiveChatType) => {
-            ReceiveLastChat(input);
+          receive={(w: WebSocket, input: SocketReceiveChatType) => {
+            ReceiveLastChat(w, input);
           }}
         />
       </>

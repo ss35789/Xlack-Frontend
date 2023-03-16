@@ -4,32 +4,49 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
+import { at, WsUrl_chat } from "../../variable/cookie";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
+  const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const MyWebSocket = useSelector((state: RootState) => state.getMyWorkSpace.WebSocket);
+  const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
 
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    Myworkspace.forEach(w => {
+      w.chat_channel?.forEach(c => {
+        const channel_hv = c.hashed_value;
+        const webSocket = new WebSocket(`${WsUrl_chat}${channel_hv}/`);
+        setMyWebSocket([{ ch_hv: channel_hv, wb: webSocket }, ...MyWebSocket]);
+        webSocket.onopen = () => {
+          webSocket.send(
+            JSON.stringify({
+              authorization: at,
+            }),
+          );
+          console.log("웹소켓 연결");
+        };
+        webSocket.onmessage = message => {
+          // 클라이언트로부터 메시지 수신 시
+          const m = JSON.parse(message.data);
+          dispatch(findUserDataInClickedChannel(m.user_id));
+          props.receive(webSocket, m);
+          dispatch(UpdateChat());
+        };
+        webSocket.onerror = () => {
+          console.log(event);
+        };
+      });
+    });
+  }, []);
   useEffect(() => {
     MyWebSocket.forEach(w => {
-      if (w[0] === enterChannelHv) {
-        setsocket(w[1]);
+      if (w.ch_hv === enterChannelHv) {
+        setsocket(w.wb);
       }
-
-      w[1].onmessage = message => {
-        // 클라이언트로부터 메시지 수신 시
-        const m = JSON.parse(message.data);
-        dispatch(findUserDataInClickedChannel(m.user_id));
-        props.receive(m);
-        dispatch(UpdateChat());
-      };
-      w[1].onerror = () => {
-        console.log(event);
-      };
     });
   }, [enterChannelHv]);
   // useEffect(() => {

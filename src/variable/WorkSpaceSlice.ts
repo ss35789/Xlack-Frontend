@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
-import { at, WsUrl_chat } from "./cookie";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -8,7 +7,6 @@ interface struct {
   ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
-  WebSocket: [string, WebSocket][];
 }
 
 const initialState: struct = {
@@ -32,7 +30,6 @@ const initialState: struct = {
     members: [],
     admins: [],
   },
-  WebSocket: [],
 };
 
 export const WorkSpaceSlice = createSlice({
@@ -92,21 +89,19 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
-    ConnectWebSocket: (state, action: PayloadAction<string>) => {
-      const channel_hv = action.payload;
-      const webSocket = new WebSocket(`${WsUrl_chat}${channel_hv}/`);
-      state.WebSocket.push([channel_hv, webSocket]);
-      webSocket.onopen = () => {
-        webSocket.send(
-          JSON.stringify({
-            authorization: at,
-          }),
-        );
-        console.log("웹소켓 연결");
-      };
+    AppendChat: (state, action: PayloadAction<[string, ChatType]>) => {
+      const channel_hv = action.payload[0];
+      const Chat = action.payload[1];
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === channel_hv) {
+            c.Chats.push(Chat);
+          }
+        });
+      });
     },
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, ConnectWebSocket } = WorkSpaceSlice.actions;
+export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, AppendChat } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

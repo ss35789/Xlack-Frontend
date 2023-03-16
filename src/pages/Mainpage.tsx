@@ -7,7 +7,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { CallClickedWorkSpace, clearWorkSpace, ConnectWebSocket, getWorkSpace, SaveChat, SearchChannel } from "../variable/WorkSpaceSlice";
+import { CallClickedWorkSpace, clearWorkSpace, getWorkSpace, SaveChat, SearchChannel } from "../variable/WorkSpaceSlice";
 import { WorkspaceType } from "../types/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
@@ -36,7 +36,6 @@ const Mainpage = () => {
       } catch (err) {
         console.log("receiveChatError: ", err);
       }
-      dispatch(ConnectWebSocket(channel.hashed_value));
     });
   };
 
