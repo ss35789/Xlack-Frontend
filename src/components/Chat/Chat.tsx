@@ -2,19 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
+import { AppendChat } from "../../variable/WorkSpaceSlice";
 
 const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
   const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
+  const MyWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
   const [lastChat, setLastChat] = useState<any>("-1");
+  const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
   const receiveChatBookmarkData = async () => {
@@ -47,10 +50,6 @@ const Chat = () => {
     }
   };
 
-  //setGetChatData에 저장해놓은 해당 채널의 Chats정보를 불러와야함
-  useEffect(() => {
-    setGetChatData([]);
-  }, [currentWorkspace]);
   useEffect(() => {
     console.log("저장된 채널:", Clicked_channel);
     if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
@@ -80,8 +79,15 @@ const Chat = () => {
     return c;
   };
 
-  const ReceiveLastChat = (r: SocketReceiveChatType) => {
-    setLastChat(r);
+  const ReceiveLastChat = (ch_hv: string, r: SocketReceiveChatType) => {
+    console.log("ReceiveLasChat발동");
+    dispatch(AppendChat([ch_hv, MakeChatDataFromLastChat(r)]));
+    //최근에 받아온 데이터를 redux에 저장한 channel의 챗에 추가
+    if (ch_hv === Clicked_channel.hashed_value) {
+      setLastChat(r);
+    }
+    //새로 온 메세지가 지금 보고 있는 채널이면 바로 갱신
+    console.log(MyWorkspace);
   };
 
   const scrollToBottom = () => {
@@ -133,8 +139,8 @@ const Chat = () => {
               })}
         </ChatMessages>
         <ChatInput
-          receive={(input: SocketReceiveChatType) => {
-            ReceiveLastChat(input);
+          receive={(ch_hv: string, input: SocketReceiveChatType) => {
+            ReceiveLastChat(ch_hv, input);
           }}
         />
       </>

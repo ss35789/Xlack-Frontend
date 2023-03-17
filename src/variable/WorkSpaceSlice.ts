@@ -7,6 +7,7 @@ interface struct {
   ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
+  CompletegetWorkspace: boolean;
 }
 
 const initialState: struct = {
@@ -30,6 +31,7 @@ const initialState: struct = {
     members: [],
     admins: [],
   },
+  CompletegetWorkspace: false,
 };
 
 export const WorkSpaceSlice = createSlice({
@@ -89,8 +91,26 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
+    AppendChat: (state, action: PayloadAction<[string, ChatType]>) => {
+      console.log("AppendChat발동");
+      const channel_hv = action.payload[0];
+      const Chat = action.payload[1];
+      state.MyWorkSpace.forEach((w, i) => {
+        w.chat_channel?.forEach((c, x) => {
+          if (c.hashed_value === channel_hv) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            state.MyWorkSpace[i].chat_channel[x].Chats.unshift(Chat);
+          }
+        });
+      });
+    },
+    CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
+      state.CompletegetWorkspace = true;
+    },
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat } = WorkSpaceSlice.actions;
+export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, CompleteGetMyWorkspace, AppendChat } =
+  WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
