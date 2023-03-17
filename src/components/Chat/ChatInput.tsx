@@ -29,6 +29,7 @@ function ChatInput(props: any) {
                 authorization: at,
               }),
             );
+
             console.log("웹소켓 연결");
           };
         });
@@ -40,6 +41,18 @@ function ChatInput(props: any) {
     MyWebSocket.forEach(w => {
       if (w.ch_hv === enterChannelHv) {
         setsocket(w.wb);
+      }
+      if (enterChannelHv !== "") {
+        w.wb.onmessage = message => {
+          // 클라이언트로부터 메시지 수신 시
+          const m = JSON.parse(message.data);
+          dispatch(findUserDataInClickedChannel(m.user_id));
+          props.receive(w.ch_hv, m);
+          dispatch(UpdateChat());
+        };
+        w.wb.onerror = () => {
+          console.log(event);
+        };
       }
     });
   }, [enterChannelHv]);
@@ -72,16 +85,6 @@ function ChatInput(props: any) {
           message: msg,
         }),
       );
-      socket.onmessage = message => {
-        // 클라이언트로부터 메시지 수신 시
-        const m = JSON.parse(message.data);
-        dispatch(findUserDataInClickedChannel(m.user_id));
-        props.receive(socket, m);
-        dispatch(UpdateChat());
-      };
-      socket.onerror = () => {
-        console.log(event);
-      };
       console.log(msg);
     }
 

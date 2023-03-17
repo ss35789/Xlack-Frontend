@@ -10,7 +10,7 @@ import ChannelMenu from "../Channel/ChannelMenu";
 import { setClickedChannel, setUnClickedChannel } from "../../variable/ClickedChannelSlice";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
-import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
+import { CallClickedWorkSpace, rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
 import { setClickBookmarkPage } from "../../variable/ChatBookmarkSlice";
 
 function Sidebar() {
@@ -79,6 +79,15 @@ function Sidebar() {
   const onClickshowChannels = useCallback(() => {
     setshowChannels(prev => !prev);
   }, []);
+  const ChangeChannel = (channel_hv: string) => {
+    dispatch(CallClickedWorkSpace());
+    //저장된 워크스페이스내부 챗데이터들을 포함해 갱신된 데이터 다시 불러오기
+    currentWorkspace.chat_channel?.forEach(c => {
+      if (channel_hv === c.hashed_value) {
+        dispatch(setClickedChannel(c));
+      }
+    });
+  };
   return (
     <SidebarContainer>
       <SidebarHeader onClick={onClickToggleModal}>
@@ -127,7 +136,9 @@ function Sidebar() {
                 onClick={e => {
                   e.preventDefault();
                   storeHistory(c.name, c.hashed_value);
-                  dispatch(setClickedChannel(c));
+                  ChangeChannel(c.hashed_value);
+                  // dispatch(CallClickedWorkSpace());
+                  // dispatch(setClickedChannel(c));
                   dispatch(setClickBookmarkPage(false));
                   setClickedChannelinSide(i);
                   // connectChat(enterRoomId)
