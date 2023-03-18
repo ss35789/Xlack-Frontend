@@ -5,10 +5,12 @@ import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 import { at, WsUrl_chat } from "../../variable/cookie";
+import ChatMentionModal from "./ChatMentionModal";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
+  const [showMentionModal, setShowMentionModal] = useState(false);
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
@@ -56,26 +58,6 @@ function ChatInput(props: any) {
       }
     });
   }, [enterChannelHv]);
-  // useEffect(() => {
-  //   if (socket) socket.close();
-  //   if (enterChannelHv !== "") {
-  //     setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
-  //   }
-  // }, [enterChannelHv]);
-  //
-  // useEffect(() => {
-  //   console.log("현재 소켓", enterChannelHv);
-  //   if (socket) {
-  //     socket.onopen = () => {
-  //       socket.send(
-  //         JSON.stringify({
-  //           authorization: at,
-  //         }),
-  //       );
-  //       console.log("웹소켓 연결");
-  //     };
-  //   }
-  // }, [socket]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -94,7 +76,14 @@ function ChatInput(props: any) {
       setmsg("");
     }
   };
-
+  const ChooseMention = (name: string) => {
+    if (inputRef.current) {
+      // enter 치면 chatbox 공백으로 초기화 됨
+      inputRef.current.value = "@" + name + " ";
+      setmsg("@" + name + " ");
+    }
+    setShowMentionModal(false);
+  };
   return (
     <ChatInputContainer>
       <form>
@@ -103,13 +92,22 @@ function ChatInput(props: any) {
           onChange={e => {
             const inputMsg = e.target.value;
             setmsg(inputMsg);
-            if (inputMsg.startsWith("@")) console.log("Call mention");
+            inputMsg.split(" ").forEach(v => {
+              if (v.startsWith("@")) {
+                // 모달 띄우고 클릭시 해당 문구 앞에 추가
+                setShowMentionModal(true);
+                console.log("call mention");
+              } else {
+                setShowMentionModal(false);
+              }
+            });
           }}
           placeholder={`Message #`}
         />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
+        {showMentionModal && <ChatMentionModal inputMsg={msg} Choose={ChooseMention} />}
       </form>
     </ChatInputContainer>
   );
