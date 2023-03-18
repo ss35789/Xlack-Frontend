@@ -11,6 +11,7 @@ function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const [showMentionModal, setShowMentionModal] = useState(false);
+  const [mentionName, setMentionName] = useState<string>("");
   const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
@@ -95,6 +96,7 @@ function ChatInput(props: any) {
             inputMsg.split(" ").forEach(v => {
               if (v.startsWith("@")) {
                 // 모달 띄우고 클릭시 해당 문구 앞에 추가
+                setMentionName(v.trim());
                 setShowMentionModal(true);
                 console.log("call mention");
               } else {
@@ -107,7 +109,7 @@ function ChatInput(props: any) {
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
-        {showMentionModal && <ChatMentionModal inputMsg={msg} Choose={ChooseMention} />}
+        {showMentionModal && <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} />}
       </form>
     </ChatInputContainer>
   );

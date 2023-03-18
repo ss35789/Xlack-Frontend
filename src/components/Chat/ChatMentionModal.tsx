@@ -7,24 +7,25 @@ import { RootState } from "../../app/store";
 const ChatMentionModal = (props: MentionProps) => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
   let CalleverDataArr: Mention[] = [];
-
   const [callingMentionArr, setCallingMentionArr] = useState<Mention[]>(CalleverDataArr);
   useEffect(() => {
     CalleverDataArr = [];
     Clicked_channel.members.forEach(m => {
       const user: Mention = {
-        name: m.display_name,
+        name: "@" + m.display_name,
       };
       CalleverDataArr.push(user);
     });
   }, [Clicked_channel]);
   useEffect(() => {
+    const MentionName = props.inputMsg;
+    console.log("M", MentionName);
     if (props.inputMsg.length == 1) {
       setCallingMentionArr(CalleverDataArr);
     } else {
       const tmpArr: Mention[] = [];
       CalleverDataArr.forEach(v => {
-        if (v.name.startsWith(props.inputMsg.split("@")[1])) {
+        if (v.name.startsWith(MentionName)) {
           tmpArr.push(v);
         }
       });
@@ -40,9 +41,12 @@ const ChatMentionModal = (props: MentionProps) => {
             {callingMentionArr &&
               callingMentionArr.map((v, i) => {
                 return (
-                  <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
+                  <a
+                    key={i}
+                    className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
+                    role="menuitem"
+                  >
                     <span
-                      key={i}
                       className="flex flex-col hover:bg-gray-100 cursor-pointer"
                       onClick={() => {
                         props.Choose(v.name);
