@@ -8,6 +8,16 @@ const ChatMentionModal = (props: MentionProps) => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
   let CalleverDataArr: Mention[] = [];
   const [callingMentionArr, setCallingMentionArr] = useState<Mention[]>(CalleverDataArr);
+  const AutoComplete = (MentionName: string) => {
+    const tmpArr: Mention[] = [];
+    CalleverDataArr.forEach(v => {
+      if (v.name.startsWith(MentionName)) {
+        tmpArr.push(v);
+      }
+    });
+    setCallingMentionArr(tmpArr);
+  };
+
   useEffect(() => {
     CalleverDataArr = [];
     Clicked_channel.members.forEach(m => {
@@ -20,16 +30,10 @@ const ChatMentionModal = (props: MentionProps) => {
   useEffect(() => {
     const MentionName = props.inputMsg;
     console.log("M", MentionName);
-    if (props.inputMsg.length == 1) {
+    if (MentionName.length == 1) {
       setCallingMentionArr(CalleverDataArr);
     } else {
-      const tmpArr: Mention[] = [];
-      CalleverDataArr.forEach(v => {
-        if (v.name.startsWith(MentionName)) {
-          tmpArr.push(v);
-        }
-      });
-      setCallingMentionArr(tmpArr);
+      AutoComplete(MentionName);
     }
   }, [props.inputMsg]);
 
@@ -49,7 +53,7 @@ const ChatMentionModal = (props: MentionProps) => {
                     <span
                       className="flex flex-col hover:bg-gray-100 cursor-pointer"
                       onClick={() => {
-                        props.Choose(v.name);
+                        props.Choose(v.name, props.inputMsg.length);
                       }}
                     >
                       {v.name}

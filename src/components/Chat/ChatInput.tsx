@@ -77,10 +77,11 @@ function ChatInput(props: any) {
       setmsg("");
     }
   };
-  const ChooseMention = (name: string) => {
+  const ChooseMention = (name: string, EditingMentionLength: number) => {
     if (inputRef.current) {
       // enter 치면 chatbox 공백으로 초기화 됨
-      inputRef.current.value = "@" + name + " ";
+      const CurrentInput = inputRef.current.value;
+      inputRef.current.value = CurrentInput.substring(0, CurrentInput.length - EditingMentionLength) + " " + name + " ";
       setmsg("@" + name + " ");
     }
     setShowMentionModal(false);
