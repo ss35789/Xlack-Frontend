@@ -15,6 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
+import DragDrop from "../components/Chat/FileDragDrop";
 
 const Mainpage = () => {
   const dispatch = useDispatch();

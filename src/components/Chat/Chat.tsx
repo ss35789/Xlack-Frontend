@@ -7,6 +7,7 @@ import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
+import DragDrop from "./FileDragDrop";
 
 const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
@@ -164,6 +165,7 @@ const ChatContainer = styled.div`
   overflow-y: scroll;
   margin-top: 60px;
   margin-bottom: 130px;
+  background-color: blue;
 `;
 
 const Header = styled.div`

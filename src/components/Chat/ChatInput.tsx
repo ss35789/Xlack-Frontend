@@ -5,6 +5,7 @@ import { RootState } from "../../app/store";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
+import DragDrop from "./FileDragDrop";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
@@ -68,6 +69,7 @@ function ChatInput(props: any) {
   return (
     <ChatInputContainer>
       <form>
+        <DragDrop />
         <input ref={inputRef} onChange={e => setmsg(e.target.value)} placeholder={`Message #`} />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
