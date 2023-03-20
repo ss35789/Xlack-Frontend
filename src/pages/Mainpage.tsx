@@ -95,7 +95,6 @@ const Mainpage = () => {
         console.log(file);
         if ((await AtVerify()) == 200) {
           fileList = [...fileList, file];
-
           await axios.post(
             `${backUrl}file/`,
             {
@@ -103,17 +102,16 @@ const Mainpage = () => {
             },
             {
               headers: {
+                "Content-Type": "multipart/form-data",
                 Authorization: `Bearer ${at}`,
               },
             },
           );
+          console.log("업로드 성공");
         } else {
           alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
           return;
         }
-      } else {
-        alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
-        return;
       }
     }
     if (fileList.length > 0) {

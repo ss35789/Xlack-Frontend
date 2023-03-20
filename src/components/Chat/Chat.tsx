@@ -164,7 +164,6 @@ const ChatContainer = styled.div`
   overflow-y: scroll;
   margin-top: 60px;
   margin-bottom: 130px;
-  background-color: blue;
 `;
 
 const Header = styled.div`
