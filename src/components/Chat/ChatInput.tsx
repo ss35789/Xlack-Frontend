@@ -56,26 +56,6 @@ function ChatInput(props: any) {
       }
     });
   }, [enterChannelHv]);
-  // useEffect(() => {
-  //   if (socket) socket.close();
-  //   if (enterChannelHv !== "") {
-  //     setsocket(new WebSocket(`${WsUrl_chat}${enterChannelHv}/`));
-  //   }
-  // }, [enterChannelHv]);
-  //
-  // useEffect(() => {
-  //   console.log("현재 소켓", enterChannelHv);
-  //   if (socket) {
-  //     socket.onopen = () => {
-  //       socket.send(
-  //         JSON.stringify({
-  //           authorization: at,
-  //         }),
-  //       );
-  //       console.log("웹소켓 연결");
-  //     };
-  //   }
-  // }, [socket]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
