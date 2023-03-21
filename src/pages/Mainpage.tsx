@@ -91,7 +91,7 @@ const Mainpage = () => {
     for (let i = 0; i < files.length; i++) {
       const file: File = files[i];
       const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
-      if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF") {
+      if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
         console.log(file);
         if ((await AtVerify()) == 200) {
           fileList = [...fileList, file];
