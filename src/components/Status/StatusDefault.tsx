@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
-import { setStatus } from "../../variable/StatusSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { WsUrl_status } from "../../variable/cookie";
@@ -17,7 +16,7 @@ import { at } from "../../variable/cookie";
 // import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
-  const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
+  const MyStatus = useSelector((state: RootState) => state.ClickedStatus.statusData);
   const formData = new FormData();
   const dispatch = useDispatch();
   const [socket, setsocket] = useState<WebSocket>();

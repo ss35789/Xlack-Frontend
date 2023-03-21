@@ -13,8 +13,8 @@ function ChatInput(props: any) {
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const File = useSelector((state: RootState) => state.Chat.SendMessage);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (CompleteGetWorkspace) {
@@ -56,13 +56,18 @@ function ChatInput(props: any) {
       }
     });
   }, [enterChannelHv]);
+  useEffect(() => {
+    if (File) {
+      sendMessage();
+    }
+  }, [File]);
 
-  const sendMessage = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+  const sendMessage = () => {
     if (socket) {
       socket.send(
         JSON.stringify({
           message: msg,
+          file: File,
         }),
       );
       console.log(msg);

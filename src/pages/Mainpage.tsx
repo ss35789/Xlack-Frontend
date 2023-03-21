@@ -15,6 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
+import { setFile } from "../variable/ChatSlice";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -101,35 +102,39 @@ const Mainpage = () => {
   const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
     console.log({ e }, e.dataTransfer.files);
     e.preventDefault();
-
     handleFiles(e.dataTransfer.files);
   };
 
   const handleFiles = async (files: FileList) => {
     let fileList: Array<File> = [];
-    for (let i = 0; i < files.length; i++) {
-      const file: File = files[i];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    for (const element of files) {
+      const file: File = element;
       const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
       if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
-        console.log(file);
-        if ((await AtVerify()) == 200) {
-          fileList = [...fileList, file];
-          await axios.post(
-            `${backUrl}file/`,
-            {
-              file: file,
-            },
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${at}`,
+        if (file) {
+          dispatch(setFile(element));
+          console.log(file);
+          if ((await AtVerify()) == 200) {
+            fileList = [...fileList, file];
+            await axios.post(
+              `${backUrl}file/`,
+              {
+                file: file,
               },
-            },
-          );
-          console.log("업로드 성공");
-        } else {
-          alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
-          return;
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: `Bearer ${at}`,
+                },
+              },
+            );
+            console.log("업로드 성공");
+          } else {
+            alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
+            return;
+          }
         }
       }
     }
