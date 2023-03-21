@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, DragEvent, useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Chat from "../components/Chat/Chat";
@@ -7,13 +7,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  CallClickedWorkSpace,
-  clearWorkSpace,
-  getWorkSpace,
-  SearchChannel,
-} from "../variable/WorkSpaceSlice";
-import { WorkspaceType } from "../components/types";
+import { CallClickedWorkSpace, clearWorkSpace, getWorkSpace, SearchChannel } from "../variable/WorkSpaceSlice";
+import { WorkspaceType } from "../types/types";
 import { RootState } from "../app/store";
 import Profile from "../components/Profile/Profile";
 import { getMyProfile } from "../variable/MyProfileSlice";
@@ -25,12 +20,8 @@ const Mainpage = () => {
   const dispatch = useDispatch();
   const Update = useSelector((state: RootState) => state.UpdateChannel);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const OpenChannelSetting = useSelector(
-    (state: RootState) => state.OnModal.OnChannelSetting
-  );
-  const Workspace = useSelector(
-    (state: RootState) => state.getMyWorkSpace.MyWorkSpace
-  );
+  const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
+  const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -56,13 +47,13 @@ const Mainpage = () => {
           Authorization: `Bearer ${at}`,
         },
       })
-      .then((res) => {
+      .then(res => {
         dispatch(clearWorkSpace());
         res.data.map((value: WorkspaceType) => {
           dispatch(getWorkSpace(value));
         });
       })
-      .catch((e) => console.log("getWorkspace error : ", e));
+      .catch(e => console.log("getWorkspace error : ", e));
   };
 
   useEffect(() => {
@@ -76,21 +67,73 @@ const Mainpage = () => {
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
+
+  const [imageList, setImageList] = useState<Array<File>>([]);
+
+  // 이미지 파일 처리 input
+  const onInputFile = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    handleFiles(e.target.files);
+  };
+
+  // 파일 처리 ondrop
+  const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
+    console.log({ e }, e.dataTransfer.files);
+    e.preventDefault();
+
+    handleFiles(e.dataTransfer.files);
+  };
+
+  const handleFiles = async (files: FileList) => {
+    let fileList: Array<File> = [];
+    for (let i = 0; i < files.length; i++) {
+      const file: File = files[i];
+      const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
+      if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF") {
+        console.log(file);
+        if ((await AtVerify()) == 200) {
+          fileList = [...fileList, file];
+          await axios.post(
+            `${backUrl}file/`,
+            {
+              file: file,
+            },
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${at}`,
+              },
+            },
+          );
+          console.log("업로드 성공");
+        } else {
+          alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
+          return;
+        }
+      }
+    }
+    if (fileList.length > 0) {
+      setImageList(fileList);
+    }
+  };
+
+  // 없으면 drop 작동안됨
+  const dragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <Logout />
-      <AppBody>
+      <AppBody onDrop={onDropFiles} onDragOver={dragOver}>
         <Header />
         <SelectWorkspaces>
           {Workspace.map((element, i) => {
             return <SelectWorkspace key={i} {...element} />;
           })}
-          <PlusButton onClick={onClickToggleModal}>
-            +
-            {isOpenModal && (
-              <PlusModal onClickToggleModal={onClickToggleModal}></PlusModal>
-            )}
-          </PlusButton>
+          <PlusButton onClick={onClickToggleModal}>+{isOpenModal && <PlusModal onClickToggleModal={onClickToggleModal}></PlusModal>}</PlusButton>
         </SelectWorkspaces>
         <Sidebar />
         <Profile />

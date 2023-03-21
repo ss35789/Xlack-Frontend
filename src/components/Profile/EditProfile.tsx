@@ -30,42 +30,30 @@ const EditProfile = () => {
   const cancelCheckFunc = (cancel: boolean) => {
     setCancelCheck(cancel);
   };
-  const onChangeEditUsername = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditUsername(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_username: true, Updated: true });
-    },
-    []
-  );
-  const onChangeEditDisplayName = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditDisplayName(e.target.value);
-      setUpdateCheck({
-        ...UpdateCheck,
-        Update_DisplayName: true,
-        Updated: true,
-      });
-    },
-    []
-  );
-  const onChangeEditNamePronunciation = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditNamePronunciation(e.target.value);
-      setUpdateCheck({
-        ...UpdateCheck,
-        Update_NamePronunciation: true,
-        Updated: true,
-      });
-    },
-    []
-  );
-  const onChangeEditTitle = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEditTitle(e.target.value);
-      setUpdateCheck({ ...UpdateCheck, Update_Title: true, Updated: true });
-    },
-    []
-  );
+  const onChangeEditUsername = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditUsername(e.target.value);
+    setUpdateCheck({ ...UpdateCheck, Update_username: true, Updated: true });
+  }, []);
+  const onChangeEditDisplayName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditDisplayName(e.target.value);
+    setUpdateCheck({
+      ...UpdateCheck,
+      Update_DisplayName: true,
+      Updated: true,
+    });
+  }, []);
+  const onChangeEditNamePronunciation = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditNamePronunciation(e.target.value);
+    setUpdateCheck({
+      ...UpdateCheck,
+      Update_NamePronunciation: true,
+      Updated: true,
+    });
+  }, []);
+  const onChangeEditTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditTitle(e.target.value);
+    setUpdateCheck({ ...UpdateCheck, Update_Title: true, Updated: true });
+  }, []);
   const selectImg = (e: any) => {
     setSelectedImg(e.target.files[0]);
     setPreviewPhoto(URL.createObjectURL(e.target.files[0]));
@@ -75,8 +63,7 @@ const EditProfile = () => {
     formData.append("username", EditUsername);
     formData.append("display_name", EditDisplayName);
     formData.append("title", EditTitle);
-    if (UpdateCheck.Update_selectedImg)
-      formData.append("profile_image", selectedImg);
+    if (UpdateCheck.Update_selectedImg) formData.append("profile_image", selectedImg);
 
     await axios
       .patch(`${backUrl}profile/`, formData, {
@@ -85,12 +72,12 @@ const EditProfile = () => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => {
+      .then(res => {
         window.alert("Complete Edit!");
         dispatch(getMyProfile(res.data));
         dispatch(EditProfileOnOff());
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.data);
         window.alert("Failed Edit Profile");
       });
@@ -98,12 +85,7 @@ const EditProfile = () => {
 
   return (
     <>
-      <div
-        className="relative z-10"
-        aria-labelledby="modal-title"
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -122,10 +104,7 @@ const EditProfile = () => {
                         <div className="px-4">
                           <div className="col-span-6 sm:col-span-4 py-1 mt-10">
                             <div>
-                              <label
-                                htmlFor="email-address"
-                                className="flex text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
                                 Full name
                               </label>
                               <input
@@ -137,10 +116,7 @@ const EditProfile = () => {
                               />
                             </div>
                             <div className="col-span-6 sm:col-span-4 mt-10">
-                              <label
-                                htmlFor="email-address"
-                                className="flex text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
                                 Display name
                               </label>
                               <input
@@ -150,18 +126,11 @@ const EditProfile = () => {
                                 placeholder={MyUser.display_name}
                                 className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               />
-                              <h1 className="text-sm text-left opacity-60">
-                                This could be your first name, or a nickname —
-                                however you’d like people to refer to you in
-                                Slack.
-                              </h1>
+                              <h1 className="text-sm text-left opacity-60">This could be your first name, or a nickname — however you’d like people to refer to you in Slack.</h1>
                             </div>
 
                             <div className="col-span-6 sm:col-span-4 mt-10">
-                              <label
-                                htmlFor="email-address"
-                                className="flex text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
                                 Title
                               </label>
                               <input
@@ -171,17 +140,11 @@ const EditProfile = () => {
                                 placeholder={MyUser.title}
                                 className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               />
-                              <h1 className="text-sm text-left opacity-60">
-                                Let people know what you do at Mylène Farmer
-                                Team.
-                              </h1>
+                              <h1 className="text-sm text-left opacity-60">Let people know what you do at Mylène Farmer Team.</h1>
                             </div>
 
                             <div className="col-span-6 sm:col-span-4 mt-10">
-                              <label
-                                htmlFor="email-address"
-                                className="flex text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="email-address" className="flex text-sm font-medium text-gray-700">
                                 Name pronunciation
                               </label>
                               <input
@@ -191,17 +154,11 @@ const EditProfile = () => {
                                 placeholder="Zoe (pronounced 'zo-ee')"
                                 className="mt-1 block w-full h-8 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                               />
-                              <h1 className="text-sm text-left opacity-60">
-                                This could be a phonetic pronunciation, or an
-                                example of something your name sounds like.
-                              </h1>
+                              <h1 className="text-sm text-left opacity-60">This could be a phonetic pronunciation, or an example of something your name sounds like.</h1>
                             </div>
 
                             <div className="col-span-6 sm:col-span-3 mt-10">
-                              <label
-                                htmlFor="country"
-                                className="flex block text-sm font-medium text-gray-700"
-                              >
+                              <label htmlFor="country" className="flex block text-sm font-medium text-gray-700">
                                 Time zone
                               </label>
                               <select
@@ -215,31 +172,20 @@ const EditProfile = () => {
                                 <option>Mexico</option>
                               </select>
                               <h1 className="text-sm text-left opacity-60">
-                                Your current time zone. Used to send summary and
-                                notification emails, for times in your activity
-                                feeds, and for reminders.
+                                Your current time zone. Used to send summary and notification emails, for times in your activity feeds, and for reminders.
                               </h1>
                             </div>
                           </div>
                         </div>
                         <div className="mt-10">
-                          <h1 className="flex text-sm font-medium text-gray-700 flex-grow">
-                            Profile image
-                          </h1>
+                          <h1 className="flex text-sm font-medium text-gray-700 flex-grow">Profile image</h1>
                           <img src={PreviewPhoto} width="200" height="200" />
                           {/*testcode defaultImg => MyUser.profile_image*/}
 
                           <label htmlFor="profile_img">
                             <CustomDiv>Upload Image</CustomDiv>
                           </label>
-                          <input
-                            id="profile_img"
-                            type="file"
-                            style={{ display: "none" }}
-                            accept="image/jpg,impge/png,image/jpeg,image/gif"
-                            name="profile_img"
-                            onChange={selectImg}
-                          ></input>
+                          <input id="profile_img" type="file" style={{ display: "none" }} accept="image/jpg,impge/png,image/jpeg,image/gif" name="profile_img" onChange={selectImg}></input>
                         </div>
                       </div>
                     </div>

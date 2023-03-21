@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { UpdateRoom } from "../../variable/UpdateChannelSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Update } from "../../variable/UpdateChannelSlice";
 import { SidebarInfo } from "../Sidebar/SidebarOption";
-import { at, rt, backUrl } from "../../variable/cookie";
+import { at, backUrl, rt } from "../../variable/cookie";
+import { RootState } from "../../app/store";
 
 function AddChannel({ Icon, title, id }: SidebarInfo) {
   const dispatch = useDispatch();
-
+  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const addChannel = async () => {
     console.log(at);
     console.log(rt);
@@ -17,9 +18,10 @@ function AddChannel({ Icon, title, id }: SidebarInfo) {
       if (channelName) {
         // db에 name: channelName 방추가
         await axios.post(
-          `${backUrl}channel/`,
+          `${backUrl}channel/${currentWorkspace.hashed_value}/`,
           {
             name: channelName,
+            description: "",
           },
           {
             headers: {
@@ -28,7 +30,7 @@ function AddChannel({ Icon, title, id }: SidebarInfo) {
           },
         );
         //                console.log();
-        dispatch(UpdateRoom());
+        dispatch(Update());
       }
     } catch (err) {
       window.alert("권한이 없습니다");

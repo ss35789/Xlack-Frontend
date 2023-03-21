@@ -16,7 +16,10 @@ export async function LoginDjango(code: string): Promise<JSON> {
     code: code,
     id_token: "",
   };
+  console.log("code: " + code);
   const res = await axios.post(url, data, config);
+  console.log("url: " + url);
+  console.log("res.data: " + JSON.stringify(res.data, null, 2));
   return res.data;
 }
 

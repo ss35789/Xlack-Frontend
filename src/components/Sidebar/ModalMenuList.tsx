@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 
 function ModalMenuList() {
-  const [isHovering, setIsHovering] = useState(0);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
   return (
     <MenuList>
       <div>
@@ -37,27 +37,15 @@ function ModalMenuList() {
           <hr />
         </Separator>
       </div>
-      <div
-        onMouseOver={() => setIsHovering(1)}
-        // onMouseLeave={() => setIsHovering(0)}
-      >
+      <div onMouseOver={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
         {isHovering ? (
-          <Sub
-            // onMouseOver={() => setIsHovering(1)}
-            onMouseLeave={() => setIsHovering(0)}
-            className="as"
-          >
-            asd
+          <Sub>
+            <RealSub>asd</RealSub>
           </Sub>
         ) : (
-          ""
+          <></>
         )}
-        <Button
-          className="createWork"
-          onClick={() =>
-            (window.location.href = "http://localhost:3000/setTeamName")
-          }
-        >
+        <Button className="createWork" onClick={() => (window.location.href = "http://localhost:3000/setTeamName")}>
           워크스페이스 추가
         </Button>
         <Separator>
@@ -120,16 +108,20 @@ const Button = styled.button`
   }
 `;
 const Sub = styled.div`
-  left: 352px;
+  left: 300px;
   top: 290px;
+  position: absolute;
   width: 250px;
   height: 140px;
-  position: absolute;
   box-sizing: inherit;
   display: block;
+`;
+const RealSub = styled.div`
+  margin-left: 50px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   z-index: 1000000;
   border: solid #c5cacd 0.5px;
   border-radius: 8px;
+  height: 140px;
 `;
 export default ModalMenuList;
