@@ -7,7 +7,7 @@ import OnModalReducer from "../variable/OnModalSlice";
 import MyProfileReducer from "../variable/MyProfileSlice";
 import ChatBookmarkReducer from "../variable/ChatBookmarkSlice";
 import StatusSliceReducer from "../variable/StatusSlices";
-
+import UnreadChannelReducer from "../variable/UnreadChannelSlice";
 export const store = configureStore({
   reducer: {
     ClickedChannel: ClickedChannelReducer,
@@ -19,6 +19,7 @@ export const store = configureStore({
     getMyProfile: MyProfileReducer,
     ChatBookmark: ChatBookmarkReducer,
     setStatus: StatusSliceReducer,
+    UnReadChannel: UnreadChannelReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
