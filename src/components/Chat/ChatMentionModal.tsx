@@ -22,7 +22,7 @@ const ChatMentionModal = (props: MentionProps) => {
     CalleverDataArr = [];
     Clicked_channel.members.forEach(m => {
       const user: Mention = {
-        name: "@" + m.display_name,
+        name: "@" + m.username,
       };
       CalleverDataArr.push(user);
     });
