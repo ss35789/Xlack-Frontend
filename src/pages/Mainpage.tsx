@@ -75,7 +75,6 @@ const Mainpage = () => {
       })
       .catch(e => console.log("getWorkspace error : ", e));
   };
-  Notifi();
 
   useEffect(() => {
     getMyUser();

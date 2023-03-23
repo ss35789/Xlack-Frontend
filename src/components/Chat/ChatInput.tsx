@@ -38,27 +38,6 @@ function ChatInput(props: any) {
       });
     }
   }, [CompleteGetWorkspace]);
-  //랜더링 시점 = notification 웹소켓 변화시
-  // notifi 웹소켓으로 받은 내용의
-  useEffect(() => {
-    // const notifi_c_hv = useSelector((state: RootState) => state.UnReadChannel.channel.channel_hashed_value);
-    console.log("알림 웹소켓");
-    MyWebSocket.forEach(w => {
-      // if (w.ch_hv !== notifi_c_hv) {
-      setsocket(w.wb);
-      // }
-      w.wb.onmessage = message => {
-        const nm = JSON.parse(message.data);
-        console.log("팝업 알림웹소켓 테스트", nm);
-        Object.values(nm).forEach(m => {
-          if (nm.username !== undefined) {
-            console.log("test", nm.username, nm.message);
-            showNotification(nm.username, nm.message);
-          }
-        });
-      };
-    });
-  }, [notifi]);
   useEffect(() => {
     console.log("입력하려는 웹소켓", MyWebSocket);
     MyWebSocket.forEach(w => {
@@ -101,6 +80,26 @@ function ChatInput(props: any) {
   //   }
   // }, [socket]);
 
+  //랜더링 시점 = notification 웹소켓 내용 변화시
+  useEffect(() => {
+    console.log("알림 웹소켓");
+    MyWebSocket.forEach(w => {
+      // if (w.ch_hv !== notifi_c_hv) {
+      setsocket(w.wb);
+      // console.log(w, w.wb);
+      // }
+      w.wb.onmessage = message => {
+        const nm = JSON.parse(message.data);
+        console.log("팝업 알림웹소켓 테스트", nm);
+        Object.values(nm).forEach(m => {
+          if (nm.username !== undefined) {
+            console.log("test", nm.username, nm.message);
+            showNotification(nm.username, nm.message);
+          }
+        });
+      };
+    });
+  }, [notifi]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket) {
