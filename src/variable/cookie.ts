@@ -48,6 +48,7 @@ const cookies = new Cookies();
 export const backUrl = "https://api.xlack.kreimben.com/";
 export const WsUrl_chat = "wss://api.xlack.kreimben.com/ws/chat/";
 export const WsUrl_status = "wss://api.xlack.kreimben.com/ws/status/";
+export const WsUrl_notification = "wss://api.xlack.kreimben.com/ws/notification/";
 export const setCookie = (name: string, value: string, option?: any) => {
   console.log("setCookie: " + JSON.stringify(cookies, null, 2));
   return cookies.set(name, value, {});
