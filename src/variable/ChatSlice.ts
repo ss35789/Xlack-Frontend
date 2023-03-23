@@ -7,7 +7,7 @@ interface struct {
 }
 const initialState: struct = {
   SendMessage: {
-    message: File.toString(),
+    message: File.name,
     fileData: null,
   },
 };

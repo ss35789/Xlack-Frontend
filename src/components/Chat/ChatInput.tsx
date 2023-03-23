@@ -15,6 +15,7 @@ function ChatInput(props: any) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const File = useSelector((state: RootState) => state.Chat.SendMessage);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (CompleteGetWorkspace) {
@@ -58,11 +59,13 @@ function ChatInput(props: any) {
   }, [enterChannelHv]);
   useEffect(() => {
     if (File) {
-      sendMessage();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      sendMessage(e.preventDefault);
     }
   }, [File]);
-
-  const sendMessage = () => {
+  const sendMessage = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
     if (socket) {
       socket.send(
         JSON.stringify({
