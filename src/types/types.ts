@@ -48,6 +48,7 @@ export interface ChannelType {
 export interface MentionProps {
   inputMsg: string;
   Choose: (name: string, EditingMentionLength: number) => void;
+  CalleverDataArr: CustomUserType[];
 }
 
 export interface ChatType {

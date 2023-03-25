@@ -12,7 +12,8 @@ function ChatInput(props: any) {
   const [socket, setsocket] = useState<WebSocket>();
   const [showMentionModal, setShowMentionModal] = useState(false);
   const [mentionName, setMentionName] = useState<string>("");
-  const enterChannelHv = useSelector((state: RootState) => state.ClickedChannel?.channelData).hashed_value;
+  const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel?.channelData);
+  const Clicked_channel_hv = Clicked_channel.hashed_value;
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -42,10 +43,10 @@ function ChatInput(props: any) {
   useEffect(() => {
     console.log("입력하려는 웹소켓", MyWebSocket);
     MyWebSocket.forEach(w => {
-      if (w.ch_hv === enterChannelHv) {
+      if (w.ch_hv === Clicked_channel_hv) {
         setsocket(w.wb);
       }
-      if (enterChannelHv !== "") {
+      if (Clicked_channel_hv !== "") {
         w.wb.onmessage = message => {
           // 클라이언트로부터 메시지 수신 시
           const m = JSON.parse(message.data);
@@ -58,7 +59,13 @@ function ChatInput(props: any) {
         };
       }
     });
-  }, [enterChannelHv]);
+
+    if (inputRef.current) {
+      // enter 치면 chatbox 공백으로 초기화 됨
+      inputRef.current.value = "";
+      setmsg("");
+    }
+  }, [Clicked_channel_hv]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -81,8 +88,8 @@ function ChatInput(props: any) {
     if (inputRef.current) {
       // enter 치면 chatbox 공백으로 초기화 됨
       const CurrentInput = inputRef.current.value;
-      inputRef.current.value = CurrentInput.substring(0, CurrentInput.length - EditingMentionLength) + " " + name + " ";
-      setmsg("@" + name + " ");
+      inputRef.current.value = CurrentInput.substring(0, CurrentInput.length - EditingMentionLength) + "@" + name + " ";
+      setmsg(inputRef.current.value);
     }
     setShowMentionModal(false);
   };
@@ -110,7 +117,7 @@ function ChatInput(props: any) {
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
-        {showMentionModal && <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} />}
+        {showMentionModal && <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />}
       </form>
     </ChatInputContainer>
   );

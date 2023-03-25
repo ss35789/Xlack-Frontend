@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { Mention, MentionProps } from "../../types/types";
+import { CustomUserType, MentionProps } from "../../types/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 
 const ChatMentionModal = (props: MentionProps) => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
-  let CalleverDataArr: Mention[] = [];
-  const [callingMentionArr, setCallingMentionArr] = useState<Mention[]>(CalleverDataArr);
+  const [callingMentionArr, setCallingMentionArr] = useState<CustomUserType[]>([]);
   const AutoComplete = (MentionName: string) => {
-    const tmpArr: Mention[] = [];
-    CalleverDataArr.forEach(v => {
-      if (v.name.startsWith(MentionName)) {
+    const tmpArr: CustomUserType[] = [];
+    props.CalleverDataArr.forEach(v => {
+      console.log(v + "와 " + MentionName + "을 비교합니다");
+      if (v.username.startsWith(MentionName)) {
         tmpArr.push(v);
       }
     });
@@ -19,21 +19,14 @@ const ChatMentionModal = (props: MentionProps) => {
   };
 
   useEffect(() => {
-    CalleverDataArr = [];
-    Clicked_channel.members.forEach(m => {
-      const user: Mention = {
-        name: "@" + m.username,
-      };
-      CalleverDataArr.push(user);
-    });
-  }, [Clicked_channel]);
-  useEffect(() => {
     const MentionName = props.inputMsg;
     console.log("M", MentionName);
+    console.log(props);
     if (MentionName.length == 1) {
-      setCallingMentionArr(CalleverDataArr);
+      setCallingMentionArr(props.CalleverDataArr);
     } else {
-      AutoComplete(MentionName);
+      const NoAtSignName = MentionName.substring(1, MentionName.length);
+      AutoComplete(NoAtSignName);
     }
   }, [props.inputMsg]);
 
@@ -53,10 +46,10 @@ const ChatMentionModal = (props: MentionProps) => {
                     <span
                       className="flex flex-col hover:bg-gray-100 cursor-pointer"
                       onClick={() => {
-                        props.Choose(v.name, props.inputMsg.length);
+                        props.Choose(v.username, props.inputMsg.length);
                       }}
                     >
-                      {v.name}
+                      {v.username}
                     </span>
                   </a>
                 );
