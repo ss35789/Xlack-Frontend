@@ -3,17 +3,13 @@ import { Notification } from "../types/types";
 
 interface struct {
   UnReadChannel: Notification[];
-  channel: Notification;
+  CompleteGetUnreadChannel: boolean;
 }
 
 const initialState: struct = {
   UnReadChannel: [],
+  CompleteGetUnreadChannel: false,
   // channel_hashed_value: "",
-  channel: {
-    channel_hashed_value: "",
-    workspace_hashed_value: "",
-    count: 0,
-  },
 };
 
 export const UnReadChannelSlice = createSlice({
@@ -27,8 +23,11 @@ export const UnReadChannelSlice = createSlice({
         workspace_hashed_value: action.payload.workspace_hashed_value,
       });
     },
+    CompleteGetUnReadChannel: (state, action: PayloadAction<void>) => {
+      state.CompleteGetUnreadChannel = true;
+    },
   },
 });
 
-export const { getChannel } = UnReadChannelSlice.actions;
+export const { getChannel, CompleteGetUnReadChannel } = UnReadChannelSlice.actions;
 export default UnReadChannelSlice.reducer;

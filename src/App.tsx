@@ -7,8 +7,10 @@ import Mainpage from "./pages/Mainpage";
 import { rt } from "./variable/cookie";
 import FirstPage from "./pages/FirstPage";
 import SetupTeamName from "./pages/SetupTeamName";
+import { Notifi } from "./components/Notification/notification";
 
 function App() {
+  Notifi();
   return (
     <div className="App">
       <>
