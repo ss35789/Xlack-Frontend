@@ -23,6 +23,7 @@ const Mainpage = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
   const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
+  const U = useSelector((state: RootState) => state.UnReadChannel.CompleteGetUnreadChannel);
   const GetChatInAllChannel = (Ws: WorkspaceType) => {
     Ws.chat_channel?.forEach(async channel => {
       try {
@@ -75,7 +76,6 @@ const Mainpage = () => {
       })
       .catch(e => console.log("getWorkspace error : ", e));
   };
-  Notifi();
 
   useEffect(() => {
     getMyUser();
@@ -159,7 +159,7 @@ const Mainpage = () => {
         <Sidebar />
         <Profile />
         {OpenChannelSetting && <ChannelSetting />}
-        <Chat />
+        {U && <Chat />}
       </AppBody>
     </>
   );

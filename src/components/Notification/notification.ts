@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { at, WsUrl_notification } from "../../variable/cookie";
 import { useDispatch } from "react-redux";
-import { getChannel } from "../../variable/UnreadChannelSlice";
+import { getChannel, CompleteGetUnReadChannel } from "../../variable/UnreadChannelSlice";
 
 export function Notifi() {
   const [notifiSocket, setNotifiSocket] = useState<WebSocket>();
@@ -25,6 +25,7 @@ export function Notifi() {
           const setNotifications = unReadChannel;
           dispatch(getChannel(setNotifications[key]));
         });
+        dispatch(CompleteGetUnReadChannel());
       }
     };
   }
