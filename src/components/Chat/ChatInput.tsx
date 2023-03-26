@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
@@ -6,6 +6,7 @@ import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import { showNotification } from "../Notification/notification";
+import { CompleteGetUnReadChannel, UpdateNotification } from "../../variable/UnreadChannelSlice";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
@@ -15,9 +16,9 @@ function ChatInput(props: any) {
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
-  const [notifiSocket, setNotifiSocket] = useState<WebSocket>();
-  const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
+  const notifi = useSelector((state: RootState) => state.UnReadChannel);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (CompleteGetWorkspace) {
       Myworkspace.forEach(w => {
@@ -82,21 +83,14 @@ function ChatInput(props: any) {
 
   //랜더링 시점 = notification 웹소켓 내용 변화시
   useEffect(() => {
-    console.log("알림 웹소켓");
     MyWebSocket.forEach(w => {
-      // if (w.ch_hv !== notifi_c_hv) {
       setsocket(w.wb);
-      // console.log(w, w.wb);
-      // }
+      console.log(w.wb);
       w.wb.onmessage = message => {
         const nm = JSON.parse(message.data);
-        console.log("팝업 알림웹소켓 테스트", nm);
-        Object.values(nm).forEach(m => {
-          if (nm.username !== undefined) {
-            console.log("test", nm.username, nm.message);
-            showNotification(nm.username, nm.message);
-          }
-        });
+        if (nm.message !== undefined) {
+          showNotification(nm.username, nm.message);
+        }
       };
     });
   }, [notifi]);
