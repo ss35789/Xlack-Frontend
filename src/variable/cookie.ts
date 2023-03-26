@@ -60,6 +60,7 @@ const getCookie = (name: string) => {
 export const removeCookie = () => {
   cookies.remove("access_token");
   cookies.remove("refresh_token");
+  window.location.href = "http://localhost:3000/login";
 };
 export const at = getCookie("access_token");
 // console.log("at: " + at);
