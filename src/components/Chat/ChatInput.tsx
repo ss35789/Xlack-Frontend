@@ -6,7 +6,6 @@ import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import { showNotification } from "../Notification/notification";
-import { CompleteGetUnReadChannel, UpdateNotification } from "../../variable/UnreadChannelSlice";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
