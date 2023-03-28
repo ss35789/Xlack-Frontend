@@ -70,7 +70,6 @@ function ChatInput(props: any) {
     }
   }, [Clicked_channel_hv]);
 
-
   //랜더링 시점 = notification 웹소켓 내용 변화시
   useEffect(() => {
     MyWebSocket.forEach(w => {
