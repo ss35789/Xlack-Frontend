@@ -97,27 +97,6 @@ const Chat = () => {
       inline: "nearest",
     });
   };
-  //현재 보고 있는 채널의 hashed_value가 바뀌면 기존 소켓 연결 끊고 새로 재연결
-  // useEffect(() => {
-  //   if (socket !== undefined) {
-  //     socket?.disconnect();
-  //   } else {
-  //     const socketio = io(`${WsUrl}${Clicked_channel_hv}/`, {
-  //       auth: {
-  //         token: `Bearer ${at}`,
-  //       },
-  //     });
-  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //     // @ts-ignore
-  //     setSocket(socketio);
-  //
-  //     if (socketio.connected) console.log("소켓연결");
-  //   }
-  //
-  //   console.log(Clicked_channel_hv);
-  // }, [receiveMessage, Clicked_channel_hv]);
-  //재연결한 소켓
-
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]); //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
