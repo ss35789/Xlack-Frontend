@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, DragEvent, useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Chat from "../components/Chat/Chat";
@@ -15,6 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
+import { Notifi } from "../components/Notification/notification";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Mainpage = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
   const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
+  const U = useSelector((state: RootState) => state.UnReadChannel.CompleteGetUnreadChannel);
   const GetChatInAllChannel = (Ws: WorkspaceType) => {
     Ws.chat_channel?.forEach(async channel => {
       try {
@@ -86,10 +88,67 @@ const Mainpage = () => {
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
+
+  const [imageList, setImageList] = useState<Array<File>>([]);
+
+  // 이미지 파일 처리 input
+  const onInputFile = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    handleFiles(e.target.files);
+  };
+
+  // 파일 처리 ondrop
+  const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
+    console.log({ e }, e.dataTransfer.files);
+    e.preventDefault();
+
+    handleFiles(e.dataTransfer.files);
+  };
+
+  const handleFiles = async (files: FileList) => {
+    let fileList: Array<File> = [];
+    for (let i = 0; i < files.length; i++) {
+      const file: File = files[i];
+      const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
+      if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
+        console.log(file);
+        if ((await AtVerify()) == 200) {
+          fileList = [...fileList, file];
+          await axios.post(
+            `${backUrl}file/`,
+            {
+              file: file,
+            },
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${at}`,
+              },
+            },
+          );
+          console.log("업로드 성공");
+        } else {
+          alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
+          return;
+        }
+      }
+    }
+    if (fileList.length > 0) {
+      setImageList(fileList);
+    }
+  };
+
+  // 없으면 drop 작동안됨
+  const dragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <Logout />
-      <AppBody>
+      <AppBody onDrop={onDropFiles} onDragOver={dragOver}>
         <Header />
         <SelectWorkspaces>
           {Workspace.map((element, i) => {
@@ -100,7 +159,7 @@ const Mainpage = () => {
         <Sidebar />
         <Profile />
         {OpenChannelSetting && <ChannelSetting />}
-        <Chat />
+        {U && <Chat />}
       </AppBody>
     </>
   );

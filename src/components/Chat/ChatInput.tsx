@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
@@ -6,6 +6,7 @@ import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 import { at, WsUrl_chat } from "../../variable/cookie";
 import ChatMentionModal from "./ChatMentionModal";
+import { showNotification } from "../Notification/notification";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
@@ -18,8 +19,9 @@ function ChatInput(props: any) {
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
-
+  const notifi = useSelector((state: RootState) => state.UnReadChannel);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (CompleteGetWorkspace) {
       Myworkspace.forEach(w => {
@@ -50,6 +52,7 @@ function ChatInput(props: any) {
         w.wb.onmessage = message => {
           // 클라이언트로부터 메시지 수신 시
           const m = JSON.parse(message.data);
+          console.log("웹소켓 테스트", m);
           dispatch(findUserDataInClickedChannel(m.user_id));
           props.receive(w.ch_hv, m);
           dispatch(UpdateChat());
@@ -67,6 +70,20 @@ function ChatInput(props: any) {
     }
   }, [Clicked_channel_hv]);
 
+
+  //랜더링 시점 = notification 웹소켓 내용 변화시
+  useEffect(() => {
+    MyWebSocket.forEach(w => {
+      setsocket(w.wb);
+      console.log(w.wb);
+      w.wb.onmessage = message => {
+        const nm = JSON.parse(message.data);
+        if (nm.message !== undefined) {
+          showNotification(nm.username, nm.message);
+        }
+      };
+    });
+  }, [notifi]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket) {

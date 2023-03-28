@@ -126,7 +126,11 @@ export interface UserDetailsType {
   // title: Last name
   // maxLength: 150
 }
-
+export interface Notification {
+  channel_hashed_value: string;
+  workspace_hashed_value: string;
+  count: number;
+}
 export interface UserProfileType {
   id: number;
   // title: ID
