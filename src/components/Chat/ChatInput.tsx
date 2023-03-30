@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
@@ -11,6 +11,7 @@ import { showNotification } from "../Notification/notification";
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
+  const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const [showMentionModal, setShowMentionModal] = useState(false);
   const [mentionName, setMentionName] = useState<string>("");
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel?.channelData);
@@ -35,13 +36,28 @@ function ChatInput(props: any) {
                 authorization: at,
               }),
             );
-
             console.log("웹소켓 연결");
           };
         });
       });
     }
   }, [CompleteGetWorkspace]);
+  useEffect(() => {
+    if (UpdateChannel.lastAddedChannel_hv !== "") {
+      const hv = UpdateChannel.lastAddedChannel_hv;
+      const webSocket = new WebSocket(`${WsUrl_chat}${hv}/`);
+      MyWebSocket.push({ ch_hv: hv, wb: webSocket });
+      webSocket.onopen = () => {
+        webSocket.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        console.log("웹소켓 연결");
+      };
+    }
+  }, [UpdateChannel]);
+
   useEffect(() => {
     console.log("입력하려는 웹소켓", MyWebSocket);
     MyWebSocket.forEach(w => {
