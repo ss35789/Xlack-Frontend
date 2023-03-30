@@ -4,12 +4,14 @@ import { Notification } from "../types/types";
 interface struct {
   UnReadChannel: Notification[];
   CompleteGetUnreadChannel: boolean;
+  // Count: number;
 }
 
 const initialState: struct = {
   UnReadChannel: [],
   CompleteGetUnreadChannel: false,
   // channel_hashed_value: "",
+  // Count: 0,
 };
 
 export const UnReadChannelSlice = createSlice({
