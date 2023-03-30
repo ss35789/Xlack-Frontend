@@ -61,7 +61,7 @@ function ChatInput(props: any) {
     if (File) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      sendMessage(e.preventDefault); // TODO: event 처리 문제 해결
+      sendMessage(e.preventDefault);
     }
   }, [File]);
   const sendMessage = (event: { preventDefault: () => void }) => {
