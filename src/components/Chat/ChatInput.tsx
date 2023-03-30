@@ -55,8 +55,9 @@ function ChatInput(props: any) {
         );
         console.log("웹소켓 연결");
       };
+      console.log("웹소켓들", MyWebSocket);
     }
-  }, [UpdateChannel]);
+  }, [UpdateChannel.lastAddedChannel_hv]);
 
   useEffect(() => {
     console.log("입력하려는 웹소켓", MyWebSocket);
@@ -68,7 +69,6 @@ function ChatInput(props: any) {
         w.wb.onmessage = message => {
           // 클라이언트로부터 메시지 수신 시
           const m = JSON.parse(message.data);
-          console.log("웹소켓 테스트", m);
           dispatch(findUserDataInClickedChannel(m.user_id));
           props.receive(w.ch_hv, m);
           dispatch(UpdateChat());
