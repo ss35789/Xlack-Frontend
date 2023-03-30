@@ -101,7 +101,7 @@ function ChatInput(props: any) {
   }, [notifi]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (socket) {
+    if (socket && msg !== "") {
       socket.send(
         JSON.stringify({
           message: msg,
