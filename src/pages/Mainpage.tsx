@@ -106,6 +106,8 @@ const Mainpage = () => {
   };
 
   const handleFiles = async (files: FileList) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     let fileList: Array<File> = [];
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -115,7 +117,7 @@ const Mainpage = () => {
       if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
         if (file) {
           dispatch(setFile(element));
-          console.log(file);
+          //console.log(file);
           if ((await AtVerify()) == 200) {
             fileList = [...fileList, file];
             await axios.post(
@@ -131,6 +133,8 @@ const Mainpage = () => {
               },
             );
             console.log("업로드 성공");
+
+            console.log("sac", file);
           } else {
             alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
             return;

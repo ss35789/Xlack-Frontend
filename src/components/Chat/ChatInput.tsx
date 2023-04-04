@@ -59,11 +59,10 @@ function ChatInput(props: any) {
   }, [enterChannelHv]);
   useEffect(() => {
     if (File) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      sendMessage(e.preventDefault);
+      console.log("sdsd", File);
     }
   }, [File]);
+
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket) {
@@ -73,7 +72,6 @@ function ChatInput(props: any) {
           file: File,
         }),
       );
-      console.log(msg);
     }
 
     if (inputRef.current) {

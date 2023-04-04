@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import ClickedChannelReducer from "../variable/ClickedChannelSlice";
 import UpdateChannelReducer from "../variable/UpdateChannelSlice";
 import UpdateChatContextReducer from "../variable/UpdateChatContextSlice";
@@ -22,6 +22,9 @@ export const store = configureStore({
     ClickedStatus: StatusSliceReducer,
     Chat: ChatSliceReducer,
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

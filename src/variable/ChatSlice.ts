@@ -1,13 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, getDefaultMiddleware } from "@reduxjs/toolkit";
 interface struct {
   SendMessage: {
-    message: string;
     fileData: File | null;
   };
 }
+
 const initialState: struct = {
   SendMessage: {
-    message: File.name,
     fileData: null,
   },
 };
