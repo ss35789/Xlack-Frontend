@@ -71,25 +71,35 @@ const EditDescriptionModal = (props: any) => {
             <div className="wrapper-center max-w-md">
               <div className="mt-5 md:col-span-2 md:mt-0">
                 <div className="overflow-hidden shadow sm:rounded-md">
-                  <div className="bg-white py-5 sm:p-6">설명 수정할 인풋 공간</div>
-                  <input
-                    ref={inputRef}
-                    onChange={e => {
-                      const inputMsg = e.target.value;
-                      setDescription(inputMsg);
-                    }}
-                    placeholder={`Description`}
-                  />
-                  <button
-                    onClick={() => {
-                      props.SaveDescription(description);
-                      props.setShow(false);
-                      // console.log(description);
-                    }}
-                    className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Save
-                  </button>
+                  <div className="bg-white py-5 sm:p-6">
+                    설명 수정할 인풋 공간
+                    <hr />
+                    <textarea
+                      style={{ width: 500, height: 250 }}
+                      onChange={e => {
+                        const inputMsg = e.target.value;
+                        setDescription(inputMsg);
+                      }}
+                      placeholder={`Description`}
+                    />
+                    <button
+                      onClick={() => {
+                        props.setShow(false);
+                      }}
+                      className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        props.SaveDescription(description);
+                        props.setShow(false);
+                      }}
+                      className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
