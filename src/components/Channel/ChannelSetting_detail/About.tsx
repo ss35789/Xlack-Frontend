@@ -40,7 +40,7 @@ const About = () => {
       </div>
       <h1>about this channel!</h1>
       <hr />
-      <h1>${rightClickedChannelData.description}</h1>
+      <h1>{rightClickedChannelData.description}</h1>
       {showEditDescriptionModal && (
         <EditDescriptionModal
           SaveDescription={(des: string) => {
