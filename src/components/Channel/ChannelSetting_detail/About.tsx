@@ -1,21 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import axios from "axios";
 import { at, backUrl } from "../../../variable/cookie";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
+import { Update } from "../../../variable/UpdateChannelSlice";
 
 const About = () => {
   const rightClickedChannelData = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace);
   const [showEditDescriptionModal, setShowEditDescriptionModal] = useState<boolean>(false);
-  const [des, setDes] = useState<string>();
-  const editChannnelDesc = async () => {
+  const dispatch = useDispatch();
+  const editChannnelDesc = async (des: string) => {
     await axios
       .patch(
         `${backUrl}channel/${currentWorkspace.ClickedWorkSpace.hashed_value}/`,
         {
           description: des,
-          hashed_value: rightClickedChannelData,
+          hashed_value: rightClickedChannelData.hashed_value,
         },
         {
           headers: {
@@ -25,10 +26,6 @@ const About = () => {
       )
       .catch(err => console.log(err));
   };
-  const SaveDes = (des :string)=>{
-    setDes(des);
-  }
-}
   return (
     <>
       <div className="flex justify-between mt-6">
@@ -44,13 +41,24 @@ const About = () => {
       <h1>about this channel!</h1>
       <hr />
       <h1>${rightClickedChannelData.description}</h1>
-      {showEditDescriptionModal && <EditDescriptionModal description={()=>{SaveDes()}} />}
+      {showEditDescriptionModal && (
+        <EditDescriptionModal
+          SaveDescription={(des: string) => {
+            editChannnelDesc(des);
+            dispatch(Update());
+          }}
+          setShow={(show: boolean) => {
+            setShowEditDescriptionModal(show);
+          }}
+        />
+      )}
     </>
   );
 };
 
 const EditDescriptionModal = (props: any) => {
   const [description, setDescription] = useState<string>();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <>
       <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -64,6 +72,24 @@ const EditDescriptionModal = (props: any) => {
               <div className="mt-5 md:col-span-2 md:mt-0">
                 <div className="overflow-hidden shadow sm:rounded-md">
                   <div className="bg-white py-5 sm:p-6">설명 수정할 인풋 공간</div>
+                  <input
+                    ref={inputRef}
+                    onChange={e => {
+                      const inputMsg = e.target.value;
+                      setDescription(inputMsg);
+                    }}
+                    placeholder={`Description`}
+                  />
+                  <button
+                    onClick={() => {
+                      props.SaveDescription(description);
+                      props.setShow(false);
+                      // console.log(description);
+                    }}
+                    className="ml-5 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Save
+                  </button>
                 </div>
               </div>
             </div>
