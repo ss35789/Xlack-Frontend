@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import axios from "axios";
 import { at, backUrl } from "../../../variable/cookie";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Update } from "../../../variable/UpdateChannelSlice";
 
 const About = () => {
@@ -50,6 +50,7 @@ const About = () => {
           setShow={(show: boolean) => {
             setShowEditDescriptionModal(show);
           }}
+          channelData={rightClickedChannelData}
         />
       )}
     </>
@@ -58,7 +59,6 @@ const About = () => {
 
 const EditDescriptionModal = (props: any) => {
   const [description, setDescription] = useState<string>();
-  const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <>
       <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -80,7 +80,7 @@ const EditDescriptionModal = (props: any) => {
                         const inputMsg = e.target.value;
                         setDescription(inputMsg);
                       }}
-                      placeholder={`Description`}
+                      placeholder={props.channelData.description}
                     />
                     <button
                       onClick={() => {
