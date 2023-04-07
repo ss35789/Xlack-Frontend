@@ -13,17 +13,20 @@ const Settings = () => {
   const [showCheckDeleteModal, setShowCheckDeleteModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const DeleteChannel = async () => {
-    await axios
-      .delete(`${backUrl}channel/${currentWorkspace.hashed_value}/${currentChannel.hashed_value}/`, {
+    try {
+      await axios.delete(`${backUrl}channel/${currentWorkspace.hashed_value}/${currentChannel.hashed_value}/`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },
-      })
-      .catch(err => {
-        console.log(err);
       });
+
+      dispatch(Update());
+    } catch (err) {
+      window.alert("권한이 없습니다");
+    }
     console.log("delete!!");
   };
+
   return (
     <>
       <h1>about Settings!</h1>
