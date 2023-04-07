@@ -5,7 +5,7 @@ import { RootState } from "../../../app/store";
 import { Button } from "antd";
 import React, { useState } from "react";
 import { ChannelSettingOnOff } from "../../../variable/OnModalSlice";
-import { Update } from "../../../variable/UpdateChannelSlice";
+import { SaveDeleteChannel_hv, Update } from "../../../variable/UpdateChannelSlice";
 
 const Settings = () => {
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
@@ -19,7 +19,7 @@ const Settings = () => {
           Authorization: `Bearer ${at}`,
         },
       });
-
+      dispatch(SaveDeleteChannel_hv(currentChannel.hashed_value));
       dispatch(Update());
     } catch (err) {
       window.alert("권한이 없습니다");

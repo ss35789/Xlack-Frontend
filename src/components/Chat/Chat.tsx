@@ -68,8 +68,8 @@ const Chat = () => {
     }
   }, [ClickedBookmark, UpdateBookmark]);
   useEffect(() => {
-    setGetChatData([]);
-  }, [UpdateChannel]);
+    if (UpdateChannel.lastDeleteChannel_hv === Clicked_channel.hashed_value) setGetChatData([]);
+  }, [UpdateChannel.lastDeleteChannel_hv]);
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
