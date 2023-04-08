@@ -5,6 +5,7 @@ import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
 import { at, WsUrl_chat } from "../../variable/cookie";
+import { setFile } from "../../variable/ChatSlice";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
@@ -59,7 +60,8 @@ function ChatInput(props: any) {
   }, [enterChannelHv]);
   useEffect(() => {
     if (File) {
-      console.log("sdsd", File);
+      //sendMessage;
+      console.log("file useEffect 동작", File);
     }
   }, [File]);
 
@@ -72,6 +74,7 @@ function ChatInput(props: any) {
           file: File,
         }),
       );
+      console.log("file 전송 성공");
     }
 
     if (inputRef.current) {

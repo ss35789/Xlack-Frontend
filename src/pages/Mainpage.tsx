@@ -16,6 +16,7 @@ import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
 import { setFile } from "../variable/ChatSlice";
+import chatInput from "../components/Chat/ChatInput";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -133,8 +134,8 @@ const Mainpage = () => {
               },
             );
             console.log("업로드 성공");
-
-            console.log("sac", file);
+            sendFile(file);
+            console.log("File handler 동작", file);
           } else {
             alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
             return;
@@ -146,7 +147,18 @@ const Mainpage = () => {
       setImageList(fileList);
     }
   };
-
+  const [socket, setsocket] = useState<WebSocket>();
+  const sendFile = (File: File) => {
+    if (socket) {
+      console.log("sendFile 동작");
+      socket.send(
+        JSON.stringify({
+          message: File.name,
+          file: File,
+        }),
+      );
+    }
+  };
   // 없으면 drop 작동안됨
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();

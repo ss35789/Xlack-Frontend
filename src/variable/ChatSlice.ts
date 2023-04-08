@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface struct {
   SendMessage: {
     fileData: File | null;
