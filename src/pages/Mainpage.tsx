@@ -15,8 +15,11 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
+
 import { setFileName } from "../variable/ChatSlice";
 import chatInput from "../components/Chat/ChatInput";
+import { Notifi } from "../components/Notification/notification";
+
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ const Mainpage = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
   const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
+  const U = useSelector((state: RootState) => state.UnReadChannel.CompleteGetUnreadChannel);
   const GetChatInAllChannel = (Ws: WorkspaceType) => {
     Ws.chat_channel?.forEach(async channel => {
       try {
@@ -184,7 +188,7 @@ const Mainpage = () => {
         <Sidebar />
         <Profile />
         {OpenChannelSetting && <ChannelSetting />}
-        <Chat />
+        {U && <Chat />}
       </AppBody>
     </>
   );

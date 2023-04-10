@@ -4,7 +4,6 @@ import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
 interface struct {
   MyWorkSpace: WorkspaceType[];
   rightClicked_channel_hashed_value: string;
-  ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
   CompletegetWorkspace: boolean;
@@ -13,7 +12,6 @@ interface struct {
 const initialState: struct = {
   MyWorkSpace: [],
   rightClicked_channel_hashed_value: "",
-  ClickedWorkSpace_hashed_value: "",
   ClickedWorkSpace: {
     created_at: "",
     updated_at: "",
@@ -57,11 +55,11 @@ export const WorkSpaceSlice = createSlice({
       state.ClickedWorkSpace.chat_channel = action.payload;
     },
     SetClickedWorkSpace: (state, action: PayloadAction<string>) => {
-      state.ClickedWorkSpace_hashed_value = action.payload;
+      state.ClickedWorkSpace.hashed_value = action.payload;
     },
 
     CallClickedWorkSpace: (state, action: PayloadAction<void>) => {
-      const w = state.ClickedWorkSpace_hashed_value;
+      const w = state.ClickedWorkSpace.hashed_value;
       state.MyWorkSpace.forEach(value => {
         if (value.hashed_value === w) {
           state.ClickedWorkSpace = value;
