@@ -15,7 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
-import { setFile } from "../variable/ChatSlice";
+import { setFileId } from "../variable/ChatSlice";
 import chatInput from "../components/Chat/ChatInput";
 
 const Mainpage = () => {
@@ -105,7 +105,8 @@ const Mainpage = () => {
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
   };
-
+  let file_id: number;
+  //let FiletobeUpload: File;
   const handleFiles = async (files: FileList) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -114,28 +115,34 @@ const Mainpage = () => {
     // @ts-ignore
     for (const element of files) {
       const file: File = element;
+      //FiletobeUpload = file;
       const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
+
       if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
         if (file) {
-          dispatch(setFile(element));
           //console.log(file);
           if ((await AtVerify()) == 200) {
             fileList = [...fileList, file];
-            await axios.post(
-              `${backUrl}file/`,
-              {
-                file: file,
-              },
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                  Authorization: `Bearer ${at}`,
+            await axios
+              .post(
+                `${backUrl}file/`,
+                {
+                  file: file,
                 },
-              },
-            );
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${at}`,
+                  },
+                },
+              )
+              .then(res => {
+                file_id = res.data.id;
+                console.log(file_id);
+              });
             console.log("업로드 성공");
-            sendFile(file);
-            console.log("File handler 동작", file);
+            //dispatch(setFile(element));
+            dispatch(setFileId(file_id));
           } else {
             alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
             return;
@@ -147,18 +154,14 @@ const Mainpage = () => {
       setImageList(fileList);
     }
   };
-  const [socket, setsocket] = useState<WebSocket>();
-  const sendFile = (File: File) => {
-    if (socket) {
-      console.log("sendFile 동작");
-      socket.send(
-        JSON.stringify({
-          message: File.name,
-          file: File,
-        }),
-      );
+  useEffect(() => {
+    if (file_id) {
+      dispatch(setFileId(file_id));
+      //dispatch(setFile(FiletobeUpload));
+      console.log("useEffect 발동 file_id dispatch로 저장됨");
     }
-  };
+  });
+
   // 없으면 drop 작동안됨
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();

@@ -1,24 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface struct {
   SendMessage: {
-    fileData: File | null;
+    //file: File | null;
+    file_id: number | null;
   };
 }
 
 const initialState: struct = {
   SendMessage: {
-    fileData: null,
+    //file: null,
+    file_id: null,
   },
 };
 export const ChatSlice = createSlice({
   name: "Chat",
   initialState,
   reducers: {
-    setFile: (state, action: PayloadAction<File>) => {
-      state.SendMessage.fileData = action.payload;
+    // setFile: (state, action: PayloadAction<File>) => {
+    //   state.SendMessage.file = action.payload;
+    // },
+    setFileId: (state, action: PayloadAction<number>) => {
+      state.SendMessage.file_id = action.payload;
     },
   },
 });
 
-export const { setFile } = ChatSlice.actions;
+export const { setFileId } = ChatSlice.actions;
 export default ChatSlice.reducer;

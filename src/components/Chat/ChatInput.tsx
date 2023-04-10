@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, WsUrl_chat } from "../../variable/cookie";
-import { setFile } from "../../variable/ChatSlice";
+import { at, backUrl, WsUrl_chat } from "../../variable/cookie";
+import axios from "axios";
+//import { setFile } from "../../variable/ChatSlice";
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
@@ -14,7 +15,8 @@ function ChatInput(props: any) {
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const File = useSelector((state: RootState) => state.Chat.SendMessage);
+  const File_id = useSelector((state: RootState) => state.Chat.SendMessage.file_id);
+  //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
 
   const dispatch = useDispatch();
@@ -58,12 +60,17 @@ function ChatInput(props: any) {
       }
     });
   }, [enterChannelHv]);
+
   useEffect(() => {
-    if (File) {
-      //sendMessage;
-      console.log("file useEffect 동작", File);
+    if (socket) {
+      socket.send(
+        JSON.stringify({
+          message: File_id,
+          //file: File,
+        }),
+      );
     }
-  }, [File]);
+  }, [File_id]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -71,7 +78,7 @@ function ChatInput(props: any) {
       socket.send(
         JSON.stringify({
           message: msg,
-          file: File,
+          //file: File_id,
         }),
       );
       console.log("file 전송 성공");
