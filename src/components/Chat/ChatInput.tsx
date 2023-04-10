@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
@@ -11,6 +11,7 @@ import { showNotification } from "../Notification/notification";
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
+  const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const [showMentionModal, setShowMentionModal] = useState(false);
   const [mentionName, setMentionName] = useState<string>("");
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel?.channelData);
@@ -35,13 +36,29 @@ function ChatInput(props: any) {
                 authorization: at,
               }),
             );
-
             console.log("웹소켓 연결");
           };
         });
       });
     }
   }, [CompleteGetWorkspace]);
+  useEffect(() => {
+    if (UpdateChannel.lastAddedChannel_hv !== "") {
+      const hv = UpdateChannel.lastAddedChannel_hv;
+      const webSocket = new WebSocket(`${WsUrl_chat}${hv}/`);
+      MyWebSocket.push({ ch_hv: hv, wb: webSocket });
+      webSocket.onopen = () => {
+        webSocket.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        console.log("웹소켓 연결");
+      };
+      console.log("웹소켓들", MyWebSocket);
+    }
+  }, [UpdateChannel.lastAddedChannel_hv]);
+
   useEffect(() => {
     console.log("입력하려는 웹소켓", MyWebSocket);
     MyWebSocket.forEach(w => {
@@ -52,7 +69,6 @@ function ChatInput(props: any) {
         w.wb.onmessage = message => {
           // 클라이언트로부터 메시지 수신 시
           const m = JSON.parse(message.data);
-          console.log("웹소켓 테스트", m);
           dispatch(findUserDataInClickedChannel(m.user_id));
           props.receive(w.ch_hv, m);
           dispatch(UpdateChat());
@@ -85,7 +101,7 @@ function ChatInput(props: any) {
   }, [notifi]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (socket) {
+    if (socket && msg !== "") {
       socket.send(
         JSON.stringify({
           message: msg,

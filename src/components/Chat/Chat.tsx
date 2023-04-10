@@ -15,6 +15,7 @@ const Chat = () => {
   const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
   const MyWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+  const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
   const [lastChat, setLastChat] = useState<any>("-1");
   const dispatch = useDispatch();
@@ -66,6 +67,9 @@ const Chat = () => {
       receiveChatBookmarkData();
     }
   }, [ClickedBookmark, UpdateBookmark]);
+  useEffect(() => {
+    if (UpdateChannel.lastDeleteChannel_hv === Clicked_channel.hashed_value) setGetChatData([]);
+  }, [UpdateChannel.lastDeleteChannel_hv]);
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
