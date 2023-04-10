@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface struct {
   SendMessage: {
     //file: File | null;
-    file_id: number | null;
+    file_name: string | null;
   };
 }
 
 const initialState: struct = {
   SendMessage: {
     //file: null,
-    file_id: null,
+    file_name: null,
   },
 };
 export const ChatSlice = createSlice({
@@ -19,11 +19,11 @@ export const ChatSlice = createSlice({
     // setFile: (state, action: PayloadAction<File>) => {
     //   state.SendMessage.file = action.payload;
     // },
-    setFileId: (state, action: PayloadAction<number>) => {
-      state.SendMessage.file_id = action.payload;
+    setFileName: (state, action: PayloadAction<string>) => {
+      state.SendMessage.file_name = action.payload;
     },
   },
 });
 
-export const { setFileId } = ChatSlice.actions;
+export const { setFileName } = ChatSlice.actions;
 export default ChatSlice.reducer;

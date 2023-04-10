@@ -15,7 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
-import { setFileId } from "../variable/ChatSlice";
+import { setFileName } from "../variable/ChatSlice";
 import chatInput from "../components/Chat/ChatInput";
 
 const Mainpage = () => {
@@ -105,7 +105,9 @@ const Mainpage = () => {
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
   };
-  let file_id: number;
+  let original_file_name: string;
+  let file_name: string;
+  let author: string;
   //let FiletobeUpload: File;
   const handleFiles = async (files: FileList) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -137,12 +139,14 @@ const Mainpage = () => {
                 },
               )
               .then(res => {
-                file_id = res.data.id;
-                console.log(file_id);
+                original_file_name = res.data.file;
+                author = res.data.uploaded_by.username;
+                file_name = original_file_name.split("/").slice(-1).toString() + " uploaded by(" + author + ")";
+                console.log(file_name);
               });
             console.log("업로드 성공");
             //dispatch(setFile(element));
-            dispatch(setFileId(file_id));
+            dispatch(setFileName(file_name));
           } else {
             alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
             return;
@@ -155,13 +159,12 @@ const Mainpage = () => {
     }
   };
   useEffect(() => {
-    if (file_id) {
-      dispatch(setFileId(file_id));
+    if (file_name) {
+      dispatch(setFileName(file_name));
       //dispatch(setFile(FiletobeUpload));
       console.log("useEffect 발동 file_id dispatch로 저장됨");
     }
   });
-
   // 없으면 drop 작동안됨
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();

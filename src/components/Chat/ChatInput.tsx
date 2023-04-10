@@ -15,7 +15,7 @@ function ChatInput(props: any) {
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const File_id = useSelector((state: RootState) => state.Chat.SendMessage.file_id);
+  const File_name = useSelector((state: RootState) => state.Chat.SendMessage.file_name);
   //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
 
@@ -65,12 +65,12 @@ function ChatInput(props: any) {
     if (socket) {
       socket.send(
         JSON.stringify({
-          message: File_id,
+          message: File_name,
           //file: File,
         }),
       );
     }
-  }, [File_id]);
+  }, [File_name]);
 
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
