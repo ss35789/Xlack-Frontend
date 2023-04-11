@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, WsUrl_chat } from "../../variable/cookie";
+import { at, backUrl, WsUrl_chat } from "../../variable/cookie";
+import axios from "axios";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
+
 
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
@@ -19,6 +21,8 @@ function ChatInput(props: any) {
   const CompleteGetWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.CompletegetWorkspace);
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const File_name = useSelector((state: RootState) => state.Chat.SendMessage.file_name);
+  //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
   const dispatch = useDispatch();
@@ -79,6 +83,19 @@ function ChatInput(props: any) {
       }
     });
 
+
+  useEffect(() => {
+    if (socket) {
+      socket.send(
+        JSON.stringify({
+          message: File_name,
+          //file: File,
+        }),
+      );
+    }
+  }, [File_name]);
+
+
     if (inputRef.current) {
       // enter 치면 chatbox 공백으로 초기화 됨
       inputRef.current.value = "";
@@ -99,15 +116,17 @@ function ChatInput(props: any) {
       };
     });
   }, [notifi]);
+
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket && msg !== "") {
       socket.send(
         JSON.stringify({
           message: msg,
+          //file: File_id,
         }),
       );
-      console.log(msg);
+      console.log("file 전송 성공");
     }
 
     if (inputRef.current) {

@@ -15,7 +15,11 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
+
+import { setFileName } from "../variable/ChatSlice";
+import chatInput from "../components/Chat/ChatInput";
 import { Notifi } from "../components/Notification/notification";
+
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -103,35 +107,54 @@ const Mainpage = () => {
   const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
     console.log({ e }, e.dataTransfer.files);
     e.preventDefault();
-
     handleFiles(e.dataTransfer.files);
   };
-
+  let original_file_name: string;
+  let file_name: string;
+  let author: string;
+  //let FiletobeUpload: File;
   const handleFiles = async (files: FileList) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     let fileList: Array<File> = [];
-    for (let i = 0; i < files.length; i++) {
-      const file: File = files[i];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    for (const element of files) {
+      const file: File = element;
+      //FiletobeUpload = file;
       const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
+
       if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
-        console.log(file);
-        if ((await AtVerify()) == 200) {
-          fileList = [...fileList, file];
-          await axios.post(
-            `${backUrl}file/`,
-            {
-              file: file,
-            },
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${at}`,
-              },
-            },
-          );
-          console.log("업로드 성공");
-        } else {
-          alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
-          return;
+        if (file) {
+          //console.log(file);
+          if ((await AtVerify()) == 200) {
+            fileList = [...fileList, file];
+            await axios
+              .post(
+                `${backUrl}file/`,
+                {
+                  file: file,
+                },
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${at}`,
+                  },
+                },
+              )
+              .then(res => {
+                original_file_name = res.data.file;
+                author = res.data.uploaded_by.username;
+                file_name = original_file_name.split("/").slice(-1).toString() + " uploaded by(" + author + ")";
+                console.log(file_name);
+              });
+            console.log("업로드 성공");
+            //dispatch(setFile(element));
+            dispatch(setFileName(file_name));
+          } else {
+            alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
+            return;
+          }
         }
       }
     }
@@ -139,7 +162,13 @@ const Mainpage = () => {
       setImageList(fileList);
     }
   };
-
+  useEffect(() => {
+    if (file_name) {
+      dispatch(setFileName(file_name));
+      //dispatch(setFile(FiletobeUpload));
+      console.log("useEffect 발동 file_id dispatch로 저장됨");
+    }
+  });
   // 없으면 drop 작동안됨
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
