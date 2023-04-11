@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setClickedChannel } from "../../variable/ClickedChannelSlice";
-import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
+import { rightClick_channel, SearchChannelInAll } from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
 
 const Historymenu = () => {
@@ -21,6 +21,7 @@ const Historymenu = () => {
 
   useEffect(() => {
     dispatch(setClickedChannel(search_channel));
+    console.log(search_channel);
   }, [search_channel]);
   return (
     <div className="relative inline-block text-left">
@@ -39,12 +40,9 @@ const Historymenu = () => {
                   className="cursor-pointer block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                   role="menuitem"
                   onClick={() => {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     dispatch(rightClick_channel(h.value));
-                    dispatch(SearchChannel());
-                    console.log(search_channel);
-
+                    dispatch(SearchChannelInAll());
+                    dispatch(setClickedChannel(search_channel));
                     console.log("history click:", h.value);
                   }}
                 >
