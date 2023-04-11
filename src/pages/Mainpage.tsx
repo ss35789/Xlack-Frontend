@@ -17,9 +17,6 @@ import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
 
 import { setFileName } from "../variable/ChatSlice";
-import chatInput from "../components/Chat/ChatInput";
-import { Notifi } from "../components/Notification/notification";
-
 
 const Mainpage = () => {
   const dispatch = useDispatch();

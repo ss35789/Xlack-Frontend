@@ -26,7 +26,6 @@ export const store = configureStore({
 
     setStatus: StatusSliceReducer,
     UnReadChannel: UnreadChannelReducer,
-
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
