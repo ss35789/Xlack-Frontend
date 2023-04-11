@@ -15,9 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
-
 import { setFileName } from "../variable/ChatSlice";
-import chatInput from "../components/Chat/ChatInput";
 import { Notifi } from "../components/Notification/notification";
 
 const Mainpage = () => {
@@ -43,7 +41,7 @@ const Mainpage = () => {
       }
     });
   };
-
+  Notifi();
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -111,7 +109,6 @@ const Mainpage = () => {
   let original_file_name: string;
   let file_name: string;
   let author: string;
-  //let FiletobeUpload: File;
   const handleFiles = async (files: FileList) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -125,7 +122,6 @@ const Mainpage = () => {
 
       if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
         if (file) {
-          //console.log(file);
           if ((await AtVerify()) == 200) {
             fileList = [...fileList, file];
             await axios
@@ -170,7 +166,17 @@ const Mainpage = () => {
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          Notifi();
+        } else {
+          window.alert("알림 권한을 설정해주세요");
+        }
+      });
+    }
+  }, []);
   return (
     <>
       <Logout />
