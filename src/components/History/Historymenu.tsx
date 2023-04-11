@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setClickedChannel } from "../../variable/ClickedChannelSlice";
-import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
+import {rightClick_channel, SearchChannel, SearchChannelInAll} from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
 
 const Historymenu = () => {
@@ -42,9 +42,9 @@ const Historymenu = () => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     dispatch(rightClick_channel(h.value));
-                    dispatch(SearchChannel());
+                    dispatch(SearchChannelInAll());
+                    dispatch(setClickedChannel(search_channel));
                     console.log(search_channel);
-
                     console.log("history click:", h.value);
                   }}
                 >

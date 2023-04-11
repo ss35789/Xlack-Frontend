@@ -43,8 +43,11 @@ export const ClickedChannelSlice = createSlice({
         }
       });
     },
+    findChannelHV: (state, action: PayloadAction<string>) => {
+      state.channelData.hashed_value = action.payload.toString();
+    },
   },
 });
 
-export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel, findChannelHV } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;

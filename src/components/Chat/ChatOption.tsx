@@ -1,16 +1,22 @@
-import { PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
+import { AlibabaOutlined, PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { ChatType } from "../../types/types";
-import { at, backUrl } from "../../variable/cookie";
+import { at, backUrl, WsUrl_reaction, WsUrl_status } from "../../variable/cookie";
 import axios from "axios";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { findChannelHV } from "../../variable/ClickedChannelSlice";
+import { RootState } from "../../app/store";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
+  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
+  const [socket, setsocket] = useState<WebSocket>();
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
@@ -26,6 +32,43 @@ const ChatOption = (chat: ChatType) => {
       .catch(err => {
         console.log(err);
       });
+  };
+  const [icon, setIcon] = useState<string>("...");
+  const [time, setTime] = useState<number>(0);
+  const [isCreated, setisCreated] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (chat_channel_hashed_value !== "") {
+      setsocket(new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}`));
+      console.log("reaction ws connected");
+    }
+  }, [chat_channel_hashed_value]);
+
+  useEffect(() => {
+    console.log("현재 reaction 소켓", chat_channel_hashed_value);
+    if (socket) {
+      socket.onopen = () => {
+        socket.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+      };
+    }
+  }, [socket]);
+  const sendReaction = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (socket) {
+      console.log(socket);
+      socket.send(
+        JSON.stringify({
+          mode: isCreated,
+          icon: icon,
+          chat_id: time,
+        }),
+      );
+      console.log(isCreated, icon, time);
+    }
   };
   const MakeChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -69,7 +112,22 @@ const ChatOption = (chat: ChatType) => {
       },
       Icon: <RadarChartOutlined />,
     },
+    {
+      detailMessage: "reaction",
+      func: () => {
+        console.log("test");
+      },
+      Icon: <AccessTimeFilledIcon />,
+    },
+    {
+      detailMessage: "CheckBox",
+      func: () => {
+        console.log("CheckBox");
+      },
+      Icon: <CheckBoxIcon />,
+    },
   ];
+
   return (
     <>
       {ChatOptionDetailArray &&
