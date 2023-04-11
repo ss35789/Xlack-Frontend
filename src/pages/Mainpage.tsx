@@ -20,7 +20,6 @@ import { setFileName } from "../variable/ChatSlice";
 import chatInput from "../components/Chat/ChatInput";
 import { Notifi } from "../components/Notification/notification";
 
-
 const Mainpage = () => {
   const dispatch = useDispatch();
   const Update = useSelector((state: RootState) => state.UpdateChannel);
@@ -165,8 +164,6 @@ const Mainpage = () => {
   useEffect(() => {
     if (file_name) {
       dispatch(setFileName(file_name));
-      //dispatch(setFile(FiletobeUpload));
-      console.log("useEffect 발동 file_id dispatch로 저장됨");
     }
   });
   // 없으면 drop 작동안됨

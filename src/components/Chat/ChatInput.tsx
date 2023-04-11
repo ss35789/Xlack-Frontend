@@ -9,7 +9,6 @@ import axios from "axios";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
 
-
 function ChatInput(props: any) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
@@ -83,6 +82,12 @@ function ChatInput(props: any) {
       }
     });
 
+    if (inputRef.current) {
+      // enter 치면 chatbox 공백으로 초기화 됨
+      inputRef.current.value = "";
+      setmsg("");
+    }
+  }, [Clicked_channel_hv]);
 
   useEffect(() => {
     if (socket) {
@@ -94,15 +99,6 @@ function ChatInput(props: any) {
       );
     }
   }, [File_name]);
-
-
-    if (inputRef.current) {
-      // enter 치면 chatbox 공백으로 초기화 됨
-      inputRef.current.value = "";
-      setmsg("");
-    }
-  }, [Clicked_channel_hv]);
-
   //랜더링 시점 = notification 웹소켓 내용 변화시
   useEffect(() => {
     MyWebSocket.forEach(w => {
