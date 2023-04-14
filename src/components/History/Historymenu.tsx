@@ -7,6 +7,7 @@ import { RootState } from "../../app/store";
 
 const Historymenu = () => {
   const [historyData, sethistoryData] = useState<[{ name: string; value: string }]>();
+  const [ClickedHistoryChannelName, setClickedHistoryChannelName] = useState<string>("");
   const dispatch = useDispatch();
   const search_channel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
   const localStorage_hisory = JSON.parse(
@@ -14,14 +15,27 @@ const Historymenu = () => {
     // @ts-ignore
     window.localStorage.getItem("history"),
   );
+
   useEffect(() => {
     sethistoryData(localStorage_hisory);
     console.log("localStorage getHistoryData", localStorage_hisory);
   }, []);
-
+  const deleteObject = (nameToDelete: string) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    sethistoryData(prevData => prevData.filter(obj => obj.name !== nameToDelete));
+  };
   useEffect(() => {
     dispatch(setClickedChannel(search_channel));
     console.log(search_channel);
+    if (search_channel.id === -2) {
+      console.log("It's delete", ClickedHistoryChannelName);
+      deleteObject(ClickedHistoryChannelName);
+      console.log(historyData);
+      // window.localStorage.setItem("history", JSON.stringify(historyData));
+      // window.localStorage.removeItem(ClickedHistoryChannelName);
+      //알림띄우고 history에서 제거
+    }
   }, [search_channel]);
   return (
     <div className="relative inline-block text-left">
@@ -42,7 +56,7 @@ const Historymenu = () => {
                   onClick={() => {
                     dispatch(rightClick_channel(h.value));
                     dispatch(SearchChannelInAll());
-                    dispatch(setClickedChannel(search_channel));
+                    setClickedHistoryChannelName(h.name);
                     console.log("history click:", h.value);
                   }}
                 >
