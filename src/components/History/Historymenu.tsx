@@ -28,7 +28,7 @@ const Historymenu = () => {
   useEffect(() => {
     dispatch(setClickedChannel(search_channel));
     console.log(search_channel);
-    if (search_channel.id === -2) {
+    if (search_channel.id === -1) {
       console.log("It's delete", ClickedHistoryChannelName);
       deleteObject(ClickedHistoryChannelName);
       console.log(historyData);

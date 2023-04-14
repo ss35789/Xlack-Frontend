@@ -78,7 +78,6 @@ export const WorkSpaceSlice = createSlice({
     SearchChannelInAll: (state, action: PayloadAction<void>) => {
       const r = state.rightClicked_channel_hashed_value;
       state.SearchedChannel = initialState.SearchedChannel;
-      state.SearchedChannel.id = -2;
       state.ClickedWorkSpace = initialState.ClickedWorkSpace;
       //해당 value의 채널이 없을 시 초기값을 넣기 위해 초기화
       state.MyWorkSpace.forEach(w => {
