@@ -8,12 +8,14 @@ import { RootState } from "../../app/store";
 const Historymenu = () => {
   const [historyData, sethistoryData] = useState<[{ name: string; value: string }]>();
   const [ClickedHistoryChannelName, setClickedHistoryChannelName] = useState<string>("");
+  const [MenuOpen, setMenuOpen] = useState<boolean>(true);
   const dispatch = useDispatch();
   const search_channel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
+  const lS = window.localStorage.getItem("history");
   const localStorage_hisory = JSON.parse(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    window.localStorage.getItem("history"),
+    lS,
   );
 
   useEffect(() => {
@@ -23,19 +25,23 @@ const Historymenu = () => {
   const deleteObject = (nameToDelete: string) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    sethistoryData(prevData => prevData.filter(obj => obj.name !== nameToDelete));
+    sethistoryData(historyData.filter(h => h.name !== nameToDelete));
   };
   useEffect(() => {
     dispatch(setClickedChannel(search_channel));
     console.log(search_channel);
-    if (search_channel.id === -1) {
-      console.log("It's delete", ClickedHistoryChannelName);
-      deleteObject(ClickedHistoryChannelName);
-      console.log(historyData);
-      // window.localStorage.setItem("history", JSON.stringify(historyData));
-      // window.localStorage.removeItem(ClickedHistoryChannelName);
-      //알림띄우고 history에서 제거
-    }
+    if (!MenuOpen) {
+      if (search_channel.id === -2) {
+        console.log("It's deleted", ClickedHistoryChannelName);
+        deleteObject(ClickedHistoryChannelName);
+        window.alert("it's deleted");
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.localStorage.setItem("history", JSON.stringify(historyData.filter(h => h.name !== ClickedHistoryChannelName)));
+        // window.localStorage.removeItem(ClickedHistoryChannelName);
+        //알림띄우고 history에서 제거
+      }
+    } else setMenuOpen(false);
   }, [search_channel]);
   return (
     <div className="relative inline-block text-left">
