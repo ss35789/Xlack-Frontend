@@ -45,7 +45,7 @@ function Sidebar() {
     setClickedChannelinSide(-1);
     onClickshowChannels();
     setshowChannelMenu(false);
-  }, [currentWorkspace]);
+  }, [currentWorkspace.hashed_value]);
 
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
