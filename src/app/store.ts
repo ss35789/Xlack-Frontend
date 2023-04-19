@@ -20,10 +20,8 @@ export const store = configureStore({
     OnModal: OnModalReducer,
     getMyProfile: MyProfileReducer,
     ChatBookmark: ChatBookmarkReducer,
-
     ClickedStatus: StatusSliceReducer,
     Chat: ChatSliceReducer,
-
     setStatus: StatusSliceReducer,
     UnReadChannel: UnreadChannelReducer,
   },
