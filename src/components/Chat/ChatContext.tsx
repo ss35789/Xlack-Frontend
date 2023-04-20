@@ -3,6 +3,8 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
 import React, { useState } from "react";
 import ChatOption from "./ChatOption";
+import ChatReaction from "./ChatReaction";
+import chatReaction from "./ChatReaction";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
@@ -40,6 +42,7 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>{chat.message}</h2>
         </ChatMessages>
+        <ChatReaction />
       </ChatContainer>
     </div>
   );

@@ -62,7 +62,6 @@ const ChatOption = (chat: ChatType) => {
           chat_id: chat_id,
         }),
       );
-      console.log(mode, icon, chat_id);
     } else {
       console.log("socket is undefined");
     }
@@ -110,9 +109,13 @@ const ChatOption = (chat: ChatType) => {
       Icon: <RadarChartOutlined />,
     },
     {
-      detailMessage: "reaction",
+      detailMessage: "Sign as Shown",
       func: () => {
-        dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
+        if (!mode) {
+          dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
+        } else {
+          dispatch(setClickedChatReaction({ mode: false, icon: "", chat_id: cid }));
+        }
       },
       Icon: "👀",
     },
@@ -127,7 +130,7 @@ const ChatOption = (chat: ChatType) => {
               key={i}
               onClick={() => {
                 ChatOptionDetail.func();
-                sendReaction();
+                sendReaction().then(r => console.log(icon, mode, chat_id));
               }}
               onMouseOver={() => {
                 setShowDetail(i);
