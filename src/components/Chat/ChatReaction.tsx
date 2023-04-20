@@ -28,13 +28,11 @@ const ChatReaction = () => {
           </ChatReactions>
         );
       })}
-      Here Reactions
     </>
   );
 };
 
 const ChatReactions = styled.span`
-  border: 1px solid black;
   :hover {
     background-color: blue;
   }
