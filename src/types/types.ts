@@ -175,3 +175,9 @@ export interface Status {
   status_icon: string;
   until: string;
 }
+
+export interface ReactionType {
+  mode: boolean;
+  icon: string;
+  chat_id: number;
+}

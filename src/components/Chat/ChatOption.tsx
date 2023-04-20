@@ -10,6 +10,7 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { findChannelHV } from "../../variable/ClickedChannelSlice";
 import { RootState } from "../../app/store";
+import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
@@ -17,6 +18,10 @@ const ChatOption = (chat: ChatType) => {
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
   const [socket, setsocket] = useState<WebSocket>();
+  const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
+  const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
+  const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
+
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
@@ -33,41 +38,33 @@ const ChatOption = (chat: ChatType) => {
         console.log(err);
       });
   };
-  const [icon, setIcon] = useState<string>("...");
-  const [time, setTime] = useState<number>(0);
-  const [isCreated, setisCreated] = useState<boolean>(true);
 
   useEffect(() => {
     if (chat_channel_hashed_value !== "") {
-      setsocket(new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}`));
-      console.log("reaction ws connected");
+      setsocket(new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`));
+      if (socket) {
+        socket.onopen = () => {
+          socket.send(
+            JSON.stringify({
+              authorization: at,
+            }),
+          );
+        };
+      }
     }
   }, [chat_channel_hashed_value]);
-
-  useEffect(() => {
-    console.log("현재 reaction 소켓", chat_channel_hashed_value);
+  const sendReaction = async () => {
     if (socket) {
-      socket.onopen = () => {
-        socket.send(
-          JSON.stringify({
-            authorization: at,
-          }),
-        );
-      };
-    }
-  }, [socket]);
-  const sendReaction = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    if (socket) {
-      console.log(socket);
       socket.send(
         JSON.stringify({
-          mode: isCreated,
+          mode: mode,
           icon: icon,
-          chat_id: time,
+          chat_id: chat_id,
         }),
       );
-      console.log(isCreated, icon, time);
+      console.log(mode, icon, chat_id);
+    } else {
+      console.log("socket is undefined");
     }
   };
   const MakeChatBookmark = async () => {
@@ -115,16 +112,9 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "reaction",
       func: () => {
-        console.log("test");
+        dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
       },
-      Icon: <AccessTimeFilledIcon />,
-    },
-    {
-      detailMessage: "CheckBox",
-      func: () => {
-        console.log("CheckBox");
-      },
-      Icon: <CheckBoxIcon />,
+      Icon: "👀",
     },
   ];
 
@@ -137,6 +127,7 @@ const ChatOption = (chat: ChatType) => {
               key={i}
               onClick={() => {
                 ChatOptionDetail.func();
+                sendReaction();
               }}
               onMouseOver={() => {
                 setShowDetail(i);

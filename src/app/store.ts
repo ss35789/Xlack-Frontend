@@ -9,6 +9,7 @@ import ChatBookmarkReducer from "../variable/ChatBookmarkSlice";
 import StatusSliceReducer from "../variable/StatusSlices";
 import ChatSliceReducer from "../variable/ChatSlice";
 import UnreadChannelReducer from "../variable/UnreadChannelSlice";
+import ChatReactionReducer from "../variable/ChatReactionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     Chat: ChatSliceReducer,
     setStatus: StatusSliceReducer,
     UnReadChannel: UnreadChannelReducer,
+    ChatReaction: ChatReactionReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
