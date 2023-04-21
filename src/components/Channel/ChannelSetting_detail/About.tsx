@@ -24,7 +24,10 @@ const About = () => {
           },
         },
       )
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        window.alert("권한이 없습니다.");
+      });
   };
   return (
     <>

@@ -75,6 +75,20 @@ export const WorkSpaceSlice = createSlice({
         }
       });
     },
+    SearchChannelInAll: (state, action: PayloadAction<void>) => {
+      const r = state.rightClicked_channel_hashed_value;
+      state.SearchedChannel.id = -2;
+      state.ClickedWorkSpace = initialState.ClickedWorkSpace;
+      //해당 value의 채널이 없을 시 초기값을 넣기 위해 초기화
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(value => {
+          if (value.hashed_value === r) {
+            state.SearchedChannel = value;
+            state.ClickedWorkSpace = w;
+          }
+        });
+      });
+    },
     rightClick_channel: (state, action: PayloadAction<string>) => {
       state.rightClicked_channel_hashed_value = action.payload;
     },
@@ -109,6 +123,17 @@ export const WorkSpaceSlice = createSlice({
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, CompleteGetMyWorkspace, AppendChat } =
-  WorkSpaceSlice.actions;
+export const {
+  getWorkSpace,
+  getChannelList,
+  clearWorkSpace,
+  SetClickedWorkSpace,
+  CallClickedWorkSpace,
+  SearchChannel,
+  rightClick_channel,
+  SaveChat,
+  CompleteGetMyWorkspace,
+  AppendChat,
+  SearchChannelInAll,
+} = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
