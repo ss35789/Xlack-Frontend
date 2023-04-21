@@ -4,7 +4,7 @@ import { RootState } from "../../app/store";
 import styled from "styled-components";
 
 const ChatReaction = () => {
-  const [socket, setsocket] = useState<WebSocket>();
+  // const [socket, setsocket] = useState<WebSocket>();
   const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
   const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);

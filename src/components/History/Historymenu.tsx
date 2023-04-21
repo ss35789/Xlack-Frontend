@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setClickedChannel } from "../../variable/ClickedChannelSlice";
-import {rightClick_channel, SearchChannel, SearchChannelInAll} from "../../variable/WorkSpaceSlice";
+import { rightClick_channel, SearchChannel, SearchChannelInAll } from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
 
 const Historymenu = () => {
