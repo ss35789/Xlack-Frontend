@@ -132,7 +132,7 @@ export interface Notification {
   count: number;
 }
 export interface UserProfileType {
-  id: number;
+  id: string;
   // title: ID
   // readOnly: true
   user: number;

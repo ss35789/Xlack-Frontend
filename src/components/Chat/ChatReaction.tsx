@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import styled from "styled-components";
+import { ChatType } from "../../types/types";
 
 const ChatReaction = () => {
   // const [socket, setsocket] = useState<WebSocket>();
@@ -11,20 +12,14 @@ const ChatReaction = () => {
 
   const ReactionArray: string[] = [];
 
-  // if (socket) {
-  //   if (mode) {
-  //     ReactionArray.push(icon);
-  //     console.log("pushed");
-  //   }
-  // }
   ReactionArray.push(icon);
 
   return (
     <>
-      {ReactionArray.map((ReactionArray, i) => {
+      {ReactionArray.map(ReactionArray => {
         return (
           <ChatReactions>
-            <span key={i}>{ReactionArray}</span>
+            <span key={chat_id}>{ReactionArray}</span>
           </ChatReactions>
         );
       })}
