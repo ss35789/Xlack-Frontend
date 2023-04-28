@@ -112,18 +112,18 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "Sign as Shown",
       func: () => {
-        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👀 ", chat_id: cid }));
+        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
         else if (icon.match("👀")) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👀", ""), chat_id: cid }));
-        else dispatch(setClickedChatReaction({ mode: true, icon: "👀 " + icon, chat_id: cid }));
+        else dispatch(setClickedChatReaction({ mode: true, icon: "👀" + icon, chat_id: cid }));
       },
       Icon: "👀",
     },
     {
       detailMessage: "Thumb Up",
       func: () => {
-        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👍 ", chat_id: cid }));
+        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👍", chat_id: cid }));
         else if (icon.match("👍")) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👍", ""), chat_id: cid }));
-        else dispatch(setClickedChatReaction({ mode: true, icon: "👍 " + icon, chat_id: cid }));
+        else dispatch(setClickedChatReaction({ mode: true, icon: "👍" + icon, chat_id: cid }));
       },
       Icon: "👍",
     },
