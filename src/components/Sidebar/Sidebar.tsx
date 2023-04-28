@@ -43,11 +43,14 @@ function Sidebar() {
   }, [WorkspaceData]);
   useEffect(() => {
     setClickedChannelinSide(-1);
-  }, [currentWorkspace]);
+    onClickshowChannels();
+    setshowChannelMenu(false);
+  }, [currentWorkspace.hashed_value]);
 
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
+      console.log(channelMenuRef.current);
       if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
         setshowChannelMenu(false);
       }
@@ -137,8 +140,6 @@ function Sidebar() {
                   e.preventDefault();
                   storeHistory(c.name, c.hashed_value);
                   ChangeChannel(c.hashed_value);
-                  // dispatch(CallClickedWorkSpace());
-                  // dispatch(setClickedChannel(c));
                   dispatch(setClickBookmarkPage(false));
                   setClickedChannelinSide(i);
                   // connectChat(enterRoomId)
@@ -150,7 +151,7 @@ function Sidebar() {
                   sety(e.clientY);
                   dispatch(rightClick_channel(c.hashed_value));
                   dispatch(SearchChannel());
-                  showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                  showChannelMenu && onClickshowChannelMenu();
                   onClickshowChannelMenu();
                 }}
               >

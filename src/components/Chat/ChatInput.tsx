@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, backUrl, WsUrl_chat } from "../../variable/cookie";
-import axios from "axios";
+import { at, WsUrl_chat } from "../../variable/cookie";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
 
