@@ -11,7 +11,6 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { findChannelHV } from "../../variable/ClickedChannelSlice";
 import { RootState } from "../../app/store";
 import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
-
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
@@ -21,6 +20,8 @@ const ChatOption = (chat: ChatType) => {
   const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
   const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
+  const iconArr: string[] = [];
+  const setIcons = "";
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -58,7 +59,7 @@ const ChatOption = (chat: ChatType) => {
       socket.send(
         JSON.stringify({
           mode: mode,
-          icon: icon,
+          icon: iconArr,
           chat_id: chat_id,
         }),
       );
@@ -111,13 +112,20 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "Sign as Shown",
       func: () => {
-        if (!mode) {
-          dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
-        } else {
-          dispatch(setClickedChatReaction({ mode: false, icon: "", chat_id: cid }));
-        }
+        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👀 ", chat_id: cid }));
+        else if (icon.match("👀")) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👀", ""), chat_id: cid }));
+        else dispatch(setClickedChatReaction({ mode: true, icon: "👀 " + icon, chat_id: cid }));
       },
       Icon: "👀",
+    },
+    {
+      detailMessage: "Thumb Up",
+      func: () => {
+        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👍 ", chat_id: cid }));
+        else if (icon.match("👍")) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👍", ""), chat_id: cid }));
+        else dispatch(setClickedChatReaction({ mode: true, icon: "👍 " + icon, chat_id: cid }));
+      },
+      Icon: "👍",
     },
   ];
 

@@ -42,7 +42,8 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>{chat.message}</h2>
         </ChatMessages>
-        <ChatReaction />
+        {/*<ChatReaction />*/}
+        <span>{chatReaction}</span>
       </ChatContainer>
     </div>
   );

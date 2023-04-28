@@ -17,6 +17,7 @@ const Chat = () => {
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
+  const reactions = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const [lastChat, setLastChat] = useState<any>("-1");
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();
@@ -76,7 +77,7 @@ const Chat = () => {
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reaction: [],
+      reaction: reactions,
       message: s.message,
       created_at: new Date().toString().substring(0, 25),
     };
@@ -117,6 +118,7 @@ const Chat = () => {
                 return (
                   <span key={i}>
                     <ChatContext {...chat}></ChatContext>
+                    {reactions}
                   </span>
                 );
               })}
