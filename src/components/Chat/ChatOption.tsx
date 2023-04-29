@@ -7,11 +7,18 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { ClickBookMark } from "../../variable/ClickedChannelSlice";
+import { EditChatBookmark } from "../../variable/WorkSpaceSlice";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const dispatch = useDispatch();
   const cidToInt = parseInt(chat.id);
+  const PlayChatBookmark = () => {
+    dispatch(getBookmarkPage());
+    dispatch(ClickBookMark(chat.id));
+    dispatch(EditChatBookmark(chat));
+  };
+
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
@@ -22,8 +29,7 @@ const ChatOption = (chat: ChatType) => {
       })
       .then(res => {
         console.log(res);
-        dispatch(getBookmarkPage());
-        dispatch(ClickBookMark(chat.id));
+        PlayChatBookmark();
       })
       .catch(err => {
         console.log(err);
@@ -46,8 +52,7 @@ const ChatOption = (chat: ChatType) => {
       )
       .then(res => {
         console.log(res);
-        dispatch(getBookmarkPage());
-        dispatch(ClickBookMark(chat.id));
+        PlayChatBookmark();
       })
       .catch(err => {
         console.log(err);
