@@ -118,7 +118,6 @@ const Chat = () => {
                 return (
                   <span key={i}>
                     <ChatContext {...chat}></ChatContext>
-                    {reactions}
                   </span>
                 );
               })}

@@ -1,14 +1,11 @@
 import { AlibabaOutlined, PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { ChatType } from "../../types/types";
-import { at, backUrl, WsUrl_reaction, WsUrl_status } from "../../variable/cookie";
+import { at, backUrl, WsUrl_reaction } from "../../variable/cookie";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { findChannelHV } from "../../variable/ClickedChannelSlice";
 import { RootState } from "../../app/store";
 import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
 const ChatOption = (chat: ChatType) => {
@@ -112,8 +109,8 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "Sign as Shown",
       func: () => {
-        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
-        else if (icon.match("👀")) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👀", ""), chat_id: cid }));
+        if (icon === "" && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
+        else if (icon.match("👀") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👀", ""), chat_id: cid }));
         else dispatch(setClickedChatReaction({ mode: true, icon: "👀" + icon, chat_id: cid }));
       },
       Icon: "👀",
@@ -121,8 +118,8 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: "Thumb Up",
       func: () => {
-        if (icon === "") dispatch(setClickedChatReaction({ mode: true, icon: "👍", chat_id: cid }));
-        else if (icon.match("👍")) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👍", ""), chat_id: cid }));
+        if (icon === "" && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: "👍", chat_id: cid }));
+        else if (icon.match("👍") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👍", ""), chat_id: cid }));
         else dispatch(setClickedChatReaction({ mode: true, icon: "👍" + icon, chat_id: cid }));
       },
       Icon: "👍",

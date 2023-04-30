@@ -5,9 +5,13 @@ import React, { useState } from "react";
 import ChatOption from "./ChatOption";
 import ChatReaction from "./ChatReaction";
 import chatReaction from "./ChatReaction";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
+  const reactions = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
+
   return (
     <div
       onMouseOver={() => {
@@ -41,6 +45,7 @@ function ChatContext(chat: ChatType) {
         </Header>
         <ChatMessages>
           <h2>{chat.message}</h2>
+          {reactions}
         </ChatMessages>
         {/*<ChatReaction />*/}
         <span>{chatReaction}</span>
