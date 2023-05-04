@@ -84,6 +84,7 @@ export interface SocketReceiveChatType {
   user_id: number;
   message: string;
   file_id: string;
+  reaction: string;
 }
 
 export interface getChat {
@@ -177,7 +178,7 @@ export interface Status {
 }
 
 export interface ReactionType {
-  mode: boolean;
+  mode: string;
   icon: string;
   chat_id: number;
 }

@@ -12,25 +12,9 @@ const ChatReaction = () => {
 
   const ReactionArray: string[] = [];
 
-  ReactionArray.push(icon);
+  ReactionArray.map(chat_id => <span key={chat_id}>{icon}</span>);
 
-  return (
-    <>
-      {ReactionArray.map(ReactionArray => {
-        return (
-          <ChatReactions>
-            <span key={chat_id}>{ReactionArray}</span>
-          </ChatReactions>
-        );
-      })}
-    </>
-  );
+  return <>{ReactionArray}</>;
 };
-
-const ChatReactions = styled.span`
-  :hover {
-    background-color: blue;
-  }
-`;
 
 export default ChatReaction;

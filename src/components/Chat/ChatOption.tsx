@@ -8,17 +8,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { RootState } from "../../app/store";
 import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
+import chatReaction from "./ChatReaction";
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
   const [socket, setsocket] = useState<WebSocket>();
+  const [reactionSocket, setReactionSocket] = useState<WebSocket>();
   const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
   const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
-  const iconArr: string[] = [];
-  const setIcons = "";
+  const [ChatReaction, setReaction] = useState<string>("");
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -38,25 +39,31 @@ const ChatOption = (chat: ChatType) => {
   };
 
   useEffect(() => {
-    if (chat_channel_hashed_value !== "") {
-      setsocket(new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`));
-      if (socket) {
-        socket.onopen = () => {
-          socket.send(
-            JSON.stringify({
-              authorization: at,
-            }),
-          );
+    const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
+    if (ReactionWs) {
+      ReactionWs.onopen = () => {
+        setReactionSocket(ReactionWs);
+        ReactionWs.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        ReactionWs.onmessage = res => {
+          const data = JSON.parse(res.data);
+          console.log("reaction Data " + JSON.stringify(data));
+          //dispatch(setClickedChatReaction(data));
         };
-      }
+      };
     }
   }, [chat_channel_hashed_value]);
+
   const sendReaction = async () => {
-    if (socket) {
-      socket.send(
+    if (reactionSocket) {
+      console.log("인증 성공");
+      reactionSocket.send(
         JSON.stringify({
           mode: mode,
-          icon: iconArr,
+          icon: icon,
           chat_id: chat_id,
         }),
       );
@@ -64,6 +71,7 @@ const ChatOption = (chat: ChatType) => {
       console.log("socket is undefined");
     }
   };
+
   const MakeChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
@@ -107,20 +115,23 @@ const ChatOption = (chat: ChatType) => {
       Icon: <RadarChartOutlined />,
     },
     {
-      detailMessage: "Sign as Shown",
+      detailMessage: icon.match("👀") ? "you already signed" : "sign as shown",
       func: () => {
-        if (icon === "" && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: "👀", chat_id: cid }));
-        else if (icon.match("👀") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👀", ""), chat_id: cid }));
-        else dispatch(setClickedChatReaction({ mode: true, icon: "👀" + icon, chat_id: cid }));
+        if (icon === "" && chat.id == cid.toString()) {
+          dispatch(setClickedChatReaction({ mode: "create", icon: "👀", chat_id: cid }));
+          //sendReaction(true, "👀", cid).then(r => console.log(true, "👀", cid));
+        } else if (icon.match("👀") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace("👀", ""), chat_id: cid }));
+        else dispatch(setClickedChatReaction({ mode: "create", icon: "👀" + icon, chat_id: cid }));
+        console.log("clicked_chat" + chat_id);
       },
       Icon: "👀",
     },
     {
-      detailMessage: "Thumb Up",
+      detailMessage: icon.match("👍") ? "you already signed" : "Thumb Up",
       func: () => {
-        if (icon === "" && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: "👍", chat_id: cid }));
-        else if (icon.match("👍") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: true, icon: icon.replace("👍", ""), chat_id: cid }));
-        else dispatch(setClickedChatReaction({ mode: true, icon: "👍" + icon, chat_id: cid }));
+        if (icon === "" && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: "create", icon: "👍", chat_id: cid }));
+        else if (icon.match("👍") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace("👍", ""), chat_id: cid }));
+        else dispatch(setClickedChatReaction({ mode: "create", icon: "👍" + icon, chat_id: cid }));
       },
       Icon: "👍",
     },
@@ -135,7 +146,7 @@ const ChatOption = (chat: ChatType) => {
               key={i}
               onClick={() => {
                 ChatOptionDetail.func();
-                sendReaction().then(r => console.log(icon, mode, chat_id));
+                sendReaction();
               }}
               onMouseOver={() => {
                 setShowDetail(i);

@@ -77,7 +77,7 @@ const Chat = () => {
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reaction: reactions,
+      reaction: s.reaction,
       message: s.message,
       created_at: new Date().toString().substring(0, 25),
     };

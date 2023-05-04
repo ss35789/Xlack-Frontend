@@ -121,7 +121,6 @@ function ChatInput(props: any) {
           //file: File_id,
         }),
       );
-      console.log("file 전송 성공");
     }
 
     if (inputRef.current) {

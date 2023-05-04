@@ -7,7 +7,7 @@ interface Struct {
 
 const initialState: Struct = {
   reactionData: {
-    mode: false,
+    mode: "",
     icon: "",
     chat_id: 0,
   },
