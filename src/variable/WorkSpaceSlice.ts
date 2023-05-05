@@ -120,6 +120,20 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
+    EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
+      const chatInfo = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(channel => {
+          if (channel.id === chatInfo.channel) {
+            channel.Chats.forEach(chat => {
+              if (chat.id === chatInfo.id) {
+                chat.has_bookmarked = !chat.has_bookmarked;
+              }
+            });
+          }
+        });
+      });
+    },
   },
 });
 
@@ -135,5 +149,6 @@ export const {
   CompleteGetMyWorkspace,
   AppendChat,
   SearchChannelInAll,
+  EditChatBookmark,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

@@ -6,34 +6,43 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
+import { ClickBookMark } from "../../variable/ClickedChannelSlice";
+import { EditChatBookmark } from "../../variable/WorkSpaceSlice";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const dispatch = useDispatch();
-  const cid = parseInt(chat.id);
+  const cidToInt = parseInt(chat.id);
+  const PlayChatBookmark = () => {
+    dispatch(getBookmarkPage());
+    dispatch(ClickBookMark(chat.id));
+    dispatch(EditChatBookmark(chat));
+  };
+
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
-      .delete(`${backUrl}chat/bookmark/${cid}/`, {
+      .delete(`${backUrl}chat/bookmark/${cidToInt}/`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },
       })
       .then(res => {
         console.log(res);
-        dispatch(getBookmarkPage());
+        PlayChatBookmark();
       })
       .catch(err => {
         console.log(err);
       });
   };
+  //누르면 ClickBookMark(cid) -> 해당 챗의 id 로 has_bookmarked 상태값 변경하기
   const MakeChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
       .post(
         `${backUrl}chat/bookmark/`,
         {
-          chat_id: cid,
+          chat_id: cidToInt,
         },
         {
           headers: {
@@ -43,7 +52,7 @@ const ChatOption = (chat: ChatType) => {
       )
       .then(res => {
         console.log(res);
-        dispatch(getBookmarkPage());
+        PlayChatBookmark();
       })
       .catch(err => {
         console.log(err);
