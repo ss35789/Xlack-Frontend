@@ -99,10 +99,13 @@ const ChatOption = (chat: ChatType) => {
 
   function ReactionLogic(mode: string, newIcon: string, cid: number) {
     if (icon === "" && chat.id == cid.toString()) {
+      //리액션이 없을때 새로운 리액션을 추가
       dispatch(setClickedChatReaction({ mode: "create", icon: newIcon, chat_id: cid }));
     } else if (icon.match(newIcon) && chat.id == cid.toString()) {
+      // 리액션이 있을때 같은 리액션을 누르면 삭제
       dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(newIcon, ""), chat_id: cid }));
     } else {
+      // 리액션이 있을때 다른 리액션을 누르면 새로운 리액션 추가
       dispatch(setClickedChatReaction({ mode: "create", icon: icon + newIcon, chat_id: cid }));
     }
     console.log(userId);
@@ -161,7 +164,8 @@ const ChatOption = (chat: ChatType) => {
                 setShowDetail(-1);
               }}
             >
-              {showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}
+              {/*{showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}*/}
+              {showDetail === i && <ChatOptionDetailMessage />}
               {ChatOptionDetail.Icon}
             </Option>
           );
