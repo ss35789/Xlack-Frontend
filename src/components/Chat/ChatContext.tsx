@@ -19,16 +19,6 @@ function ChatContext(chat: ChatType) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
 
-  // useEffect(() => {
-  //   const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
-  //   if (ReactionWs) {
-  //     ReactionWs.onmessage = res => {
-  //       const data: string = JSON.parse(res.data.icon);
-  //       reactionArray.push(data);
-  //     };
-  //   }
-  // }, [chat_channel_hashed_value]);
-
   return (
     <div
       onMouseOver={() => {
@@ -61,8 +51,10 @@ function ChatContext(chat: ChatType) {
           </HeaderRight>
         </Header>
         <ChatMessages>
-          <h2>{chat.message}</h2>
-          {reactions}
+          <h2>
+            {chat.message}
+            {reactions}
+          </h2>
         </ChatMessages>
         {/*<ChatReaction />*/}
         <span>{chatReaction}</span>

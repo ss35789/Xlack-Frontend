@@ -20,6 +20,7 @@ const ChatOption = (chat: ChatType) => {
   const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
   const [ChatReaction, setReaction] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -50,6 +51,7 @@ const ChatOption = (chat: ChatType) => {
         );
         ReactionWs.onmessage = res => {
           const data = JSON.parse(res.data);
+          setUserId(res.data.reactor);
           console.log("reaction Data " + JSON.stringify(data));
           //dispatch(setClickedChatReaction(data));
         };
@@ -95,6 +97,17 @@ const ChatOption = (chat: ChatType) => {
       });
   };
 
+  function ReactionLogic(mode: string, newIcon: string, cid: number) {
+    if (icon === "" && chat.id == cid.toString()) {
+      dispatch(setClickedChatReaction({ mode: "create", icon: newIcon, chat_id: cid }));
+    } else if (icon.match(newIcon) && chat.id == cid.toString()) {
+      dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(newIcon, ""), chat_id: cid }));
+    } else {
+      dispatch(setClickedChatReaction({ mode: "create", icon: icon + newIcon, chat_id: cid }));
+    }
+    console.log(userId);
+  }
+
   const ChatOptionDetailArray = [
     {
       detailMessage: chat.has_bookmarked ? "UnChatBookmark" : "ChatBookmark",
@@ -115,23 +128,16 @@ const ChatOption = (chat: ChatType) => {
       Icon: <RadarChartOutlined />,
     },
     {
-      detailMessage: icon.match("👀") ? "you already signed" : "sign as shown",
+      detailMessage: icon.match("👀") ? "you already signed" : "Sign as shown",
       func: () => {
-        if (icon === "" && chat.id == cid.toString()) {
-          dispatch(setClickedChatReaction({ mode: "create", icon: "👀", chat_id: cid }));
-          //sendReaction(true, "👀", cid).then(r => console.log(true, "👀", cid));
-        } else if (icon.match("👀") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace("👀", ""), chat_id: cid }));
-        else dispatch(setClickedChatReaction({ mode: "create", icon: "👀" + icon, chat_id: cid }));
-        console.log("clicked_chat" + chat_id);
+        ReactionLogic(mode, "👀", cid);
       },
       Icon: "👀",
     },
     {
       detailMessage: icon.match("👍") ? "you already signed" : "Thumb Up",
       func: () => {
-        if (icon === "" && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: "create", icon: "👍", chat_id: cid }));
-        else if (icon.match("👍") && chat.id == cid.toString()) dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace("👍", ""), chat_id: cid }));
-        else dispatch(setClickedChatReaction({ mode: "create", icon: "👍" + icon, chat_id: cid }));
+        ReactionLogic(mode, "👍", cid);
       },
       Icon: "👍",
     },
