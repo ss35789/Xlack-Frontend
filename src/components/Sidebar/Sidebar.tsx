@@ -140,7 +140,6 @@ function Sidebar() {
                   e.preventDefault();
                   storeHistory(c.name, c.hashed_value);
                   ChangeChannel(c.hashed_value);
-                  dispatch(setClickedChannel_hv(c.hashed_value));
                   dispatch(setClickBookmarkPage(false));
                   // connectChat(enterRoomId)
                 }}
