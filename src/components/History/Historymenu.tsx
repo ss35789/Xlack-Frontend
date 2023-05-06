@@ -6,7 +6,7 @@ import { rightClick_channel, SearchChannelInAll } from "../../variable/WorkSpace
 import { RootState } from "../../app/store";
 import { setClickBookmarkPage } from "../../variable/ChatBookmarkSlice";
 
-const Historymenu = () => {
+const Historymenu = (props: any) => {
   const [historyData, sethistoryData] = useState<[{ name: string; value: string }]>();
   const [ClickedHistoryChannelName, setClickedHistoryChannelName] = useState<string>("");
   const [MenuOpen, setMenuOpen] = useState<boolean>(true);
@@ -68,7 +68,7 @@ const Historymenu = () => {
                     dispatch(rightClick_channel(h.value));
                     dispatch(SearchChannelInAll());
                     setClickedHistoryChannelName(h.name);
-
+                    props.onshow();
                     console.log("history click:", h.value);
                   }}
                 >
