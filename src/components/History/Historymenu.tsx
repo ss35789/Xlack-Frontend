@@ -18,7 +18,13 @@ const Historymenu = (props: any) => {
     // @ts-ignore
     lS,
   );
-
+  const ClickChannelOnHistoryMenu = (h: { name: string; value: string }) => {
+    dispatch(setClickBookmarkPage(false));
+    dispatch(setClickedChannel_hv(h.value));
+    dispatch(rightClick_channel(h.value));
+    dispatch(SearchChannelInAll());
+    setClickedHistoryChannelName(h.name);
+  };
   useEffect(() => {
     sethistoryData(localStorage_hisory);
     console.log("localStorage getHistoryData", localStorage_hisory);
@@ -63,12 +69,7 @@ const Historymenu = (props: any) => {
                   role="menuitem"
                   onClick={e => {
                     e.preventDefault();
-                    dispatch(setClickBookmarkPage(false));
-                    dispatch(setClickedChannel_hv(h.value));
-                    dispatch(rightClick_channel(h.value));
-                    dispatch(SearchChannelInAll());
-                    setClickedHistoryChannelName(h.name);
-                    props.onshow();
+                    ClickChannelOnHistoryMenu(h);
                     console.log("history click:", h.value);
                   }}
                 >
