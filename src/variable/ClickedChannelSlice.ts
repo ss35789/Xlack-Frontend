@@ -2,11 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChatChannelType, CustomUserType } from "../types/types";
 
 interface struct {
+  channel_hv: string;
   channelData: ChatChannelType;
   findUserData: CustomUserType;
 }
 
 const initialState: struct = {
+  channel_hv: "",
   channelData: {
     id: -1,
     name: "",
@@ -33,7 +35,11 @@ export const ClickedChannelSlice = createSlice({
     setUnClickedChannel: (state, action: PayloadAction<void>) => {
       state.channelData = initialState.channelData;
     },
+    setClickedChannel_hv: (state, action: PayloadAction<string>) => {
+      state.channel_hv = action.payload;
+    },
     setClickedChannel: (state, action: PayloadAction<ChatChannelType>) => {
+      state.channel_hv = action.payload.hashed_value;
       state.channelData = action.payload;
     },
     findUserDataInClickedChannel: (state, action: PayloadAction<number>) => {
@@ -46,5 +52,5 @@ export const ClickedChannelSlice = createSlice({
   },
 });
 
-export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, setClickedChannel_hv, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;
