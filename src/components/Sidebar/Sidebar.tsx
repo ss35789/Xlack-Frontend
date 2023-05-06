@@ -20,12 +20,13 @@ function Sidebar() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [historyMap, setHistoryMap] = useState(new Map<string, string>());
-  const [ClickedChannelinSide, setClickedChannelinSide] = useState(-1);
+  const [ClickedChannelinSide, setClickedChannelinSide] = useState("-1");
   const WorkspaceData = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
   const channelMenuRef = useRef<HTMLDivElement>(null);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+  const currentChannel_hv = useSelector((state: RootState) => state.ClickedChannel.channel_hv);
 
   useEffect(() => {
     if (window.localStorage.getItem("history") !== null) {
@@ -42,7 +43,7 @@ function Sidebar() {
     }
   }, [WorkspaceData]);
   useEffect(() => {
-    setClickedChannelinSide(-1);
+    setClickedChannelinSide("-1");
     onClickshowChannels();
     setshowChannelMenu(false);
   }, [currentWorkspace.hashed_value]);
@@ -112,11 +113,11 @@ function Sidebar() {
       </SidebarHeader>
       <ChannelInSide>
         <span
-          className={ClickedChannelinSide === -2 ? "click" : "non-click"}
+          className={ClickedChannelinSide === "-2" ? "click" : "non-click"}
           onClick={() => {
             dispatch(setClickBookmarkPage(true));
             dispatch(setUnClickedChannel());
-            setClickedChannelinSide(-2);
+            setClickedChannelinSide("-2");
           }}
         >
           <SidebarOption Icon={ExpandMoreIcon} title="ChatBookmark" />
@@ -134,14 +135,14 @@ function Sidebar() {
           return (
             <ChannelInSide key={i}>
               <span
-                className={ClickedChannelinSide === i ? "click" : "non-click"}
+                className={ClickedChannelinSide === c.hashed_value ? "click" : "non-click"}
                 ref={channelMenuRef}
                 onClick={e => {
                   e.preventDefault();
                   storeHistory(c.name, c.hashed_value);
                   ChangeChannel(c.hashed_value);
                   dispatch(setClickBookmarkPage(false));
-                  setClickedChannelinSide(i);
+                  setClickedChannelinSide(currentChannel_hv);
                   // connectChat(enterRoomId)
                 }}
                 onContextMenu={e => {
