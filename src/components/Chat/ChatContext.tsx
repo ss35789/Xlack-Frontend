@@ -3,17 +3,13 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
 import React, { useEffect, useState } from "react";
 import ChatOption from "./ChatOption";
-import ChatReaction from "./ChatReaction";
-import chatReaction from "./ChatReaction";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { at, WsUrl_reaction } from "../../variable/cookie";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  const chatId = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
-  const reactions = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
-  const reactionArray: [string] = [reactions];
+  const reactions = useSelector((state: RootState) => state.ChatReactionUI.reactionData.icon);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const [Rdata, setRdata] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -57,7 +53,7 @@ function ChatContext(chat: ChatType) {
           </h2>
         </ChatMessages>
         {/*<ChatReaction />*/}
-        <span>{chatReaction}</span>
+        {/*<span>{chatReaction}</span>*/}
       </ChatContainer>
     </div>
   );

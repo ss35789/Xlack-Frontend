@@ -10,6 +10,7 @@ import StatusSliceReducer from "../variable/StatusSlices";
 import ChatSliceReducer from "../variable/ChatSlice";
 import UnreadChannelReducer from "../variable/UnreadChannelSlice";
 import ChatReactionReducer from "../variable/ChatReactionSlice";
+import ChatReactionUIReducer from "../variable/ChatReactionUISlice";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     setStatus: StatusSliceReducer,
     UnReadChannel: UnreadChannelReducer,
     ChatReaction: ChatReactionReducer,
+    ChatReactionUI: ChatReactionUIReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

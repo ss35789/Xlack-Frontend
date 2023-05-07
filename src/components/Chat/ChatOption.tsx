@@ -7,18 +7,20 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { RootState } from "../../app/store";
-import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
-import chatReaction from "./ChatReaction";
+import { setClickedChatReaction, setPushPopReactionArray } from "../../variable/ChatReactionSlice";
+import { setUIChatReaction } from "../../variable/ChatReactionUISlice";
+
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
-  const [socket, setsocket] = useState<WebSocket>();
   const [reactionSocket, setReactionSocket] = useState<WebSocket>();
   const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
   const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
+  const icon_UI = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
+  const ReactionArr = useSelector((state: RootState) => state.ChatReaction.reactionArray);
   const [ChatReaction, setReaction] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
@@ -69,6 +71,8 @@ const ChatOption = (chat: ChatType) => {
           chat_id: chat_id,
         }),
       );
+      console.log(at);
+      //dispatch(setClickedChatReaction({ mode: mode, icon: icon, chat_id: chat_id }));
     } else {
       console.log("socket is undefined");
     }
@@ -97,18 +101,24 @@ const ChatOption = (chat: ChatType) => {
       });
   };
 
-  function ReactionLogic(mode: string, newIcon: string, cid: number) {
-    if (icon === "" && chat.id == cid.toString()) {
+  function ReactionLogic(clickedIcon: string, cid: number) {
+    if (icon === "" && clickedIcon) {
       //리액션이 없을때 새로운 리액션을 추가
-      dispatch(setClickedChatReaction({ mode: "create", icon: newIcon, chat_id: cid }));
-    } else if (icon.match(newIcon) && chat.id == cid.toString()) {
+      dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
+      dispatch(setUIChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
+      //dispatch(setPushPopReactionArray(clickedIcon));
+      sendReaction();
+    } else if (icon.match(clickedIcon) && icon_UI.match(clickedIcon)) {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
-      dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(newIcon, ""), chat_id: cid }));
+      dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(clickedIcon, ""), chat_id: cid }));
+      dispatch(setUIChatReaction({ mode: "delete", icon: icon_UI.replace(clickedIcon, ""), chat_id: cid }));
+      sendReaction();
     } else {
       // 리액션이 있을때 다른 리액션을 누르면 새로운 리액션 추가
-      dispatch(setClickedChatReaction({ mode: "create", icon: icon + newIcon, chat_id: cid }));
+      dispatch(setClickedChatReaction({ mode: "create", icon: icon + clickedIcon, chat_id: cid }));
+      dispatch(setUIChatReaction({ mode: "create", icon: icon_UI + clickedIcon, chat_id: cid }));
+      sendReaction();
     }
-    console.log(userId);
   }
 
   const ChatOptionDetailArray = [
@@ -133,14 +143,14 @@ const ChatOption = (chat: ChatType) => {
     {
       detailMessage: icon.match("👀") ? "you already signed" : "Sign as shown",
       func: () => {
-        ReactionLogic(mode, "👀", cid);
+        ReactionLogic("👀", cid);
       },
       Icon: "👀",
     },
     {
       detailMessage: icon.match("👍") ? "you already signed" : "Thumb Up",
       func: () => {
-        ReactionLogic(mode, "👍", cid);
+        ReactionLogic("👍", cid);
       },
       Icon: "👍",
     },
@@ -155,7 +165,6 @@ const ChatOption = (chat: ChatType) => {
               key={i}
               onClick={() => {
                 ChatOptionDetail.func();
-                sendReaction();
               }}
               onMouseOver={() => {
                 setShowDetail(i);
