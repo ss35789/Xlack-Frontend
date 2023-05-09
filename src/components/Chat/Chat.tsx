@@ -4,13 +4,14 @@ import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ChatType, SocketReceiveChatType } from "../../types/types";
-import { at, backUrl } from "../../variable/cookie";
+import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
 import { AppendChat } from "../../variable/WorkSpaceSlice";
 
 const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
+  const Clicked_channel_hashedValue = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
   const MyWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
@@ -53,6 +54,19 @@ const Chat = () => {
   useEffect(() => {
     console.log("저장된 채널:", Clicked_channel);
     if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
+    const webSocket = new WebSocket(`${WsUrl_notification}`);
+    webSocket.onopen = () => {
+      webSocket.send(
+        JSON.stringify({
+          authorization: at,
+        }),
+      );
+      webSocket.send(
+        JSON.stringify({
+          channel_hashed_value: Clicked_channel_hashedValue,
+        }),
+      );
+    };
   }, [Clicked_channel, UpdateBookmark]);
   useEffect(() => {
     if (lastChat !== "-1") {

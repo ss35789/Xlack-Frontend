@@ -44,7 +44,6 @@ const ProfileMenu = () => {
                     }}
                   >
                     {isOff ? "알림 수신중" : "알림 중지중"}
-                    {/*{console.log(isOff)}*/}
                   </span>
                 </span>
               </a>

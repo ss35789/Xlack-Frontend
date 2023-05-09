@@ -8,13 +8,14 @@ function Channel(props: ChatChannelType) {
   const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
   const [count, SetCount] = useState<number>();
   useEffect(() => {
+    console.log(notifi);
     Object.values(notifi).forEach(c => {
       // console.log("c, count, wh ", c.count, c.channel_hashed_value, props.hashed_value);
       if (c.channel_hashed_value == props.hashed_value) {
         SetCount(c.count);
       }
     });
-  }, [notifi]);
+  }, [notifi, count]);
 
   return (
     <ChannelContainer>
