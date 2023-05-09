@@ -22,6 +22,7 @@ const Chat = () => {
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
+  const reactionArr: string[] = [];
   const receiveChatBookmarkData = async () => {
     try {
       const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
@@ -41,7 +42,7 @@ const Chat = () => {
           has_bookmarked: true,
           message: r.message,
           created_at: r.created_at,
-          reaction: r.reaction,
+          reaction: r.reactionArr,
           file: r.file,
         });
       });

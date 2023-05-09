@@ -41,7 +41,7 @@ const ChatOption = (chat: ChatType) => {
       });
   };
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
     if (ReactionWs) {
       ReactionWs.onopen = () => {
@@ -59,22 +59,33 @@ const ChatOption = (chat: ChatType) => {
         };
       };
     }
-  }, [chat_channel_hashed_value]);
+  }, [chat_channel_hashed_value]);*/
 
   const sendReaction = async () => {
-    if (reactionSocket) {
-      console.log("인증 성공");
-      reactionSocket.send(
-        JSON.stringify({
-          mode: mode,
-          icon: icon,
-          chat_id: chat_id,
-        }),
-      );
-      console.log(at);
-      //dispatch(setClickedChatReaction({ mode: mode, icon: icon, chat_id: chat_id }));
-    } else {
-      console.log("socket is undefined");
+    const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
+    if (ReactionWs) {
+      ReactionWs.onopen = () => {
+        setReactionSocket(ReactionWs);
+        ReactionWs.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        ReactionWs.send(
+          JSON.stringify({
+            mode: mode,
+            icon: icon,
+            chat_id: chat_id,
+          }),
+        );
+        ReactionWs.onmessage = res => {
+          const data = JSON.parse(res.data);
+          setUserId(res.data.reactor);
+          console.log("reaction Data " + JSON.stringify(data));
+          //dispatch(setClickedChatReaction(data));
+        };
+      };
+      setReactionSocket(ReactionWs);
     }
   };
 
