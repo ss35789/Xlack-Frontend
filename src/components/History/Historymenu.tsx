@@ -12,7 +12,6 @@ const Historymenu = (props: any) => {
   const [MenuOpen, setMenuOpen] = useState<boolean>(true);
   const dispatch = useDispatch();
   const search_channel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
-  const currentChannel = useSelector((state: RootState) => state.ClickedChannel);
   const lS = window.localStorage.getItem("history");
   const localStorage_hisory = JSON.parse(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -24,9 +23,15 @@ const Historymenu = (props: any) => {
     dispatch(setClickedChannel_hv(h.value));
     dispatch(rightClick_channel(h.value));
     dispatch(SearchChannelInAll());
-    dispatch(setClickedChannel(search_channel));
     setClickedHistoryChannelName(h.name);
   };
+  useEffect(() => {
+    if (search_channel.name === ClickedHistoryChannelName) {
+      dispatch(setClickedChannel(search_channel));
+      console.log("history click:", search_channel.hashed_value);
+    }
+  }, [search_channel]);
+
   useEffect(() => {
     sethistoryData(localStorage_hisory);
     console.log("localStorage getHistoryData", localStorage_hisory);
@@ -72,7 +77,6 @@ const Historymenu = (props: any) => {
                   onClick={e => {
                     e.preventDefault();
                     ClickChannelOnHistoryMenu(h);
-                    console.log("history click:", h.value);
                   }}
                 >
                   <span className="flex flex-col">
