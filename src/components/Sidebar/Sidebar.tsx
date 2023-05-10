@@ -42,8 +42,6 @@ function Sidebar() {
     }
   }, [WorkspaceData]);
   useEffect(() => {
-    dispatch(setClickedChannel_hv("-1"));
-    onClickshowChannels();
     setshowChannelMenu(false);
   }, [currentWorkspace.hashed_value]);
 
