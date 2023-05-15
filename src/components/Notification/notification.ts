@@ -23,6 +23,7 @@ export function Notifi() {
       if (unReadChannel !== "undefined" || unReadChannel !== null) {
         Object.keys(unReadChannel).forEach((key: any) => {
           const setNotifications = unReadChannel;
+          console.log("notification에 onmessage", setNotifications[key]);
           dispatch(getChannel(setNotifications[key]));
         });
         dispatch(CompleteGetUnReadChannel());

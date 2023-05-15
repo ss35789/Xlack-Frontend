@@ -117,7 +117,7 @@ export interface UserDetailsType {
 export interface Notification {
   channel_hashed_value: string;
   workspace_hashed_value: string;
-  count: number;
+  count: undefined;
 }
 export interface UserProfileType {
   id: number;

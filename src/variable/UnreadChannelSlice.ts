@@ -4,14 +4,11 @@ import { Notification } from "../types/types";
 interface struct {
   UnReadChannel: Notification[];
   CompleteGetUnreadChannel: boolean;
-  // Count: number;
 }
 
 const initialState: struct = {
   UnReadChannel: [],
   CompleteGetUnreadChannel: false,
-  // channel_hashed_value: "",
-  // Count: 0,
 };
 
 export const UnReadChannelSlice = createSlice({
@@ -19,17 +16,35 @@ export const UnReadChannelSlice = createSlice({
   initialState,
   reducers: {
     getChannel: (state, action: PayloadAction<Notification>) => {
-      state.UnReadChannel.push({
-        channel_hashed_value: action.payload.channel_hashed_value,
-        count: action.payload.count,
-        workspace_hashed_value: action.payload.workspace_hashed_value,
+      const notification = action.payload;
+
+      const isDuplicateNotification = state.UnReadChannel.some(item => {
+        return item.channel_hashed_value === notification.channel_hashed_value && item.workspace_hashed_value === notification.workspace_hashed_value;
       });
+
+      if (!isDuplicateNotification) {
+        // 채널을 읽은 경우 count를 undefined로 설정
+        const count = notification.channel_hashed_value ? notification.count : undefined;
+
+        state.UnReadChannel.push({
+          channel_hashed_value: notification.channel_hashed_value,
+          count,
+          workspace_hashed_value: notification.workspace_hashed_value,
+        });
+      }
     },
     CompleteGetUnReadChannel: (state, action: PayloadAction<void>) => {
       state.CompleteGetUnreadChannel = true;
     },
+    deleteChannel: (state, action: PayloadAction<string>) => {
+      const channel_hashed_value = action.payload;
+      const index = state.UnReadChannel.findIndex(channel => channel.channel_hashed_value === channel_hashed_value);
+      if (index !== -1) {
+        state.UnReadChannel.splice(index, 1);
+      }
+    },
   },
 });
 
-export const { getChannel, CompleteGetUnReadChannel } = UnReadChannelSlice.actions;
+export const { getChannel, CompleteGetUnReadChannel, deleteChannel } = UnReadChannelSlice.actions;
 export default UnReadChannelSlice.reducer;

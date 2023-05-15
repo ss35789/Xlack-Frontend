@@ -6,17 +6,18 @@ import { RootState } from "../../app/store";
 
 function Channel(props: ChatChannelType) {
   const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
-  const [count, SetCount] = useState<number>();
+  const [count, setCount] = useState<number | undefined>(undefined);
+
   useEffect(() => {
-    console.log(notifi);
-    Object.values(notifi).forEach(c => {
-      // console.log("c, count, wh ", c.count, c.channel_hashed_value, props.hashed_value);
-      if (c.channel_hashed_value == props.hashed_value) {
-        SetCount(c.count);
+    let channelCount: number | undefined = undefined;
+    notifi.forEach(c => {
+      if (c.channel_hashed_value === props.hashed_value) {
+        channelCount = c.count;
       }
     });
-  }, [notifi, count]);
 
+    setCount(channelCount);
+  }, [notifi, props.hashed_value]);
   return (
     <ChannelContainer>
       <OptionChannel>
