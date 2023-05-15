@@ -8,6 +8,7 @@ import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
 import { AppendChat } from "../../variable/WorkSpaceSlice";
+import WaitPage from "../../pages/WaitPage";
 
 const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
@@ -120,6 +121,7 @@ const Chat = () => {
                   </span>
                 );
               })}
+          {!getChatData && <WaitPage />}
         </ChatMessages>
         <ChatInput
           receive={(ch_hv: string, input: SocketReceiveChatType) => {
