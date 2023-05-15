@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, DragEvent, useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Chat from "../components/Chat/Chat";
@@ -15,6 +15,7 @@ import { getMyProfile } from "../variable/MyProfileSlice";
 import { SelectWorkspace } from "../components/Workspace/Workspace";
 import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
+import { setFileName } from "../variable/ChatSlice";
 import { Notifi } from "../components/Notification/notification";
 
 const Mainpage = () => {
@@ -40,7 +41,7 @@ const Mainpage = () => {
       }
     });
   };
-
+  Notifi();
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -99,10 +100,98 @@ const Mainpage = () => {
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
+
+  const [imageList, setImageList] = useState<Array<File>>([]);
+
+  // 이미지 파일 처리 input
+  const onInputFile = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    handleFiles(e.target.files);
+  };
+
+  // 파일 처리 ondrop
+  const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
+    console.log({ e }, e.dataTransfer.files);
+    e.preventDefault();
+    handleFiles(e.dataTransfer.files);
+  };
+  let original_file_name: string;
+  let file_name: string;
+  let author: string;
+  const handleFiles = async (files: FileList) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    let fileList: Array<File> = [];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    for (const element of files) {
+      const file: File = element;
+      //FiletobeUpload = file;
+      const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
+
+      if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
+        if (file) {
+          if ((await AtVerify()) == 200) {
+            fileList = [...fileList, file];
+            await axios
+              .post(
+                `${backUrl}file/`,
+                {
+                  file: file,
+                },
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${at}`,
+                  },
+                },
+              )
+              .then(res => {
+                original_file_name = res.data.file;
+                author = res.data.uploaded_by.username;
+                file_name = original_file_name.split("/").slice(-1).toString() + " uploaded by(" + author + ")";
+                console.log(file_name);
+              });
+            console.log("업로드 성공");
+            //dispatch(setFile(element));
+            dispatch(setFileName(file_name));
+          } else {
+            alert(`지원하지 않는 포맷입니다: ${file.name} / FORMAT ${format}`);
+            return;
+          }
+        }
+      }
+    }
+    if (fileList.length > 0) {
+      setImageList(fileList);
+    }
+  };
+  useEffect(() => {
+    if (file_name) {
+      dispatch(setFileName(file_name));
+    }
+  });
+  // 없으면 drop 작동안됨
+  const dragOver = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          Notifi();
+        } else {
+          window.alert("알림 권한을 설정해주세요");
+        }
+      });
+    }
+  }, []);
   return (
     <>
       <Logout />
-      <AppBody>
+      <AppBody onDrop={onDropFiles} onDragOver={dragOver}>
         <Header />
         <SelectWorkspaces>
           {Workspace.map((element, i) => {

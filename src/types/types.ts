@@ -8,6 +8,12 @@ export interface CustomUserType {
   profile_image: string;
 }
 
+export interface Mention {
+  name: string;
+  state?: string;
+  Img?: string;
+}
+
 export interface ChatChannelType {
   id: number;
   name: string;
@@ -39,6 +45,12 @@ export interface ChannelType {
 // export interface UserType{
 
 // }
+export interface MentionProps {
+  inputMsg: string;
+  Choose: (name: string, EditingMentionLength: number) => void;
+  CalleverDataArr: CustomUserType[];
+}
+
 export interface ChatType {
   id: string;
   // title: Id

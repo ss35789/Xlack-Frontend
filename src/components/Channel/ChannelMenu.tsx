@@ -8,13 +8,13 @@ import { at, backUrl } from "../../variable/cookie";
 import { ChannelSettingOnOff } from "../../variable/OnModalSlice";
 
 const ChannelMenu = (props: any) => {
-  const enterRoomId = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value); // 현재 우리가 클릭한 채널id
+  const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace);
   const dispatch = useDispatch();
   const editChannelName = async () => {
     try {
       const newChannelName: string | null = prompt("Please enter the channel name");
-      await axios.put(
-        `${backUrl}channel/${enterRoomId}/`,
+      await axios.patch(
+        `${backUrl}channel/${currentWorkspace.ClickedWorkSpace.hashed_value}/${currentWorkspace.rightClicked_channel_hashed_value}/`,
         {
           name: newChannelName,
         },
@@ -31,21 +31,21 @@ const ChannelMenu = (props: any) => {
   };
 
   const exitChannel = async () => {
-    // 내 토큰으로 접근 되는 채널중 채널id 값의 채널 삭제
-
-    console.log("exit test");
-
-    try {
-      await axios.delete(`${backUrl}channel/${enterRoomId}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    dispatch(Update());
+    // // 내 토큰으로 접근 되는 채널중 채널id 값의 채널 삭제
+    //
+    // console.log("exit test");
+    //
+    // try {
+    //   await axios.delete(`${backUrl}channel/${ClickedChannel.hashed_value}/`, {
+    //     headers: {
+    //       Authorization: `Bearer ${at}`,
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    //
+    // dispatch(Update());
   };
 
   return (

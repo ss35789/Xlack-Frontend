@@ -4,7 +4,6 @@ import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
 interface struct {
   MyWorkSpace: WorkspaceType[];
   rightClicked_channel_hashed_value: string;
-  ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
   CompletegetWorkspace: boolean;
@@ -13,7 +12,6 @@ interface struct {
 const initialState: struct = {
   MyWorkSpace: [],
   rightClicked_channel_hashed_value: "",
-  ClickedWorkSpace_hashed_value: "",
   ClickedWorkSpace: {
     created_at: "",
     updated_at: "",
@@ -57,11 +55,11 @@ export const WorkSpaceSlice = createSlice({
       state.ClickedWorkSpace.chat_channel = action.payload;
     },
     SetClickedWorkSpace: (state, action: PayloadAction<string>) => {
-      state.ClickedWorkSpace_hashed_value = action.payload;
+      state.ClickedWorkSpace.hashed_value = action.payload;
     },
 
     CallClickedWorkSpace: (state, action: PayloadAction<void>) => {
-      const w = state.ClickedWorkSpace_hashed_value;
+      const w = state.ClickedWorkSpace.hashed_value;
       state.MyWorkSpace.forEach(value => {
         if (value.hashed_value === w) {
           state.ClickedWorkSpace = value;
@@ -75,6 +73,20 @@ export const WorkSpaceSlice = createSlice({
         if (value.hashed_value === r) {
           state.SearchedChannel = value;
         }
+      });
+    },
+    SearchChannelInAll: (state, action: PayloadAction<void>) => {
+      const r = state.rightClicked_channel_hashed_value;
+      state.SearchedChannel.id = -2;
+      state.ClickedWorkSpace = initialState.ClickedWorkSpace;
+      //해당 value의 채널이 없을 시 초기값을 넣기 위해 초기화
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(value => {
+          if (value.hashed_value === r) {
+            state.SearchedChannel = value;
+            state.ClickedWorkSpace = w;
+          }
+        });
       });
     },
     rightClick_channel: (state, action: PayloadAction<string>) => {
@@ -108,9 +120,35 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
+    EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
+      const chatInfo = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(channel => {
+          if (channel.id === chatInfo.channel) {
+            channel.Chats.forEach(chat => {
+              if (chat.id === chatInfo.id) {
+                chat.has_bookmarked = !chat.has_bookmarked;
+              }
+            });
+          }
+        });
+      });
+    },
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel, SaveChat, CompleteGetMyWorkspace, AppendChat } =
-  WorkSpaceSlice.actions;
+export const {
+  getWorkSpace,
+  getChannelList,
+  clearWorkSpace,
+  SetClickedWorkSpace,
+  CallClickedWorkSpace,
+  SearchChannel,
+  rightClick_channel,
+  SaveChat,
+  CompleteGetMyWorkspace,
+  AppendChat,
+  SearchChannelInAll,
+  EditChatBookmark,
+} = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
