@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChatChannelType } from "../../types/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 function Channel(props: ChatChannelType) {
+  const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
+  const [count, setCount] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    let channelCount: number | undefined = undefined;
+    notifi.forEach(c => {
+      if (c.channel_hashed_value === props.hashed_value) {
+        channelCount = c.count;
+      }
+    });
+
+    setCount(channelCount);
+  }, [notifi, props.hashed_value]);
   return (
     <ChannelContainer>
       <OptionChannel>
-        # {props.name}__ {props.hashed_value}
+        # {props.name}__ {props.hashed_value} {"  "}
+        <div style={{ display: "inline-block", marginLeft: 60, background: "red", borderRadius: "50%", position: "relative", float: "right", alignItems: "center", textAlign: "center" }}>
+          {count && <div style={{ fontSize: 20, display: "inline-block", color: "white", height: "35px", width: "35px" }}>{count}</div>}
+          {!count && <div style={{ fontSize: 20, display: "inline-block", color: "white" }}>{count}</div>}
+        </div>
       </OptionChannel>
     </ChannelContainer>
   );
@@ -27,6 +46,7 @@ const ChannelContainer = styled.div`
   }
 
   > h3 {
+    width: 100%;
     font-weight: 500;
   }
 
