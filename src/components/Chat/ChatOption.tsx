@@ -3,22 +3,25 @@ import styled from "styled-components";
 import { ChatType } from "../../types/types";
 import { at, backUrl, WsUrl_reaction } from "../../variable/cookie";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { RootState } from "../../app/store";
 import { setClickedChatReaction, setPushPopReactionArray } from "../../variable/ChatReactionSlice";
 import { setUIChatReaction } from "../../variable/ChatReactionUISlice";
+import { RemoveReactionChat, UpdateReactionChat } from "../../variable/WorkSpaceSlice";
+import Chat from "./Chat";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
+  const mode = useSelector((state: RootState) => state.reaction.Reaction.mode);
   const [reactionSocket, setReactionSocket] = useState<WebSocket>();
-  const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
+  //const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
   const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
-  const chat_id = useSelector((state: RootState) => state.ChatReaction.reactionData.chat_id);
+  const chat_id = useSelector((state: RootState) => state.reaction.Reaction.chat_id);
   const icon_UI = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const ReactionArr = useSelector((state: RootState) => state.ChatReaction.reactionArray);
   const [ChatReaction, setReaction] = useState<string>("");
@@ -40,7 +43,6 @@ const ChatOption = (chat: ChatType) => {
         console.log(err);
       });
   };
-
   /*  useEffect(() => {
     const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
     if (ReactionWs) {
@@ -73,7 +75,7 @@ const ChatOption = (chat: ChatType) => {
         );
         ReactionWs.send(
           JSON.stringify({
-            mode: mode,
+            mode: "create",
             icon: icon,
             chat_id: chat_id,
           }),
@@ -115,20 +117,25 @@ const ChatOption = (chat: ChatType) => {
   function ReactionLogic(clickedIcon: string, cid: number) {
     if (icon === "" && clickedIcon) {
       //리액션이 없을때 새로운 리액션을 추가
-      dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
-      dispatch(setUIChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
-      //dispatch(setPushPopReactionArray(clickedIcon));
-      sendReaction();
-    } else if (icon.match(clickedIcon) && icon_UI.match(clickedIcon)) {
+      //dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
+      //dispatch(setUIChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
+      dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
+      sendReaction().then(r => console.log(r));
+      console.log("리액션이 비어있음");
+    } else if (icon.match(clickedIcon)) {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
-      dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(clickedIcon, ""), chat_id: cid }));
-      dispatch(setUIChatReaction({ mode: "delete", icon: icon_UI.replace(clickedIcon, ""), chat_id: cid }));
-      sendReaction();
+      // dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(clickedIcon, ""), chat_id: cid }));
+      // dispatch(setUIChatReaction({ mode: "delete", icon: icon_UI.replace(clickedIcon, ""), chat_id: cid }));
+      dispatch(RemoveReactionChat([chat_channel_hashed_value, { mode: "delete", chat_id: cid, icon: clickedIcon }]));
+      sendReaction().then(r => console.log(r));
+      console.log("같은 리액션이 존재");
     } else {
       // 리액션이 있을때 다른 리액션을 누르면 새로운 리액션 추가
-      dispatch(setClickedChatReaction({ mode: "create", icon: icon + clickedIcon, chat_id: cid }));
-      dispatch(setUIChatReaction({ mode: "create", icon: icon_UI + clickedIcon, chat_id: cid }));
-      sendReaction();
+      // dispatch(setClickedChatReaction({ mode: "create", icon: icon + clickedIcon, chat_id: cid }));
+      // dispatch(setUIChatReaction({ mode: "create", icon: icon_UI + clickedIcon, chat_id: cid }));
+      dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
+      sendReaction().then(r => console.log(r));
+      console.log("다른 리액션이 존재");
     }
   }
 
@@ -172,22 +179,24 @@ const ChatOption = (chat: ChatType) => {
       {ChatOptionDetailArray &&
         ChatOptionDetailArray.map((ChatOptionDetail, i) => {
           return (
-            <Option
-              key={i}
-              onClick={() => {
-                ChatOptionDetail.func();
-              }}
-              onMouseOver={() => {
-                setShowDetail(i);
-              }}
-              onMouseLeave={() => {
-                setShowDetail(-1);
-              }}
-            >
-              {/*{showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}*/}
-              {showDetail === i && <ChatOptionDetailMessage />}
-              {ChatOptionDetail.Icon}
-            </Option>
+            <>
+              <Option
+                key={i}
+                onClick={() => {
+                  ChatOptionDetail.func();
+                }}
+                onMouseOver={() => {
+                  setShowDetail(i);
+                }}
+                onMouseLeave={() => {
+                  setShowDetail(-1);
+                }}
+              >
+                {/*{showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}*/}
+                {showDetail === i && <ChatOptionDetailMessage />}
+                {ChatOptionDetail.Icon}
+              </Option>
+            </>
           );
         })}
     </>

@@ -3,11 +3,14 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
 import React, { useEffect, useState } from "react";
 import ChatOption from "./ChatOption";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { at, WsUrl_reaction } from "../../variable/cookie";
+import { UpdateReactionChat } from "../../variable/WorkSpaceSlice";
 
 function ChatContext(chat: ChatType) {
+  const dispatch = useDispatch();
+
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
   const reactions = useSelector((state: RootState) => state.ChatReactionUI.reactionData.icon);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
@@ -49,6 +52,7 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>
             {chat.message}
+            {chat.reactions}
             {/*{chat.reaction.map((reactions, i) => {*/}
             {/*  return <span key={i}>{chat.reaction}</span>;*/}
             {/*})}*/}

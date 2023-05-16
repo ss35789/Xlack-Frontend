@@ -19,6 +19,7 @@ export const store = configureStore({
     UpdateChatContext: UpdateChatContextReducer,
     getMyWorkSpace: WorkSpaceReducer,
     clearWorkSpace: WorkSpaceReducer,
+    reaction: WorkSpaceReducer,
     OnModal: OnModalReducer,
     getMyProfile: MyProfileReducer,
     ChatBookmark: ChatBookmarkReducer,

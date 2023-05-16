@@ -60,7 +60,7 @@ export interface ChatType {
   // readOnly: true
   chatter: CustomUserType;
   has_bookmarked: boolean;
-  reaction: string;
+  reactions: ReactionType[];
   message: string;
   // title: Message
   // minLength: 1
