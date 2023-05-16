@@ -12,7 +12,6 @@ function Login() {
     let token_info;
     LoginDjango(response["code"]).then(res => {
       token_info = res;
-      console.log(token_info);
       AccessToken(token_info, Date.now() + 3600000);
     });
   };

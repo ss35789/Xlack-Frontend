@@ -8,6 +8,7 @@ import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
 import { AppendChat } from "../../variable/WorkSpaceSlice";
+import WaitPage from "../../pages/WaitPage";
 import { CompleteGetUnReadChannel, deleteChannel, getChannel } from "../../variable/UnreadChannelSlice";
 
 const Chat = () => {
@@ -151,6 +152,7 @@ const Chat = () => {
                   </span>
                 );
               })}
+          {!getChatData && <WaitPage />}
         </ChatMessages>
         <ChatInput
           receive={(ch_hv: string, input: SocketReceiveChatType) => {
