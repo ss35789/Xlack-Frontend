@@ -41,7 +41,6 @@ const Mainpage = () => {
       }
     });
   };
-  Notifi();
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
