@@ -24,8 +24,6 @@ const ChatOption = (chat: ChatType) => {
   //const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
   const icon = useSelector((state: RootState) => state.getMyWorkSpace.Reaction.icon);
   //const chat_id = useSelector((state: RootState) => state.reaction.Reaction.chat_id);
-  const icon_UI = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
-  const [isHovering, setIsHovering] = useState(0);
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -43,26 +41,6 @@ const ChatOption = (chat: ChatType) => {
         console.log(err);
       });
   };
-  /*  useEffect(() => {
-    const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
-    if (ReactionWs) {
-      ReactionWs.onopen = () => {
-        setReactionSocket(ReactionWs);
-        ReactionWs.send(
-          JSON.stringify({
-            authorization: at,
-          }),
-        );
-        ReactionWs.onmessage = res => {
-          const data = JSON.parse(res.data);
-          setUserId(res.data.reactor);
-          console.log("reaction Data " + JSON.stringify(data));
-          //dispatch(setClickedChatReaction(data));
-        };
-      };
-    }
-  }, [chat_channel_hashed_value]);*/
-
   const MakeChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
