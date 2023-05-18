@@ -49,8 +49,16 @@ export const ClickedChannelSlice = createSlice({
         }
       });
     },
+    ClickBookMark: (state, action: PayloadAction<string>) => {
+      const cid = action.payload;
+      state.channelData.Chats?.forEach(c => {
+        if (c.id === cid) {
+          c.has_bookmarked = !c.has_bookmarked;
+        }
+      });
+    },
   },
 });
 
-export const { setUnClickedChannel, setClickedChannel, setClickedChannel_hv, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, setClickedChannel_hv, findUserDataInClickedChannel, ClickBookMark } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;
