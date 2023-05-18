@@ -18,10 +18,11 @@ export function Notifi() {
       );
       console.log("알림 웹소켓 연결");
     };
+    // FIXME: null인값에 할당함
     notifiSocket.onmessage = res => {
       const unReadChannel = JSON.parse(res.data).notifications;
       if (unReadChannel !== "undefined" || unReadChannel !== null) {
-        Object.keys(unReadChannel).forEach((key: any) => {
+        Object.keys(unReadChannel)?.forEach((key: any) => {
           const setNotifications = unReadChannel;
           dispatch(getChannel(setNotifications[key]));
         });

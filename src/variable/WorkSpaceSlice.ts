@@ -136,7 +136,6 @@ export const WorkSpaceSlice = createSlice({
             c.Chats?.forEach((chat, y) => {
               if (chat.id === reactionData.chat_id.toString()) {
                 chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reactionData.icon);
-                reactionData.mode = "create";
                 chat.reactions.push(reactionData);
               }
             });
@@ -147,12 +146,12 @@ export const WorkSpaceSlice = createSlice({
     RemoveReactionChat: (state, action: PayloadAction<[string, ReactionType]>) => {
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
+      state.Reaction = action.payload[1];
       state.MyWorkSpace.forEach((w, i) => {
         w.chat_channel?.forEach((c, x) => {
           if (c.hashed_value === channel_hv) {
             c.Chats?.forEach((chat, y) => {
               if (chat.id === reactionData.chat_id.toString()) {
-                reactionData.mode = "delete";
                 chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reactionData.icon);
               }
             });

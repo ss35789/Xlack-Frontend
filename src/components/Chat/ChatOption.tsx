@@ -17,11 +17,11 @@ const ChatOption = (chat: ChatType) => {
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
-  const mode = useSelector((state: RootState) => state.reaction.Reaction.mode);
+  //const mode = useSelector((state: RootState) => state.reaction.Reaction.mode);
   const [reactionSocket, setReactionSocket] = useState<WebSocket>();
   //const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
-  const icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
-  const chat_id = useSelector((state: RootState) => state.reaction.Reaction.chat_id);
+  const icon = useSelector((state: RootState) => state.getMyWorkSpace.Reaction.icon);
+  //const chat_id = useSelector((state: RootState) => state.reaction.Reaction.chat_id);
   const icon_UI = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const ReactionArr = useSelector((state: RootState) => state.ChatReaction.reactionArray);
   const [ChatReaction, setReaction] = useState<string>("");
@@ -63,7 +63,7 @@ const ChatOption = (chat: ChatType) => {
     }
   }, [chat_channel_hashed_value]);*/
 
-  const sendReaction = async () => {
+  const sendReaction = async (mode_s: string, icon_s: string, chat_id: number) => {
     const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
     if (ReactionWs) {
       ReactionWs.onopen = () => {
@@ -75,8 +75,8 @@ const ChatOption = (chat: ChatType) => {
         );
         ReactionWs.send(
           JSON.stringify({
-            mode: "create",
-            icon: icon,
+            mode: mode_s,
+            icon: icon_s,
             chat_id: chat_id,
           }),
         );
@@ -120,22 +120,28 @@ const ChatOption = (chat: ChatType) => {
       //dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
       //dispatch(setUIChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
       dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
-      sendReaction().then(r => console.log(r));
+      sendReaction("create", clickedIcon, cid).then(r => console.log(r));
       console.log("리액션이 비어있음");
+      console.log("reaction: " + chat.reactions + icon);
+      console.log("icon: " + icon);
     } else if (icon.match(clickedIcon)) {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
       // dispatch(setClickedChatReaction({ mode: "delete", icon: icon.replace(clickedIcon, ""), chat_id: cid }));
       // dispatch(setUIChatReaction({ mode: "delete", icon: icon_UI.replace(clickedIcon, ""), chat_id: cid }));
       dispatch(RemoveReactionChat([chat_channel_hashed_value, { mode: "delete", chat_id: cid, icon: clickedIcon }]));
-      sendReaction().then(r => console.log(r));
+      sendReaction("delete", clickedIcon, cid).then(r => console.log(r));
       console.log("같은 리액션이 존재");
+      console.log("icon: " + icon);
+      console.log("reaction: " + chat.reactions);
     } else {
       // 리액션이 있을때 다른 리액션을 누르면 새로운 리액션 추가
       // dispatch(setClickedChatReaction({ mode: "create", icon: icon + clickedIcon, chat_id: cid }));
       // dispatch(setUIChatReaction({ mode: "create", icon: icon_UI + clickedIcon, chat_id: cid }));
       dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
-      sendReaction().then(r => console.log(r));
+      sendReaction("delete", clickedIcon, cid).then(r => console.log(r));
+      console.log("reaction: " + chat.reactions);
       console.log("다른 리액션이 존재");
+      console.log("icon: " + icon);
     }
   }
 

@@ -54,7 +54,7 @@ function ChatContext(chat: ChatType) {
             {/*  return <span key={i}>{chat.reaction}</span>;*/}
             {/*})}*/}
             {/*{chat.reaction && chat.reaction.icon}*/}
-            {reactions}
+            {/*{reactions}*/}
           </h2>
         </ChatMessages>
         {/*<ChatReaction />*/}
