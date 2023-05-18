@@ -9,7 +9,7 @@ import axios from "axios";
 import ChatContext from "./ChatContext";
 import { AppendChat } from "../../variable/WorkSpaceSlice";
 import WaitPage from "../../pages/WaitPage";
-import { CompleteGetUnReadChannel, deleteChannel, getChannel } from "../../variable/UnreadChannelSlice";
+import { deleteChannel } from "../../variable/UnreadChannelSlice";
 
 const Chat = () => {
   const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
@@ -44,6 +44,7 @@ const Chat = () => {
           has_bookmarked: true,
           message: r.message,
           created_at: r.created_at,
+          converted_created_at: r.converted_created_at,
           reaction: r.reaction,
           file: r.file,
         });
@@ -110,7 +111,8 @@ const Chat = () => {
       has_bookmarked: false,
       reaction: [],
       message: s.message,
-      created_at: new Date().toString().substring(0, 25),
+      created_at: s.created_at,
+      converted_created_at: s.created_at,
     };
     return c;
   };
