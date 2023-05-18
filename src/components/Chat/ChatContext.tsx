@@ -9,7 +9,7 @@ import { at, WsUrl_reaction } from "../../variable/cookie";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  const reactions = useSelector((state: RootState) => state.ChatReactionUI.reactionData.icon);
+  const icon = useSelector((state: RootState) => state.getMyWorkSpace.Reaction.icon);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const [Rdata, setRdata] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -49,7 +49,7 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>
             {chat.message}
-            {chat.reactions}
+            {"뿅" + chat.reactions}
             {/*{chat.reaction.map((reactions, i) => {*/}
             {/*  return <span key={i}>{chat.reaction}</span>;*/}
             {/*})}*/}

@@ -130,10 +130,10 @@ export const WorkSpaceSlice = createSlice({
     UpdateReactionChat: (state, action: PayloadAction<[string, ReactionType]>) => {
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
-      state.MyWorkSpace.forEach((w, i) => {
-        w.chat_channel?.forEach((c, x) => {
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
           if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach((chat, y) => {
+            c.Chats?.forEach(chat => {
               if (chat.id === reactionData.chat_id.toString()) {
                 chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reactionData.icon);
                 chat.reactions.push(reactionData);
@@ -147,10 +147,10 @@ export const WorkSpaceSlice = createSlice({
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
       state.Reaction = action.payload[1];
-      state.MyWorkSpace.forEach((w, i) => {
-        w.chat_channel?.forEach((c, x) => {
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
           if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach((chat, y) => {
+            c.Chats?.forEach(chat => {
               if (chat.id === reactionData.chat_id.toString()) {
                 chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reactionData.icon);
               }
