@@ -17,7 +17,6 @@ const Chat = () => {
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
-  const reactions = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const [lastChat, setLastChat] = useState<any>("-1");
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();

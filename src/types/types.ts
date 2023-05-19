@@ -60,7 +60,7 @@ export interface ChatType {
   // readOnly: true
   chatter: CustomUserType;
   has_bookmarked: boolean;
-  reactions: ReactionType[];
+  reactions: ReactionData[];
   message: string;
   // title: Message
   // minLength: 1
@@ -177,8 +177,21 @@ export interface Status {
   until: string;
 }
 
-export interface ReactionType {
+export interface ReactionData {
+  icon: string;
+  chat_id: number;
+  reactors: number[];
+}
+
+export interface SendReactionType {
   mode: string;
   icon: string;
   chat_id: number;
+}
+
+export interface ReactionFetchType {
+  channel_hashed_value: string;
+  icon: string;
+  chat_id: number;
+  reactors: number[];
 }

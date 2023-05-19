@@ -1,15 +1,13 @@
 import { AlibabaOutlined, PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
 import styled, { keyframes } from "styled-components";
-import { ChatType, ReactionType } from "../../types/types";
+import { ChatType, ReactionData, SendReactionType } from "../../types/types";
 import { at, backUrl, WsUrl_reaction } from "../../variable/cookie";
 import axios from "axios";
 import React, { Props, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { RootState } from "../../app/store";
-import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
-import { setUIChatReaction } from "../../variable/ChatReactionUISlice";
-import { RemoveReactionChat, UpdateReactionChat } from "../../variable/WorkSpaceSlice";
+import { UpdateReactionChat, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
 import Chat from "./Chat";
 import ReactTooltip from "react-tooltip";
 
@@ -18,12 +16,7 @@ const ChatOption = (chat: ChatType) => {
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
   const cid = parseInt(chat.id);
-  const chat_reaction = useSelector((state: RootState) => state.getMyWorkSpace.Reaction);
-  //const mode = useSelector((state: RootState) => state.reaction.Reaction.mode);
   const [reactionSocket, setReactionSocket] = useState<WebSocket>();
-  //const mode = useSelector((state: RootState) => state.ChatReaction.reactionData.mode);
-  const icon = useSelector((state: RootState) => state.getMyWorkSpace.Reaction.icon);
-  //const chat_id = useSelector((state: RootState) => state.reaction.Reaction.chat_id);
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -63,7 +56,7 @@ const ChatOption = (chat: ChatType) => {
         console.log(err);
       });
   };
-  const sendReaction = async (mode_s: string, icon_s: string, chat_id_s: number) => {
+  const sendReaction = async (sendType: SendReactionType) => {
     const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
     if (ReactionWs) {
       ReactionWs.onopen = () => {
@@ -75,51 +68,33 @@ const ChatOption = (chat: ChatType) => {
         );
         ReactionWs.send(
           JSON.stringify({
-            mode: mode_s,
-            icon: icon_s,
-            chat_id: chat_id_s,
+            mode: sendType.mode,
+            icon: sendType.icon,
+            chat_id: sendType.chat_id,
           }),
         );
         ReactionWs.onmessage = res => {
           const data = JSON.parse(res.data);
-          if (res.data.toString().match("reactor")) {
-            console.log("reaction Data " + JSON.stringify(data));
-            //dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
+          const reactionData = data?.reaction;
+          console.log("reaction Data " + JSON.stringify(data));
+          if (reactionData) {
+            dispatch(UpdateReactionChatType2({ channel_hashed_value: chat_channel_hashed_value, chat_id: reactionData.chat_id, icon: reactionData.icon, reactors: reactionData.reactors }));
           }
-          //dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: res.data.mode, icon: res.data.icon, chat_id: res.data.chat_id }]));
-          //dispatch(setClickedChatReaction(data));
         };
       };
       setReactionSocket(ReactionWs);
     }
   };
   function ReactionLogic(clickedIcon: string, cid: number) {
-    if (icon === "" && clickedIcon !== null) {
+    if (clickedIcon !== null) {
       //리액션이 없을때 새로운 리액션을 추가
-      sendReaction("create", clickedIcon, cid);
-      //dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
-      dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
-    } else if (icon.match(clickedIcon)) {
+      sendReaction({ mode: "create", icon: clickedIcon, chat_id: cid });
+      //dispatch(UpdateReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
+    } else {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
-      dispatch(RemoveReactionChat([chat_channel_hashed_value, { mode: "delete", chat_id: cid, icon: clickedIcon }]));
-      sendReaction("delete", clickedIcon, cid);
-      //console.log("{ clicked icon: " + clickedIcon + ", \n" + " saved icon: " + icon + ", \n" + " chat_id: " + cid + ", \n" + " chat_reaction data: " + JSON.stringify(chat_reaction) + ", \n}");
+      //dispatch(RemoveReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
+      sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
-    console.log(
-      "{ clicked icon: " +
-        clickedIcon +
-        ", \n saved icon: " +
-        icon +
-        ", \n channel_hv: " +
-        chat_channel_hashed_value +
-        ", \n chat_id: " +
-        cid +
-        ", \n chat_reaction data: " +
-        JSON.stringify(chat_reaction) +
-        ", \n  chat.reactions: " +
-        JSON.stringify(chat.reactions) +
-        " \n}",
-    );
   }
 
   const ChatOptionDetailArray = [
@@ -142,14 +117,15 @@ const ChatOption = (chat: ChatType) => {
       Icon: <RadarChartOutlined />,
     },
     {
-      detailMessage: icon.match("👀") ? "you already signed" : "Sign as shown",
+      //detailMessage: icon.match("👀") ? "you already signed" : "Sign as shown",
+      detailMessage: "Sign as shown",
       func: () => {
         ReactionLogic("👀", cid);
       },
       Icon: "👀",
     },
     {
-      detailMessage: icon.match("👍") ? "you already signed" : "Thumb Up",
+      detailMessage: "Sign as shown",
       func: () => {
         ReactionLogic("👍", cid);
       },

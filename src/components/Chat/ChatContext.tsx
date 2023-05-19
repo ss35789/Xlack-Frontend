@@ -9,9 +9,6 @@ import { at, WsUrl_reaction } from "../../variable/cookie";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  const icon = useSelector((state: RootState) => state.getMyWorkSpace.Reaction.icon);
-  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
-  const redux_s_icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const [Rdata, setRdata] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -48,15 +45,8 @@ function ChatContext(chat: ChatType) {
           </HeaderRight>
         </Header>
         <ChatMessages>
-          <h2>
-            {chat.message}
-            {redux_s_icon}
-            {/*{chat.reaction.map((reactions, i) => {*/}
-            {/*  return <span key={i}>{chat.reaction}</span>;*/}
-            {/*})}*/}
-            {/*{chat.reaction && chat.reaction.icon}*/}
-            {/*{reactions}*/}
-          </h2>
+          <h2>{chat.message}</h2>
+          <span>{"chat_reaction " + chat.reactions}</span>
         </ChatMessages>
         {/*<ChatReaction />*/}
         {/*<span>{chatReaction}</span>*/}

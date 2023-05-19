@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, ReactionType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, ReactionData, ReactionFetchType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -7,7 +7,7 @@ interface struct {
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
   CompletegetWorkspace: boolean;
-  Reaction: ReactionType;
+  //Reaction: ReactionType;
 }
 
 const initialState: struct = {
@@ -31,12 +31,6 @@ const initialState: struct = {
     admins: [],
   },
   CompletegetWorkspace: false,
-
-  Reaction: {
-    mode: "",
-    chat_id: 0,
-    icon: "",
-  },
 };
 
 export const WorkSpaceSlice = createSlice({
@@ -127,32 +121,51 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
-    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionType]>) => {
+    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionData]>) => {
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
       state.MyWorkSpace.forEach(w => {
         w.chat_channel?.forEach(c => {
           if (c.hashed_value === channel_hv) {
             c.Chats?.forEach(chat => {
-              if (chat.id === reactionData.chat_id.toString()) {
-                chat.reactions = chat.reactions.filter(reaction => reaction.icon === reactionData.icon);
-                chat.reactions.push(reactionData);
+              if (Number(chat.id) === reactionData.chat_id) {
+                chat.reactions = chat.reactions?.filter(reaction => reaction.icon === reactionData.icon);
+                chat.reactions?.push(reactionData);
               }
             });
           }
         });
       });
     },
-    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionType]>) => {
+    UpdateReactionChatType2: (state, action: PayloadAction<ReactionFetchType>) => {
+      const reaction = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === reaction.channel_hashed_value) {
+            c.Chats?.forEach(chat => {
+              if (chat.id === reaction.chat_id.toString()) {
+                if (reaction.reactors?.length) {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                  chat.reactions.push(reaction);
+                } else {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                }
+              }
+            });
+          }
+        });
+      });
+    },
+    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionData]>) => {
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
-      state.Reaction = action.payload[1];
+      //state.Reaction = action.payload[1];
       state.MyWorkSpace.forEach(w => {
         w.chat_channel?.forEach(c => {
           if (c.hashed_value === channel_hv) {
             c.Chats?.forEach(chat => {
-              if (chat.id === reactionData.chat_id.toString()) {
-                chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reactionData.icon);
+              if (Number(chat.id) === reactionData.chat_id) {
+                chat.reactions = chat.reactions?.filter(reaction => reaction.icon !== reactionData.icon);
               }
             });
           }
@@ -176,5 +189,6 @@ export const {
   SearchChannelInAll,
   UpdateReactionChat,
   RemoveReactionChat,
+  UpdateReactionChatType2,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
