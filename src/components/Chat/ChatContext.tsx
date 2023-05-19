@@ -6,8 +6,6 @@ import ChatOption from "./ChatOption";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return (
     <div
       onMouseOver={() => {

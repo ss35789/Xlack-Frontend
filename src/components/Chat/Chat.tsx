@@ -25,7 +25,6 @@ const Chat = () => {
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
-  const reactionArr: string[] = [];
   const receiveChatBookmarkData = async () => {
     try {
       const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
@@ -45,8 +44,8 @@ const Chat = () => {
           has_bookmarked: true,
           message: r.message,
           created_at: r.created_at,
-          reactions: r.reaction,
           converted_created_at: r.converted_created_at,
+          reaction: r.reaction,
           file: r.file,
         });
       });
@@ -110,7 +109,7 @@ const Chat = () => {
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reactions: [],
+      reaction: [],
       message: s.message,
       created_at: s.created_at,
       converted_created_at: s.created_at,

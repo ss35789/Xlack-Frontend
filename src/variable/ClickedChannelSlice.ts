@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, CustomUserType, ReactionFetchType } from "../types/types";
+import { ChatChannelType, CustomUserType } from "../types/types";
 
 interface struct {
   channel_hv: string;
@@ -57,21 +57,8 @@ export const ClickedChannelSlice = createSlice({
         }
       });
     },
-    saveReaction: (state, action: PayloadAction<ReactionFetchType>) => {
-      const reaction = action.payload;
-      state.channelData.Chats.forEach(c => {
-        if (Number(c.id) === reaction.chat_id) {
-          if (reaction.reactors?.length) {
-            c.reactions = (c.reactions || []).filter(r => r.icon !== reaction.icon);
-            c.reactions.push(reaction);
-          } else {
-            c.reactions = (c.reactions || []).filter(r => r.icon !== reaction.icon);
-          }
-        }
-      });
-    },
   },
 });
 
-export const { setUnClickedChannel, setClickedChannel, setClickedChannel_hv, findUserDataInClickedChannel, ClickBookMark, saveReaction } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, setClickedChannel_hv, findUserDataInClickedChannel, ClickBookMark } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;

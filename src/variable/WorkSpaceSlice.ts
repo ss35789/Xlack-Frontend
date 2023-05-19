@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, ReactionDataType, ReactionFetchType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -7,7 +7,6 @@ interface struct {
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
   CompletegetWorkspace: boolean;
-  //Reaction: ReactionType;
 }
 
 const initialState: struct = {
@@ -140,6 +139,7 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
+
     EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
       const chatInfo = action.payload;
       state.MyWorkSpace.forEach(w => {

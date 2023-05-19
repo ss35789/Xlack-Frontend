@@ -1,6 +1,6 @@
-import { AlibabaOutlined, PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
-import styled, { keyframes } from "styled-components";
-import { ChatType, ReactionDataType, SendReactionType } from "../../types/types";
+import { PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
+import styled from "styled-components";
+import { ChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import { useState } from "react";
@@ -8,16 +8,11 @@ import { useDispatch } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { ClickBookMark } from "../../variable/ClickedChannelSlice";
 import { EditChatBookmark } from "../../variable/WorkSpaceSlice";
-import { saveReaction } from "../../variable/ClickedChannelSlice";
-import Chat from "./Chat";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const dispatch = useDispatch();
   const cidToInt = parseInt(chat.id);
-  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
-  const cid = parseInt(chat.id);
-  const [reactionSocket, setReactionSocket] = useState<WebSocket>();
   const PlayChatBookmark = () => {
     dispatch(getBookmarkPage());
     dispatch(ClickBookMark(chat.id));
@@ -123,21 +118,6 @@ const ChatOption = (chat: ChatType) => {
         console.log("test");
       },
       Icon: <RadarChartOutlined />,
-    },
-    {
-      //detailMessage: icon.match("👀") ? "you already signed" : "Sign as shown",
-      detailMessage: "Sign as shown",
-      func: () => {
-        ReactionLogic("👀", cid);
-      },
-      Icon: "👀",
-    },
-    {
-      detailMessage: "Sign as shown",
-      func: () => {
-        ReactionLogic("👍", cid);
-      },
-      Icon: "👍",
     },
   ];
   return (
