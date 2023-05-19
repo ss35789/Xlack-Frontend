@@ -1,47 +1,53 @@
 import { AlibabaOutlined, PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
 import styled, { keyframes } from "styled-components";
 import { ChatType, ReactionDataType, SendReactionType } from "../../types/types";
-import { at, backUrl, WsUrl_reaction } from "../../variable/cookie";
+import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
-import React, { Props, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
-import { RootState } from "../../app/store";
-import { UpdateReactionChat, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
-import Chat from "./Chat";
-import ReactTooltip from "react-tooltip";
+import { ClickBookMark } from "../../variable/ClickedChannelSlice";
+import { EditChatBookmark } from "../../variable/WorkSpaceSlice";
 import { saveReaction } from "../../variable/ClickedChannelSlice";
+import Chat from "./Chat";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
-  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const dispatch = useDispatch();
+  const cidToInt = parseInt(chat.id);
+  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
   const cid = parseInt(chat.id);
   const [reactionSocket, setReactionSocket] = useState<WebSocket>();
+  const PlayChatBookmark = () => {
+    dispatch(getBookmarkPage());
+    dispatch(ClickBookMark(chat.id));
+    dispatch(EditChatBookmark(chat));
+  };
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
-      .delete(`${backUrl}chat/bookmark/${cid}/`, {
+      .delete(`${backUrl}chat/bookmark/${cidToInt}/`, {
         headers: {
           Authorization: `Bearer ${at}`,
         },
       })
       .then(res => {
         console.log(res);
-        dispatch(getBookmarkPage());
+        PlayChatBookmark();
       })
       .catch(err => {
         console.log(err);
       });
   };
+  //누르면 ClickBookMark(cid) -> 해당 챗의 id 로 has_bookmarked 상태값 변경하기
   const MakeChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
     await axios
       .post(
         `${backUrl}chat/bookmark/`,
         {
-          chat_id: cid,
+          chat_id: cidToInt,
         },
         {
           headers: {
@@ -51,7 +57,7 @@ const ChatOption = (chat: ChatType) => {
       )
       .then(res => {
         console.log(res);
-        dispatch(getBookmarkPage());
+        PlayChatBookmark();
       })
       .catch(err => {
         console.log(err);
@@ -99,6 +105,7 @@ const ChatOption = (chat: ChatType) => {
       sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
   }
+
 
   const ChatOptionDetailArray = [
     {
@@ -152,8 +159,7 @@ const ChatOption = (chat: ChatType) => {
                 setShowDetail(-1);
               }}
             >
-              {/*{showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}*/}
-              {showDetail === i && <ChatOptionDetailMessage />}
+              {showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}
               {ChatOptionDetail.Icon}
             </Option>
           );

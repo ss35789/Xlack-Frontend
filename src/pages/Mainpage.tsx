@@ -41,7 +41,6 @@ const Mainpage = () => {
       }
     });
   };
-  Notifi();
   const getMyUser = async () => {
     if ((await AtVerify()) == 200) {
       try {
@@ -86,6 +85,17 @@ const Mainpage = () => {
     dispatch(CallClickedWorkSpace());
     dispatch(SearchChannel());
   }, [Workspace]);
+  useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          Notifi();
+        } else {
+          window.alert("알림 권한을 설정해주세요");
+        }
+      });
+    }
+  }, []);
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);

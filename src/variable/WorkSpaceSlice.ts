@@ -166,6 +166,14 @@ export const WorkSpaceSlice = createSlice({
             c.Chats?.forEach(chat => {
               if (Number(chat.id) === reactionData.chat_id) {
                 chat.reactions = chat.reactions?.filter(reaction => reaction.icon !== reactionData.icon);
+    EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
+      const chatInfo = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(channel => {
+          if (channel.id === chatInfo.channel) {
+            channel.Chats.forEach(chat => {
+              if (chat.id === chatInfo.id) {
+                chat.has_bookmarked = !chat.has_bookmarked;
               }
             });
           }
@@ -190,5 +198,6 @@ export const {
   UpdateReactionChat,
   RemoveReactionChat,
   UpdateReactionChatType2,
+  EditChatBookmark,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
