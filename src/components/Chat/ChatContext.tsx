@@ -55,11 +55,6 @@ function ChatContext(chat: ChatType) {
 }
 
 export default ChatContext;
-const ChatReactions = styled.span`
-  :hover {
-    background-color: blue;
-  }
-`;
 const ChatMessages = styled.div``;
 const Header = styled.div`
   display: flex;
