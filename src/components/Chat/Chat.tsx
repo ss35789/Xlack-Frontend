@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { ChatType, SocketReceiveChatType } from "../../types/types";
+import { ChatType, ReactionDataType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
@@ -45,7 +45,7 @@ const Chat = () => {
           message: r.message,
           created_at: r.created_at,
           converted_created_at: r.converted_created_at,
-          reaction: r.reaction,
+          reactions: r.reaction,
           file: r.file,
         });
       });
@@ -109,7 +109,7 @@ const Chat = () => {
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reaction: [],
+      reactions: [],
       message: s.message,
       created_at: s.created_at,
       converted_created_at: s.created_at,
