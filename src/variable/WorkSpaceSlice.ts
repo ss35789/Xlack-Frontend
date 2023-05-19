@@ -121,22 +121,6 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
-    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
-      const channel_hv = action.payload[0];
-      const reactionData = action.payload[1];
-      state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reactionData.chat_id) {
-                chat.reactions = chat.reactions?.filter(reaction => reaction.icon === reactionData.icon);
-                chat.reactions?.push(reactionData);
-              }
-            });
-          }
-        });
-      });
-    },
     UpdateReactionChatType2: (state, action: PayloadAction<ReactionFetchType>) => {
       const reaction = action.payload;
       state.MyWorkSpace.forEach(w => {
@@ -150,22 +134,6 @@ export const WorkSpaceSlice = createSlice({
                 } else {
                   chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
                 }
-              }
-            });
-          }
-        });
-      });
-    },
-    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
-      const channel_hv = action.payload[0];
-      const reactionData = action.payload[1];
-      //state.Reaction = action.payload[1];
-      state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reactionData.chat_id) {
-                chat.reactions = chat.reactions?.filter(reaction => reaction.icon !== reactionData.icon);
               }
             });
           }
@@ -187,8 +155,6 @@ export const {
   CompleteGetMyWorkspace,
   AppendChat,
   SearchChannelInAll,
-  UpdateReactionChat,
-  RemoveReactionChat,
   UpdateReactionChatType2,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

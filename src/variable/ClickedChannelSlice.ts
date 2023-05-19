@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, CustomUserType, ReactionFetchType } from "../types/types";
+import { ChatChannelType, CustomUserType, ReactionFetchType } from "../types/types";
 
 interface struct {
   channelData: ChatChannelType;
