@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, CustomUserType } from "../types/types";
+import { ChatChannelType, CustomUserType, ReactionFetchType } from "../types/types";
 
 interface struct {
   channelData: ChatChannelType;
@@ -12,6 +12,7 @@ const initialState: struct = {
     name: "",
     hashed_value: "",
     description: "",
+    Chats: [],
     members: [],
     admins: [],
   },
@@ -42,8 +43,11 @@ export const ClickedChannelSlice = createSlice({
         }
       });
     },
+    findChannelHV: (state, action: PayloadAction<string>) => {
+      state.channelData.hashed_value = action.payload.toString();
+    },
   },
 });
 
-export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel, findChannelHV } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;

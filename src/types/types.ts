@@ -8,11 +8,18 @@ export interface CustomUserType {
   profile_image: string;
 }
 
+export interface Mention {
+  name: string;
+  state?: string;
+  Img?: string;
+}
+
 export interface ChatChannelType {
   id: number;
   name: string;
   hashed_value: string;
   description: string;
+  Chats: ChatType[];
   members: CustomUserType[];
   admins: CustomUserType[];
 }
@@ -38,6 +45,12 @@ export interface ChannelType {
 // export interface UserType{
 
 // }
+export interface MentionProps {
+  inputMsg: string;
+  Choose: (name: string, EditingMentionLength: number) => void;
+  CalleverDataArr: CustomUserType[];
+}
+
 export interface ChatType {
   id: string;
   // title: Id
@@ -47,7 +60,7 @@ export interface ChatType {
   // readOnly: true
   chatter: CustomUserType;
   has_bookmarked: boolean;
-  reaction: [];
+  reactions: ReactionDataType[];
   message: string;
   // title: Message
   // minLength: 1
@@ -71,6 +84,7 @@ export interface SocketReceiveChatType {
   user_id: number;
   message: string;
   file_id: string;
+  reaction: string;
 }
 
 export interface getChat {
@@ -113,9 +127,13 @@ export interface UserDetailsType {
   // title: Last name
   // maxLength: 150
 }
-
+export interface Notification {
+  channel_hashed_value: string;
+  workspace_hashed_value: string;
+  count: number;
+}
 export interface UserProfileType {
-  id: number;
+  id: string;
   // title: ID
   // readOnly: true
   user: number;
@@ -157,4 +175,23 @@ export interface Status {
   status_message: string;
   status_icon: string;
   until: string;
+}
+
+export interface ReactionDataType {
+  icon: string;
+  chat_id: number;
+  reactors: number[];
+}
+
+export interface SendReactionType {
+  mode: string;
+  icon: string;
+  chat_id: number;
+}
+
+export interface ReactionFetchType {
+  channel_hashed_value: string;
+  icon: string;
+  chat_id: number;
+  reactors: number[];
 }

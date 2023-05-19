@@ -2,21 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
+import { AppendChat } from "../../variable/WorkSpaceSlice";
 
 const Chat = () => {
   const Clicked_channel = useSelector((state: RootState) => state.ClickedChannel.channelData);
   const findUser = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const ClickedBookmark = useSelector((state: RootState) => state.ChatBookmark.ClickBookmark);
+  const MyWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+  const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
   const [lastChat, setLastChat] = useState<any>("-1");
+  const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
+  const reactionArr: string[] = [];
   const receiveChatBookmarkData = async () => {
     try {
       const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
@@ -36,7 +41,7 @@ const Chat = () => {
           has_bookmarked: true,
           message: r.message,
           created_at: r.created_at,
-          reaction: r.reaction,
+          reactions: r.reaction,
           file: r.file,
         });
       });
@@ -46,28 +51,10 @@ const Chat = () => {
       console.log("receiveChatBookmarkError: ", err);
     }
   };
-  const receiveChatData = async () => {
-    try {
-      const res = await axios.get(`${backUrl}chat/${Clicked_channel.hashed_value}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      });
-      //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
-      setGetChatData(res.data);
-      console.log(res.data);
-    } catch (err) {
-      console.log("receiveChatError: ", err);
-    }
-  };
-  useEffect(() => {
-    setGetChatData([]);
-  }, [currentWorkspace]);
+
   useEffect(() => {
     console.log("저장된 채널:", Clicked_channel);
-    if (Clicked_channel.hashed_value) {
-      receiveChatData();
-    }
+    if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
   }, [Clicked_channel, UpdateBookmark]);
   useEffect(() => {
     if (lastChat !== "-1") {
@@ -81,21 +68,31 @@ const Chat = () => {
       receiveChatBookmarkData();
     }
   }, [ClickedBookmark, UpdateBookmark]);
+  useEffect(() => {
+    if (UpdateChannel.lastDeleteChannel_hv === Clicked_channel.hashed_value) setGetChatData([]);
+  }, [UpdateChannel.lastDeleteChannel_hv]);
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reaction: [],
+      reactions: [],
       message: s.message,
       created_at: new Date().toString().substring(0, 25),
     };
     return c;
   };
 
-  const ReceiveLastChat = (r: SocketReceiveChatType) => {
-    setLastChat(r);
+  const ReceiveLastChat = (ch_hv: string, r: SocketReceiveChatType) => {
+    console.log("ReceiveLasChat발동");
+    dispatch(AppendChat([ch_hv, MakeChatDataFromLastChat(r)]));
+    //최근에 받아온 데이터를 redux에 저장한 channel의 챗에 추가
+    if (ch_hv === Clicked_channel.hashed_value) {
+      setLastChat(r);
+    }
+    //새로 온 메세지가 지금 보고 있는 채널이면 바로 갱신
+    console.log(MyWorkspace);
   };
 
   const scrollToBottom = () => {
@@ -105,27 +102,6 @@ const Chat = () => {
       inline: "nearest",
     });
   };
-  //현재 보고 있는 채널의 hashed_value가 바뀌면 기존 소켓 연결 끊고 새로 재연결
-  // useEffect(() => {
-  //   if (socket !== undefined) {
-  //     socket?.disconnect();
-  //   } else {
-  //     const socketio = io(`${WsUrl}${Clicked_channel_hv}/`, {
-  //       auth: {
-  //         token: `Bearer ${at}`,
-  //       },
-  //     });
-  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //     // @ts-ignore
-  //     setSocket(socketio);
-  //
-  //     if (socketio.connected) console.log("소켓연결");
-  //   }
-  //
-  //   console.log(Clicked_channel_hv);
-  // }, [receiveMessage, Clicked_channel_hv]);
-  //재연결한 소켓
-
   useEffect(() => {
     scrollToBottom();
   }, [getChatData]); //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
@@ -147,8 +123,8 @@ const Chat = () => {
               })}
         </ChatMessages>
         <ChatInput
-          receive={(input: SocketReceiveChatType) => {
-            ReceiveLastChat(input);
+          receive={(ch_hv: string, input: SocketReceiveChatType) => {
+            ReceiveLastChat(ch_hv, input);
           }}
         />
       </>

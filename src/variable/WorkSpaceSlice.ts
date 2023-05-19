@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, ReactionDataType, ReactionFetchType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
   rightClicked_channel_hashed_value: string;
-  ClickedWorkSpace_hashed_value: string;
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
+  CompletegetWorkspace: boolean;
+  //Reaction: ReactionType;
 }
 
 const initialState: struct = {
   MyWorkSpace: [],
   rightClicked_channel_hashed_value: "",
-  ClickedWorkSpace_hashed_value: "",
   ClickedWorkSpace: {
     created_at: "",
     updated_at: "",
@@ -26,9 +26,11 @@ const initialState: struct = {
     name: "default",
     hashed_value: "",
     description: "",
+    Chats: [],
     members: [],
     admins: [],
   },
+  CompletegetWorkspace: false,
 };
 
 export const WorkSpaceSlice = createSlice({
@@ -54,11 +56,11 @@ export const WorkSpaceSlice = createSlice({
       state.ClickedWorkSpace.chat_channel = action.payload;
     },
     SetClickedWorkSpace: (state, action: PayloadAction<string>) => {
-      state.ClickedWorkSpace_hashed_value = action.payload;
+      state.ClickedWorkSpace.hashed_value = action.payload;
     },
 
     CallClickedWorkSpace: (state, action: PayloadAction<void>) => {
-      const w = state.ClickedWorkSpace_hashed_value;
+      const w = state.ClickedWorkSpace.hashed_value;
       state.MyWorkSpace.forEach(value => {
         if (value.hashed_value === w) {
           state.ClickedWorkSpace = value;
@@ -74,11 +76,119 @@ export const WorkSpaceSlice = createSlice({
         }
       });
     },
+    SearchChannelInAll: (state, action: PayloadAction<void>) => {
+      const r = state.rightClicked_channel_hashed_value;
+      state.SearchedChannel.id = -2;
+      state.ClickedWorkSpace = initialState.ClickedWorkSpace;
+      //해당 value의 채널이 없을 시 초기값을 넣기 위해 초기화
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(value => {
+          if (value.hashed_value === r) {
+            state.SearchedChannel = value;
+            state.ClickedWorkSpace = w;
+          }
+        });
+      });
+    },
     rightClick_channel: (state, action: PayloadAction<string>) => {
       state.rightClicked_channel_hashed_value = action.payload;
+    },
+    SaveChat: (state, action: PayloadAction<[ChatChannelType, ChatType[]]>) => {
+      const channel = action.payload[0];
+      const ChatArr = action.payload[1];
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === channel.hashed_value) {
+            c.Chats = ChatArr;
+          }
+        });
+      });
+    },
+    AppendChat: (state, action: PayloadAction<[string, ChatType]>) => {
+      console.log("AppendChat발동");
+      const channel_hv = action.payload[0];
+      const Chat = action.payload[1];
+      state.MyWorkSpace.forEach((w, i) => {
+        w.chat_channel?.forEach((c, x) => {
+          if (c.hashed_value === channel_hv) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            state.MyWorkSpace[i].chat_channel[x].Chats.unshift(Chat);
+          }
+        });
+      });
+    },
+    CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
+      state.CompletegetWorkspace = true;
+    },
+    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
+      const channel_hv = action.payload[0];
+      const reactionData = action.payload[1];
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === channel_hv) {
+            c.Chats?.forEach(chat => {
+              if (Number(chat.id) === reactionData.chat_id) {
+                chat.reactions = chat.reactions?.filter(reaction => reaction.icon === reactionData.icon);
+                chat.reactions?.push(reactionData);
+              }
+            });
+          }
+        });
+      });
+    },
+    UpdateReactionChatType2: (state, action: PayloadAction<ReactionFetchType>) => {
+      const reaction = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === reaction.channel_hashed_value) {
+            c.Chats?.forEach(chat => {
+              if (Number(chat.id) === reaction.chat_id) {
+                if (reaction.reactors?.length) {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                  chat.reactions.push(reaction);
+                } else {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                }
+              }
+            });
+          }
+        });
+      });
+    },
+    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
+      const channel_hv = action.payload[0];
+      const reactionData = action.payload[1];
+      //state.Reaction = action.payload[1];
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === channel_hv) {
+            c.Chats?.forEach(chat => {
+              if (Number(chat.id) === reactionData.chat_id) {
+                chat.reactions = chat.reactions?.filter(reaction => reaction.icon !== reactionData.icon);
+              }
+            });
+          }
+        });
+      });
     },
   },
 });
 
-export const { getWorkSpace, getChannelList, clearWorkSpace, SetClickedWorkSpace, CallClickedWorkSpace, SearchChannel, rightClick_channel } = WorkSpaceSlice.actions;
+export const {
+  getWorkSpace,
+  getChannelList,
+  clearWorkSpace,
+  SetClickedWorkSpace,
+  CallClickedWorkSpace,
+  SearchChannel,
+  rightClick_channel,
+  SaveChat,
+  CompleteGetMyWorkspace,
+  AppendChat,
+  SearchChannelInAll,
+  UpdateReactionChat,
+  RemoveReactionChat,
+  UpdateReactionChatType2,
+} = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

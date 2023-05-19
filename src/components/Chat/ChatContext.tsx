@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatOption from "./ChatOption";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { at, WsUrl_reaction } from "../../variable/cookie";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
+  const [Rdata, setRdata] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return (
     <div
       onMouseOver={() => {
@@ -39,14 +45,21 @@ function ChatContext(chat: ChatType) {
         </Header>
         <ChatMessages>
           <h2>{chat.message}</h2>
+          <span>{JSON.stringify(chat.reactions)}</span>
         </ChatMessages>
+        {/*<ChatReaction />*/}
+        {/*<span>{chatReaction}</span>*/}
       </ChatContainer>
     </div>
   );
 }
 
 export default ChatContext;
-
+const ChatReactions = styled.span`
+  :hover {
+    background-color: blue;
+  }
+`;
 const ChatMessages = styled.div``;
 const Header = styled.div`
   display: flex;

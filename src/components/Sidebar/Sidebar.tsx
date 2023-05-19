@@ -10,7 +10,7 @@ import ChannelMenu from "../Channel/ChannelMenu";
 import { setClickedChannel, setUnClickedChannel } from "../../variable/ClickedChannelSlice";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
-import { rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
+import { CallClickedWorkSpace, rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
 import { setClickBookmarkPage } from "../../variable/ChatBookmarkSlice";
 
 function Sidebar() {
@@ -43,11 +43,14 @@ function Sidebar() {
   }, [WorkspaceData]);
   useEffect(() => {
     setClickedChannelinSide(-1);
-  }, [currentWorkspace]);
+    onClickshowChannels();
+    setshowChannelMenu(false);
+  }, [currentWorkspace.hashed_value]);
 
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
+      //console.log(channelMenuRef.current);
       if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
         setshowChannelMenu(false);
       }
@@ -79,6 +82,15 @@ function Sidebar() {
   const onClickshowChannels = useCallback(() => {
     setshowChannels(prev => !prev);
   }, []);
+  const ChangeChannel = (channel_hv: string) => {
+    dispatch(CallClickedWorkSpace());
+    //저장된 워크스페이스내부 챗데이터들을 포함해 갱신된 데이터 다시 불러오기
+    currentWorkspace.chat_channel?.forEach(c => {
+      if (channel_hv === c.hashed_value) {
+        dispatch(setClickedChannel(c));
+      }
+    });
+  };
   return (
     <SidebarContainer>
       <SidebarHeader onClick={onClickToggleModal}>
@@ -127,7 +139,7 @@ function Sidebar() {
                 onClick={e => {
                   e.preventDefault();
                   storeHistory(c.name, c.hashed_value);
-                  dispatch(setClickedChannel(c));
+                  ChangeChannel(c.hashed_value);
                   dispatch(setClickBookmarkPage(false));
                   setClickedChannelinSide(i);
                   // connectChat(enterRoomId)
@@ -139,7 +151,7 @@ function Sidebar() {
                   sety(e.clientY);
                   dispatch(rightClick_channel(c.hashed_value));
                   dispatch(SearchChannel());
-                  showChannelMenu && onClickshowChannelMenu(); //새로 우클릭 한 곳에 메뉴가 다시 나오게 초기화
+                  showChannelMenu && onClickshowChannelMenu();
                   onClickshowChannelMenu();
                 }}
               >
