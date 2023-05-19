@@ -48,7 +48,7 @@ function Sidebar() {
   useEffect(() => {
     // channelMenuRef 를 이용해 이외의 영역이 클릭되면 채널메뉴 없애기
     function handleClickOutside(e: MouseEvent): void {
-      console.log(channelMenuRef.current);
+      //console.log(channelMenuRef.current);
       if (channelMenuRef.current && !channelMenuRef.current.contains(e.target as Node)) {
         setshowChannelMenu(false);
       }
