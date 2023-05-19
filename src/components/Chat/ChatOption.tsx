@@ -7,7 +7,7 @@ import React, { Props, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { RootState } from "../../app/store";
-import { setClickedChatReaction, setPushPopReactionArray } from "../../variable/ChatReactionSlice";
+import { setClickedChatReaction } from "../../variable/ChatReactionSlice";
 import { setUIChatReaction } from "../../variable/ChatReactionUISlice";
 import { RemoveReactionChat, UpdateReactionChat } from "../../variable/WorkSpaceSlice";
 import Chat from "./Chat";
@@ -84,6 +84,7 @@ const ChatOption = (chat: ChatType) => {
           const data = JSON.parse(res.data);
           if (res.data.toString().match("reactor")) {
             console.log("reaction Data " + JSON.stringify(data));
+            //dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
           }
           //dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: res.data.mode, icon: res.data.icon, chat_id: res.data.chat_id }]));
           //dispatch(setClickedChatReaction(data));
@@ -93,10 +94,10 @@ const ChatOption = (chat: ChatType) => {
     }
   };
   function ReactionLogic(clickedIcon: string, cid: number) {
-    if (icon === "" && clickedIcon) {
+    if (icon === "" && clickedIcon !== null) {
       //리액션이 없을때 새로운 리액션을 추가
-      //dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
       sendReaction("create", clickedIcon, cid);
+      //dispatch(setClickedChatReaction({ mode: "create", icon: clickedIcon, chat_id: cid }));
       dispatch(UpdateReactionChat([chat_channel_hashed_value, { mode: "create", chat_id: cid, icon: clickedIcon }]));
     } else if (icon.match(clickedIcon)) {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
@@ -104,7 +105,21 @@ const ChatOption = (chat: ChatType) => {
       sendReaction("delete", clickedIcon, cid);
       //console.log("{ clicked icon: " + clickedIcon + ", \n" + " saved icon: " + icon + ", \n" + " chat_id: " + cid + ", \n" + " chat_reaction data: " + JSON.stringify(chat_reaction) + ", \n}");
     }
-    console.log("{ clicked icon: " + clickedIcon + ", \n" + " saved icon: " + icon + ", \n" + " chat_id: " + cid + ", \n" + " chat_reaction data: " + JSON.stringify(chat_reaction) + ", \n}");
+    console.log(
+      "{ clicked icon: " +
+        clickedIcon +
+        ", \n saved icon: " +
+        icon +
+        ", \n channel_hv: " +
+        chat_channel_hashed_value +
+        ", \n chat_id: " +
+        cid +
+        ", \n chat_reaction data: " +
+        JSON.stringify(chat_reaction) +
+        ", \n  chat.reactions: " +
+        JSON.stringify(chat.reactions) +
+        " \n}",
+    );
   }
 
   const ChatOptionDetailArray = [

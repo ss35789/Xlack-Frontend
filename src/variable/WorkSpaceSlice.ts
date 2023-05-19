@@ -135,7 +135,7 @@ export const WorkSpaceSlice = createSlice({
           if (c.hashed_value === channel_hv) {
             c.Chats?.forEach(chat => {
               if (chat.id === reactionData.chat_id.toString()) {
-                chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reactionData.icon);
+                chat.reactions = chat.reactions.filter(reaction => reaction.icon === reactionData.icon);
                 chat.reactions.push(reactionData);
               }
             });

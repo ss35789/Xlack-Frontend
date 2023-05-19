@@ -11,6 +11,7 @@ function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
   const icon = useSelector((state: RootState) => state.getMyWorkSpace.Reaction.icon);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
+  const redux_s_icon = useSelector((state: RootState) => state.ChatReaction.reactionData.icon);
   const [Rdata, setRdata] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -49,7 +50,7 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>
             {chat.message}
-            {"뿅" + chat.reactions}
+            {redux_s_icon}
             {/*{chat.reaction.map((reactions, i) => {*/}
             {/*  return <span key={i}>{chat.reaction}</span>;*/}
             {/*})}*/}
