@@ -46,18 +46,6 @@ export const ClickedChannelSlice = createSlice({
     findChannelHV: (state, action: PayloadAction<string>) => {
       state.channelData.hashed_value = action.payload.toString();
     },
-    // saveReaction: (state, action: PayloadAction<ReactionFetchType>) => {
-    //   const m = action.payload;
-    //   state.channelData.Chats.forEach((chat: ChatType) => {
-    //     if (chat.id === m.chat_id) {
-    //       chat.Reactions.push({
-    //         id: m.id,
-    //         user: m.user,
-    //         emoji: m.emoji,
-    //       });
-    //     }
-    //   });
-    // },
   },
 });
 
