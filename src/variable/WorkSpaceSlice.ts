@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, ReactionData, ReactionFetchType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, ReactionDataType, ReactionFetchType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -121,7 +121,7 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
-    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionData]>) => {
+    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
       state.MyWorkSpace.forEach(w => {
@@ -143,7 +143,7 @@ export const WorkSpaceSlice = createSlice({
         w.chat_channel?.forEach(c => {
           if (c.hashed_value === reaction.channel_hashed_value) {
             c.Chats?.forEach(chat => {
-              if (chat.id === reaction.chat_id.toString()) {
+              if (Number(chat.id) === reaction.chat_id) {
                 if (reaction.reactors?.length) {
                   chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
                   chat.reactions.push(reaction);
@@ -156,7 +156,7 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
-    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionData]>) => {
+    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
       const channel_hv = action.payload[0];
       const reactionData = action.payload[1];
       //state.Reaction = action.payload[1];

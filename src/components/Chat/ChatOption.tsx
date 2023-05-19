@@ -1,6 +1,6 @@
 import { AlibabaOutlined, PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
 import styled, { keyframes } from "styled-components";
-import { ChatType, ReactionData, SendReactionType } from "../../types/types";
+import { ChatType, ReactionDataType, SendReactionType } from "../../types/types";
 import { at, backUrl, WsUrl_reaction } from "../../variable/cookie";
 import axios from "axios";
 import React, { Props, useEffect, useState } from "react";
@@ -89,6 +89,7 @@ const ChatOption = (chat: ChatType) => {
     if (clickedIcon !== null) {
       //리액션이 없을때 새로운 리액션을 추가
       sendReaction({ mode: "create", icon: clickedIcon, chat_id: cid });
+      console.log(chat.reactions);
       //dispatch(UpdateReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
     } else {
       // 리액션이 있을때 같은 리액션을 누르면 삭제

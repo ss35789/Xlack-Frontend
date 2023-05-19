@@ -12,7 +12,6 @@ function ChatContext(chat: ChatType) {
   const [Rdata, setRdata] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-
   return (
     <div
       onMouseOver={() => {
@@ -46,7 +45,7 @@ function ChatContext(chat: ChatType) {
         </Header>
         <ChatMessages>
           <h2>{chat.message}</h2>
-          <span>{"chat_reaction " + chat.reactions}</span>
+          <span>{JSON.stringify(chat.reactions)}</span>
         </ChatMessages>
         {/*<ChatReaction />*/}
         {/*<span>{chatReaction}</span>*/}
