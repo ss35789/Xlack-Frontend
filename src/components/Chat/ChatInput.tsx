@@ -23,6 +23,7 @@ function ChatInput(props: any) {
   //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
+  const notifiSetting = useSelector((state: RootState) => state.OnModal.OnNotification);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -105,7 +106,7 @@ function ChatInput(props: any) {
       console.log(w.wb);
       w.wb.onmessage = message => {
         const nm = JSON.parse(message.data);
-        if (nm.message !== undefined) {
+        if (nm.message !== undefined && notifiSetting == true) {
           showNotification(nm.username, nm.message);
         }
       };
