@@ -10,6 +10,7 @@ import { RootState } from "../../app/store";
 import { UpdateReactionChat, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
 import Chat from "./Chat";
 import ReactTooltip from "react-tooltip";
+import { saveReaction } from "../../variable/ClickedChannelSlice";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
@@ -79,6 +80,7 @@ const ChatOption = (chat: ChatType) => {
           console.log("reaction Data " + JSON.stringify(data));
           if (reactionData) {
             dispatch(UpdateReactionChatType2({ channel_hashed_value: chat_channel_hashed_value, chat_id: reactionData.chat_id, icon: reactionData.icon, reactors: reactionData.reactors }));
+            dispatch(saveReaction({ channel_hashed_value: chat_channel_hashed_value, chat_id: reactionData.chat_id, icon: reactionData.icon, reactors: reactionData.reactors }));
           }
         };
       };

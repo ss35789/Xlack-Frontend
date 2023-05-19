@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, CustomUserType, ReactionFetchType } from "../types/types";
+import { ChatChannelType, ChatType, CustomUserType, ReactionFetchType } from "../types/types";
 
 interface struct {
   channelData: ChatChannelType;
@@ -46,20 +46,21 @@ export const ClickedChannelSlice = createSlice({
     findChannelHV: (state, action: PayloadAction<string>) => {
       state.channelData.hashed_value = action.payload.toString();
     },
-    // saveReaction: (state, action: PayloadAction<ReactionFetchType>) => {
-    //   const m = action.payload;
-    //   state.channelData.Chats.forEach((chat: ChatType) => {
-    //     if (chat.id === m.chat_id) {
-    //       chat.Reactions.push({
-    //         id: m.id,
-    //         user: m.user,
-    //         emoji: m.emoji,
-    //       });
-    //     }
-    //   });
-    // },
+    saveReaction: (state, action: PayloadAction<ReactionFetchType>) => {
+      const reaction = action.payload;
+      state.channelData.Chats.forEach(c => {
+        if (Number(c.id) === reaction.chat_id) {
+          if (reaction.reactors?.length) {
+            c.reactions = (c.reactions || []).filter(r => r.icon !== reaction.icon);
+            c.reactions.push(reaction);
+          } else {
+            c.reactions = (c.reactions || []).filter(r => r.icon !== reaction.icon);
+          }
+        }
+      });
+    },
   },
 });
 
-export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel, findChannelHV } = ClickedChannelSlice.actions;
+export const { setUnClickedChannel, setClickedChannel, findUserDataInClickedChannel, findChannelHV, saveReaction } = ClickedChannelSlice.actions;
 export default ClickedChannelSlice.reducer;
