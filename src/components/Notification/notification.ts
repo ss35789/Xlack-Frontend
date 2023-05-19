@@ -21,12 +21,11 @@ export function Notifi() {
     notifiSocket.onmessage = res => {
       const unReadChannel = JSON.parse(res.data).notifications;
       if (unReadChannel !== "undefined" || unReadChannel !== null) {
-        // FIXME: null 값에 할당함
-        // Object.keys(unReadChannel).forEach((key: any) => {
-        //   const setNotifications = unReadChannel;
-        //   console.log("notification에 onmessage", setNotifications[key]);
-        //   dispatch(getChannel(setNotifications[key]));
-        // });
+        Object.keys(unReadChannel).forEach((key: any) => {
+          const setNotifications = unReadChannel;
+          console.log("notification에 onmessage", setNotifications[key]);
+          dispatch(getChannel(setNotifications[key]));
+        });
         dispatch(CompleteGetUnReadChannel());
       }
     };
@@ -42,7 +41,9 @@ export function showNotification(title: string, message: string) {
     // 알림을 생성합니다.
     const notification = new Notification(title, {
       body: message,
+      // position: message,
       icon: "/path/to/icon.png",
+      dir: "rtl",
     });
   } else if (Notification.permission !== "denied") {
     // 알림 권한이 없는 경우 권한을 요청합니다.

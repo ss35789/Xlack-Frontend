@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setClickedChannel } from "../../variable/ClickedChannelSlice";
+import { setClickedChannel, setClickedChannel_hv } from "../../variable/ClickedChannelSlice";
 import { rightClick_channel, SearchChannelInAll } from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
+import { setClickBookmarkPage } from "../../variable/ChatBookmarkSlice";
 
-const Historymenu = () => {
+const Historymenu = (props: any) => {
   const [historyData, sethistoryData] = useState<[{ name: string; value: string }]>();
   const [ClickedHistoryChannelName, setClickedHistoryChannelName] = useState<string>("");
   const [MenuOpen, setMenuOpen] = useState<boolean>(true);
@@ -17,6 +18,19 @@ const Historymenu = () => {
     // @ts-ignore
     lS,
   );
+  const ClickChannelOnHistoryMenu = (h: { name: string; value: string }) => {
+    dispatch(setClickBookmarkPage(false));
+    dispatch(setClickedChannel_hv(h.value));
+    dispatch(rightClick_channel(h.value));
+    dispatch(SearchChannelInAll());
+    setClickedHistoryChannelName(h.name);
+  };
+  useEffect(() => {
+    if (search_channel.name === ClickedHistoryChannelName) {
+      dispatch(setClickedChannel(search_channel));
+      console.log("history click:", search_channel.hashed_value);
+    }
+  }, [search_channel]);
 
   useEffect(() => {
     sethistoryData(localStorage_hisory);
@@ -27,6 +41,7 @@ const Historymenu = () => {
     // @ts-ignore
     sethistoryData(historyData.filter(h => h.name !== nameToDelete));
   };
+
   useEffect(() => {
     dispatch(setClickedChannel(search_channel));
     console.log(search_channel);
@@ -59,11 +74,9 @@ const Historymenu = () => {
                   key={i}
                   className="cursor-pointer block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600"
                   role="menuitem"
-                  onClick={() => {
-                    dispatch(rightClick_channel(h.value));
-                    dispatch(SearchChannelInAll());
-                    setClickedHistoryChannelName(h.name);
-                    console.log("history click:", h.value);
+                  onClick={e => {
+                    e.preventDefault();
+                    ClickChannelOnHistoryMenu(h);
                   }}
                 >
                   <span className="flex flex-col">

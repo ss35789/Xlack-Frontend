@@ -1,17 +1,11 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ChatOption from "./ChatOption";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
-import { at, WsUrl_reaction } from "../../variable/cookie";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  const [Rdata, setRdata] = useState<string>("");
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return (
     <div
       onMouseOver={() => {
@@ -31,7 +25,7 @@ function ChatContext(chat: ChatType) {
             <h1>{chat.chatter && chat.chatter.display_name}</h1>
             <span className="text-sm text-gray-700">
               {/*{created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}*/}
-              {chat.created_at}
+              {chat.converted_created_at}
             </span>
           </HeaderLeft>
           <br></br>
@@ -45,16 +39,15 @@ function ChatContext(chat: ChatType) {
         </Header>
         <ChatMessages>
           <h2>{chat.message}</h2>
-          <span>{JSON.stringify(chat.reactions)}</span>
         </ChatMessages>
-        {/*<ChatReaction />*/}
-        {/*<span>{chatReaction}</span>*/}
+        <div>{chat.reactions && chat.reactions.map(item => <div key={chat.id}>{item.icon}</div>)}</div>
       </ChatContainer>
     </div>
   );
 }
 
 export default ChatContext;
+
 const ChatMessages = styled.div``;
 const Header = styled.div`
   display: flex;

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, ReactionDataType, ReactionFetchType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -7,7 +7,6 @@ interface struct {
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
   CompletegetWorkspace: boolean;
-  //Reaction: ReactionType;
 }
 
 const initialState: struct = {
@@ -121,51 +120,14 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
-    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
-      const channel_hv = action.payload[0];
-      const reactionData = action.payload[1];
+    EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
+      const chatInfo = action.payload;
       state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reactionData.chat_id) {
-                chat.reactions = chat.reactions?.filter(reaction => reaction.icon === reactionData.icon);
-                chat.reactions?.push(reactionData);
-              }
-            });
-          }
-        });
-      });
-    },
-    UpdateReactionChatType2: (state, action: PayloadAction<ReactionFetchType>) => {
-      const reaction = action.payload;
-      state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === reaction.channel_hashed_value) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reaction.chat_id) {
-                if (reaction.reactors?.length) {
-                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
-                  chat.reactions.push(reaction);
-                } else {
-                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
-                }
-              }
-            });
-          }
-        });
-      });
-    },
-    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
-      const channel_hv = action.payload[0];
-      const reactionData = action.payload[1];
-      //state.Reaction = action.payload[1];
-      state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reactionData.chat_id) {
-                chat.reactions = chat.reactions?.filter(reaction => reaction.icon !== reactionData.icon);
+        w.chat_channel?.forEach(channel => {
+          if (channel.id === chatInfo.channel) {
+            channel.Chats.forEach(chat => {
+              if (chat.id === chatInfo.id) {
+                chat.has_bookmarked = !chat.has_bookmarked;
               }
             });
           }
@@ -187,8 +149,6 @@ export const {
   CompleteGetMyWorkspace,
   AppendChat,
   SearchChannelInAll,
-  UpdateReactionChat,
-  RemoveReactionChat,
-  UpdateReactionChatType2,
+  EditChatBookmark,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
