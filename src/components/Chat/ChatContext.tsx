@@ -40,7 +40,6 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>{chat.message}</h2>
         </ChatMessages>
-          <div>{chat.reactions && chat.reactions.map(item => <div key={chat.id}>{item.icon}</div>)}</div>
       </ChatContainer>
     </div>
   );

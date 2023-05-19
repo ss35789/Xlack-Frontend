@@ -10,6 +10,7 @@ import SetupTeamName from "./pages/SetupTeamName";
 import { Notifi } from "./components/Notification/notification";
 
 function App() {
+  Notifi();
   return (
     <div className="App">
       <>
