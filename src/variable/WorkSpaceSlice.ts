@@ -120,6 +120,26 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
+    UpdateReactionChatType2: (state, action: PayloadAction<ReactionFetchType>) => {
+      const reaction = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === reaction.channel_hashed_value) {
+            c.Chats?.forEach(chat => {
+              if (Number(chat.id) === reaction.chat_id) {
+                if (reaction.reactors?.length) {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                  chat.reactions.push(reaction);
+                } else {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                }
+              }
+            });
+          }
+        });
+      });
+    },
+
     EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
       const chatInfo = action.payload;
       state.MyWorkSpace.forEach(w => {
@@ -149,6 +169,7 @@ export const {
   CompleteGetMyWorkspace,
   AppendChat,
   SearchChannelInAll,
+  UpdateReactionChatType2,
   EditChatBookmark,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;
