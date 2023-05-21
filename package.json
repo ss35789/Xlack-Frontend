@@ -59,6 +59,10 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
+    "start:container": "docker run --name blog-admin-front -d -p 5000:5000 blog-admin-front",
+    "clear:container": "docker rm -f blog-admin-front",
+    "build:docker": "docker build -t blog-admin-front .",
+    "deploy": "run-s clear:container build start:container",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
