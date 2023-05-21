@@ -71,25 +71,13 @@ const Chat = () => {
           channel_hashed_value: Clicked_channel_hashedValue,
         }),
       );
-      // webSocket.onmessage = res => {
-      //   const unReadChannel = JSON.parse(res.data).notifications;
-      //   if (unReadChannel !== "undefined" || unReadChannel !== null) {
-      //     Object.keys(unReadChannel).forEach((key: any) => {
-      //       const setNotifications = unReadChannel;
-      //       dispatch(getChannel(setNotifications[key]));
-      //     });
-      //     dispatch(CompleteGetUnReadChannel());
-      //   }
-      // };
     };
   }, [Clicked_channel, UpdateBookmark]);
   useEffect(() => {
     dispatch(deleteChannel(Clicked_channel_hashedValue));
-    // console.log("delete", notifi, Clicked_channel_hashedValue);
   }, [Clicked_channel_hashedValue]);
   useEffect(() => {
     if (lastChat !== "-1") {
-      console.log("최근 받은 메세지", lastChat);
       //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
       setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
     }

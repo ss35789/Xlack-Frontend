@@ -143,7 +143,6 @@ function Sidebar() {
                 }}
                 onContextMenu={e => {
                   e.preventDefault();
-                  console.log("채널 메뉴열기!");
                   setx(e.clientX);
                   sety(e.clientY);
                   dispatch(rightClick_channel(c.hashed_value));

@@ -40,9 +40,6 @@ const items: TabsProps["items"] = [
 const ChannelSetting = () => {
   const dispatch = useDispatch();
   const AboutChannel = useSelector((state: RootState) => state.getMyWorkSpace.SearchedChannel);
-  useEffect(() => {
-    console.log(AboutChannel.name);
-  }, []);
   return (
     <>
       <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">

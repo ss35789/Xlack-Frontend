@@ -104,7 +104,6 @@ export const WorkSpaceSlice = createSlice({
       });
     },
     AppendChat: (state, action: PayloadAction<[string, ChatType]>) => {
-      console.log("AppendChat발동");
       const channel_hv = action.payload[0];
       const Chat = action.payload[1];
       state.MyWorkSpace.forEach((w, i) => {

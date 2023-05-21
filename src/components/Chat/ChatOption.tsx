@@ -82,7 +82,7 @@ const ChatOption = (chat: ChatType) => {
         ReactionWs.onmessage = res => {
           const data = JSON.parse(res.data);
           const reactionData = data?.reaction;
-          console.log("reaction Data " + JSON.stringify(data));
+          //console.log("reaction Data " + JSON.stringify(data));
           if (reactionData) {
             dispatch(UpdateReactionChatType2({ channel_hashed_value: chat_channel_hashed_value, chat_id: reactionData.chat_id, icon: reactionData.icon, reactors: reactionData.reactors }));
           }
@@ -95,7 +95,7 @@ const ChatOption = (chat: ChatType) => {
     if (clickedIcon !== null) {
       //리액션이 없을때 새로운 리액션을 추가
       sendReaction({ mode: "create", icon: clickedIcon, chat_id: cid });
-      console.log(chat.reactions);
+      //console.log(chat.reactions);
       //dispatch(UpdateReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
     } else {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
@@ -115,13 +115,6 @@ const ChatOption = (chat: ChatType) => {
         }
       },
       Icon: <PushpinOutlined />,
-    },
-    {
-      detailMessage: "test",
-      func: () => {
-        console.log("test");
-      },
-      Icon: <RadarChartOutlined />,
     },
     {
       //detailMessage: icon.match("👀") ? "you already signed" : "Sign as shown",
