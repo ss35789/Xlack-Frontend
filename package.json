@@ -59,9 +59,6 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start:container": "docker run --name xlack_frontend -d -p 3000:3000 xlack-fe",
-    "clear:container": "docker rm -f xlack_frontend",
-    "build:docker": "docker build -t xlack_frontend .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
