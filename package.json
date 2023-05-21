@@ -59,7 +59,6 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "server": "react-scripts serve",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",

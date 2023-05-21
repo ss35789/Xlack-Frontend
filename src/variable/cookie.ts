@@ -44,7 +44,7 @@ export async function AtVerify() {
 }
 
 const cookies = new Cookies();
-export const kriemben = "https://xlack.kreimben.com/";
+
 export const backUrl = "https://api.xlack.kreimben.com/";
 export const WsUrl_chat = "wss://api.xlack.kreimben.com/ws/chat/";
 export const WsUrl_status = "wss://api.xlack.kreimben.com/ws/status/";
@@ -59,7 +59,7 @@ const getCookie = (name: string) => {
 export const removeCookie = () => {
   cookies.remove("access_token");
   cookies.remove("refresh_token");
-  window.location.href = `${kriemben}/login`;
+  window.location.href = "http://localhost:3000/login";
 };
 export const at = getCookie("access_token");
 // console.log("at: " + at);
