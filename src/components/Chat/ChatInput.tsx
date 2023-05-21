@@ -93,6 +93,7 @@ function ChatInput(props: any) {
           //file: File,
         }),
       );
+      window.alert("file 전송 성공");
     }
   }, [File_name]);
   //랜더링 시점 = notification 웹소켓 내용 변화시
@@ -117,7 +118,6 @@ function ChatInput(props: any) {
           //file: File_id,
         }),
       );
-      window.alert("file 전송 성공");
     }
 
     if (inputRef.current) {
