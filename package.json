@@ -59,10 +59,9 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start:container": "docker run --name blog-admin-front -d -p 5000:5000 blog-admin-front",
-    "clear:container": "docker rm -f blog-admin-front",
-    "build:docker": "docker build -t blog-admin-front .",
-    "deploy": "run-s clear:container build start:container",
+    "start:container": "docker run --name xlack_frontend -d -p 3000:3000 xlack-fe",
+    "clear:container": "docker rm -f xlack_frontend",
+    "build:docker": "docker build -t xlack_frontend .",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
