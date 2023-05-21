@@ -2,12 +2,15 @@ FROM node:16-alpine
 
 WORKDIR /Xlack_Frontend
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN npm install -g serve
-RUN mkdir ./build
-COPY ./build ./build
+RUN apk update && apk add bash
+RUN npm install --save --legacy-peer-deps
 
-ENTRYPOINT ["serve", "-s", "build"]
+COPY ./ ./
+
+RUN npm run build
 
 EXPOSE 3000
+
+CMD ["npm","run","start"]
