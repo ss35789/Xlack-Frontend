@@ -1,13 +1,13 @@
-FROM node:12-alpine
+FROM node:16-alpine
 
 WORKDIR /Xlack_Frontend
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install -g serve
+RUN mkdir ./build
+COPY ./build ./build
 
-COPY ./ ./
-
-CMD ["npm", "start"]
+ENTRYPOINT ["serve", "-s", "build"]
 
 EXPOSE 3000
