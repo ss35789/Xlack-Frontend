@@ -7,7 +7,6 @@ interface struct {
   ClickedWorkSpace: WorkspaceType;
   SearchedChannel: ChatChannelType;
   CompletegetWorkspace: boolean;
-  //Reaction: ReactionType;
 }
 
 const initialState: struct = {
@@ -105,7 +104,6 @@ export const WorkSpaceSlice = createSlice({
       });
     },
     AppendChat: (state, action: PayloadAction<[string, ChatType]>) => {
-      console.log("AppendChat발동");
       const channel_hv = action.payload[0];
       const Chat = action.payload[1];
       state.MyWorkSpace.forEach((w, i) => {
@@ -121,16 +119,14 @@ export const WorkSpaceSlice = createSlice({
     CompleteGetMyWorkspace: (state, action: PayloadAction<void>) => {
       state.CompletegetWorkspace = true;
     },
-    UpdateReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
-      const channel_hv = action.payload[0];
-      const reactionData = action.payload[1];
+    EditChatBookmark: (state, action: PayloadAction<ChatType>) => {
+      const chatInfo = action.payload;
       state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reactionData.chat_id) {
-                chat.reactions = chat.reactions?.filter(reaction => reaction.icon === reactionData.icon);
-                chat.reactions?.push(reactionData);
+        w.chat_channel?.forEach(channel => {
+          if (channel.id === chatInfo.channel) {
+            channel.Chats.forEach(chat => {
+              if (chat.id === chatInfo.id) {
+                chat.has_bookmarked = !chat.has_bookmarked;
               }
             });
           }
@@ -156,22 +152,6 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
-    RemoveReactionChat: (state, action: PayloadAction<[string, ReactionDataType]>) => {
-      const channel_hv = action.payload[0];
-      const reactionData = action.payload[1];
-      //state.Reaction = action.payload[1];
-      state.MyWorkSpace.forEach(w => {
-        w.chat_channel?.forEach(c => {
-          if (c.hashed_value === channel_hv) {
-            c.Chats?.forEach(chat => {
-              if (Number(chat.id) === reactionData.chat_id) {
-                chat.reactions = chat.reactions?.filter(reaction => reaction.icon !== reactionData.icon);
-              }
-            });
-          }
-        });
-      });
-    },
   },
 });
 
@@ -187,8 +167,7 @@ export const {
   CompleteGetMyWorkspace,
   AppendChat,
   SearchChannelInAll,
-  UpdateReactionChat,
-  RemoveReactionChat,
+  EditChatBookmark,
   UpdateReactionChatType2,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

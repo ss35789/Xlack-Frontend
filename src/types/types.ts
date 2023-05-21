@@ -65,6 +65,7 @@ export interface ChatType {
   // title: Message
   // minLength: 1
   created_at: string;
+  converted_created_at: string;
   // title: Created at
   // readOnly: true
   file?: FileType;
@@ -84,6 +85,7 @@ export interface SocketReceiveChatType {
   user_id: number;
   message: string;
   file_id: string;
+  created_at: string;
   reaction: string;
 }
 
@@ -127,13 +129,15 @@ export interface UserDetailsType {
   // title: Last name
   // maxLength: 150
 }
+
 export interface Notification {
   channel_hashed_value: string;
   workspace_hashed_value: string;
-  count: number;
+  count: undefined;
 }
+
 export interface UserProfileType {
-  id: string;
+  id: number;
   // title: ID
   // readOnly: true
   user: number;
