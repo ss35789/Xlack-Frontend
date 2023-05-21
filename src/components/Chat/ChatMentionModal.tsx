@@ -10,7 +10,6 @@ const ChatMentionModal = (props: MentionProps) => {
   const AutoComplete = (MentionName: string) => {
     const tmpArr: CustomUserType[] = [];
     props.CalleverDataArr.forEach(v => {
-      console.log(v + "와 " + MentionName + "을 비교합니다");
       if (v.username.startsWith(MentionName)) {
         tmpArr.push(v);
       }
@@ -20,7 +19,6 @@ const ChatMentionModal = (props: MentionProps) => {
 
   useEffect(() => {
     const MentionName = props.inputMsg;
-    console.log("M", MentionName);
     console.log(props);
     if (MentionName.length == 1) {
       setCallingMentionArr(props.CalleverDataArr);

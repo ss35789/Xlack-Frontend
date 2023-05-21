@@ -39,7 +39,6 @@ function ChatInput(props: any) {
                 authorization: at,
               }),
             );
-            console.log("웹소켓 연결");
           };
         });
       });
@@ -56,14 +55,11 @@ function ChatInput(props: any) {
             authorization: at,
           }),
         );
-        console.log("웹소켓 연결");
       };
-      console.log("웹소켓들", MyWebSocket);
     }
   }, [UpdateChannel.lastAddedChannel_hv]);
 
   useEffect(() => {
-    console.log("입력하려는 웹소켓", MyWebSocket);
     MyWebSocket.forEach(w => {
       if (w.ch_hv === Clicked_channel_hv) {
         setsocket(w.wb);
@@ -103,7 +99,6 @@ function ChatInput(props: any) {
   useEffect(() => {
     MyWebSocket.forEach(w => {
       setsocket(w.wb);
-      console.log(w.wb);
       w.wb.onmessage = message => {
         const nm = JSON.parse(message.data);
         if (nm.message !== undefined && notifiSetting == true) {
@@ -122,7 +117,7 @@ function ChatInput(props: any) {
           //file: File_id,
         }),
       );
-      console.log("file 전송 성공");
+      window.alert("file 전송 성공");
     }
 
     if (inputRef.current) {

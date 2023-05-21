@@ -42,7 +42,6 @@ const StatusDefault = () => {
   }, [workspaceHV]);
 
   useEffect(() => {
-    console.log("현재 status 소켓", workspaceHV);
     if (socket) {
       socket.onopen = () => {
         socket.send(
@@ -50,18 +49,13 @@ const StatusDefault = () => {
             authorization: at,
           }),
         );
-        console.log("status 웹소켓 연결");
       };
     }
   }, [socket]);
   const sendStatus = (event: { preventDefault: () => void }) => {
     setOpen(false);
-    console.log(status);
-    console.log(time);
-    console.log(emoji);
     event.preventDefault();
     if (socket) {
-      console.log(socket);
       socket.send(
         JSON.stringify({
           status_message: status,
@@ -69,7 +63,6 @@ const StatusDefault = () => {
           until: time,
         }),
       );
-      console.log(status, emoji, time);
     }
   };
 

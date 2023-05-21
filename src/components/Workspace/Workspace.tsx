@@ -43,7 +43,6 @@ export function SelectWorkspace(prop: WorkspaceType) {
           onClick={() => {
             dispatch(SetClickedWorkSpace(prop.hashed_value));
             dispatch(CallClickedWorkSpace());
-            console.log("내가 현재 보는 워크스페이스 이름:", prop.name);
           }}
         >
           {prop.name.slice(0, 1).toUpperCase()}

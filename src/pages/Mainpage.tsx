@@ -153,7 +153,6 @@ const Mainpage = () => {
                 file_name = original_file_name.split("/").slice(-1).toString() + " uploaded by(" + author + ")";
                 console.log(file_name);
               });
-            console.log("업로드 성공");
             //dispatch(setFile(element));
             dispatch(setFileName(file_name));
           } else {

@@ -28,13 +28,11 @@ const Historymenu = (props: any) => {
   useEffect(() => {
     if (search_channel.name === ClickedHistoryChannelName) {
       dispatch(setClickedChannel(search_channel));
-      console.log("history click:", search_channel.hashed_value);
     }
   }, [search_channel]);
 
   useEffect(() => {
     sethistoryData(localStorage_hisory);
-    console.log("localStorage getHistoryData", localStorage_hisory);
   }, []);
   const deleteObject = (nameToDelete: string) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,9 +45,7 @@ const Historymenu = (props: any) => {
     console.log(search_channel);
     if (!MenuOpen) {
       if (search_channel.id === -2) {
-        console.log("It's deleted", ClickedHistoryChannelName);
         deleteObject(ClickedHistoryChannelName);
-        window.alert("it's deleted");
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         window.localStorage.setItem("history", JSON.stringify(historyData.filter(h => h.name !== ClickedHistoryChannelName)));
