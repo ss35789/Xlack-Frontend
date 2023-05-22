@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {local} from '../../variable/cookie';
+import { local } from "../../variable/cookie";
 
 function WorkspaceMenuList() {
   const [isHovering, setIsHovering] = useState(0);
