@@ -176,17 +176,17 @@ const Mainpage = () => {
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-  useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          Notifi();
-        } else {
-          window.alert("알림 권한을 설정해주세요");
-        }
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (Notification.permission !== "granted") {
+  //     Notification.requestPermission().then(permission => {
+  //       if (permission === "granted") {
+  //         Notifi();
+  //       } else {
+  //         window.alert("알림 권한을 설정해주세요");
+  //       }
+  //     });
+  //   }
+  // }, []);
   return (
     <>
       <Logout />

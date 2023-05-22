@@ -4,11 +4,14 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, WsUrl_chat } from "../../variable/cookie";
+import { at, WsUrl_chat, WsUrl_notification } from "../../variable/cookie";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
-
-function ChatInput(props: any) {
+import { SocketReceiveChatType } from "../../types/types";
+type ChatInputProps = {
+  receive: (ch_hv: string, data: SocketReceiveChatType) => void;
+};
+const ChatInput = (props: ChatInputProps) => {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
@@ -22,11 +25,13 @@ function ChatInput(props: any) {
   const File_name = useSelector((state: RootState) => state.Chat.SendMessage.file_name);
   //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
-  const notifi = useSelector((state: RootState) => state.UnReadChannel);
+  const [NWebSocket, setNWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
+  const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
   const notifiSetting = useSelector((state: RootState) => state.OnModal.OnNotification);
+  const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
   const dispatch = useDispatch();
-
   useEffect(() => {
+    console.log("1");
     if (CompleteGetWorkspace) {
       Myworkspace.forEach(w => {
         w.chat_channel?.forEach(c => {
@@ -39,13 +44,14 @@ function ChatInput(props: any) {
                 authorization: at,
               }),
             );
-            console.log("웹소켓 연결");
+            // console.log("웹소켓 연결");
           };
         });
       });
     }
   }, [CompleteGetWorkspace]);
   useEffect(() => {
+    console.log("2");
     if (UpdateChannel.lastAddedChannel_hv !== "") {
       const hv = UpdateChannel.lastAddedChannel_hv;
       const webSocket = new WebSocket(`${WsUrl_chat}${hv}/`);
@@ -56,9 +62,9 @@ function ChatInput(props: any) {
             authorization: at,
           }),
         );
-        console.log("웹소켓 연결");
+        // console.log("웹소켓 연결");
       };
-      console.log("웹소켓들", MyWebSocket);
+      // console.log("웹소켓들", MyWebSocket);
     }
   }, [UpdateChannel.lastAddedChannel_hv]);
 
@@ -81,15 +87,30 @@ function ChatInput(props: any) {
         };
       }
     });
-
+    console.log("3", socket);
     if (inputRef.current) {
       // enter 치면 chatbox 공백으로 초기화 됨
       inputRef.current.value = "";
       setmsg("");
     }
-  }, [Clicked_channel_hv]);
+  }, [Clicked_channel_hv, notifi, onmessage]);
 
+  //랜더링 시점 = notification 웹소켓 내용 변화시
   useEffect(() => {
+    console.log("5", notifi);
+    MyWebSocket.forEach(w => {
+      w.wb.onmessage = message => {
+        const nm = JSON.parse(message.data);
+        if (nm.message !== undefined && notifiSetting == true) {
+          if (nm.user_id !== MyProfile.id) {
+            showNotification(nm.username, nm.message);
+          }
+        }
+      };
+    });
+  }, [notifi]);
+  useEffect(() => {
+    console.log("4");
     if (socket) {
       socket.send(
         JSON.stringify({
@@ -99,20 +120,6 @@ function ChatInput(props: any) {
       );
     }
   }, [File_name]);
-  //랜더링 시점 = notification 웹소켓 내용 변화시
-  useEffect(() => {
-    MyWebSocket.forEach(w => {
-      setsocket(w.wb);
-      console.log(w.wb);
-      w.wb.onmessage = message => {
-        const nm = JSON.parse(message.data);
-        if (nm.message !== undefined && notifiSetting == true) {
-          showNotification(nm.username, nm.message);
-        }
-      };
-    });
-  }, [notifi]);
-
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket && msg !== "") {
@@ -122,7 +129,7 @@ function ChatInput(props: any) {
           //file: File_id,
         }),
       );
-      console.log("file 전송 성공");
+      // console.log("file 전송 성공");
     }
 
     if (inputRef.current) {
@@ -153,7 +160,7 @@ function ChatInput(props: any) {
                 // 모달 띄우고 클릭시 해당 문구 앞에 추가
                 setMentionName(v.trim());
                 setShowMentionModal(true);
-                console.log("call mention");
+                // console.log("call mention");
               } else {
                 setShowMentionModal(false);
               }
@@ -168,7 +175,7 @@ function ChatInput(props: any) {
       </form>
     </ChatInputContainer>
   );
-}
+};
 
 export default ChatInput;
 

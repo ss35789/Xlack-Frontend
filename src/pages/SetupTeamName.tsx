@@ -27,7 +27,10 @@ function SetupTeamName() {
           },
         },
       )
-      .then(r => console.log(r))
+      .then(() => {
+        // console.log(r);
+        window.location.href = "/main";
+      })
       .catch(err => console.log(err));
   };
   return (
