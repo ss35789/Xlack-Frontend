@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import {local} from '../../variable/cookie';
 
 function WorkspaceMenuList() {
   const [isHovering, setIsHovering] = useState(0);
@@ -17,7 +18,7 @@ function WorkspaceMenuList() {
         <Separator></Separator>
       </div>
       <div>
-        <Button className="createWork" onClick={() => (window.location.href = "http://localhost:3000/setTeamName")}>
+        <Button className="createWork" onClick={() => (window.location.href = `${local}setTeamName`)}>
           새 워크스페이스 개설
         </Button>
         <Separator></Separator>

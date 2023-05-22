@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json ./
 
 RUN apk update && apk add bash
+
 RUN npm install --save --legacy-peer-deps
 RUN npm install -g serve
 
