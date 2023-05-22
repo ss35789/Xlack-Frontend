@@ -26,7 +26,7 @@ function Login() {
       <LoginMessage>We'll take you to the Github login page, and bring you back here.</LoginMessage>
       <LoginMessage>
         Is your team new to Slack?&nbsp;
-        <a href={"http://localhost:3000/Workspace"} style={{ color: "white", fontSize: "20px" }}>
+        <a href={"https://xlack.kreimben.com/Workspace"} style={{ color: "white", fontSize: "20px" }}>
           Create a new Workspace
         </a>
       </LoginMessage>
@@ -50,7 +50,7 @@ export function AccessToken(resData: any, exp: any) {
       expires: new Date(),
       httpOnly: true,
     });
-    window.location.href = "http://localhost:3000/main";
+    window.location.href = "https://xlack.kreimben.com/main";
   }
 }
 

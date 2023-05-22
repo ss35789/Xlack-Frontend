@@ -17,7 +17,7 @@ function WorkspaceMenuList() {
         <Separator></Separator>
       </div>
       <div>
-        <Button className="createWork" onClick={() => (window.location.href = "http://localhost:3000/setTeamName")}>
+        <Button className="createWork" onClick={() => (window.location.href = "https://xlack.kreimben.com/setTeamName")}>
           새 워크스페이스 개설
         </Button>
         <Separator></Separator>

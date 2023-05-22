@@ -32,7 +32,7 @@ function CreateNewWorkspace() {
     let token_info;
     CreateW(response["code"]).then(res => {
       token_info = res;
-      window.location.href = "http://localhost:3000/setTeamName";
+      window.location.href = "https://xlack.kreimben.com/setTeamName";
       //console.log(token_info);
     });
   };

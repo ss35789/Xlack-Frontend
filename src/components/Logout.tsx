@@ -8,7 +8,7 @@ function Logout() {
     if (window.confirm("로그아웃 하시겟습니까?")) {
       removeCookie();
       LogoutPost();
-      window.location.href = "http://localhost:3000";
+      window.location.href = "https://xlack.kreimben.com/";
     } else {
       console.log("로그아웃 취소");
     }
