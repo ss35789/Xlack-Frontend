@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, ReactionDataType, ReactionFetchType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -104,7 +104,6 @@ export const WorkSpaceSlice = createSlice({
       });
     },
     AppendChat: (state, action: PayloadAction<[string, ChatType]>) => {
-      console.log("AppendChat발동");
       const channel_hv = action.payload[0];
       const Chat = action.payload[1];
       state.MyWorkSpace.forEach((w, i) => {
@@ -134,6 +133,25 @@ export const WorkSpaceSlice = createSlice({
         });
       });
     },
+    UpdateReactionChatType2: (state, action: PayloadAction<ReactionFetchType>) => {
+      const reaction = action.payload;
+      state.MyWorkSpace.forEach(w => {
+        w.chat_channel?.forEach(c => {
+          if (c.hashed_value === reaction.channel_hashed_value) {
+            c.Chats?.forEach(chat => {
+              if (Number(chat.id) === reaction.chat_id) {
+                if (reaction.reactors?.length) {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                  chat.reactions.push(reaction);
+                } else {
+                  chat.reactions = chat.reactions.filter(reaction => reaction.icon !== reaction.icon);
+                }
+              }
+            });
+          }
+        });
+      });
+    },
   },
 });
 
@@ -150,5 +168,6 @@ export const {
   AppendChat,
   SearchChannelInAll,
   EditChatBookmark,
+  UpdateReactionChatType2,
 } = WorkSpaceSlice.actions;
 export default WorkSpaceSlice.reducer;

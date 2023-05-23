@@ -60,11 +60,12 @@ export interface ChatType {
   // readOnly: true
   chatter: CustomUserType;
   has_bookmarked: boolean;
-  reaction: [];
+  reactions: ReactionDataType[];
   message: string;
   // title: Message
   // minLength: 1
   created_at: string;
+  converted_created_at: string;
   // title: Created at
   // readOnly: true
   file?: FileType;
@@ -84,6 +85,8 @@ export interface SocketReceiveChatType {
   user_id: number;
   message: string;
   file_id: string;
+  created_at: string;
+  reaction: string;
 }
 
 export interface getChat {
@@ -126,11 +129,13 @@ export interface UserDetailsType {
   // title: Last name
   // maxLength: 150
 }
+
 export interface Notification {
   channel_hashed_value: string;
   workspace_hashed_value: string;
   count: undefined;
 }
+
 export interface UserProfileType {
   id: number;
   // title: ID
@@ -174,4 +179,23 @@ export interface Status {
   status_message: string;
   status_icon: string;
   until: string;
+}
+
+export interface ReactionDataType {
+  icon: string;
+  chat_id: number;
+  reactors: number[];
+}
+
+export interface SendReactionType {
+  mode: string;
+  icon: string;
+  chat_id: number;
+}
+
+export interface ReactionFetchType {
+  channel_hashed_value: string;
+  icon: string;
+  chat_id: number;
+  reactors: number[];
 }

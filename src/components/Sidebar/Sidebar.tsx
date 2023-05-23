@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddChannel from "../Channel/AddChannel";
 import { RootState } from "../../app/store";
 import ChannelMenu from "../Channel/ChannelMenu";
-import { setClickedChannel, setUnClickedChannel } from "../../variable/ClickedChannelSlice";
+import { setClickedChannel, setClickedChannel_hv, setUnClickedChannel } from "../../variable/ClickedChannelSlice";
 import Channel from "../Channel/Channel";
 import Modal from "../Modal";
 import { CallClickedWorkSpace, rightClick_channel, SearchChannel } from "../../variable/WorkSpaceSlice";
@@ -20,12 +20,12 @@ function Sidebar() {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const [historyMap, setHistoryMap] = useState(new Map<string, string>());
-  const [ClickedChannelinSide, setClickedChannelinSide] = useState(-1);
   const WorkspaceData = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const [showChannelMenu, setshowChannelMenu] = useState(false);
   const [showChannels, setshowChannels] = useState(false);
   const channelMenuRef = useRef<HTMLDivElement>(null);
   const currentWorkspace = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace);
+  const currentChannel_hv = useSelector((state: RootState) => state.ClickedChannel.channel_hv);
 
   useEffect(() => {
     if (window.localStorage.getItem("history") !== null) {
@@ -42,8 +42,6 @@ function Sidebar() {
     }
   }, [WorkspaceData]);
   useEffect(() => {
-    setClickedChannelinSide(-1);
-    onClickshowChannels();
     setshowChannelMenu(false);
   }, [currentWorkspace.hashed_value]);
 
@@ -112,11 +110,11 @@ function Sidebar() {
       </SidebarHeader>
       <ChannelInSide>
         <span
-          className={ClickedChannelinSide === -2 ? "click" : "non-click"}
+          className={currentChannel_hv === "-2" ? "click" : "non-click"}
           onClick={() => {
             dispatch(setClickBookmarkPage(true));
             dispatch(setUnClickedChannel());
-            setClickedChannelinSide(-2);
+            dispatch(setClickedChannel_hv("-2"));
           }}
         >
           <SidebarOption Icon={ExpandMoreIcon} title="ChatBookmark" />
@@ -134,19 +132,17 @@ function Sidebar() {
           return (
             <ChannelInSide key={i}>
               <span
-                className={ClickedChannelinSide === i ? "click" : "non-click"}
+                className={currentChannel_hv === c.hashed_value ? "click" : "non-click"}
                 ref={channelMenuRef}
                 onClick={e => {
                   e.preventDefault();
                   storeHistory(c.name, c.hashed_value);
                   ChangeChannel(c.hashed_value);
                   dispatch(setClickBookmarkPage(false));
-                  setClickedChannelinSide(i);
                   // connectChat(enterRoomId)
                 }}
                 onContextMenu={e => {
                   e.preventDefault();
-                  console.log("채널 메뉴열기!");
                   setx(e.clientX);
                   sety(e.clientY);
                   dispatch(rightClick_channel(c.hashed_value));

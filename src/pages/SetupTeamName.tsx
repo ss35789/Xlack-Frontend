@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useCallback, useState } from "react";
 // import { submit } from "../variable/createWorkspace";
 import axios from "axios";
-import { at, backUrl } from "../variable/cookie";
+import { at, backUrl, xlackUrl } from "../variable/cookie";
 
 function SetupTeamName() {
   const [teamName, setTeamName] = useState<string>("");
@@ -29,7 +29,7 @@ function SetupTeamName() {
       )
       .then(() => {
         // console.log(r);
-        window.location.href = "/main";
+        window.location.href = `${xlackUrl}main`;
       })
       .catch(err => console.log(err));
   };

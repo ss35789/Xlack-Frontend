@@ -3,12 +3,13 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { ChatType, SocketReceiveChatType } from "../../types/types";
+import { ChatType, ReactionDataType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
 import { AppendChat } from "../../variable/WorkSpaceSlice";
-import { CompleteGetUnReadChannel, deleteChannel, getChannel } from "../../variable/UnreadChannelSlice";
+import WaitPage from "../../pages/WaitPage";
+import { deleteChannel } from "../../variable/UnreadChannelSlice";
 
 const Chat = () => {
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
@@ -21,11 +22,11 @@ const Chat = () => {
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
   const UpdateBookmark = useSelector((state: RootState) => state.ChatBookmark.UpdateBookmark);
   const [lastChat, setLastChat] = useState<any>("-1");
+  const [socket, setSocket] = useState<WebSocket | undefined>();
   const receiveMessage = useSelector((state: RootState) => state.UpdateChatContext.receiveMessage);
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
-  const [socket, setSocket] = useState<WebSocket | undefined>();
   const receiveChatBookmarkData = async () => {
     try {
       const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
@@ -45,7 +46,8 @@ const Chat = () => {
           has_bookmarked: true,
           message: r.message,
           created_at: r.created_at,
-          reaction: r.reaction,
+          converted_created_at: r.converted_created_at,
+          reactions: r.reaction,
           file: r.file,
         });
       });
@@ -55,7 +57,6 @@ const Chat = () => {
       console.log("receiveChatBookmarkError: ", err);
     }
   };
-  //
   useEffect(() => {
     if (lastChat !== "-1") {
       console.log("최근 받은 메세지", lastChat);
@@ -82,6 +83,8 @@ const Chat = () => {
     if (UpdateChannel.lastDeleteChannel_hv === Clicked_channel.hashed_value) setGetChatData([]);
   }, [UpdateChannel.lastDeleteChannel_hv]);
   useEffect(() => {
+    console.log("저장된 채널:", Clicked_channel);
+    if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
     const webSocket = new WebSocket(`${WsUrl_notification}`);
     webSocket.onopen = () => {
       webSocket.send(
@@ -94,13 +97,13 @@ const Chat = () => {
           channel_hashed_value: Clicked_channel_hashedValue,
         }),
       );
-      webSocket.send(
+        webSocket.send(
         JSON.stringify({
           refresh: true,
         }),
       );
     };
-    webSocket.onmessage = e => {
+      webSocket.onmessage = e => {
       const data = JSON.parse(e.data);
       if (data.channel_hashed_value === Clicked_channel_hashedValue) {
         webSocket.send(
@@ -117,30 +120,37 @@ const Chat = () => {
     };
     setSocket(webSocket);
   }, [Clicked_channel_hashedValue]);
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.send(
-  //       JSON.stringify({
-  //         refresh: true,
-  //       }),
-  //     );
-  //   }
-  // }, [Clicked_channel]);
+  useEffect(() => {
+    if (lastChat !== "-1") {
+      //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
+      setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
+    }
+  }, [lastChat]);
+  useEffect(() => {
+    if (ClickedBookmark) {
+      receiveChatBookmarkData();
+    }
+  }, [ClickedBookmark, UpdateBookmark]);
+
+  useEffect(() => {
+    if (UpdateChannel.lastDeleteChannel_hv === Clicked_channel.hashed_value) setGetChatData([]);
+  }, [UpdateChannel.lastDeleteChannel_hv]);
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reaction: [],
+      reactions: [],
       message: s.message,
-      created_at: new Date().toString().substring(0, 25),
+      created_at: s.created_at,
+      converted_created_at: s.created_at,
     };
     return c;
   };
 
   const ReceiveLastChat = (ch_hv: string, r: SocketReceiveChatType) => {
-    try {
+        try {
       console.log("ReceiveLasChat발동", r.message);
       dispatch(AppendChat([ch_hv, MakeChatDataFromLastChat(r)]));
       //최근에 받아온 데이터를 redux에 저장한 channel의 챗에 추가
@@ -153,6 +163,8 @@ const Chat = () => {
     } catch (err) {
       console.log("ReceiveLastChatError: ", err);
     }
+    //새로 온 메세지가 지금 보고 있는 채널이면 바로 갱신
+    console.log(MyWorkspace);
   };
 
   const scrollToBottom = () => {
@@ -181,6 +193,7 @@ const Chat = () => {
                   </span>
                 );
               })}
+          {!getChatData && <WaitPage />}
         </ChatMessages>
         <ChatInput
           receive={(ch_hv: string, input: SocketReceiveChatType) => {

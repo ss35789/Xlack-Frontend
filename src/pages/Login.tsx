@@ -1,18 +1,18 @@
 import React from "react";
 import { LoginDjango } from "../variable/login";
 import LoginGithub from "react-login-github";
-import { setCookie } from "../variable/cookie";
+import { setCookie, xlackUrl } from "../variable/cookie";
 import styled, { keyframes } from "styled-components";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { bounceInRight } from "react-animations";
+import IdPwLogin from "./IdPwLogin";
 
 function Login() {
   const onSuccess = (response: never) => {
     let token_info;
     LoginDjango(response["code"]).then(res => {
       token_info = res;
-      console.log(token_info);
       AccessToken(token_info, Date.now() + 3600000);
     });
   };
@@ -24,10 +24,11 @@ function Login() {
       <LoginGithub clientId="9ac10cd868488ad0185b" scope="read:user" onSuccess={onSuccess} onFailure={onFailure}>
         Sign In to Slack
       </LoginGithub>
+      <IdPwLogin />
       <LoginMessage>We'll take you to the Github login page, and bring you back here.</LoginMessage>
       <LoginMessage>
         Is your team new to Slack?&nbsp;
-        <a href={"http://localhost:3000/Workspace"} style={{ color: "white", fontSize: "20px" }}>
+        <a href={`${xlackUrl}Workspace`} style={{ color: "white", fontSize: "20px" }}>
           Create a new Workspace
         </a>
       </LoginMessage>
@@ -51,7 +52,7 @@ export function AccessToken(resData: any, exp: any) {
       expires: new Date(),
       httpOnly: true,
     });
-    window.location.href = "http://localhost:3000/main";
+    window.location.href = `${xlackUrl}main`;
   }
 }
 

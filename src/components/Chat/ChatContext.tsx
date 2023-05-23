@@ -25,7 +25,7 @@ function ChatContext(chat: ChatType) {
             <h1>{chat.chatter && chat.chatter.display_name}</h1>
             <span className="text-sm text-gray-700">
               {/*{created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}*/}
-              {chat.created_at}
+              {chat.converted_created_at}
             </span>
           </HeaderLeft>
           <br></br>
@@ -40,6 +40,7 @@ function ChatContext(chat: ChatType) {
         <ChatMessages>
           <h2>{chat.message}</h2>
         </ChatMessages>
+        <div>{chat.reactions && chat.reactions.map(item => <div key={chat.id}>{item.icon}</div>)}</div>
       </ChatContainer>
     </div>
   );
