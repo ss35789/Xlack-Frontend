@@ -97,13 +97,13 @@ const Chat = () => {
           channel_hashed_value: Clicked_channel_hashedValue,
         }),
       );
-        webSocket.send(
+      webSocket.send(
         JSON.stringify({
           refresh: true,
         }),
       );
     };
-      webSocket.onmessage = e => {
+    webSocket.onmessage = e => {
       const data = JSON.parse(e.data);
       if (data.channel_hashed_value === Clicked_channel_hashedValue) {
         webSocket.send(
@@ -150,7 +150,7 @@ const Chat = () => {
   };
 
   const ReceiveLastChat = (ch_hv: string, r: SocketReceiveChatType) => {
-        try {
+    try {
       console.log("ReceiveLasChat발동", r.message);
       dispatch(AppendChat([ch_hv, MakeChatDataFromLastChat(r)]));
       //최근에 받아온 데이터를 redux에 저장한 channel의 챗에 추가

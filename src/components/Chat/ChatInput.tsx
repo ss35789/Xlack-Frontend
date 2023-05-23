@@ -11,7 +11,7 @@ import { SocketReceiveChatType } from "../../types/types";
 type ChatInputProps = {
   receive: (ch_hv: string, data: SocketReceiveChatType) => void;
 };
-const ChatInput(props: ChatInputProps) {
+const ChatInput = (props: ChatInputProps) => {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
@@ -27,7 +27,6 @@ const ChatInput(props: ChatInputProps) {
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
   const [NWebSocket, setNWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
-  const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
   const notifiSetting = useSelector((state: RootState) => state.OnModal.OnNotification);
   const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
   const dispatch = useDispatch();
@@ -110,24 +109,24 @@ const ChatInput(props: ChatInputProps) {
       w.wb.onmessage = message => {
         const nm = JSON.parse(message.data);
         if (nm.message !== undefined && notifiSetting == true) {
-           if (nm.user_id !== MyProfile.id) {
+          if (nm.user_id !== MyProfile.id) {
             showNotification(nm.username, nm.message);
           }
         }
       };
     });
   }, [notifi]);
-   useEffect(() => {
-      console.log("4");
-      if (socket) {
-        socket.send(
-          JSON.stringify({
-            message: File_name,
-            //file: File,
-          }),
-        );
-      }
-    }, [File_name]);
+  useEffect(() => {
+    console.log("4");
+    if (socket) {
+      socket.send(
+        JSON.stringify({
+          message: File_name,
+          //file: File,
+        }),
+      );
+    }
+  }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket && msg !== "") {
@@ -182,7 +181,7 @@ const ChatInput(props: ChatInputProps) {
       </form>
     </ChatInputContainer>
   );
-}
+};
 
 export default ChatInput;
 
