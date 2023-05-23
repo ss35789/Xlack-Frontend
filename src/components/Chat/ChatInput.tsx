@@ -4,11 +4,14 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, WsUrl_chat } from "../../variable/cookie";
+import { at, WsUrl_chat, WsUrl_notification } from "../../variable/cookie";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
-
-function ChatInput(props: any) {
+import { SocketReceiveChatType } from "../../types/types";
+type ChatInputProps = {
+  receive: (ch_hv: string, data: SocketReceiveChatType) => void;
+};
+const ChatInput(props: ChatInputProps) {
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
@@ -23,10 +26,14 @@ function ChatInput(props: any) {
   //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
+  const [NWebSocket, setNWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
+  const notifi = useSelector((state: RootState) => state.UnReadChannel.UnReadChannel);
   const notifiSetting = useSelector((state: RootState) => state.OnModal.OnNotification);
+  const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("1");
     if (CompleteGetWorkspace) {
       Myworkspace.forEach(w => {
         w.chat_channel?.forEach(c => {
@@ -83,7 +90,7 @@ function ChatInput(props: any) {
       inputRef.current.value = "";
       setmsg("");
     }
-  }, [Clicked_channel_hv]);
+  }, [Clicked_channel_hv, notifi, onmessage]);
 
   useEffect(() => {
     if (socket) {
@@ -103,12 +110,24 @@ function ChatInput(props: any) {
       w.wb.onmessage = message => {
         const nm = JSON.parse(message.data);
         if (nm.message !== undefined && notifiSetting == true) {
-          showNotification(nm.username, nm.message);
+           if (nm.user_id !== MyProfile.id) {
+            showNotification(nm.username, nm.message);
+          }
         }
       };
     });
   }, [notifi]);
-
+   useEffect(() => {
+      console.log("4");
+      if (socket) {
+        socket.send(
+          JSON.stringify({
+            message: File_name,
+            //file: File,
+          }),
+        );
+      }
+    }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket && msg !== "") {

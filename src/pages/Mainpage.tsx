@@ -153,6 +153,7 @@ const Mainpage = () => {
                 file_name = original_file_name.split("/").slice(-1).toString() + " uploaded by(" + author + ")";
                 console.log(file_name);
               });
+            console.log("업로드 성공");
             //dispatch(setFile(element));
             dispatch(setFileName(file_name));
           } else {
@@ -175,17 +176,17 @@ const Mainpage = () => {
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-  useEffect(() => {
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          Notifi();
-        } else {
-          window.alert("알림 권한을 설정해주세요");
-        }
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (Notification.permission !== "granted") {
+  //     Notification.requestPermission().then(permission => {
+  //       if (permission === "granted") {
+  //         Notifi();
+  //       } else {
+  //         window.alert("알림 권한을 설정해주세요");
+  //       }
+  //     });
+  //   }
+  // }, []);
   return (
     <>
       <Logout />
