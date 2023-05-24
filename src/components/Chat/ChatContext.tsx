@@ -20,15 +20,10 @@ function ChatContext(chat: ChatType) {
         <Header>
           <HeaderLeft>
             <h4>
-              <strong>{chat.channel}</strong>
               {chat.has_bookmarked && <StarIcon />}
               {!chat.has_bookmarked && <StarBorderOutlinedIcon />}
             </h4>
             <h1>{chat.chatter && chat.chatter.display_name}</h1>
-            <span className="text-sm text-gray-700">
-              {/*{created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}*/}
-              {chat.converted_created_at}
-            </span>
           </HeaderLeft>
           <br></br>
           <HeaderRight>
@@ -41,6 +36,10 @@ function ChatContext(chat: ChatType) {
         </Header>
         <ChatMessages>
           <h2>{chat.message}</h2>
+          <span className="text-sm text-gray-700">
+            {/*{created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}*/}
+            {chat.converted_created_at}
+          </span>
         </ChatMessages>
         <div>{chat.reactions && chat.reactions.map(item => <div key={chat.id}>{item.icon}</div>)}</div>
       </ChatContainer>
@@ -50,7 +49,16 @@ function ChatContext(chat: ChatType) {
 
 export default ChatContext;
 
-const ChatMessages = styled.div``;
+const ChatMessages = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+
+  > span {
+    margin-right: 10px;
+    color: black;
+  }
+`;
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -67,7 +75,7 @@ const HeaderLeft = styled.div`
   }
 
   > h4 > .MuiSvgIcon-root {
-    margin-left: 20px;
+    margin-left: 10px;
     font-size: 18px;
   }
 `;
