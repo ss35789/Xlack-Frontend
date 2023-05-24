@@ -7,27 +7,18 @@ import StarIcon from "@mui/icons-material/Star";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  const [chatMsg, setChatMsg] = useState<string[]>([]);
   const [changedChat, setchangedChat] = useState<string>("");
-  const chatOnelineLength = 40;
+  const chatLength = 35;
+  const [tmp, setTmp] = useState<number>(0);
+  const [size, setSize] = useState<number>(chat.message.length);
+  useEffect(() => {
+    if (size !== 0 && chat.message.substring(tmp, tmp + chatLength) !== "") {
+      setchangedChat(changedChat + chat.message.substring(tmp, tmp + chatLength) + "\n");
+      setTmp(tmp + chatLength);
+      setSize(size - chatLength);
+    }
+  }, [changedChat]);
 
-  useEffect(() => {
-    let tmp = 0;
-    let size = chat.message.length;
-    while (size > chatOnelineLength) {
-      setChatMsg([...chatMsg, chat.message.substring(tmp, tmp + chatOnelineLength)]);
-      tmp = tmp + chatOnelineLength;
-      size = size - chatOnelineLength;
-    }
-    setChatMsg([...chatMsg, chat.message.substring(tmp, tmp + chatOnelineLength)]);
-  }, []);
-  useEffect(() => {
-    if (chatMsg[0] !== "") {
-      chatMsg.forEach(c => {
-        setchangedChat(changedChat + c + "\n");
-      });
-    }
-  }, [chatMsg]);
   //일정 글자수가 넘어가면 줄바꿈 됨
   return (
     <div
@@ -77,6 +68,7 @@ const ChatMessages = styled.div`
   margin-left: 20px;
 
   > span {
+    white-space: nowrap;
     margin-right: 10px;
     color: black;
   }
