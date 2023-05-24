@@ -3,6 +3,7 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { ChatType } from "../../types/types";
 import React, { useState } from "react";
 import ChatOption from "./ChatOption";
+import StarIcon from "@mui/icons-material/Star";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
@@ -20,7 +21,8 @@ function ChatContext(chat: ChatType) {
           <HeaderLeft>
             <h4>
               <strong>{chat.channel}</strong>
-              <StarBorderOutlinedIcon />
+              {chat.has_bookmarked && <StarIcon />}
+              {!chat.has_bookmarked && <StarBorderOutlinedIcon />}
             </h4>
             <h1>{chat.chatter && chat.chatter.display_name}</h1>
             <span className="text-sm text-gray-700">
