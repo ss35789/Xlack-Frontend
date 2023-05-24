@@ -2,7 +2,6 @@ import React, { ChangeEvent, DragEvent, useCallback, useEffect, useState } from 
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Chat from "../components/Chat/Chat";
-import Logout from "../components/Logout";
 import styled from "styled-components";
 import axios from "axios";
 import { at, AtVerify, backUrl, removeCookie } from "../variable/cookie";
@@ -189,7 +188,6 @@ const Mainpage = () => {
   // }, []);
   return (
     <>
-      <Logout />
       <AppBody onDrop={onDropFiles} onDragOver={dragOver}>
         <Header />
         <SelectWorkspaces>

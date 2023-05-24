@@ -8,6 +8,7 @@ import ProfileMenu from "./Profile/ProfileMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import Historymenu from "./History/Historymenu";
+import Logout from "./Logout";
 
 function Header() {
   const [showProfile, setShowProfile] = useState<boolean>(false);
@@ -45,6 +46,7 @@ function Header() {
 
   return (
     <HeaderContainer>
+      <Logout />
       {/* Header Left */}
       <HeaderLeft ref={historyMenuRef}>
         <AccessTimeIcon
