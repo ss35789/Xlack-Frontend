@@ -207,7 +207,6 @@ const Mainpage = () => {
 
 export default Mainpage;
 const SelectWorkspaces = styled.div`
-  display: inline-flex;
   flex-direction: column;
   align-items: center;
   vertical-align: top;
@@ -219,7 +218,7 @@ const SelectWorkspaces = styled.div`
   border-top-width: 1px;
   border-top-color: rgb(73, 39, 75);
   border-right-color: rgb(73, 39, 75);
-  top: 60px;
+  top: 73px;
   position: relative;
   width: 60px;
   align-content: center;

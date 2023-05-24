@@ -69,7 +69,7 @@ function Header() {
       {/* Header Search */}
       <HeaderSearch>
         <SearchIcon />
-        <input placeholder="Search"></input>
+        <input placeholder="Search - (Ctrl + F)"></input>
       </HeaderSearch>
       {/* {Header Right} */}
       <HeaderRight>
