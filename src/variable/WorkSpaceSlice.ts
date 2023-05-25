@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChatChannelType, ChatType, ReactionDataType, ReactionFetchType, WorkspaceType } from "../types/types";
+import { ChatChannelType, ChatType, ReactionFetchType, WorkspaceType } from "../types/types";
 
 interface struct {
   MyWorkSpace: WorkspaceType[];
@@ -18,7 +18,7 @@ const initialState: struct = {
     members: [],
     chat_channel: [],
     hashed_value: "",
-    name: "",
+    name: "Please Select WS",
   },
   SearchedChannel: {
     id: -1,

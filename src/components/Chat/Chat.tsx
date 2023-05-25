@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { ChatType, ReactionDataType, SocketReceiveChatType } from "../../types/types";
+import { ChatType, SocketReceiveChatType } from "../../types/types";
 import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
@@ -176,6 +176,7 @@ const Chat = () => {
   };
   useEffect(() => {
     scrollToBottom();
+    setInterval(scrollToBottom, 1000);
   }, [getChatData, receiveMessage]); //새로운 문자가 송신되어 receiveMessage가 true가 되면 챗 정보들 불러옴
   return (
     <ChatContainer>

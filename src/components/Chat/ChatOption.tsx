@@ -1,4 +1,4 @@
-import { PushpinOutlined, RadarChartOutlined } from "@ant-design/icons";
+import { PushpinOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { ChatType, SendReactionType } from "../../types/types";
 import { at, backUrl, WsUrl_reaction } from "../../variable/cookie";
@@ -84,13 +84,21 @@ const ChatOption = (chat: ChatType) => {
           const reactionData = data?.reaction;
           //console.log("reaction Data " + JSON.stringify(data));
           if (reactionData) {
-            dispatch(UpdateReactionChatType2({ channel_hashed_value: chat_channel_hashed_value, chat_id: reactionData.chat_id, icon: reactionData.icon, reactors: reactionData.reactors }));
+            dispatch(
+              UpdateReactionChatType2({
+                channel_hashed_value: chat_channel_hashed_value,
+                chat_id: reactionData.chat_id,
+                icon: reactionData.icon,
+                reactors: reactionData.reactors,
+              }),
+            );
           }
         };
       };
       setReactionSocket(ReactionWs);
     }
   };
+
   function ReactionLogic(clickedIcon: string, cid: number) {
     if (clickedIcon !== null) {
       //리액션이 없을때 새로운 리액션을 추가
@@ -134,26 +142,32 @@ const ChatOption = (chat: ChatType) => {
   ];
   return (
     <>
-      {ChatOptionDetailArray &&
-        ChatOptionDetailArray.map((ChatOptionDetail, i) => {
-          return (
-            <Option
-              key={i}
-              onClick={() => {
-                ChatOptionDetail.func();
-              }}
-              onMouseOver={() => {
-                setShowDetail(i);
-              }}
-              onMouseLeave={() => {
-                setShowDetail(-1);
-              }}
-            >
-              {showDetail === i && <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />}
-              {ChatOptionDetail.Icon}
-            </Option>
-          );
-        })}
+      <div>
+        {ChatOptionDetailArray &&
+          ChatOptionDetailArray.map((ChatOptionDetail, i) => {
+            return (
+              <Option
+                key={i}
+                onClick={() => {
+                  ChatOptionDetail.func();
+                }}
+                onMouseOver={() => {
+                  setShowDetail(i);
+                }}
+                onMouseLeave={() => {
+                  setShowDetail(-1);
+                }}
+              >
+                {showDetail === i && (
+                  <label>
+                    <ChatOptionDetailMessage de={ChatOptionDetail.detailMessage} />
+                  </label>
+                )}
+                {ChatOptionDetail.Icon}
+              </Option>
+            );
+          })}
+      </div>
     </>
   );
 };
@@ -161,8 +175,24 @@ const ChatOption = (chat: ChatType) => {
 export default ChatOption;
 
 const Option = styled.span`
-  font-size: 1.5rem;
-  border-radius: 10% / 50%;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 8px;
+  height: 36px;
+  width: 120px;
+  border: none;
+  background: #5e41de33;
+  border-radius: 20px;
+  cursor: pointer;
+
+  .label {
+    line-height: 20px;
+    font-size: 17px;
+    color: #5d41de;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+  }
 
   :hover {
     text-underline-colorcolor: black;
@@ -170,6 +200,10 @@ const Option = styled.span`
     opacity: 0.6;
     background-color: #9ca3af;
   }
+
+  //.button:hover .svg-icon {
+  //  animation: spin 2s linear infinite;
+  //}
 `;
 
 const ChatOptionDetailMessage = (props: any) => {

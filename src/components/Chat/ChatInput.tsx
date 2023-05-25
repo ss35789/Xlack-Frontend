@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, WsUrl_chat, WsUrl_notification } from "../../variable/cookie";
+import { at, WsUrl_chat } from "../../variable/cookie";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
 import { SocketReceiveChatType } from "../../types/types";
+
 type ChatInputProps = {
   receive: (ch_hv: string, data: SocketReceiveChatType) => void;
 };
