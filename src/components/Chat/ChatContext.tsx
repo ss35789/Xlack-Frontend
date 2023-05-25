@@ -106,8 +106,7 @@ const HeaderRight = styled.div`
   }
 `;
 const ChatContainer = styled.div`
-  background-color: #ede8e8;
-  border: 1px solid black;
+  background-color: white;
   border-radius: 3px;
   flex: 0.7;
   flex-grow: 1;

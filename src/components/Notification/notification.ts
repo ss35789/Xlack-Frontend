@@ -22,7 +22,7 @@ export function Notifi() {
       notifiSocket.onmessage = res => {
         const unReadChannel = JSON.parse(res.data).notifications;
         if (unReadChannel !== "undefined" || unReadChannel !== null) {
-          Object.keys(unReadChannel).forEach((key: any) => {
+          Object.keys(unReadChannel || []).forEach((key: any) => {
             const setNotifications = unReadChannel;
             console.log("notification에 onmessage", setNotifications[key]);
             dispatch(getChannel(setNotifications[key]));

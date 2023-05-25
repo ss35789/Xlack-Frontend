@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { RootState } from "../../app/store";
 import { UpdateChat } from "../../variable/UpdateChatContextSlice";
 import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
-import { at, WsUrl_chat } from "../../variable/cookie";
+import { at, backUrl, WsUrl_chat } from "../../variable/cookie";
 import ChatMentionModal from "./ChatMentionModal";
 import { showNotification } from "../Notification/notification";
 import { SocketReceiveChatType } from "../../types/types";
+import axios from "axios";
 
 type ChatInputProps = {
   receive: (ch_hv: string, data: SocketReceiveChatType) => void;
@@ -24,14 +25,12 @@ const ChatInput = (props: ChatInputProps) => {
   const Myworkspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const File_name = useSelector((state: RootState) => state.Chat.SendMessage.file_name);
-  //const File = useSelector((state: RootState) => state.Chat.SendMessage.file);
   const [MyWebSocket, setMyWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
   const [NWebSocket, setNWebSocket] = useState<{ ch_hv: string; wb: WebSocket }[]>([]);
   const notifiSetting = useSelector((state: RootState) => state.OnModal.OnNotification);
   const MyProfile = useSelector((state: RootState) => state.getMyProfile.userData);
   const dispatch = useDispatch();
-
   useEffect(() => {
     console.log("1");
     if (CompleteGetWorkspace) {
@@ -134,13 +133,11 @@ const ChatInput = (props: ChatInputProps) => {
       socket.send(
         JSON.stringify({
           message: msg,
-          //file: File_id,
         }),
       );
     }
 
     if (inputRef.current) {
-      // enter 치면 chatbox 공백으로 초기화 됨
       inputRef.current.value = "";
       setmsg("");
     }
@@ -154,6 +151,24 @@ const ChatInput = (props: ChatInputProps) => {
     }
     setShowMentionModal(false);
   };
+  const downloadFile = (id: number) => {
+    axios
+      .get(`${backUrl}file/${id}/`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      })
+      .then(res => {
+        const file = res.data.file;
+        // const blob = new Blob([file], { type: "image/png" });
+        // const link = document.createElement("a");
+        // link.href = window.URL.createObjectURL(blob);
+        // link.download = "file";
+        // link.click();
+        window.open(file);
+      });
+  };
+
   return (
     <ChatInputContainer>
       <form>
@@ -172,6 +187,14 @@ const ChatInput = (props: ChatInputProps) => {
                 setShowMentionModal(false);
               }
             });
+            if (inputMsg.match("download" || "다운로드" || "Download" || "file" || "다운")) {
+              setTimeout(() => {
+                const id = Number((inputMsg.split(" ")[1] || []).toString());
+                console.log("download");
+                console.log(id);
+                downloadFile(id);
+              }, 100);
+            }
           }}
           placeholder={`Message #`}
         />
