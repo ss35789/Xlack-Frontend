@@ -24,6 +24,7 @@ const Mainpage = () => {
   const OpenChannelSetting = useSelector((state: RootState) => state.OnModal.OnChannelSetting);
   const Workspace = useSelector((state: RootState) => state.getMyWorkSpace.MyWorkSpace);
   const U = useSelector((state: RootState) => state.UnReadChannel.CompleteGetUnreadChannel);
+  const formatArr: string[] = ["JPG", "JPEG", "PNG", "PDF", "TXT", "ZIP", "PY", "C", "TS", "TSX"];
   const GetChatInAllChannel = (Ws: WorkspaceType) => {
     Ws.chat_channel?.forEach(async channel => {
       try {
@@ -99,8 +100,6 @@ const Mainpage = () => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
-  const [imageList, setImageList] = useState<Array<File>>([]);
-
   // 이미지 파일 처리 input
   const onInputFile = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -126,9 +125,9 @@ const Mainpage = () => {
     // @ts-ignore
     for (const element of files) {
       const file: File = element;
-      const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
+      const format: string = `${(file.name || "").split(".").slice(-1)}`.toUpperCase();
 
-      if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
+      if (formatArr.indexOf(format) > -1) {
         if (file) {
           if ((await AtVerify()) == 200) {
             fileList = [...fileList, file];
@@ -149,7 +148,7 @@ const Mainpage = () => {
                 original_file_name = res.data.file;
                 file_id = res.data.id;
                 //author = res.data.uploaded_by.username;
-                file_name = original_file_name.split("/").slice(-1).toString() + "/" + file_id.toString();
+                file_name = (original_file_name || "").split("/").slice(-1).toString() + "/" + file_id.toString();
               });
             //dispatch(setFile(element));
             dispatch(setFileName(file_name));
@@ -159,9 +158,6 @@ const Mainpage = () => {
           }
         }
       }
-    }
-    if (fileList.length > 0) {
-      setImageList(fileList);
     }
   };
   // useEffect(() => {
