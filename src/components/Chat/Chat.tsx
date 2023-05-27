@@ -120,12 +120,12 @@ const Chat = () => {
     };
     setSocket(webSocket);
   }, [Clicked_channel_hashedValue]);
-  useEffect(() => {
-    if (lastChat !== "-1") {
-      //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
-      setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
-    }
-  }, [lastChat]);
+  // useEffect(() => {
+  //   if (lastChat !== "-1") {
+  //     //웹소켓으로 받는 데이터로 Chat을 만들어 getChatData에 추가시키기
+  //     setGetChatData([MakeChatDataFromLastChat(lastChat), ...getChatData]);
+  //   }
+  // }, [lastChat]);
   useEffect(() => {
     if (ClickedBookmark) {
       receiveChatBookmarkData();
@@ -156,7 +156,7 @@ const Chat = () => {
       //최근에 받아온 데이터를 redux에 저장한 channel의 챗에 추가
       if (ch_hv === Clicked_channel.hashed_value) {
         setLastChat(r);
-        console.log("너는 뭐냐", r);
+        // console.log("너는 뭐냐", r);
       }
       //새로 온 메세지가 지금 보고 있는 채널이면 바로 갱신
       console.log(MyWorkspace);
