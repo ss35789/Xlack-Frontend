@@ -9,6 +9,7 @@ import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
 import { ClickBookMark } from "../../variable/ClickedChannelSlice";
 import { EditChatBookmark, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
+import downloadFile from "../fileDownload";
 
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
@@ -111,24 +112,6 @@ const ChatOption = (chat: ChatType) => {
       //dispatch(RemoveReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
       sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
-  }
-  function downloadFile(id: number) {
-    axios
-      .get(`${backUrl}file/${id}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      })
-      .then(res => {
-        const file = res.data.file;
-        const blob = new Blob([file], { type: "image/png" });
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = (file.toString() || "").split("/")[1];
-        link.setAttribute("type", "application/json");
-        //link.click();
-        window.open(file);
-      });
   }
 
   const ChatOptionDetailArray = [
