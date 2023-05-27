@@ -70,10 +70,15 @@ const ChatInput = (props: ChatInputProps) => {
       if (w.ch_hv === Clicked_channel_hv) {
         setsocket(w.wb);
       }
-      if (Clicked_channel_hv !== "") {
+      if (Clicked_channel_hv !== "" && w.ch_hv === Clicked_channel_hv) {
         w.wb.onmessage = message => {
           // 클라이언트로부터 메시지 수신 시
           const m = JSON.parse(message.data);
+          if (m.message !== undefined && notifiSetting == true) {
+            if (m.user_id !== MyProfile.id) {
+              showNotification(m.username, m.message);
+            }
+          }
           dispatch(findUserDataInClickedChannel(m.user_id));
           props.receive(w.ch_hv, m);
           dispatch(UpdateChat());
@@ -89,7 +94,7 @@ const ChatInput = (props: ChatInputProps) => {
       inputRef.current.value = "";
       setmsg("");
     }
-  }, [Clicked_channel_hv, notifi, onmessage]);
+  }, [Clicked_channel_hv]);
 
   useEffect(() => {
     if (socket) {
@@ -105,7 +110,7 @@ const ChatInput = (props: ChatInputProps) => {
   //랜더링 시점 = notification 웹소켓 내용 변화시
   useEffect(() => {
     MyWebSocket.forEach(w => {
-      setsocket(w.wb);
+      // setsocket(w.wb);
       w.wb.onmessage = message => {
         const nm = JSON.parse(message.data);
         if (nm.message !== undefined && notifiSetting == true) {
@@ -113,6 +118,9 @@ const ChatInput = (props: ChatInputProps) => {
             showNotification(nm.username, nm.message);
           }
         }
+        dispatch(findUserDataInClickedChannel(nm.user_id));
+        props.receive(w.ch_hv, nm);
+        dispatch(UpdateChat());
       };
     });
   }, [notifi]);
@@ -128,6 +136,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    console.log(socket);
     if (socket && msg !== "") {
       socket.send(
         JSON.stringify({

@@ -31,7 +31,7 @@ export function Notifi() {
         }
       };
     }
-  }, [notifiSocket]);
+  }, [notifiSocket, dispatch]);
 }
 export function showNotification(title: string, message: string) {
   if (!("Notification" in window)) {
