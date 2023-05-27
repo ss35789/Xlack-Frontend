@@ -117,7 +117,7 @@ const Mainpage = () => {
   };
   let original_file_name: string;
   let file_name: string;
-  let author: string;
+  let file_id: number;
   const handleFiles = async (files: FileList) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -126,7 +126,6 @@ const Mainpage = () => {
     // @ts-ignore
     for (const element of files) {
       const file: File = element;
-      //FiletobeUpload = file;
       const format: string = `${file.name.split(".").slice(-1)}`.toUpperCase();
 
       if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT") {
@@ -148,11 +147,10 @@ const Mainpage = () => {
               )
               .then(res => {
                 original_file_name = res.data.file;
-                author = res.data.uploaded_by.username;
-                file_name = original_file_name.split("/").slice(-1).toString() + " uploaded by(" + author + ")";
-                console.log(file_name);
+                file_id = res.data.id;
+                //author = res.data.uploaded_by.username;
+                file_name = original_file_name.split("/").slice(-1).toString() + "/" + file_id.toString();
               });
-            console.log("업로드 성공");
             //dispatch(setFile(element));
             dispatch(setFileName(file_name));
           } else {
@@ -166,11 +164,11 @@ const Mainpage = () => {
       setImageList(fileList);
     }
   };
-  useEffect(() => {
-    if (file_name) {
-      dispatch(setFileName(file_name));
-    }
-  });
+  // useEffect(() => {
+  //   if (file_name) {
+  //     dispatch(setFileName(file_name));
+  //   }
+  // });
   // 없으면 drop 작동안됨
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();

@@ -122,7 +122,6 @@ const ChatInput = (props: ChatInputProps) => {
       socket.send(
         JSON.stringify({
           message: File_name,
-          //file: File,
         }),
       );
     }
@@ -151,23 +150,6 @@ const ChatInput = (props: ChatInputProps) => {
     }
     setShowMentionModal(false);
   };
-  const downloadFile = (id: number) => {
-    axios
-      .get(`${backUrl}file/${id}/`, {
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      })
-      .then(res => {
-        const file = res.data.file;
-        // const blob = new Blob([file], { type: "image/png" });
-        // const link = document.createElement("a");
-        // link.href = window.URL.createObjectURL(blob);
-        // link.download = "file";
-        // link.click();
-        window.open(file);
-      });
-  };
 
   return (
     <ChatInputContainer>
@@ -187,14 +169,6 @@ const ChatInput = (props: ChatInputProps) => {
                 setShowMentionModal(false);
               }
             });
-            if (inputMsg.match("download" || "다운로드" || "Download" || "file" || "다운")) {
-              setTimeout(() => {
-                const id = Number((inputMsg.split(" ")[1] || []).toString());
-                console.log("download");
-                console.log(id);
-                downloadFile(id);
-              }, 100);
-            }
           }}
           placeholder={`Message #`}
         />

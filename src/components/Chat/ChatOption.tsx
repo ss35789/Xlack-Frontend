@@ -111,6 +111,24 @@ const ChatOption = (chat: ChatType) => {
       sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
   }
+  function downloadFile(id: number) {
+    axios
+      .get(`${backUrl}file/${id}/`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      })
+      .then(res => {
+        console.log("download file!");
+        const file = res.data.file;
+        const blob = new Blob([file], { type: "image/png" });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "file";
+        link.click();
+        window.open(file);
+      });
+  }
 
   const ChatOptionDetailArray = [
     {
@@ -138,6 +156,18 @@ const ChatOption = (chat: ChatType) => {
         ReactionLogic("👍", cid);
       },
       Icon: "👍",
+    },
+    {
+      detailMessage: "Sign as shown",
+      func: () => {
+        const format = chat.message.split(".")[1].split("/")[0];
+        const file_id = Number(chat.message.split("/")[1]);
+        console.log(format, file_id);
+        if (format === "JPG" || format === "JPEG" || format === "PNG" || format === "PDF" || format === "TXT" || format === "zip") {
+          downloadFile(file_id);
+        }
+      },
+      Icon: "📁",
     },
   ];
   return (
