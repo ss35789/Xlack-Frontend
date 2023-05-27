@@ -22,6 +22,7 @@ const ChatOption = (chat: ChatType) => {
   };
   const cid = parseInt(chat.id);
   const [reactionSocket, setReactionSocket] = useState<WebSocket>();
+  const formatArr: string[] = ["JPG", "JPEG", "PNG", "PDF", "TXT", "ZIP", "PY", "C", "TS", "TSX"];
 
   const DeleteChatBookmark = async () => {
     //chat/bookmark에 들어가는 chat_id는 다른 데이터구조(string)과는 달리 number라 형변환
@@ -111,6 +112,24 @@ const ChatOption = (chat: ChatType) => {
       sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
   }
+  function downloadFile(id: number) {
+    axios
+      .get(`${backUrl}file/${id}/`, {
+        headers: {
+          Authorization: `Bearer ${at}`,
+        },
+      })
+      .then(res => {
+        const file = res.data.file;
+        const blob = new Blob([file], { type: "image/png" });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = (file.toString() || "").split("/")[1];
+        link.setAttribute("type", "application/json");
+        //link.click();
+        window.open(file);
+      });
+  }
 
   const ChatOptionDetailArray = [
     {
@@ -138,6 +157,21 @@ const ChatOption = (chat: ChatType) => {
         ReactionLogic("👍", cid);
       },
       Icon: "👍",
+    },
+
+    {
+      detailMessage: "DownloadFile",
+      func: () => {
+        if (chat.message.match("." && "/")) {
+          const format = (chat.message || "").split(".")[1].split("/")[0].toUpperCase();
+          const file_id = Number((chat.message || "").split("/")[1]);
+          console.log(format, file_id);
+          if (formatArr.indexOf(format) > -1) {
+            downloadFile(file_id);
+          }
+        }
+      },
+      Icon: "📁",
     },
   ];
   return (
