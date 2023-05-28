@@ -7,10 +7,14 @@ import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
 import StatusDefault from "./StatusDefault";
+import { at, WsUrl_status } from "../../variable/cookie";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const StatusPanel = () => {
   const [open, setOpen] = React.useState(false);
   const [opendefault, setDefault] = React.useState(false);
+  const workspaceHV = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace).hashed_value;
 
   const handleClickToOpen = async () => {
     setOpen(true);
@@ -22,10 +26,33 @@ const StatusPanel = () => {
   const handleToClose = async () => {
     setOpen(false);
   };
+  const setStatusSocket = async () => {
+    const statusWS = new WebSocket(`${WsUrl_status}${workspaceHV}/`);
+    if (statusWS) {
+      statusWS.onopen = () => {
+        statusWS.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        statusWS.onmessage = res => {
+          const data = res.data;
+          console.log("reaction response data: " + data);
+        };
+      };
+    }
+  };
 
   return (
     <div>
-      <ProfileButton onClick={handleClickToOpen}>Set a status</ProfileButton>
+      <ProfileButton
+        onClick={() => {
+          handleClickToOpen();
+          //setStatusSocket();
+        }}
+      >
+        Set a status
+      </ProfileButton>
       <Dialog
         disableEnforceFocus
         fullWidth={true}
