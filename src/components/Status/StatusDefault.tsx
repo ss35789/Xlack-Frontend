@@ -20,7 +20,7 @@ const StatusDefault = () => {
   const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
   const formData = new FormData();
   const dispatch = useDispatch();
-  const [socket, setsocket] = useState<WebSocket>();
+  const [statusSocket, setStatusSocket] = useState<WebSocket>();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
   const [status, setStatus] = useState(MyStatus.status_message);
@@ -35,34 +35,47 @@ const StatusDefault = () => {
   const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
 
   useEffect(() => {
-    if (socket) socket.close();
+    if (statusSocket) statusSocket.close();
     if (workspaceHV !== "") {
-      setsocket(new WebSocket(`${WsUrl_status}${workspaceHV}/`));
+      setStatusSocket(new WebSocket(`${WsUrl_status}${workspaceHV}/`));
     }
   }, [workspaceHV]);
 
   useEffect(() => {
-    if (socket) {
-      socket.onopen = () => {
-        socket.send(
+    if (statusSocket) {
+      statusSocket.onopen = () => {
+        statusSocket.send(
           JSON.stringify({
             authorization: at,
           }),
         );
       };
     }
-  }, [socket]);
+  }, [statusSocket]);
   const sendStatus = (event: { preventDefault: () => void }) => {
     setOpen(false);
     event.preventDefault();
-    if (socket) {
-      socket.send(
-        JSON.stringify({
-          status_message: status,
-          status_icon: emoji,
-          until: time,
-        }),
-      );
+    const statusWS = new WebSocket(`${WsUrl_status}${workspaceHV}/`);
+    if (statusWS) {
+      statusWS.onopen = () => {
+        setStatusSocket(statusWS);
+        statusWS.send(
+          JSON.stringify({
+            authorization: at,
+          }),
+        );
+        statusWS.send(
+          JSON.stringify({
+            status_message: status,
+            status_icon: emoji,
+            until: time,
+          }),
+        );
+        statusWS.onmessage = res => {
+          const data = res.data;
+          console.log("reaction response data: " + data);
+        };
+      };
     }
   };
 
