@@ -124,16 +124,16 @@ const ChatInput = (props: ChatInputProps) => {
       };
     });
   }, [notifi]);
-  useEffect(() => {
-    console.log("4");
-    if (socket) {
-      socket.send(
-        JSON.stringify({
-          message: File_name,
-        }),
-      );
-    }
-  }, [File_name]);
+  // useEffect(() => {
+  //   console.log("4");
+  //   if (socket) {
+  //     socket.send(
+  //       JSON.stringify({
+  //         message: File_name,
+  //       }),
+  //     );
+  //   }
+  // }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     console.log(socket);
