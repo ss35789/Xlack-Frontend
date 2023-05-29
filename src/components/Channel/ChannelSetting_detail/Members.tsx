@@ -19,6 +19,7 @@ const Members = () => {
   const [showOption, setShowOption] = useState(-1);
   const [showOptionMenu, setShowOptionMenu] = useState(false);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   const closeAddUserModal = () => {
     setShowAddUserModal(false);
   };
@@ -67,14 +68,17 @@ const Members = () => {
                 </div>
                 {showOption === i && (
                   <>
-                    <Button
-                      className="bg-white"
-                      onClick={() => {
-                        setShowOptionMenu(true);
-                      }}
-                    >
-                      ...
-                    </Button>
+                    {member.username != MyUser.username && (
+                      <Button
+                        className="bg-white"
+                        onClick={() => {
+                          setShowOptionMenu(true);
+                        }}
+                      >
+                        ...
+                      </Button>
+                    )}
+
                     {showOptionMenu && (
                       <span
                         onMouseLeave={() => {
