@@ -51,7 +51,6 @@ const ChannelMenu = (props: any) => {
   return (
     <>
       <Menu>
-        <h3>분활 화면으로 열기</h3>
         <h3
           onClick={() => {
             dispatch(ChannelSettingOnOff());
@@ -59,10 +58,6 @@ const ChannelMenu = (props: any) => {
         >
           채널 세부정보로 보기
         </h3>
-        <h3>복사</h3>
-        <h3>채널 음소거</h3>
-        <h3>알림변경</h3>
-        <h3>채널을 즐겨찾기에 추가</h3>
         <h3 onClick={editChannelName}>채널이름 바꾸기</h3>
         <h3 onClick={exitChannel}>나가기</h3>
       </Menu>

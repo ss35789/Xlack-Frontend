@@ -57,24 +57,6 @@ const ProfileMenu = () => {
                   <Op>프로필</Op>
                 </span>
               </a>
-
-              <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600 " role="menuitem">
-                <span className="flex flex-col">
-                  <Op>
-                    <span>환경설정</span>
-                  </Op>
-                </span>
-              </a>
-              <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
-                <span className="flex flex-col">
-                  <span>다운로드</span>
-                </span>
-              </a>
-              <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
-                <span className="flex flex-col">
-                  <span>''에서 로그아웃</span>
-                </span>
-              </a>
             </div>
           </div>
         </div>
