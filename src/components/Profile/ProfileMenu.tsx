@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { EditProfileOnOff, NotificationSettingOnOff } from "../../variable/OnModalSlice";
 import MyState from "./MyState";
 import { RootState } from "../../app/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const ProfileMenu = () => {
   const isOff = useSelector((state: RootState) => state.OnModal.OnNotification);
   const dispatch = useDispatch();
   const MyUser = useSelector((state: RootState) => state.getMyProfile.userData);
   useEffect(() => {
-    console.log(isOff);
+    //console.log(isOff);
   }, [isOff]);
   return (
     <>

@@ -8,11 +8,9 @@ import Button from "@mui/material/Button";
 import "react-dropdown/style.css";
 import styled from "styled-components";
 import { Paper } from "@material-ui/core";
-import { setStatus } from "../../variable/StatusSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { WsUrl_status } from "../../variable/cookie";
-import { at } from "../../variable/cookie";
+import { at, WsUrl_status } from "../../variable/cookie";
 
 // import EmojiPicker from "emoji-picker-react";
 
@@ -68,14 +66,12 @@ const StatusDefault = () => {
 
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("status_message", status);
-    // console.log(e.target.value);
     setStatus(e.target.value);
     setEmoji(e.target.value.slice(0, 2));
   }, []);
 
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("until", time);
-    // console.log(e.target.value);
     setTime(e.target.value);
   }, []);
 
@@ -178,6 +174,7 @@ const StatusButton = styled.button`
   text-align: left;
   font-family: "Fira Code", emoji;
   font-size: 20px;
+
   :hover {
     background-color: #1264a3;
   }
