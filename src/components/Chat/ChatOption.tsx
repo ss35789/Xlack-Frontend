@@ -6,11 +6,10 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
-import { ClickBookMark } from "../../variable/ClickedChannelSlice";
+import { ClickBookMark, saveReaction } from "../../variable/ClickedChannelSlice";
 import { EditChatBookmark, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
 import downloadFile from "../fileDownload";
-
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
@@ -88,6 +87,14 @@ const ChatOption = (chat: ChatType) => {
           if (reactionData) {
             dispatch(
               UpdateReactionChatType2({
+                channel_hashed_value: chat_channel_hashed_value,
+                chat_id: reactionData.chat_id,
+                icon: reactionData.icon,
+                reactors: reactionData.reactors,
+              }),
+            );
+            dispatch(
+              saveReaction({
                 channel_hashed_value: chat_channel_hashed_value,
                 chat_id: reactionData.chat_id,
                 icon: reactionData.icon,

@@ -29,7 +29,7 @@ const StatusDefault = () => {
   const Options = [];
   const Times = [];
   const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
-  const times = ["Don't Erase", "30 minute", "1 hour", "4 hour", "Today", "This week", "Choose date"];
+  const times = ["10 minutes", "30 minutes", "1 hour", "2 hours", "3 hours", "4 hours", "6 hours", "Today"];
   const [statusSocket, setStatusSocket] = useState<WebSocket>();
 
   const sendStatus = (event: { preventDefault: () => void }) => {
@@ -48,14 +48,14 @@ const StatusDefault = () => {
         );
         statusWS.send(
           JSON.stringify({
-            status_message: "hello",
-            status_icon: "🐰",
-            until: new Date(1000),
+            status_message: message,
+            status_icon: emoji,
+            until: time,
           }),
         );
-        console.log(message, emoji, new Date());
         statusWS.onmessage = res => {
           const data = res.data;
+          console.log(data);
         };
       };
     }
@@ -66,10 +66,29 @@ const StatusDefault = () => {
     setEmoji(e.target.value.slice(0, 2));
   }, []);
 
+  const convertTime = (time: string) => {
+    const now = new Date();
+    let numTime: string;
+    const splitTime = Number(time.split(" ")[0]);
+    let convertedTime = 0;
+    if (isNaN(splitTime)) {
+      numTime = now.setHours(now.getHours() + 24).toString();
+      convertedTime = Number(numTime);
+    } else if (splitTime >= 10) {
+      numTime = now.setMinutes(now.getMinutes() + splitTime).toString();
+      convertedTime = Number(numTime);
+    } else {
+      numTime = splitTime.toString();
+      convertedTime = now.setHours(now.getHours() + Number(numTime));
+    }
+    return convertedTime;
+  };
+
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     formData.append("until", time);
-    setTime(e.target.value);
+    setTime(convertTime(e.target.value).toString());
   }, []);
+
   for (const element of options) {
     Options.push(<option>{element}</option>);
   }
