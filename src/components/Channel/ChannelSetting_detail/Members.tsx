@@ -234,7 +234,6 @@ const MemberOption = (props: any) => {
                 className="flex flex-col"
                 onClick={() => {
                   MakeManager(props.username);
-                  console.log("make manager");
                 }}
               >
                 <span>Make channel manager</span>
@@ -246,7 +245,6 @@ const MemberOption = (props: any) => {
                 className="flex flex-col"
                 onClick={() => {
                   RemoveUser(props.username);
-                  console.log("remove user");
                 }}
               >
                 <span>Remove from channel</span>
@@ -326,7 +324,6 @@ const AddUserModal = (props: any) => {
                       <Button
                         onClick={() => {
                           AddUsertoChannel();
-                          console.log(EditInput);
                         }}
                       >
                         Add
