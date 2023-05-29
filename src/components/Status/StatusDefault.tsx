@@ -50,7 +50,7 @@ const StatusDefault = () => {
           JSON.stringify({
             status_message: message,
             status_icon: emoji,
-            until: time,
+            until: new Date(time).toString(),
           }),
         );
         statusWS.onmessage = res => {
@@ -70,7 +70,7 @@ const StatusDefault = () => {
     const now = new Date();
     let numTime: string;
     const splitTime = Number(time.split(" ")[0]);
-    let convertedTime = 0;
+    let convertedTime: number;
     if (isNaN(splitTime)) {
       numTime = now.setHours(now.getHours() + 24).toString();
       convertedTime = Number(numTime);
@@ -81,6 +81,7 @@ const StatusDefault = () => {
       numTime = splitTime.toString();
       convertedTime = now.setHours(now.getHours() + Number(numTime));
     }
+    console.log(convertedTime);
     return convertedTime;
   };
 
