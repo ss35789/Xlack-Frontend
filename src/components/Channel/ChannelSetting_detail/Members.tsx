@@ -198,6 +198,27 @@ const MemberOption = (props: any) => {
     }
     dispatch(Update());
   };
+  const RemoveManager = async (UserName: string) => {
+    if ((await AtVerify()) == 200) {
+      try {
+        const d = await axios.post(`${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/admins/${UserName}`, {
+          headers: {
+            Authorization: `Bearer ${at}`,
+          },
+        });
+        window.alert("어드민 제거");
+        // 유저가 행동을 한다는 것 이므로 토큰 새로받아줌
+        UpdateToken();
+      } catch (err) {
+        window.alert("권한이 없습니다.");
+        console.log(err);
+      }
+    } else {
+      // 행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
+      removeCookie();
+    }
+    dispatch(Update());
+  };
   const MakeManager = async (UserName: string) => {
     if ((await AtVerify()) == 200) {
       try {
@@ -220,6 +241,7 @@ const MemberOption = (props: any) => {
     } else {
       // 행동할 때만 유지시키기 위해서 이미 만료됐으면 재로그인
       removeCookie();
+      RemoveManager(UserName);
     }
     dispatch(Update());
   };
@@ -236,7 +258,7 @@ const MemberOption = (props: any) => {
                   MakeManager(props.username);
                 }}
               >
-                <span>Make channel manager</span>
+                <span>Make/Remove channel manager</span>
               </span>
             </a>
 
