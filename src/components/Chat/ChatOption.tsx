@@ -109,14 +109,11 @@ const ChatOption = (chat: ChatType) => {
   };
 
   function ReactionLogic(clickedIcon: string, cid: number) {
-    if (clickedIcon !== null) {
+    if (chat.reactions.length === 0) {
       //리액션이 없을때 새로운 리액션을 추가
       sendReaction({ mode: "create", icon: clickedIcon, chat_id: cid });
-      //console.log(chat.reactions);
-      //dispatch(UpdateReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
     } else {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
-      //dispatch(RemoveReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
       sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
   }
