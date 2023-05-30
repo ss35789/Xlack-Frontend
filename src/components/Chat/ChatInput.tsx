@@ -13,6 +13,7 @@ type ChatInputProps = {
   receive: (ch_hv: string, data: SocketReceiveChatType) => void;
 };
 const ChatInput = (props: ChatInputProps) => {
+  const MaxMsgSize = 60;
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
@@ -96,7 +97,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [Clicked_channel_hv]);
 
   useEffect(() => {
-    if (socket) {
+    if (socket && File_name != "") {
       socket.send(
         JSON.stringify({
           message: File_name,
@@ -134,7 +135,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (socket && msg !== "" && msg.length < 40) {
+    if (socket && msg !== "" && msg.length < MaxMsgSize) {
       socket.send(
         JSON.stringify({
           message: msg,
@@ -175,7 +176,7 @@ const ChatInput = (props: ChatInputProps) => {
               }
             });
           }}
-          placeholder={`Message # (-40)`}
+          placeholder={`Message # (-${MaxMsgSize})`}
         />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
@@ -186,7 +187,10 @@ const ChatInput = (props: ChatInputProps) => {
           <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />
         </span>
       )}
-      <h1>{msg.length}</h1>
+      <h1>
+        {msg.length}
+        {msg.length > MaxMsgSize && <>__글자수 초과!!</>}
+      </h1>
     </ChatInputContainer>
   );
 };
