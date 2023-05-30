@@ -34,7 +34,6 @@ const ChatOption = (chat: ChatType) => {
         },
       })
       .then(res => {
-        console.log(res);
         PlayChatBookmark();
       })
       .catch(err => {
@@ -57,7 +56,6 @@ const ChatOption = (chat: ChatType) => {
         },
       )
       .then(res => {
-        console.log(res);
         PlayChatBookmark();
       })
       .catch(err => {
@@ -84,7 +82,6 @@ const ChatOption = (chat: ChatType) => {
         ReactionWs.onmessage = res => {
           const data = JSON.parse(res.data);
           const reactionData = data?.reaction;
-          //console.log("reaction Data " + JSON.stringify(data));
           if (reactionData) {
             dispatch(
               UpdateReactionChatType2({
@@ -105,7 +102,6 @@ const ChatOption = (chat: ChatType) => {
     if (clickedIcon !== null) {
       //리액션이 없을때 새로운 리액션을 추가
       sendReaction({ mode: "create", icon: clickedIcon, chat_id: cid });
-      //console.log(chat.reactions);
       //dispatch(UpdateReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
     } else {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
@@ -148,7 +144,6 @@ const ChatOption = (chat: ChatType) => {
         if (chat.message.match("." && "/")) {
           const format = (chat.message || "").split(".")[1].split("/")[0].toUpperCase();
           const file_id = Number((chat.message || "").split("/")[1]);
-          console.log(format, file_id);
           if (formatArr.indexOf(format) > -1) {
             downloadFile(file_id);
           }
