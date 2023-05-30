@@ -73,7 +73,8 @@ function ChatContext(chat: ChatType) {
               >
                 {item.icon}
                 {item.reactors.length}
-                {isHover ? reactorData.display_name : ""}
+                {/*{isHover ? reactorData.display_name : ""}*/}
+                {isHover ? "reactor" : ""}
               </ReactionContainer>
             ))}
         </div>
