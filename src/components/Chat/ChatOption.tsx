@@ -6,11 +6,10 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBookmarkPage } from "../../variable/ChatBookmarkSlice";
-import { ClickBookMark } from "../../variable/ClickedChannelSlice";
+import { ClickBookMark, saveReaction } from "../../variable/ClickedChannelSlice";
 import { EditChatBookmark, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
 import { RootState } from "../../app/store";
 import downloadFile from "../fileDownload";
-
 const ChatOption = (chat: ChatType) => {
   const [showDetail, setShowDetail] = useState<number>(-1);
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
@@ -34,6 +33,7 @@ const ChatOption = (chat: ChatType) => {
         },
       })
       .then(res => {
+        console.log(res);
         PlayChatBookmark();
       })
       .catch(err => {
@@ -56,6 +56,7 @@ const ChatOption = (chat: ChatType) => {
         },
       )
       .then(res => {
+        console.log(res);
         PlayChatBookmark();
       })
       .catch(err => {
@@ -82,9 +83,18 @@ const ChatOption = (chat: ChatType) => {
         ReactionWs.onmessage = res => {
           const data = JSON.parse(res.data);
           const reactionData = data?.reaction;
+          //console.log("reaction Data " + JSON.stringify(data));
           if (reactionData) {
             dispatch(
               UpdateReactionChatType2({
+                channel_hashed_value: chat_channel_hashed_value,
+                chat_id: reactionData.chat_id,
+                icon: reactionData.icon,
+                reactors: reactionData.reactors,
+              }),
+            );
+            dispatch(
+              saveReaction({
                 channel_hashed_value: chat_channel_hashed_value,
                 chat_id: reactionData.chat_id,
                 icon: reactionData.icon,
@@ -99,13 +109,11 @@ const ChatOption = (chat: ChatType) => {
   };
 
   function ReactionLogic(clickedIcon: string, cid: number) {
-    if (clickedIcon !== null) {
+    if ((chat.reactions || "").length === 0) {
       //리액션이 없을때 새로운 리액션을 추가
       sendReaction({ mode: "create", icon: clickedIcon, chat_id: cid });
-      //dispatch(UpdateReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
     } else {
       // 리액션이 있을때 같은 리액션을 누르면 삭제
-      //dispatch(RemoveReactionChat([chat_channel_hashed_value, { chat_id: cid, icon: clickedIcon, reactors: [] }]));
       sendReaction({ mode: "delete", icon: clickedIcon, chat_id: cid });
     }
   }
@@ -144,6 +152,7 @@ const ChatOption = (chat: ChatType) => {
         if (chat.message.match("." && "/")) {
           const format = (chat.message || "").split(".")[1].split("/")[0].toUpperCase();
           const file_id = Number((chat.message || "").split("/")[1]);
+          console.log(format, file_id);
           if (formatArr.indexOf(format) > -1) {
             downloadFile(file_id);
           }

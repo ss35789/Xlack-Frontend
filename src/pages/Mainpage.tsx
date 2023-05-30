@@ -35,6 +35,7 @@ const Mainpage = () => {
         });
         //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
         dispatch(SaveChat([channel, res.data]));
+        console.log(res.data);
       } catch (err) {
         console.log("receiveChatError: ", err);
       }
@@ -109,6 +110,7 @@ const Mainpage = () => {
 
   // 파일 처리 ondrop
   const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
+    console.log({ e }, e.dataTransfer.files);
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
   };
@@ -145,8 +147,7 @@ const Mainpage = () => {
               .then(res => {
                 original_file_name = res.data.file;
                 file_id = res.data.id;
-                //author = res.data.uploaded_by.username;
-                file_name = (original_file_name || "").split("/").slice(-1).toString() + "/" + file_id.toString();
+                file_name = file.name + "/" + file_id.toString();
               });
             //dispatch(setFile(element));
             dispatch(setFileName(file_name));
