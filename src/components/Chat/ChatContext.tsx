@@ -129,4 +129,5 @@ const ReactionContainer = styled.span`
   padding-bottom: 2px;
   margin-left: 15px;
   border-radius: 10px;
+  color: rgba(51, 51, 51, 0.86);
 `;
