@@ -54,7 +54,15 @@ function ChatContext(chat: ChatType) {
             {chat.converted_created_at}
           </span>
         </ChatMessages>
-        <div>{chat.reactions && chat.reactions.map(item => <ReactionContainer key={chat.id}>{item.icon}</ReactionContainer>)}</div>
+        <div>
+          {chat.reactions &&
+            chat.reactions.map(item => (
+              <ReactionContainer key={chat.id}>
+                {item.icon}
+                {item.reactors.length}
+              </ReactionContainer>
+            ))}
+        </div>
       </ChatContainer>
     </div>
   );
@@ -116,8 +124,9 @@ const ChatContainer = styled.div`
 const ReactionContainer = styled.span`
   display: inline-block;
   text-align: center;
-  background-color: #cda2f8;
+  background-color: rgba(206, 205, 205, 0.51);
   width: 40px;
+  padding-bottom: 2px;
   margin-left: 15px;
   border-radius: 10px;
 `;

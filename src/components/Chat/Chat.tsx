@@ -117,22 +117,6 @@ const Chat = () => {
       }
     };
     setSocket(webSocket);
-    /*    ReactionWs.onmessage = res => {
-      const data = JSON.parse(res.data);
-      const reactionData = data?.reaction;
-      if (reactionData) {
-        dispatch(
-          UpdateReactionChatType2({
-            channel_hashed_value: chat_channel_hashed_value,
-            chat_id: reactionData.chat_id,
-            icon: reactionData.icon,
-            reactors: reactionData.reactors,
-          }),
-        );
-
-        );
-      }
-    };*/
   }, [Clicked_channel_hashedValue]);
   // useEffect(() => {
   //   if (lastChat !== "-1") {
