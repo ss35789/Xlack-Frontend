@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { useEffect } from "react";
 import { at, WsUrl_reaction } from "../../variable/cookie";
-import { saveReaction } from "../../variable/ClickedChannelSlice";
+import { findUserDataInClickedChannel, saveReaction } from "../../variable/ClickedChannelSlice";
 
 function ReactionListener() {
   const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
@@ -43,6 +43,8 @@ function ReactionListener() {
             reactors: reactionData.reactors,
           }),
         );
+        dispatch(findUserDataInClickedChannel(reactionData.reactors[Number(reactionData.reactors.length)]));
+        console.log(JSON.stringify(reactionData.reactors[0]));
       }
     };
   }

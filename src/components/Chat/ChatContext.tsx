@@ -1,16 +1,21 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import { ChatType } from "../../types/types";
+import { ChatType, ReactionDataType } from "../../types/types";
 import React, { useEffect, useState } from "react";
 import ChatOption from "./ChatOption";
 import StarIcon from "@mui/icons-material/Star";
+import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
   const [changedChat, setchangedChat] = useState<string>("");
   const chatLength = 35;
   const [tmp, setTmp] = useState<number>(0);
+  const reactorData = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   const [size, setSize] = useState<number>((chat.message || "").length);
+  const [isHover, setHover] = useState<boolean>(false);
   useEffect(() => {
     if (size !== 0 && chat.message.substring(tmp, tmp + chatLength) !== "") {
       setchangedChat(changedChat + chat.message.substring(tmp, tmp + chatLength) + "\n");
@@ -18,8 +23,8 @@ function ChatContext(chat: ChatType) {
       setSize(size - chatLength);
     }
   }, [changedChat]);
-
   //일정 글자수가 넘어가면 줄바꿈 됨
+
   return (
     <div
       onMouseOver={() => {
@@ -57,9 +62,18 @@ function ChatContext(chat: ChatType) {
         <div>
           {chat.reactions &&
             chat.reactions.map(item => (
-              <ReactionContainer key={chat.id}>
+              <ReactionContainer
+                key={chat.id}
+                onMouseOver={() => {
+                  setHover(true);
+                }}
+                onMouseDown={() => {
+                  setHover(false);
+                }}
+              >
                 {item.icon}
                 {item.reactors.length}
+                {isHover ? reactorData.display_name : ""}
               </ReactionContainer>
             ))}
         </div>
@@ -130,4 +144,8 @@ const ReactionContainer = styled.span`
   margin-left: 15px;
   border-radius: 10px;
   color: rgba(51, 51, 51, 0.86);
+  :hover {
+    text-align: left;
+    width: 100px;
+  }
 `;
