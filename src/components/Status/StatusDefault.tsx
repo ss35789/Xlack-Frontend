@@ -35,12 +35,9 @@ const StatusDefault = () => {
   const times = ["10 minutes", "30 minutes", "1 hour", "2 hours", "3 hours", "4 hours", "6 hours", "Today"];
   const [statusSocket, setStatusSocket] = useState<WebSocket>();
 
-  const sendStatus = (event: { preventDefault: () => void }) => {
+  const sendStatus = () => {
     setOpen(false);
-    event.preventDefault();
     const statusWS = new WebSocket(`${WsUrl_status}${workspaceHV}/`);
-    dispatch(setStatus({ status_message: message, status_icon: emoji, until: time }));
-    console.log(message + " " + emoji + " " + time);
     if (statusWS) {
       statusWS.onopen = async () => {
         setStatusSocket(statusWS);
@@ -56,26 +53,24 @@ const StatusDefault = () => {
             until: new Date(time).toString(),
           }),
         );
-        statusWS.onmessage = res => {
-          const data = res.data;
-          console.log(data);
-        };
       };
     }
   };
+
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const em = e.target.value.slice(0, 2);
     setMessage(e.target.value.toString().replace(em, ""));
     setEmoji(em);
   }, []);
+
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     convertTime(e.target.value.toString());
   }, []);
+
   const convertTime = (inputTime: string) => {
     const now = new Date();
     let numTime: string;
     const splitTime = Number(inputTime.split(" ")[0]);
-    console.log("splitTime" + splitTime);
     let convertedTime: number;
     if (isNaN(splitTime)) {
       convertedTime = now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
@@ -158,7 +153,15 @@ const StatusDefault = () => {
           >
             Close
           </Button>
-          <Button onClick={sendStatus} variant="contained" color="success" autoFocus>
+          <Button
+            onClick={() => {
+              sendStatus();
+              dispatch(setStatus({ status_message: message, status_icon: emoji, until: time }));
+            }}
+            variant="contained"
+            color="success"
+            autoFocus
+          >
             Save
           </Button>
         </DialogActions>
