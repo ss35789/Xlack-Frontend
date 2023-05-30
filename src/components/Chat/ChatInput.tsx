@@ -64,6 +64,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [UpdateChannel.lastAddedChannel_hv]);
 
   useEffect(() => {
+    setShowMentionModal(false);
     MyWebSocket.forEach(w => {
       if (w.ch_hv === Clicked_channel_hv) {
         setsocket(w.wb);
@@ -179,8 +180,12 @@ const ChatInput = (props: ChatInputProps) => {
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
-        {showMentionModal && <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />}
       </form>
+      {showMentionModal && (
+        <span>
+          <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />
+        </span>
+      )}
       <h1>{msg.length}</h1>
     </ChatInputContainer>
   );
@@ -209,6 +214,14 @@ const ChatInputContainer = styled.div`
 
   > h1 {
     position: fixed;
+    bottom: 30px;
+    padding: 20px;
+    outline: none;
+  }
+
+  > span {
+    position: absolute;
+    margin-left: 20px;
     bottom: 30px;
     padding: 20px;
     outline: none;
