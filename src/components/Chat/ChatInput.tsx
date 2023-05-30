@@ -133,7 +133,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (socket && msg !== "") {
+    if (socket && msg !== "" && msg.length < 40) {
       socket.send(
         JSON.stringify({
           message: msg,
@@ -174,13 +174,14 @@ const ChatInput = (props: ChatInputProps) => {
               }
             });
           }}
-          placeholder={`Message #`}
+          placeholder={`Message # (-40)`}
         />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
         {showMentionModal && <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />}
       </form>
+      <h1>{msg.length}</h1>
     </ChatInputContainer>
   );
 };
@@ -202,6 +203,13 @@ const ChatInputContainer = styled.div`
     width: 40%;
     border: 1px solid gray;
     border-radius: 3px;
+    padding: 20px;
+    outline: none;
+  }
+
+  > h1 {
+    position: fixed;
+    bottom: 30px;
     padding: 20px;
     outline: none;
   }
