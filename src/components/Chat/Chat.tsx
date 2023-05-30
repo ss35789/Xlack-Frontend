@@ -4,12 +4,13 @@ import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ChatType, SocketReceiveChatType } from "../../types/types";
-import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
+import { at, backUrl, WsUrl_notification, WsUrl_reaction } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
-import { AppendChat } from "../../variable/WorkSpaceSlice";
+import { AppendChat, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
 import WaitPage from "../../pages/WaitPage";
 import { deleteChannel } from "../../variable/UnreadChannelSlice";
+import { saveReaction } from "../../variable/ClickedChannelSlice";
 
 const Chat = () => {
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
@@ -27,6 +28,8 @@ const Chat = () => {
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
+  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
+
   const receiveChatBookmarkData = async () => {
     try {
       const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
@@ -81,6 +84,7 @@ const Chat = () => {
   useEffect(() => {
     if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
     const webSocket = new WebSocket(`${WsUrl_notification}`);
+    const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
     webSocket.onopen = () => {
       webSocket.send(
         JSON.stringify({
@@ -114,6 +118,31 @@ const Chat = () => {
       }
     };
     setSocket(webSocket);
+    if (ReactionWs) {
+      ReactionWs.onmessage = res => {
+        const data = JSON.parse(res.data);
+        const reactionData = data?.reaction;
+        console.log("reaction Data " + JSON.stringify(data));
+        if (reactionData) {
+          dispatch(
+            UpdateReactionChatType2({
+              channel_hashed_value: chat_channel_hashed_value,
+              chat_id: reactionData.chat_id,
+              icon: reactionData.icon,
+              reactors: reactionData.reactors,
+            }),
+          );
+          dispatch(
+            saveReaction({
+              channel_hashed_value: chat_channel_hashed_value,
+              chat_id: reactionData.chat_id,
+              icon: reactionData.icon,
+              reactors: reactionData.reactors,
+            }),
+          );
+        }
+      };
+    }
   }, [Clicked_channel_hashedValue]);
   // useEffect(() => {
   //   if (lastChat !== "-1") {
