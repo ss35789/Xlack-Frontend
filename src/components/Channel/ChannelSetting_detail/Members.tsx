@@ -210,15 +210,15 @@ const MemberOption = (props: any) => {
     }
     dispatch(Update());
   };
-  const RemoveManager = async (UserName: string) => {
+  const RemoveAdmin = async (Username: string) => {
     if ((await AtVerify()) == 200) {
       try {
-        const d = await axios.post(`${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/admins/${UserName}`, {
+        const d = await axios.delete(`${backUrl}channel/${currentWorkspace.hashed_value}/${AboutChannel.hashed_value}/admins/${Username}/`, {
           headers: {
             Authorization: `Bearer ${at}`,
           },
         });
-        window.alert("어드민 제거");
+        window.alert("어드민 권한삭제");
         // 유저가 행동을 한다는 것 이므로 토큰 새로받아줌
         UpdateToken();
       } catch (err) {
@@ -231,7 +231,7 @@ const MemberOption = (props: any) => {
     }
     dispatch(Update());
   };
-  const MakeManager = async (UserName: string) => {
+  const MakeAdmin = async (UserName: string) => {
     if ((await AtVerify()) == 200) {
       try {
         const d = await axios.post(
@@ -267,7 +267,7 @@ const MemberOption = (props: any) => {
                 <span
                   className="flex flex-col"
                   onClick={() => {
-                    MakeManager(props.username);
+                    MakeAdmin(props.username);
                   }}
                 >
                   <span>Make channel manager</span>
@@ -279,7 +279,7 @@ const MemberOption = (props: any) => {
                 <span
                   className="flex flex-col"
                   onClick={() => {
-                    RemoveManager(props.username);
+                    RemoveAdmin(props.username);
                   }}
                 >
                   <span>Remove channel manager</span>
