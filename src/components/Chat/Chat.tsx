@@ -3,14 +3,13 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { ChatType, SocketReceiveChatType } from "../../types/types";
-import { at, backUrl, WsUrl_notification, WsUrl_reaction } from "../../variable/cookie";
+  import { ChatType, SocketReceiveChatType } from "../../types/types";
+import { at, backUrl, WsUrl_notification } from "../../variable/cookie";
 import axios from "axios";
 import ChatContext from "./ChatContext";
-import { AppendChat, UpdateReactionChatType2 } from "../../variable/WorkSpaceSlice";
+import { AppendChat } from "../../variable/WorkSpaceSlice";
 import WaitPage from "../../pages/WaitPage";
 import { deleteChannel } from "../../variable/UnreadChannelSlice";
-import { saveReaction } from "../../variable/ClickedChannelSlice";
 
 const Chat = () => {
   const notifi = useSelector((state: RootState) => state.UnReadChannel);
@@ -28,8 +27,6 @@ const Chat = () => {
   const dispatch = useDispatch();
   const messagesRef = useRef<any>();
   const [getChatData, setGetChatData] = useState<ChatType[]>([]);
-  const chat_channel_hashed_value = useSelector((state: RootState) => state.ClickedChannel.channelData.hashed_value);
-
   const receiveChatBookmarkData = async () => {
     try {
       const res = await axios.get(`${backUrl}workspace/bookmarked_chat/${currentWorkspace.hashed_value}/`, {
@@ -166,7 +163,7 @@ const Chat = () => {
 
   const scrollToBottom = () => {
     messagesRef.current.scrollIntoView({
-      behavior: "smooth",
+      behavior: "instant",
       block: "end",
       inline: "nearest",
     });

@@ -13,6 +13,7 @@ type ChatInputProps = {
   receive: (ch_hv: string, data: SocketReceiveChatType) => void;
 };
 const ChatInput = (props: ChatInputProps) => {
+  const MaxMsgSize = 60;
   const [msg, setmsg] = useState("");
   const [socket, setsocket] = useState<WebSocket>();
   const UpdateChannel = useSelector((state: RootState) => state.UpdateChannel);
@@ -64,6 +65,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [UpdateChannel.lastAddedChannel_hv]);
 
   useEffect(() => {
+    setShowMentionModal(false);
     MyWebSocket.forEach(w => {
       if (w.ch_hv === Clicked_channel_hv) {
         setsocket(w.wb);
@@ -74,7 +76,8 @@ const ChatInput = (props: ChatInputProps) => {
           const m = JSON.parse(message.data);
           if (m.message !== undefined && notifiSetting == true) {
             if (m.user_id !== MyProfile.id) {
-              showNotification(m.username, m.message);
+              console.log(m.ch_hv);
+              showNotification(dispatch, m.username, m.message, m.chat_channel_name, m.chat_channel_hashed_value);
             }
           }
           dispatch(findUserDataInClickedChannel(m.user_id));
@@ -95,7 +98,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [Clicked_channel_hv]);
 
   useEffect(() => {
-    if (socket) {
+    if (socket && File_name != "") {
       socket.send(
         JSON.stringify({
           message: File_name,
@@ -113,7 +116,7 @@ const ChatInput = (props: ChatInputProps) => {
         const nm = JSON.parse(message.data);
         if (nm.message !== undefined && notifiSetting == true) {
           if (nm.user_id !== MyProfile.id) {
-            showNotification(nm.username, nm.message);
+            showNotification(dispatch, nm.username, nm.message, nm.chat_channel_name, nm.chat_channel_hashed_value);
           }
         }
         dispatch(findUserDataInClickedChannel(nm.user_id));
@@ -133,7 +136,7 @@ const ChatInput = (props: ChatInputProps) => {
   }, [File_name]);
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    if (socket && msg !== "") {
+    if (socket && msg !== "" && msg.length < MaxMsgSize) {
       socket.send(
         JSON.stringify({
           message: msg,
@@ -174,13 +177,21 @@ const ChatInput = (props: ChatInputProps) => {
               }
             });
           }}
-          placeholder={`Message #`}
+          placeholder={`Message # (-${MaxMsgSize})`}
         />
         <button hidden type="submit" onClick={sendMessage}>
           SEND
         </button>
-        {showMentionModal && <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />}
       </form>
+      {showMentionModal && (
+        <span>
+          <ChatMentionModal inputMsg={mentionName} Choose={ChooseMention} CalleverDataArr={Clicked_channel.members} />
+        </span>
+      )}
+      <h1>
+        {msg.length}
+        {msg.length > MaxMsgSize && <>__글자수 초과!!</>}
+      </h1>
     </ChatInputContainer>
   );
 };
@@ -202,6 +213,21 @@ const ChatInputContainer = styled.div`
     width: 40%;
     border: 1px solid gray;
     border-radius: 3px;
+    padding: 20px;
+    outline: none;
+  }
+
+  > h1 {
+    position: fixed;
+    bottom: 30px;
+    padding: 20px;
+    outline: none;
+  }
+
+  > span {
+    position: absolute;
+    margin-left: 20px;
+    bottom: 30px;
     padding: 20px;
     outline: none;
   }
