@@ -11,10 +11,8 @@ import { Paper } from "@material-ui/core";
 import { setStatus } from "../../variable/StatusSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { AtVerify, WsUrl_status } from "../../variable/cookie";
+import { WsUrl_status } from "../../variable/cookie";
 import { at } from "../../variable/cookie";
-
-// import EmojiPicker from "emoji-picker-react";
 
 const StatusDefault = () => {
   const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
@@ -22,9 +20,6 @@ const StatusDefault = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
-  // const [message, setMessage] = useState(MyStatus.status_message);
-  // const [time, setTime] = useState(MyStatus.until);
-  // const [emoji, setEmoji] = useState(MyStatus.status_icon);
   const [message, setMessage] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [emoji, setEmoji] = useState<string>("");
@@ -33,14 +28,12 @@ const StatusDefault = () => {
   const Times = [];
   const options = ["📆 In a meeting", "🚗 Communicating", "🤒 Sick", "🌴 Vacationing", "🖥️ Working remotely"];
   const times = ["10 minutes", "30 minutes", "1 hour", "2 hours", "3 hours", "4 hours", "6 hours", "Today"];
-  const [statusSocket, setStatusSocket] = useState<WebSocket>();
 
   const sendStatus = () => {
     setOpen(false);
     const statusWS = new WebSocket(`${WsUrl_status}${workspaceHV}/`);
     if (statusWS) {
       statusWS.onopen = async () => {
-        setStatusSocket(statusWS);
         statusWS.send(
           JSON.stringify({
             authorization: at,
@@ -54,6 +47,7 @@ const StatusDefault = () => {
           }),
         );
       };
+      console.log(message + emoji + time);
     }
   };
 
@@ -80,7 +74,8 @@ const StatusDefault = () => {
       numTime = splitTime.toString();
       convertedTime = now.setTime(now.getTime() + 1000 * 60 * 60 * Number(numTime));
     }
-    setTime(new Date(convertedTime).toString().split("(")[0]);
+    setTime(new Date(convertedTime).toString().split("(")[0].split("GMT")[0]);
+    console.log(time);
   };
 
   for (const element of options) {
