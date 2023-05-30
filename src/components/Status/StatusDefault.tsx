@@ -64,33 +64,29 @@ const StatusDefault = () => {
     }
   };
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setMessage(e.target.value);
-    setEmoji(e.target.value.slice(0, 2));
+    const em = e.target.value.slice(0, 2);
+    setMessage(e.target.value.toString().replace(em, ""));
+    setEmoji(em);
   }, []);
-
-  const convertTime = (time: string) => {
+  const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    convertTime(e.target.value.toString());
+  }, []);
+  const convertTime = (inputTime: string) => {
     const now = new Date();
     let numTime: string;
-    const splitTime = Number(time.split(" ")[0]);
+    const splitTime = Number(inputTime.split(" ")[0]);
     console.log("splitTime" + splitTime);
     let convertedTime: number;
     if (isNaN(splitTime)) {
       convertedTime = now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
     } else if (splitTime >= 10) {
-      numTime = now.setTime(now.getMinutes() + splitTime).toString();
-      convertedTime = Number(new Date(numTime));
+      convertedTime = now.setTime(now.getTime() + 1000 * 60 * splitTime);
     } else {
       numTime = splitTime.toString();
-      convertedTime = now.setTime(now.getHours() + Number(numTime));
+      convertedTime = now.setTime(now.getTime() + 1000 * 60 * 60 * Number(numTime));
     }
-    console.log("convertedTime: " + new Date(convertedTime));
-    console.log("time: " + time);
-    return convertedTime;
+    setTime(new Date(convertedTime).toString().split("(")[0]);
   };
-
-  const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTime(convertTime(e.target.value.toString()).toString());
-  }, []);
 
   for (const element of options) {
     Options.push(<option>{element}</option>);
@@ -122,7 +118,7 @@ const StatusDefault = () => {
       </button>
       <StatusDiv
         placeholder={"🙂What is your Status"}
-        value={message}
+        value={MyStatus.status_icon + MyStatus.status_message}
         onClick={() => {
           setOpen(true);
         }}
