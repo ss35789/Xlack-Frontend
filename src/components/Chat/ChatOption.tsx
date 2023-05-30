@@ -65,6 +65,7 @@ const ChatOption = (chat: ChatType) => {
   };
   const sendReaction = async (sendType: SendReactionType) => {
     const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
+    setReactionSocket(ReactionWs);
     if (ReactionWs) {
       ReactionWs.onopen = () => {
         setReactionSocket(ReactionWs);
@@ -80,31 +81,35 @@ const ChatOption = (chat: ChatType) => {
             chat_id: sendType.chat_id,
           }),
         );
-        ReactionWs.onmessage = res => {
-          const data = JSON.parse(res.data);
-          const reactionData = data?.reaction;
-          //console.log("reaction Data " + JSON.stringify(data));
-          if (reactionData) {
-            dispatch(
-              UpdateReactionChatType2({
-                channel_hashed_value: chat_channel_hashed_value,
-                chat_id: reactionData.chat_id,
-                icon: reactionData.icon,
-                reactors: reactionData.reactors,
-              }),
-            );
-            dispatch(
-              saveReaction({
-                channel_hashed_value: chat_channel_hashed_value,
-                chat_id: reactionData.chat_id,
-                icon: reactionData.icon,
-                reactors: reactionData.reactors,
-              }),
-            );
-          }
-        };
+        receiveReaction(ReactionWs);
       };
-      setReactionSocket(ReactionWs);
+    }
+  };
+  const receiveReaction = async (socket: WebSocket) => {
+    if (socket) {
+      socket.onmessage = res => {
+        const data = JSON.parse(res.data);
+        const reactionData = data?.reaction;
+        console.log("reaction Data " + JSON.stringify(data));
+        if (reactionData) {
+          dispatch(
+            UpdateReactionChatType2({
+              channel_hashed_value: chat_channel_hashed_value,
+              chat_id: reactionData.chat_id,
+              icon: reactionData.icon,
+              reactors: reactionData.reactors,
+            }),
+          );
+          dispatch(
+            saveReaction({
+              channel_hashed_value: chat_channel_hashed_value,
+              chat_id: reactionData.chat_id,
+              icon: reactionData.icon,
+              reactors: reactionData.reactors,
+            }),
+          );
+        }
+      };
     }
   };
 
