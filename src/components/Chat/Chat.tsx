@@ -46,7 +46,7 @@ const Chat = () => {
           message: r.message,
           created_at: r.created_at,
           converted_created_at: r.converted_created_at,
-          reactions: r.reaction,
+          reaction: r.reaction,
           file: r.file,
         });
       });
@@ -135,7 +135,7 @@ const Chat = () => {
       channel: Clicked_channel.id,
       chatter: findUser,
       has_bookmarked: false,
-      reactions: [],
+      reaction: s.reaction,
       message: s.message,
       created_at: s.created_at,
       converted_created_at: s.created_at,

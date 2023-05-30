@@ -22,9 +22,12 @@ const StatusDefault = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
-  const [message, setMessage] = useState(MyStatus.status_message);
-  const [time, setTime] = useState(MyStatus.until);
-  const [emoji, setEmoji] = useState(MyStatus.status_icon);
+  // const [message, setMessage] = useState(MyStatus.status_message);
+  // const [time, setTime] = useState(MyStatus.until);
+  // const [emoji, setEmoji] = useState(MyStatus.status_icon);
+  const [message, setMessage] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+  const [emoji, setEmoji] = useState<string>("");
   const workspaceHV = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace).hashed_value;
   const Options = [];
   const Times = [];
@@ -37,7 +40,7 @@ const StatusDefault = () => {
     event.preventDefault();
     const statusWS = new WebSocket(`${WsUrl_status}${workspaceHV}/`);
     dispatch(setStatus({ status_message: message, status_icon: emoji, until: time }));
-
+    console.log(message + " " + emoji + " " + time);
     if (statusWS) {
       statusWS.onopen = async () => {
         setStatusSocket(statusWS);
@@ -61,7 +64,6 @@ const StatusDefault = () => {
     }
   };
   const handleOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    formData.append("status_message", message);
     setMessage(e.target.value);
     setEmoji(e.target.value.slice(0, 2));
   }, []);
@@ -70,27 +72,24 @@ const StatusDefault = () => {
     const now = new Date();
     let numTime: string;
     const splitTime = Number(time.split(" ")[0]);
+    console.log("splitTime" + splitTime);
     let convertedTime: number;
     if (isNaN(splitTime)) {
-      numTime = now.setHours(now.getHours() + 24).toString();
-      convertedTime = Number(numTime);
+      convertedTime = now.setTime(now.getTime() + 1000 * 60 * 60 * 24);
     } else if (splitTime >= 10) {
-      numTime = now.setMinutes(now.getMinutes() + splitTime).toString();
+      numTime = now.setTime(now.getMinutes() + splitTime).toString();
       convertedTime = Number(new Date(numTime));
     } else {
       numTime = splitTime.toString();
-      convertedTime = now.setHours(now.getHours() + Number(numTime));
+      convertedTime = now.setTime(now.getHours() + Number(numTime));
     }
-    console.log(new Date(convertedTime));
-    console.log(time);
+    console.log("convertedTime: " + new Date(convertedTime));
+    console.log("time: " + time);
     return convertedTime;
   };
 
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    formData.append("until", time);
-    setTime(convertTime(e.target.value).toString());
-    console.log(convertTime(e.target.value).toString());
-    console.log(time);
+    setTime(convertTime(e.target.value.toString()).toString());
   }, []);
 
   for (const element of options) {
@@ -144,12 +143,12 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="status" defaultValue={message} onChange={handleOnChange}>
+        <StatusSelect id="status" defaultValue={MyStatus.status_icon + MyStatus.status_message} onChange={handleOnChange}>
           {OptionMap}
         </StatusSelect>
         <br />
         <DialogContentText>{"Remove status after ..."}</DialogContentText>
-        <TimeSelect id="time" defaultValue={time} onChange={handleOnChange_T}>
+        <TimeSelect id="time" defaultValue={MyStatus.until} onChange={handleOnChange_T}>
           {TimeMap}
         </TimeSelect>
         <DialogActions>

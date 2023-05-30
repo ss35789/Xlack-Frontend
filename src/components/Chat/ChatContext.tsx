@@ -11,7 +11,7 @@ import { RootState } from "../../app/store";
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
   const [isHover, setHover] = useState<boolean>(false);
-
+  const reactorData = useSelector((state: RootState) => state.ClickedChannel.findUserData);
   return (
     <div
       onMouseOver={() => {
@@ -46,11 +46,18 @@ function ChatContext(chat: ChatType) {
             {chat.converted_created_at}
           </span>
         </ChatMessages>
+        <button
+          onClick={() => {
+            console.log(chat);
+          }}
+        >
+          rs
+        </button>
         <div>
-          {chat.reactions &&
-            chat.reactions.map(item => (
+          {chat.reaction &&
+            chat.reaction.map(item => (
               <ReactionContainer
-                key={chat.id}
+                key={item.id}
                 onMouseOver={() => {
                   setHover(true);
                 }}
@@ -60,8 +67,8 @@ function ChatContext(chat: ChatType) {
               >
                 {item.icon}
                 {item.reactors.length}
-                {/*{isHover ? reactorData.display_name : ""}*/}
-                {isHover ? "reactor" : ""}
+                {isHover ? reactorData.display_name : ""}
+                {/*{isHover ? "reactor" : ""}*/}
               </ReactionContainer>
             ))}
         </div>
