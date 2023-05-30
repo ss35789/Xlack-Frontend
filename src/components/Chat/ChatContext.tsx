@@ -115,8 +115,9 @@ const ChatContainer = styled.div`
 
 const ReactionContainer = styled.span`
   display: inline-block;
-  align-content: center;
-  background-color: blue;
-  width: 25px;
+  text-align: center;
+  background-color: #cda2f8;
+  width: 40px;
   margin-left: 15px;
+  border-radius: 10px;
 `;

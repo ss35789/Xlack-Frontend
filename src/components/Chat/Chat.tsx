@@ -84,7 +84,6 @@ const Chat = () => {
   useEffect(() => {
     if (Clicked_channel) setGetChatData(Clicked_channel.Chats);
     const webSocket = new WebSocket(`${WsUrl_notification}`);
-    const ReactionWs = new WebSocket(`${WsUrl_reaction}${chat_channel_hashed_value}/`);
     webSocket.onopen = () => {
       webSocket.send(
         JSON.stringify({
@@ -118,31 +117,22 @@ const Chat = () => {
       }
     };
     setSocket(webSocket);
-    if (ReactionWs) {
-      ReactionWs.onmessage = res => {
-        const data = JSON.parse(res.data);
-        const reactionData = data?.reaction;
-        console.log("reaction Data " + JSON.stringify(data));
-        if (reactionData) {
-          dispatch(
-            UpdateReactionChatType2({
-              channel_hashed_value: chat_channel_hashed_value,
-              chat_id: reactionData.chat_id,
-              icon: reactionData.icon,
-              reactors: reactionData.reactors,
-            }),
-          );
-          dispatch(
-            saveReaction({
-              channel_hashed_value: chat_channel_hashed_value,
-              chat_id: reactionData.chat_id,
-              icon: reactionData.icon,
-              reactors: reactionData.reactors,
-            }),
-          );
-        }
-      };
-    }
+    /*    ReactionWs.onmessage = res => {
+      const data = JSON.parse(res.data);
+      const reactionData = data?.reaction;
+      if (reactionData) {
+        dispatch(
+          UpdateReactionChatType2({
+            channel_hashed_value: chat_channel_hashed_value,
+            chat_id: reactionData.chat_id,
+            icon: reactionData.icon,
+            reactors: reactionData.reactors,
+          }),
+        );
+
+        );
+      }
+    };*/
   }, [Clicked_channel_hashedValue]);
   // useEffect(() => {
   //   if (lastChat !== "-1") {
