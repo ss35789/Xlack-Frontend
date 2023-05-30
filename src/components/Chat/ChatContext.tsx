@@ -1,25 +1,17 @@
 import styled from "styled-components";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import { ChatType } from "../../types/types";
+import { ChatType, ReactionDataType } from "../../types/types";
 import React, { useEffect, useState } from "react";
 import ChatOption from "./ChatOption";
 import StarIcon from "@mui/icons-material/Star";
+import { findUserDataInClickedChannel } from "../../variable/ClickedChannelSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 function ChatContext(chat: ChatType) {
   const [showChatOption, setShowChatOption] = useState<boolean>(false);
-  const [changedChat, setchangedChat] = useState<string>("");
-  const chatLength = 35;
-  const [tmp, setTmp] = useState<number>(0);
-  const [size, setSize] = useState<number>((chat.message || "").length);
-  useEffect(() => {
-    if (size !== 0 && chat.message.substring(tmp, tmp + chatLength) !== "") {
-      setchangedChat(changedChat + chat.message.substring(tmp, tmp + chatLength) + "\n");
-      setTmp(tmp + chatLength);
-      setSize(size - chatLength);
-    }
-  }, [changedChat]);
+  const [isHover, setHover] = useState<boolean>(false);
 
-  //일정 글자수가 넘어가면 줄바꿈 됨
   return (
     <div
       onMouseOver={() => {
@@ -48,13 +40,31 @@ function ChatContext(chat: ChatType) {
           </HeaderRight>
         </Header>
         <ChatMessages>
-          <h2>{changedChat}</h2>
+          <h2>{chat.message}</h2>
           <span className="text-sm text-gray-700">
             {/*{created_at.slice(0, 10)}&nbsp;{created_at.slice(11, 19)}*/}
             {chat.converted_created_at}
           </span>
         </ChatMessages>
-        <div>{chat.reactions && chat.reactions.map(item => <div key={chat.id}>{item.icon}</div>)}</div>
+        <div>
+          {chat.reactions &&
+            chat.reactions.map(item => (
+              <ReactionContainer
+                key={chat.id}
+                onMouseOver={() => {
+                  setHover(true);
+                }}
+                onMouseDown={() => {
+                  setHover(false);
+                }}
+              >
+                {item.icon}
+                {item.reactors.length}
+                {/*{isHover ? reactorData.display_name : ""}*/}
+                {isHover ? "reactor" : ""}
+              </ReactionContainer>
+            ))}
+        </div>
       </ChatContainer>
     </div>
   );
@@ -111,4 +121,19 @@ const ChatContainer = styled.div`
   flex: 0.7;
   flex-grow: 1;
   margin-top: 60px;
+`;
+
+const ReactionContainer = styled.span`
+  display: inline-block;
+  text-align: center;
+  background-color: rgba(206, 205, 205, 0.51);
+  width: 40px;
+  padding-bottom: 2px;
+  margin-left: 15px;
+  border-radius: 10px;
+  color: rgba(51, 51, 51, 0.86);
+  :hover {
+    text-align: left;
+    width: 100px;
+  }
 `;

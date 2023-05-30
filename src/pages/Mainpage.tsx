@@ -16,6 +16,7 @@ import PlusModal from "../components/Workspace/PlusModal";
 import ChannelSetting from "../components/Channel/ChannelSetting";
 import { setFileName } from "../variable/ChatSlice";
 import { Notifi } from "../components/Notification/notification";
+import ReactionListener from "../components/Channel/ReactionListener";
 
 const Mainpage = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,6 @@ const Mainpage = () => {
         });
         //데이터 받을 때 created_at 형태 바꿔줄 필요 있음
         dispatch(SaveChat([channel, res.data]));
-        console.log(res.data);
       } catch (err) {
         console.log("receiveChatError: ", err);
       }
@@ -191,6 +191,7 @@ const Mainpage = () => {
         </SelectWorkspaces>
         <Sidebar />
         <Profile />
+        <ReactionListener />
         {OpenChannelSetting && <ChannelSetting />}
         {U && <Chat />}
       </AppBody>
