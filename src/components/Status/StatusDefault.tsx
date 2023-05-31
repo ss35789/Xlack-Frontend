@@ -23,6 +23,7 @@ const StatusDefault = () => {
   const [message, setMessage] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [emoji, setEmoji] = useState<string>("");
+  const [clickOption, setClickOption] = useState<string>("");
   const workspaceHV = useSelector((state: RootState) => state.getMyWorkSpace.ClickedWorkSpace).hashed_value;
   const Options = [];
   const Times = [];
@@ -55,6 +56,11 @@ const StatusDefault = () => {
     const em = e.target.value.slice(0, 2);
     setMessage(e.target.value.toString().replace(em, ""));
     setEmoji(em);
+  }, []);
+
+  const setClickedOption = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    const option = e.target.value;
+    setClickOption(option);
   }, []);
 
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -91,6 +97,7 @@ const StatusDefault = () => {
       key={op}
       onClick={() => {
         setOpen(true);
+        setClickOption(op);
       }}
     >
       {op}
@@ -108,7 +115,7 @@ const StatusDefault = () => {
       </button>
       <StatusDiv
         placeholder={"🙂What is your Status"}
-        value={MyStatus.status_icon + MyStatus.status_message}
+        defaultValue={MyStatus.status_icon + MyStatus.status_message}
         onClick={() => {
           setOpen(true);
         }}
@@ -129,7 +136,7 @@ const StatusDefault = () => {
         <DialogContent>
           <DialogContentText>Manual</DialogContentText>
         </DialogContent>
-        <StatusSelect id="status" defaultValue={MyStatus.status_icon + MyStatus.status_message} onChange={handleOnChange}>
+        <StatusSelect id="status" defaultValue={clickOption} onChange={handleOnChange}>
           {OptionMap}
         </StatusSelect>
         <br />

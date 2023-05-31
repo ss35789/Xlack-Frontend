@@ -4,6 +4,7 @@ import { EditProfileOnOff, NotificationSettingOnOff } from "../../variable/OnMod
 import MyState from "./MyState";
 import { RootState } from "../../app/store";
 import { useEffect } from "react";
+import StatusPanel from "../Status/StatusPanel";
 
 const ProfileMenu = () => {
   const isOff = useSelector((state: RootState) => state.OnModal.OnNotification);
@@ -34,12 +35,10 @@ const ProfileMenu = () => {
                 </span>
               </a>
               <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
-                <span className="flex flex-col">
-                  <Status>{MyStatus.status_icon + MyStatus.until}</Status>
-                </span>
+                <span className="flex flex-col">{MyStatus.status_icon ? <Status>{MyStatus.status_icon + MyStatus.until}</Status> : <Status>🙂What is your Status</Status>}</span>
               </a>
               <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
-                <span className="flex flex-col">
+                <span className="flex flex-col cursor-pointer">
                   <span
                     onClick={() => {
                       dispatch(NotificationSettingOnOff());
@@ -65,16 +64,6 @@ const ProfileMenu = () => {
                   <Op>
                     <span>환경설정</span>
                   </Op>
-                </span>
-              </a>
-              <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
-                <span className="flex flex-col">
-                  <span>다운로드</span>
-                </span>
-              </a>
-              <a className="block block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600" role="menuitem">
-                <span className="flex flex-col">
-                  <span>''에서 로그아웃</span>
                 </span>
               </a>
             </div>

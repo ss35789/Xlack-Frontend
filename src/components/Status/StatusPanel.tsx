@@ -16,22 +16,30 @@ const StatusPanel = () => {
   const [opendefault, setDefault] = React.useState(false);
   const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
 
-  const handleClickToOpen = async () => {
-    setOpen(true);
-  };
   const detailClickToOpen = async () => {
     setDefault(true);
   };
 
   return (
     <div>
-      <ProfileButton
-        onClick={() => {
-          handleClickToOpen();
-        }}
-      >
-        Set a status
-      </ProfileButton>
+      {MyStatus.status_icon ? (
+        <StatusSet
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          {MyStatus.status_icon + MyStatus.until}
+        </StatusSet>
+      ) : (
+        <Status
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          🙂What is your Status
+        </Status>
+      )}
+
       <Dialog
         disableEnforceFocus
         fullWidth={true}
@@ -81,12 +89,65 @@ const StyledPaper = styled(Paper)`
     padding: 20px;
   }
 `;
-const Status = styled.span`
-  border-bottom: 1px solid #49274b;
+const Status = styled.button`
   border-radius: 10px;
-  background-color: white;
-  color: black;
+  color: #3b3b3b;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  min-height: 3em;
+  width: 100%;
+  background-color: transparent;
+  border: 0.025em solid #1a1a1a;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 3px;
+  min-width: 0;
+  outline: none;
+  padding: 1em 7.75em;
+  text-align: center;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  touch-action: manipulation;
+  will-change: transform;
+
+  :hover {
+    color: #fff;
+    background-color: #8b00ff;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
 `;
+const StatusSet = styled.button`
+  border-radius: 10px;
+  color: #3b3b3b;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  min-height: 3em;
+  width: 100%;
+  background-color: transparent;
+  border: 0.025em solid #1a1a1a;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 3px;
+  min-width: 0;
+  outline: none;
+  padding: 1em 7em;
+  text-align: center;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  touch-action: manipulation;
+  will-change: transform;
+
+  :hover {
+    color: #fff;
+    background-color: #8b00ff;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
+`;
+
 const DefaultButton = styled.button`
   width: 700px;
   height: 40px;
