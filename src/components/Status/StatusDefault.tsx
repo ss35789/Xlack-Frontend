@@ -16,7 +16,6 @@ import { at } from "../../variable/cookie";
 
 const StatusDefault = () => {
   const MyStatus = useSelector((state: RootState) => state.setStatus.statusData);
-  const formData = new FormData();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openStatus, SetopenStatus] = useState(false);
@@ -48,7 +47,6 @@ const StatusDefault = () => {
           }),
         );
       };
-      console.log(message + emoji + time);
     }
   };
 
@@ -76,7 +74,6 @@ const StatusDefault = () => {
       convertedTime = now.setTime(now.getTime() + 1000 * 60 * 60 * Number(numTime));
     }
     setTime(new Date(convertedTime).toString().split("(")[0].split("GMT")[0]);
-    console.log(time);
   };
 
   for (const element of options) {
