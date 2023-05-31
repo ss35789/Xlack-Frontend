@@ -58,11 +58,6 @@ const StatusDefault = () => {
     setEmoji(em);
   }, []);
 
-  const setClickedOption = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const option = e.target.value;
-    setClickOption(option);
-  }, []);
-
   const handleOnChange_T = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     convertTime(e.target.value.toString());
   }, []);
@@ -123,6 +118,14 @@ const StatusDefault = () => {
       <DialogContentText>until {time}</DialogContentText>
       <DialogContentText>{" For new slack channel for test : "}</DialogContentText>
       {StatusbtnMap}
+      <hr />
+      <StatusButton
+        onClick={() => {
+          dispatch(setStatus({ status_icon: "", status_message: "", until: "" }));
+        }}
+      >
+        ❌ Erase Status
+      </StatusButton>
       <Dialog
         disableEnforceFocus
         fullWidth={true}
