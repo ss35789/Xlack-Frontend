@@ -102,7 +102,6 @@ const ChatInput = (props: ChatInputProps) => {
       socket.send(
         JSON.stringify({
           message: File_name,
-          //file: File,
         }),
       );
       window.alert("file 전송 성공");
@@ -125,15 +124,7 @@ const ChatInput = (props: ChatInputProps) => {
       };
     });
   }, [notifi]);
-  useEffect(() => {
-    if (socket) {
-      socket.send(
-        JSON.stringify({
-          message: File_name,
-        }),
-      );
-    }
-  }, [File_name]);
+
   const sendMessage = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (socket && msg !== "" && msg.length < MaxMsgSize) {

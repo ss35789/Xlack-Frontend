@@ -100,14 +100,6 @@ const Mainpage = () => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
-  // 이미지 파일 처리 input
-  const onInputFile = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    handleFiles(e.target.files);
-  };
-
   // 파일 처리 ondrop
   const onDropFiles = (e: DragEvent<HTMLDivElement>) => {
     console.log({ e }, e.dataTransfer.files);
