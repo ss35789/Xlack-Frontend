@@ -159,26 +159,11 @@ const Mainpage = () => {
       }
     }
   };
-  // useEffect(() => {
-  //   if (file_name) {
-  //     dispatch(setFileName(file_name));
-  //   }
-  // });
-  // 없으면 drop 작동안됨
+
   const dragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-  // useEffect(() => {
-  //   if (Notification.permission !== "granted") {
-  //     Notification.requestPermission().then(permission => {
-  //       if (permission === "granted") {
-  //         Notifi();
-  //       } else {
-  //         window.alert("알림 권한을 설정해주세요");
-  //       }
-  //     });
-  //   }
-  // }, []);
+
   return (
     <>
       <AppBody onDrop={onDropFiles} onDragOver={dragOver}>
