@@ -169,7 +169,7 @@ const Chat = () => {
       <>
         <ChatMessages ref={messagesRef}>
           {getChatData &&
-            getChatData
+            (getChatData || [])
               .slice(0)
               .reverse()
               .map((chat, i) => {
