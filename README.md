@@ -2,6 +2,21 @@
 ## 컴퓨터공학부 캡스톤 프로젝트 팀 20 **Discipline**
 ### (Slack Clone Coding Project.)
 
+## 전체 기능
+* 워크스페이스별 채널 관리 (CRUD)
+* 프로필 수정
+* 채널info 수정
+* 채널별 멤버 권한편집 및 수정
+* 멘션 닉네임 자동완성
+* History
+* 실시간 채팅
+* 채팅 북마크
+* 실시간 알림(on off)
+* 실시간 채팅 리액션
+* 파일 드래그 앤 드롭 업로드/다운로드
+* 유저 실시간 상태 설정
+
+
 This repository is only up to backend server using [Django](https://djangoproject.com/)
 
 Backend repository is [here](https://github.com/Team-Discipline/Xlack-Frontend).
