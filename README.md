@@ -1,4 +1,11 @@
-# Xlack (slack clone coding)
+# Xlack
+## 컴퓨터공학부 캡스톤 프로젝트 팀 20 **Discipline**
+### (Slack Clone Coding Project.)
+
+This repository is only up to backend server using [Django](https://djangoproject.com/)
+
+Backend repository is [here](https://github.com/Team-Discipline/Xlack-Frontend).
+
 This repository is Frontend repository of Team-Discipline Xlack(Slack clone coding) project using [React.js](https://ko.legacy.reactjs.org/), [Typescript](https://www.typescriptlang.org/), [Redux](https://ko.redux.js.org/)
 
 ## How to Login to our service
