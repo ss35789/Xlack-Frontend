@@ -19,7 +19,7 @@
 
 This repository is only up to backend server using [Django](https://djangoproject.com/)
 
-Backend repository is [here](https://github.com/Team-Discipline/Xlack-Frontend).
+Backend repository is [here](https://github.com/Team-Discipline/Xlack-Backend).
 
 This repository is Frontend repository of Team-Discipline Xlack(Slack clone coding) project using [React.js](https://ko.legacy.reactjs.org/), [Typescript](https://www.typescriptlang.org/), [Redux](https://ko.redux.js.org/)
 
