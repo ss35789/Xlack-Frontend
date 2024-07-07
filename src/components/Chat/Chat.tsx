@@ -141,6 +141,7 @@ const Chat = () => {
   const ReceiveLastChat = (ch_hv: string, r: SocketReceiveChatType) => {
     try {
       if (r.chat_id != undefined) {
+        // 수신한 채팅 데이터를 변환하여 Redux 스토어에 추가
         dispatch(AppendChat([ch_hv, MakeChatDataFromLastChat(r)]));
       }
 
