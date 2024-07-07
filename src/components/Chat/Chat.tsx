@@ -122,6 +122,8 @@ const Chat = () => {
   useEffect(() => {
     if (UpdateChannel.lastDeleteChannel_hv === Clicked_channel.hashed_value) setGetChatData([]);
   }, [UpdateChannel.lastDeleteChannel_hv]);
+
+  //Socket으로 받아온 데이터를 ChatType에 맞게 재구성
   const MakeChatDataFromLastChat = (s: SocketReceiveChatType) => {
     const c: ChatType = {
       id: s.chat_id,
